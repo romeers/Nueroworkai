@@ -10,6 +10,7 @@ import SafeImage from "./safe-image"
 
 const navigation = [
   { name: "Inicio", href: "/" },
+  { name: "Herramientas", href: "/herramientas" },
   { name: "Comparativas", href: "/comparativas" },
   { name: "Reseñas", href: "/resenas" },
   { name: "Blog", href: "/blog" },
@@ -82,7 +83,7 @@ export default function Header() {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Button asChild className="bg-primary hover:bg-primary/90">
-            <Link href="/comparativas">Explora herramientas IA</Link>
+            <Link href="/herramientas">Explora herramientas IA</Link>
           </Button>
         </div>
       </nav>
@@ -135,7 +136,7 @@ export default function Header() {
                     className="w-full bg-primary hover:bg-primary/90"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <Link href="/comparativas">Explora herramientas IA</Link>
+                    <Link href="/herramientas">Explora herramientas IA</Link>
                   </Button>
                 </div>
               </div>
@@ -152,7 +153,7 @@ export default function Header() {
         )}
       >
         <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
-          <Link href="/comparativas">Explora herramientas IA</Link>
+          <Link href="/herramientas">Explora herramientas IA</Link>
         </Button>
       </div>
     </header>
