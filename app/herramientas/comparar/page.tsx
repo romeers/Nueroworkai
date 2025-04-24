@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useRouter } from "next/navigation"
+import EnhancedCTA from "@/components/enhanced-cta"
 
 // Lista de herramientas disponibles para comparar
 const availableTools = [
@@ -124,7 +125,13 @@ export default function CompararPage() {
                     </Select>
 
                     {index >= 2 && (
-                      <Button variant="outline" size="icon" onClick={() => removeTool(index)} className="flex-shrink-0">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => removeTool(index)}
+                        className="flex-shrink-0"
+                        aria-label="Eliminar herramienta"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -140,7 +147,6 @@ export default function CompararPage() {
                           <path d="M18 6 6 18"></path>
                           <path d="m6 6 12 12"></path>
                         </svg>
-                        <span className="sr-only">Eliminar</span>
                       </Button>
                     )}
                   </div>
@@ -149,7 +155,7 @@ export default function CompararPage() {
 
               <div className="mt-6 flex flex-wrap gap-2">
                 {selectedTools.length < 4 && (
-                  <Button variant="outline" onClick={addTool} className="text-sm">
+                  <Button variant="outline" onClick={addTool} className="text-sm" aria-label="Añadir otra herramienta">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -173,6 +179,7 @@ export default function CompararPage() {
                   onClick={compareTools}
                   disabled={isCompareDisabled}
                   className="ml-auto bg-primary hover:bg-primary/90"
+                  aria-label="Comparar herramientas seleccionadas"
                 >
                   Comparar herramientas
                 </Button>
@@ -277,26 +284,15 @@ export default function CompararPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-primary py-16 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-              ¿No encuentras lo que buscas?
-            </h2>
-            <p className="mt-4 text-lg text-white/90">
-              Explora nuestras reseñas detalladas de cada herramienta o contáctanos para recomendaciones personalizadas.
-            </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/herramientas">Ver todas las herramientas</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                <Link href="/sobre-nosotros">Contactar</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <EnhancedCTA
+        title="¿No encuentras lo que buscas?"
+        subtitle="Explora nuestras reseñas detalladas de cada herramienta o contáctanos para recomendaciones personalizadas."
+        primaryButtonText="Ver todas las herramientas"
+        primaryButtonUrl="/herramientas"
+        secondaryButtonText="Contactar"
+        secondaryButtonUrl="/sobre-nosotros#contacto"
+        bgColor="primary"
+      />
     </>
   )
 }

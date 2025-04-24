@@ -5,7 +5,7 @@ interface Testimonial {
   author: string
   role: string
   company: string
-  avatarUrl: string
+  avatarUrl?: string | null
 }
 
 interface UserTestimonialProps {
@@ -13,6 +13,8 @@ interface UserTestimonialProps {
 }
 
 export default function UserTestimonial({ testimonial }: UserTestimonialProps) {
+  const fallbackAvatar = `/placeholder.svg?height=40&width=40&query=person avatar`
+
   return (
     <div className="rounded-lg bg-gray-50 p-4 border border-gray-100">
       <div className="flex items-start">
@@ -25,13 +27,23 @@ export default function UserTestimonial({ testimonial }: UserTestimonialProps) {
       </div>
       <div className="mt-4 flex items-center">
         <div className="relative h-10 w-10 flex-shrink-0">
-          <Image
-            className="rounded-full"
-            src={testimonial.avatarUrl || "/placeholder.svg?height=40&width=40&query=person"}
-            alt={testimonial.author}
-            fill
-            sizes="40px"
-          />
+          {testimonial.avatarUrl && testimonial.avatarUrl !== "" ? (
+            <Image
+              className="rounded-full"
+              src={testimonial.avatarUrl || "/placeholder.svg"}
+              alt={testimonial.author}
+              fill
+              sizes="40px"
+            />
+          ) : (
+            <Image
+              className="rounded-full"
+              src={fallbackAvatar || "/placeholder.svg"}
+              alt={testimonial.author}
+              fill
+              sizes="40px"
+            />
+          )}
         </div>
         <div className="ml-3">
           <p className="text-sm font-medium text-secondary">{testimonial.author}</p>

@@ -16,15 +16,25 @@ export default function NewsletterForm() {
     e.preventDefault()
     setLoading(true)
 
-    // Simulación de envío
-    setTimeout(() => {
+    try {
+      // Simulación de envío - en producción, esto sería una llamada a la API
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       toast({
         title: "¡Suscripción exitosa!",
         description: "Gracias por suscribirte a nuestro newsletter.",
       })
+
       setEmail("")
+    } catch (error) {
+      toast({
+        title: "Error al suscribirse",
+        description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+        variant: "destructive",
+      })
+    } finally {
       setLoading(false)
-    }, 1000)
+    }
   }
 
   return (
@@ -42,9 +52,15 @@ export default function NewsletterForm() {
         className="w-full min-w-0 appearance-none rounded-md border-0 bg-white px-3 py-1.5 text-base text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:w-64 sm:text-sm sm:leading-6"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        aria-label="Correo electrónico para suscripción"
       />
       <div className="mt-3 rounded-md sm:ml-3 sm:mt-0 sm:flex-shrink-0">
-        <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90">
+        <Button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-primary hover:bg-primary/90"
+          aria-label="Suscribirse al newsletter"
+        >
           {loading ? "Enviando..." : "Suscribirse"}
         </Button>
       </div>

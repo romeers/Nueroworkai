@@ -53,6 +53,13 @@ const nextConfig = {
         destination: '/sobre-nosotros#contacto',
         permanent: true,
       },
+      
+      // Redirección para la página de newsletter
+      {
+        source: '/newsletter',
+        destination: '/guias-recursos#newsletter',
+        permanent: true,
+      },
     ]
   },
   images: {

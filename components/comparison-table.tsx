@@ -1,7 +1,7 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
 import { Check, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import SafeImage from "./safe-image"
 
 interface Tool {
   name: string
@@ -55,13 +55,17 @@ export default function ComparisonTable({ category, tools, features }: Compariso
               <td className="whitespace-nowrap px-6 py-4">
                 <div className="flex items-center">
                   <div className="h-10 w-10 flex-shrink-0">
-                    <Image
-                      src={tool.logo || "/placeholder.svg"}
-                      alt={tool.name}
-                      width={40}
-                      height={40}
-                      className="h-10 w-10 rounded-full object-contain"
-                    />
+                    {tool.logo && tool.logo !== "" ? (
+                      <SafeImage
+                        src={tool.logo}
+                        alt={tool.name}
+                        width={40}
+                        height={40}
+                        className="h-10 w-10 rounded-full object-contain"
+                      />
+                    ) : (
+                      <div className="h-10 w-10 rounded-full bg-gray-200"></div>
+                    )}
                   </div>
                   <div className="ml-4">
                     <div className="text-sm font-medium text-secondary">{tool.name}</div>
@@ -71,9 +75,9 @@ export default function ComparisonTable({ category, tools, features }: Compariso
               {features.map((feature) => (
                 <td key={`${tool.name}-${feature}`} className="whitespace-nowrap px-6 py-4">
                   {tool.features[feature] ? (
-                    <Check className="h-5 w-5 text-green-500" />
+                    <Check className="h-5 w-5 text-green-500" aria-label={`${feature} disponible`} />
                   ) : (
-                    <X className="h-5 w-5 text-red-500" />
+                    <X className="h-5 w-5 text-red-500" aria-label={`${feature} no disponible`} />
                   )}
                 </td>
               ))}
@@ -87,6 +91,7 @@ export default function ComparisonTable({ category, tools, features }: Compariso
                         className={`h-5 w-5 ${i < tool.rating ? "text-yellow-400" : "text-gray-300"}`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
+                        aria-hidden="true"
                       >
                         <path
                           fillRule="evenodd"
@@ -102,10 +107,14 @@ export default function ComparisonTable({ category, tools, features }: Compariso
               <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
                 <div className="flex space-x-2">
                   <Button asChild variant="outline" size="sm">
-                    <Link href={`/resenas/${tool.name.toLowerCase().replace(/\s+/g, "-")}`}>Ver análisis</Link>
+                    <Link href={`/herramientas/${tool.name.toLowerCase().replace(/\s+/g, "-")}`}>Ver análisis</Link>
                   </Button>
-                  <Button asChild size="sm" className="bg-primary hover:bg-primary/90">
-                    <Link href={tool.url} target="_blank" rel="noopener noreferrer">
+                  <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
+                    <Link
+                      href={tool.url}
+                      target={tool.url.startsWith("http") ? "_blank" : undefined}
+                      rel={tool.url.startsWith("http") ? "noopener sponsored" : undefined}
+                    >
                       Probar
                     </Link>
                   </Button>

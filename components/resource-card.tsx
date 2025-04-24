@@ -1,3 +1,4 @@
+import type React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,9 +11,10 @@ interface ResourceCardProps {
   imageUrl?: string | null
   downloadUrl: string
   type: string
+  icon?: React.ReactNode
 }
 
-export default function ResourceCard({ title, description, imageUrl, downloadUrl, type }: ResourceCardProps) {
+export default function ResourceCard({ title, description, imageUrl, downloadUrl, type, icon }: ResourceCardProps) {
   const fallbackImage = `/placeholder.svg?height=160&width=320&query=${encodeURIComponent("Resource: " + title)}`
 
   return (
@@ -32,13 +34,14 @@ export default function ResourceCard({ title, description, imageUrl, downloadUrl
       </CardHeader>
       <CardContent className="pb-2">
         <div className="flex items-center text-sm text-gray-500">
+          {icon && <span className="mr-2">{icon}</span>}
           <span className="font-medium">{type}</span>
         </div>
       </CardContent>
       <CardFooter>
         <Button asChild className="w-full gap-2 bg-primary hover:bg-primary/90">
-          <Link href={downloadUrl}>
-            <Download className="h-4 w-4" />
+          <Link href={downloadUrl} className="flex items-center justify-center">
+            <Download className="mr-2 h-4 w-4" />
             Descargar
           </Link>
         </Button>

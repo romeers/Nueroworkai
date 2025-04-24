@@ -20,22 +20,20 @@ export default function ProgressiveImage({
   className,
   ...props
 }: ProgressiveImageProps) {
-  const [imgSrc, setImgSrc] = useState(lowQualitySrc || placeholderColor)
   const [isLoaded, setIsLoaded] = useState(false)
 
   // Si src es null, undefined o cadena vacía, usar la imagen de respaldo
-  const finalSrc = !src || src === "" ? fallbackSrc : src
+  const finalSrc = src && src !== "" ? src : fallbackSrc
 
   useEffect(() => {
     // Reset state if src changes
     setIsLoaded(false)
-    setImgSrc(lowQualitySrc || placeholderColor)
-  }, [finalSrc, lowQualitySrc, placeholderColor])
+  }, [finalSrc])
 
   return (
     <div className="relative overflow-hidden" style={{ backgroundColor: placeholderColor }}>
       {/* Placeholder or low quality image */}
-      {!isLoaded && lowQualitySrc && (
+      {!isLoaded && lowQualitySrc && lowQualitySrc !== "" && (
         <Image
           src={lowQualitySrc || "/placeholder.svg"}
           alt={alt}
@@ -45,14 +43,16 @@ export default function ProgressiveImage({
         />
       )}
 
-      {/* Main image */}
-      <Image
-        src={finalSrc || "/placeholder.svg"}
-        alt={alt}
-        className={cn("transition-opacity duration-500", isLoaded ? "opacity-100" : "opacity-0", className)}
-        onLoad={() => setIsLoaded(true)}
-        {...props}
-      />
+      {/* Main image - only render if there's a valid source */}
+      {finalSrc ? (
+        <Image
+          src={finalSrc || "/placeholder.svg"}
+          alt={alt}
+          className={cn("transition-opacity duration-500", isLoaded ? "opacity-100" : "opacity-0", className)}
+          onLoad={() => setIsLoaded(true)}
+          {...props}
+        />
+      ) : null}
     </div>
   )
 }

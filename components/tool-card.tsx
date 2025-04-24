@@ -1,10 +1,9 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Star, Clock, ExternalLink } from "lucide-react"
-import ProgressiveImage from "./progressive-image"
-import { validateImageSrc, generatePlaceholderUrl } from "@/utils/image-utils"
+import { Star, Clock } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import SafeImage from "./safe-image"
 import { cn } from "@/lib/utils"
 
 interface ToolCardProps {
@@ -30,11 +29,7 @@ export default function ToolCard({
   specialOffer,
   verified = false,
 }: ToolCardProps) {
-  const fallbackImage = generatePlaceholderUrl(`${name} icon`, 160, 320)
-
-  // Generar una versión de baja calidad para la carga progresiva
-  const lowQualityUrl =
-    imageUrl && imageUrl !== "" ? `/api/blur-image?url=${encodeURIComponent(imageUrl)}&w=20&q=10` : undefined
+  const fallbackImage = `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(name + " icon")}`
 
   // Determinar si la URL es interna o externa (afiliado)
   const isExternalUrl = url.startsWith("http")
@@ -49,10 +44,9 @@ export default function ToolCard({
       )}
     >
       <div className="relative h-40 w-full overflow-hidden">
-        <ProgressiveImage
-          src={validateImageSrc(imageUrl, fallbackImage)}
+        <SafeImage
+          src={imageUrl}
           fallbackSrc={fallbackImage}
-          lowQualitySrc={lowQualityUrl}
           alt={`${name} - ${category}`}
           fill
           className="object-cover transition-transform duration-300 hover:scale-105"
@@ -96,17 +90,35 @@ export default function ToolCard({
         </div>
       </CardContent>
       <CardFooter className="flex justify-between mt-auto">
-        <Button asChild variant="outline">
+        <Button asChild variant="outline" size="sm">
           <Link href={internalUrl}>Ver análisis</Link>
         </Button>
-        <Button asChild className="bg-primary hover:bg-primary/90">
+        <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
           <Link
             href={isExternalUrl ? url : `${internalUrl}#probar`}
             target={isExternalUrl ? "_blank" : undefined}
             rel={isExternalUrl ? "noopener sponsored" : undefined}
             className="flex items-center gap-1"
           >
-            Probar {isExternalUrl && <ExternalLink className="h-3 w-3 ml-1" />}
+            Probar
+            {isExternalUrl && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-3 w-3 ml-1"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+            )}
           </Link>
         </Button>
       </CardFooter>

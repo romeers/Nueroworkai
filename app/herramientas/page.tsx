@@ -1,9 +1,11 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
+import { Search, ArrowRight } from "lucide-react"
 import CategoryCard from "@/components/category-card"
 import FeaturedToolCard from "@/components/featured-tool-card"
+import CTAButton from "@/components/cta-button"
+import EnhancedCTA from "@/components/enhanced-cta"
 
 // Categorías de herramientas
 const categories = [
@@ -94,15 +96,24 @@ export default function HerramientasPage() {
             </p>
 
             {/* Buscador de herramientas */}
-            <div className="mt-8 flex items-center justify-center">
+            <form className="mt-8 flex items-center justify-center" action="/herramientas/buscar" method="GET">
               <div className="relative w-full max-w-md">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <Search className="h-5 w-5 text-gray-400" />
                 </div>
-                <Input type="text" placeholder="Buscar herramientas de IA..." className="w-full pl-10 py-6 text-base" />
+                <Input
+                  type="text"
+                  name="q"
+                  placeholder="Buscar herramientas de IA..."
+                  className="w-full pl-10 py-6 text-base"
+                  aria-label="Buscar herramientas"
+                  required
+                />
               </div>
-              <Button className="ml-2 bg-primary hover:bg-primary/90 py-6 px-6">Buscar</Button>
-            </div>
+              <Button type="submit" className="ml-2 bg-primary hover:bg-primary/90 py-6 px-6">
+                Buscar
+              </Button>
+            </form>
           </div>
         </div>
       </section>
@@ -152,9 +163,9 @@ export default function HerramientasPage() {
           </div>
 
           <div className="mt-12 text-center">
-            <Button asChild className="bg-primary hover:bg-primary/90">
-              <Link href="/herramientas/todas">Ver todas las herramientas</Link>
-            </Button>
+            <CTAButton href="/herramientas/todas" variant="primary" size="md" icon={<ArrowRight className="h-4 w-4" />}>
+              Ver todas las herramientas
+            </CTAButton>
           </div>
         </div>
       </section>
@@ -196,29 +207,21 @@ export default function HerramientasPage() {
           </div>
 
           <div className="mt-12 text-center">
-            <Button asChild variant="outline">
-              <Link href="/herramientas/comparar">Ver todas las comparativas</Link>
-            </Button>
+            <CTAButton href="/herramientas/comparar" variant="outline" size="md">
+              Ver todas las comparativas
+            </CTAButton>
           </div>
         </div>
       </section>
 
       {/* CTA Newsletter */}
-      <section className="py-16 bg-primary text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">Mantente actualizado</h2>
-            <p className="mt-4 text-lg text-white/90">
-              Recibe en tu email las últimas novedades sobre herramientas de IA y consejos para maximizar tu
-              productividad.
-            </p>
-            <form className="mx-auto mt-6 flex max-w-md flex-col gap-2 sm:flex-row">
-              <Input type="email" placeholder="Tu correo electrónico" className="w-full bg-white" required />
-              <Button className="bg-secondary hover:bg-secondary/90">Suscribirse</Button>
-            </form>
-          </div>
-        </div>
-      </section>
+      <EnhancedCTA
+        title="Mantente actualizado"
+        subtitle="Recibe en tu email las últimas novedades sobre herramientas de IA y consejos para maximizar tu productividad."
+        primaryButtonText="Suscribirse"
+        primaryButtonUrl="/newsletter"
+        bgColor="primary"
+      />
     </>
   )
 }

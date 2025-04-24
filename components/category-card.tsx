@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { ArrowRight } from "lucide-react"
 
 interface CategoryCardProps {
   name: string
@@ -23,9 +24,9 @@ export default function CategoryCard({ name, description, slug, icon, toolCount 
         <span className="text-sm text-gray-500">{toolCount} herramientas</span>
         <Link
           href={`/herramientas/categoria/${slug}`}
-          className="text-primary hover:text-primary/80 font-medium text-sm"
+          className="text-primary hover:text-primary/80 font-medium text-sm inline-flex items-center"
         >
-          Ver herramientas →
+          Ver herramientas <ArrowRight className="ml-1 h-3 w-3" />
         </Link>
       </CardFooter>
     </Card>

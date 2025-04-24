@@ -9,8 +9,9 @@ import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-// Estructura de navegación optimizada basada en categorías
+// Estructura de navegación optimizada y corregida
 const navigation = [
+  { name: "Inicio", href: "/" },
   {
     name: "Herramientas",
     href: "/herramientas",
@@ -25,20 +26,20 @@ const navigation = [
   },
   {
     name: "Comparativas",
-    href: "/comparativas",
+    href: "/herramientas/comparar", // Corregido para usar la ruta correcta
     submenu: [
-      { name: "Por Categoría", href: "/comparativas/por-categoria" },
-      { name: "Herramientas Populares", href: "/comparativas/populares" },
-      { name: "Comparador Personalizado", href: "/comparativas/personalizado" },
+      { name: "Por Categoría", href: "/herramientas/comparar/categoria" },
+      { name: "Herramientas Populares", href: "/herramientas/comparar/populares" },
+      { name: "Comparador Personalizado", href: "/herramientas/comparar" },
     ],
   },
   {
     name: "Guías y Recursos",
     href: "/guias-recursos",
     submenu: [
-      { name: "Guías de Uso", href: "/guias-recursos/guias-uso" },
+      { name: "Guías de Uso", href: "/guias-recursos/guias" },
       { name: "Plantillas", href: "/guias-recursos/plantillas" },
-      { name: "Recursos Gratuitos", href: "/guias-recursos/recursos-gratuitos" },
+      { name: "Recursos Gratuitos", href: "/guias-recursos/recursos" },
     ],
   },
   { name: "Blog", href: "/blog" },
@@ -62,6 +63,11 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Cerrar el menú móvil al cambiar de ruta
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [pathname])
+
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name)
   }
@@ -77,15 +83,19 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">NeuroWorkAI</span>
-            <SafeImage
-              src={logoImage}
-              fallbackSrc="/abstract-brain-network.png"
-              alt="NeuroWorkAI Logo"
-              width={180}
-              height={50}
-              priority
-              className="h-10 w-auto"
-            />
+            {logoImage ? (
+              <SafeImage
+                src={logoImage}
+                fallbackSrc="/abstract-brain-network.png"
+                alt="NeuroWorkAI Logo"
+                width={180}
+                height={50}
+                priority
+                className="h-10 w-auto"
+              />
+            ) : (
+              <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+            )}
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -93,6 +103,8 @@ export default function Header() {
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-secondary"
             onClick={() => setMobileMenuOpen(true)}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             <span className="sr-only">Abrir menú principal</span>
             <Menu className="h-6 w-6" aria-hidden="true" />
@@ -109,6 +121,7 @@ export default function Header() {
                         "flex items-center text-sm font-semibold leading-6 transition-colors",
                         pathname.startsWith(item.href) ? "text-primary" : "text-secondary hover:text-primary",
                       )}
+                      aria-expanded="false"
                     >
                       {item.name}
                       <ChevronDown className="ml-1 h-4 w-4" />
@@ -151,26 +164,31 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - mejorado para accesibilidad y usabilidad */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className="fixed inset-0 z-50 bg-white" id="mobile-menu" role="dialog" aria-modal="true">
           <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm">
             <div className="flex items-center justify-between">
-              <Link href="/" className="-m-1.5 p-1.5">
+              <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
                 <span className="sr-only">NeuroWorkAI</span>
-                <SafeImage
-                  src={logoImage}
-                  fallbackSrc="/abstract-brain-network.png"
-                  alt="NeuroWorkAI Logo"
-                  width={180}
-                  height={50}
-                  className="h-8 w-auto"
-                />
+                {logoImage ? (
+                  <SafeImage
+                    src={logoImage}
+                    fallbackSrc="/abstract-brain-network.png"
+                    alt="NeuroWorkAI Logo"
+                    width={180}
+                    height={50}
+                    className="h-8 w-auto"
+                  />
+                ) : (
+                  <div className="h-8 w-28 bg-gray-200 rounded animate-pulse"></div>
+                )}
               </Link>
               <button
                 type="button"
                 className="-m-2.5 rounded-md p-2.5 text-secondary"
                 onClick={() => setMobileMenuOpen(false)}
+                aria-label="Cerrar menú"
               >
                 <span className="sr-only">Cerrar menú</span>
                 <X className="h-6 w-6" aria-hidden="true" />
@@ -189,6 +207,7 @@ export default function Header() {
                               "-mx-3 flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7",
                               pathname.startsWith(item.href) ? "text-primary" : "text-secondary hover:bg-gray-50",
                             )}
+                            aria-expanded={activeDropdown === item.name}
                           >
                             {item.name}
                             <ChevronDown
@@ -246,12 +265,13 @@ export default function Header() {
         </div>
       )}
 
-      {/* Sticky CTA */}
+      {/* Sticky CTA - mejorado para accesibilidad */}
       <div
         className={cn(
           "fixed bottom-4 left-0 right-0 z-40 mx-auto flex w-fit transform items-center justify-center transition-all duration-300",
           showStickyCTA ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0",
         )}
+        aria-hidden={!showStickyCTA}
       >
         <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
           <Link href="/herramientas/mejores">Descubrir Mejores Herramientas IA</Link>

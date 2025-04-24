@@ -2,12 +2,12 @@
  * Valida y normaliza una URL de imagen
  * @param src URL de la imagen o null/undefined
  * @param fallback URL de respaldo a usar si src es inválido
- * @returns URL normalizada
+ * @returns URL normalizada o null si no hay URL válida
  */
-export function validateImageSrc(src: string | null | undefined, fallback: string): string {
+export function validateImageSrc(src: string | null | undefined, fallback: string): string | null {
   // Si src es null, undefined o string vacío, devolver fallback
   if (!src || src === "") {
-    return fallback
+    return fallback || null
   }
 
   // Si es una URL relativa o absoluta válida, devolverla
@@ -16,7 +16,7 @@ export function validateImageSrc(src: string | null | undefined, fallback: strin
   }
 
   // Si no es una URL válida, devolver fallback
-  return fallback
+  return fallback || null
 }
 
 /**

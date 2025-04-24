@@ -4,16 +4,19 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 interface Author {
   name: string
   role: string
-  avatarUrl: string
+  avatarUrl?: string | null
   bio: string
 }
 
 interface ExpertAuthorProps {
-  author: Author
+  author?: Author | null
 }
 
 export default function ExpertAuthor({ author }: ExpertAuthorProps) {
   if (!author) return null
+
+  const fallbackAvatar = "/diverse-group-city.png"
+  const avatarSrc = author.avatarUrl && author.avatarUrl !== "" ? author.avatarUrl : fallbackAvatar
 
   return (
     <TooltipProvider>
@@ -21,13 +24,15 @@ export default function ExpertAuthor({ author }: ExpertAuthorProps) {
         <TooltipTrigger asChild>
           <div className="flex items-center cursor-help">
             <div className="relative h-8 w-8 flex-shrink-0">
-              <Image
-                className="rounded-full"
-                src={author.avatarUrl || "/placeholder.svg?height=32&width=32&query=person"}
-                alt={author.name}
-                fill
-                sizes="32px"
-              />
+              {avatarSrc && (
+                <Image
+                  className="rounded-full"
+                  src={avatarSrc || "/placeholder.svg"}
+                  alt={author.name}
+                  fill
+                  sizes="32px"
+                />
+              )}
             </div>
             <div className="ml-2">
               <p className="text-sm font-medium text-secondary">{author.name}</p>

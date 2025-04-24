@@ -2,8 +2,7 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CalendarIcon } from "lucide-react"
-import ProgressiveImage from "./progressive-image"
-import { validateImageSrc, generatePlaceholderUrl } from "@/utils/image-utils"
+import SafeImage from "./safe-image"
 
 interface BlogCardProps {
   title: string
@@ -15,19 +14,14 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ title, excerpt, imageUrl, category, date, slug }: BlogCardProps) {
-  const fallbackImage = generatePlaceholderUrl(`Blog post about ${title}`, 240, 480)
-
-  // Generar una versión de baja calidad para la carga progresiva
-  const lowQualityUrl =
-    imageUrl && imageUrl !== "" ? `/api/blur-image?url=${encodeURIComponent(imageUrl)}&w=20&q=10` : undefined
+  const fallbackImage = `/placeholder.svg?height=240&width=480&query=Blog post about ${encodeURIComponent(title)}`
 
   return (
     <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg">
       <div className="relative h-48 w-full overflow-hidden">
-        <ProgressiveImage
-          src={validateImageSrc(imageUrl, fallbackImage)}
+        <SafeImage
+          src={imageUrl}
           fallbackSrc={fallbackImage}
-          lowQualitySrc={lowQualityUrl}
           alt={title}
           fill
           className="object-cover transition-transform duration-300 hover:scale-105"

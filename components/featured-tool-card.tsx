@@ -1,7 +1,7 @@
-import Link from "next/link"
 import { Card, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import SafeImage from "./safe-image"
 
 interface FeaturedToolCardProps {
@@ -11,6 +11,8 @@ interface FeaturedToolCardProps {
   category: string
   slug: string
   score: number
+  specialOffer?: string
+  verified?: boolean
 }
 
 export default function FeaturedToolCard({
@@ -20,8 +22,11 @@ export default function FeaturedToolCard({
   category,
   slug,
   score,
+  specialOffer,
+  verified = false,
 }: FeaturedToolCardProps) {
   const fallbackImage = `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " icon")}`
+  const toolUrl = `/herramientas/${slug}`
 
   return (
     <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg flex flex-col h-full">
@@ -47,13 +52,19 @@ export default function FeaturedToolCard({
           </div>
         </div>
         <p className="text-gray-600">{description}</p>
+
+        {specialOffer && (
+          <div className="mt-4 rounded-md bg-green-50 p-2 text-xs text-green-700 border border-green-200">
+            <span className="font-semibold">Oferta:</span> {specialOffer}
+          </div>
+        )}
       </div>
       <CardFooter className="bg-gray-50 p-4 flex justify-between gap-2 border-t">
         <Button asChild variant="outline" size="sm">
-          <Link href={`/herramientas/${slug}`}>Ver análisis</Link>
+          <Link href={`${toolUrl}`}>Ver análisis</Link>
         </Button>
-        <Button asChild size="sm" className="bg-primary hover:bg-primary/90">
-          <Link href={`/herramientas/${slug}#probar`}>Probar gratis</Link>
+        <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
+          <Link href={`${toolUrl}#probar`}>Probar gratis</Link>
         </Button>
       </CardFooter>
     </Card>

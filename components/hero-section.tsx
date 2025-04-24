@@ -1,9 +1,12 @@
+import { Download } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 
 export default function HeroSection() {
+  const heroImage = "/ai-brain-illustration.png"
+  const fallbackImage = "/neural-network-head.png"
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#E6F0FF] to-[#F5F8FE] py-16 md:py-24">
       {/* Patrón de fondo sutil */}
@@ -43,17 +46,16 @@ export default function HeroSection() {
             </p>
 
             <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-              <Button asChild size="lg" className="bg-[#3B82F6] px-6 text-base font-medium hover:bg-[#3B82F6]/90">
-                <Link href="/comparativas">Explora herramientas IA</Link>
+              <Button asChild className="bg-primary hover:bg-primary/90 px-6 text-base font-medium">
+                <Link href="/herramientas">Explora herramientas IA</Link>
               </Button>
 
               <Button
                 asChild
                 variant="outline"
-                size="lg"
                 className="border-[#7C3AED] px-6 text-base font-medium text-[#7C3AED] hover:bg-[#7C3AED]/10"
               >
-                <Link href="/recursos">
+                <Link href="/guias-recursos" className="flex items-center">
                   <Download className="mr-2 h-5 w-5" />
                   Descargar Kit gratuito
                 </Link>
@@ -66,14 +68,16 @@ export default function HeroSection() {
           {/* Columna derecha: Imagen ilustrativa */}
           <div className="flex justify-center md:justify-end">
             <div className="relative h-[400px] w-full max-w-md overflow-hidden rounded-lg md:h-[480px]">
-              <SafeImage
-                src="/ai-brain-illustration.png"
-                fallbackSrc="/neural-network-head.png"
-                alt="Inteligencia Artificial para productividad"
-                fill
-                className="object-contain"
-                priority
-              />
+              {heroImage ? (
+                <SafeImage
+                  src={heroImage}
+                  fallbackSrc={fallbackImage}
+                  alt="Inteligencia Artificial para productividad"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              ) : null}
             </div>
           </div>
         </div>
