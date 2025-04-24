@@ -1,7 +1,13 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Download } from "lucide-react"
-import SafeImage from "@/components/safe-image"
+import { Download, Check } from "lucide-react"
+import SafeImage from "./safe-image"
+import { useToast } from "@/hooks/use-toast"
 
 interface CategoryLeadMagnetProps {
   category: string
@@ -10,6 +16,7 @@ interface CategoryLeadMagnetProps {
   bulletPoints: string[]
   imageUrl: string
   formId?: string
+  ctaText?: string
 }
 
 export default function CategoryLeadMagnet({
@@ -19,7 +26,29 @@ export default function CategoryLeadMagnet({
   bulletPoints,
   imageUrl,
   formId = "default",
+  ctaText = "Descargar Gratis",
 }: CategoryLeadMagnetProps) {
+  const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const { toast } = useToast()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    // Simulación de envío
+    setTimeout(() => {
+      setLoading(false)
+      setSuccess(true)
+      toast({
+        title: "¡Recurso enviado!",
+        description: "Hemos enviado el recurso a tu correo electrónico.",
+      })
+    }, 1500)
+  }
+
   return (
     <div className="rounded-xl bg-primary/10 p-6 sm:p-8">
       <div className="grid gap-6 md:grid-cols-2 md:gap-10">
@@ -33,35 +62,81 @@ export default function CategoryLeadMagnet({
           <ul className="mt-4 space-y-2">
             {bulletPoints.map((point, index) => (
               <li key={index} className="flex items-start">
-                <svg className="mr-2 h-5 w-5 flex-shrink-0 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <Check className="mr-2 h-5 w-5 flex-shrink-0 text-primary" />
                 <span className="text-sm text-gray-600 sm:text-base">{point}</span>
               </li>
             ))}
           </ul>
 
-          <form className="mt-6 space-y-4">
-            <Input
-              type="email"
-              placeholder="Tu correo electrónico"
-              required
-              className="bg-white"
-              aria-label="Email para recibir el recurso gratuito"
-            />
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-              <Download className="mr-2 h-4 w-4" />
-              Descargar Gratis
-            </Button>
-          </form>
-          <p className="mt-2 text-xs text-gray-500">
-            Al suscribirte, aceptas recibir emails con recursos y actualizaciones. Puedes darte de baja en cualquier
-            momento.
-          </p>
+          {success ? (
+            <div className="mt-6 rounded-lg bg-green-50 p-4 border border-green-200">
+              <h4 className="font-medium text-green-800">¡Gracias por suscribirte!</h4>
+              <p className="mt-1 text-sm text-green-700">
+                Hemos enviado el recurso a tu correo electrónico. Si no lo encuentras, revisa tu carpeta de spam.
+              </p>
+            </div>
+          ) : (
+            <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Tu nombre"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="bg-white"
+                  aria-label="Nombre para recibir el recurso gratuito"
+                />
+              </div>
+              <div>
+                <Input
+                  type="email"
+                  placeholder="Tu correo electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="bg-white"
+                  aria-label="Email para recibir el recurso gratuito"
+                />
+              </div>
+              <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={loading}>
+                {loading ? (
+                  <span className="flex items-center">
+                    <svg
+                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Enviando...
+                  </span>
+                ) : (
+                  <span className="flex items-center">
+                    <Download className="mr-2 h-4 w-4" />
+                    {ctaText}
+                  </span>
+                )}
+              </Button>
+              <p className="text-xs text-gray-500">
+                Al suscribirte, aceptas recibir emails con recursos y actualizaciones. Puedes darte de baja en cualquier
+                momento.
+              </p>
+            </form>
+          )}
         </div>
 
         <div className="flex items-center justify-center">
