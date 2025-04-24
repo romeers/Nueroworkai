@@ -8,15 +8,13 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
 
+// Actualizar el array de navegación para reducirlo a 5 elementos principales
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Herramientas", href: "/herramientas" },
-  { name: "Comparativas", href: "/comparativas" },
-  { name: "Reseñas", href: "/resenas" },
+  { name: "Guías y Recursos", href: "/guias-recursos" },
   { name: "Blog", href: "/blog" },
-  { name: "Recursos", href: "/recursos" },
   { name: "Sobre Nosotros", href: "/sobre-nosotros" },
-  { name: "Contacto", href: "/contacto" },
 ]
 
 export default function Header() {

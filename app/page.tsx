@@ -6,6 +6,10 @@ import NewsletterForm from "@/components/newsletter-form"
 import { ArrowRight } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import HeroSection from "@/components/hero-section"
+import Testimonials from "@/components/testimonials"
+import Stats from "@/components/stats"
+import TrustBadges from "@/components/trust-badges"
+import EnhancedCTA from "@/components/enhanced-cta"
 
 // Datos de ejemplo para las herramientas destacadas
 const featuredTools = [
@@ -14,7 +18,7 @@ const featuredTools = [
     description: "Asistente de escritura y organización con IA integrada en Notion.",
     imageUrl: "/notion-ai-blue.png",
     category: "Escritura IA",
-    url: "/resenas/notion-ai",
+    url: "/herramientas/notion-ai",
     featured: true,
   },
   {
@@ -22,7 +26,7 @@ const featuredTools = [
     description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
     imageUrl: "/zapier-blue-background.png",
     category: "Automatización",
-    url: "/resenas/zapier",
+    url: "/herramientas/zapier",
     featured: true,
   },
   {
@@ -30,31 +34,7 @@ const featuredTools = [
     description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
     imageUrl: "/clickup-blue-background.png",
     category: "Gestión de tareas",
-    url: "/resenas/clickup",
-    featured: true,
-  },
-  {
-    name: "Jasper",
-    description: "Generador de contenido con IA para marketing y comunicación.",
-    imageUrl: "/ai-logo-blue.png",
-    category: "Escritura IA",
-    url: "/resenas/jasper",
-    featured: true,
-  },
-  {
-    name: "Fireflies",
-    description: "Transcribe y analiza reuniones automáticamente con IA.",
-    imageUrl: "/fireflies-ai-logo-blue.png",
-    category: "Reuniones",
-    url: "/resenas/fireflies",
-    featured: true,
-  },
-  {
-    name: "Grammarly",
-    description: "Corrector gramatical y asistente de escritura con IA.",
-    imageUrl: "/grammarly-blue.png",
-    category: "Escritura IA",
-    url: "/resenas/grammarly",
+    url: "/herramientas/clickup",
     featured: true,
   },
 ]
@@ -90,6 +70,92 @@ const blogPosts = [
   },
 ]
 
+// Datos para testimonios
+const testimonials = [
+  {
+    quote:
+      "NeuroWorkAI me ayudó a encontrar las herramientas perfectas para mi flujo de trabajo. Ahorro más de 10 horas a la semana gracias a sus recomendaciones.",
+    author: "María Rodríguez",
+    role: "Diseñadora UX",
+    company: "Freelance",
+    avatarUrl: "/testimonial-avatar-1.png",
+  },
+  {
+    quote:
+      "Las comparativas son increíblemente detalladas y me ayudaron a tomar decisiones informadas para mi equipo. El NeuroScore es una métrica muy útil.",
+    author: "Carlos Mendoza",
+    role: "Project Manager",
+    company: "TechSolutions",
+    avatarUrl: "/testimonial-avatar-2.png",
+  },
+  {
+    quote:
+      "Los recursos gratuitos son oro puro. La guía de prompts me ha permitido sacar el máximo partido a las herramientas de IA que utilizo diariamente.",
+    author: "Laura Sánchez",
+    role: "Content Manager",
+    company: "Digital Marketing Agency",
+    avatarUrl: "/testimonial-avatar-3.png",
+  },
+]
+
+// Datos para estadísticas
+const stats = [
+  {
+    value: "50+",
+    label: "Herramientas analizadas",
+    description: "Reseñas detalladas y actualizadas",
+  },
+  {
+    value: "15.000+",
+    label: "Usuarios mensuales",
+    description: "Profesionales que confían en nosotros",
+  },
+  {
+    value: "200+",
+    label: "Guías y recursos",
+    description: "Contenido exclusivo y gratuito",
+  },
+  {
+    value: "98%",
+    label: "Satisfacción",
+    description: "Valoraciones positivas de usuarios",
+  },
+]
+
+// Datos para badges de confianza
+const trustBadges = [
+  {
+    name: "Notion",
+    logoUrl: "/notion-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+  {
+    name: "Zapier",
+    logoUrl: "/zapier-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+  {
+    name: "ClickUp",
+    logoUrl: "/clickup-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+  {
+    name: "Jasper",
+    logoUrl: "/jasper-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+  {
+    name: "Grammarly",
+    logoUrl: "/grammarly-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+]
+
 export default function Home() {
   const ebookImage = "/ai-productivity-ebook.png"
 
@@ -97,6 +163,9 @@ export default function Home() {
     <>
       {/* Nuevo Hero Section */}
       <HeroSection />
+
+      {/* Trust Badges Section */}
+      <TrustBadges title="Herramientas de IA líderes confían en nuestros análisis" badges={trustBadges} />
 
       {/* Featured Tools Section */}
       <section className="py-16">
@@ -126,7 +195,7 @@ export default function Home() {
 
           <div className="mt-12 text-center">
             <Button asChild className="bg-primary hover:bg-primary/90">
-              <Link href="/comparativas" className="inline-flex items-center gap-2">
+              <Link href="/herramientas" className="inline-flex items-center gap-2">
                 Ver todas las herramientas
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -134,6 +203,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Stats Section */}
+      <Stats
+        title="NeuroWorkAI en números"
+        subtitle="Datos que respaldan nuestra experiencia y compromiso con la calidad"
+        stats={stats}
+      />
 
       {/* Lead Magnet Section */}
       <section className="bg-primary/10 py-16">
@@ -198,6 +274,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <Testimonials
+        title="Lo que dicen nuestros usuarios"
+        subtitle="Profesionales que han mejorado su productividad con nuestras recomendaciones"
+        testimonials={testimonials}
+      />
+
       {/* Blog Preview Section */}
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -235,24 +318,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-primary py-16 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-              Potencia tu productividad con IA
-            </h2>
-            <p className="mt-4 text-lg text-white/90">
-              Descubre las mejores herramientas de IA para optimizar tu trabajo remoto y aumentar tu eficiencia.
-            </p>
-            <div className="mt-8">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/comparativas">Explora herramientas IA</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Enhanced CTA Section */}
+      <EnhancedCTA
+        title="Potencia tu productividad con IA"
+        subtitle="Descubre las mejores herramientas de IA para optimizar tu trabajo remoto y aumentar tu eficiencia."
+        primaryButtonText="Explora herramientas IA"
+        primaryButtonUrl="/herramientas"
+        secondaryButtonText="Descargar recursos gratuitos"
+        secondaryButtonUrl="/guias-recursos"
+        bgColor="primary"
+      />
     </>
   )
 }

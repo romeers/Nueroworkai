@@ -52,13 +52,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/comparativas" className="text-gray-300 hover:text-white">
-                  Comparativas
+                <Link href="/herramientas" className="text-gray-300 hover:text-white">
+                  Herramientas
                 </Link>
               </li>
               <li>
-                <Link href="/resenas" className="text-gray-300 hover:text-white">
-                  Reseñas
+                <Link href="/herramientas/comparar" className="text-gray-300 hover:text-white">
+                  Comparar Herramientas
                 </Link>
               </li>
               <li>
@@ -73,23 +73,23 @@ export default function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wider">Recursos</h3>
             <ul className="mt-4 space-y-2">
               <li>
-                <Link href="/recursos" className="text-gray-300 hover:text-white">
+                <Link href="/guias-recursos" className="text-gray-300 hover:text-white">
                   Kit de herramientas IA
                 </Link>
               </li>
               <li>
-                <Link href="/recursos" className="text-gray-300 hover:text-white">
+                <Link href="/guias-recursos" className="text-gray-300 hover:text-white">
                   Guía de prompts
                 </Link>
               </li>
               <li>
-                <Link href="/recursos" className="text-gray-300 hover:text-white">
+                <Link href="/guias-recursos" className="text-gray-300 hover:text-white">
                   Comparativas imprimibles
                 </Link>
               </li>
               <li>
-                <Link href="/como-funciona" className="text-gray-300 hover:text-white">
-                  Cómo Funciona
+                <Link href="/sobre-nosotros" className="text-gray-300 hover:text-white">
+                  Sobre Nosotros
                 </Link>
               </li>
             </ul>
@@ -114,7 +114,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contacto" className="text-gray-300 hover:text-white">
+                <Link href="/sobre-nosotros#contacto" className="text-gray-300 hover:text-white">
                   Contacto
                 </Link>
               </li>

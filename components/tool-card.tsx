@@ -2,7 +2,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import SafeImage from "./safe-image"
+import ProgressiveImage from "./progressive-image"
+import { validateImageSrc, generatePlaceholderUrl } from "@/utils/image-utils"
 
 interface ToolCardProps {
   name: string
@@ -14,16 +15,21 @@ interface ToolCardProps {
 }
 
 export default function ToolCard({ name, description, imageUrl, category, url, featured = false }: ToolCardProps) {
-  const fallbackImage = `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(name + " icon")}`
+  const fallbackImage = generatePlaceholderUrl(`${name} icon`, 160, 320)
+
+  // Generar una versión de baja calidad para la carga progresiva
+  const lowQualityUrl =
+    imageUrl && imageUrl !== "" ? `/api/blur-image?url=${encodeURIComponent(imageUrl)}&w=20&q=10` : undefined
 
   return (
     <Card
       className={`overflow-hidden transition-all duration-200 hover:shadow-lg ${featured ? "border-primary/20" : ""}`}
     >
       <div className="relative h-40 w-full overflow-hidden">
-        <SafeImage
-          src={imageUrl}
+        <ProgressiveImage
+          src={validateImageSrc(imageUrl, fallbackImage)}
           fallbackSrc={fallbackImage}
+          lowQualitySrc={lowQualityUrl}
           alt={`${name} - ${category}`}
           fill
           className="object-cover transition-transform duration-300 hover:scale-105"
@@ -45,7 +51,7 @@ export default function ToolCard({ name, description, imageUrl, category, url, f
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button asChild variant="outline">
-          <Link href={`/resenas/${name.toLowerCase().replace(/\s+/g, "-")}`}>Ver reseña</Link>
+          <Link href={`/herramientas/${name.toLowerCase().replace(/\s+/g, "-")}`}>Ver reseña</Link>
         </Button>
         <Button asChild className="bg-primary hover:bg-primary/90">
           <Link href={url} target="_blank" rel="noopener noreferrer">
