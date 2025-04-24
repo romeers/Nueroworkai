@@ -1,7 +1,6 @@
 import { Check, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import SafeImage from "./safe-image"
 
 interface Tool {
   name: string
@@ -54,18 +53,8 @@ export default function ComparisonTable({ category, tools, features }: Compariso
             <tr key={tool.name} className="hover:bg-gray-50">
               <td className="whitespace-nowrap px-6 py-4">
                 <div className="flex items-center">
-                  <div className="h-10 w-10 flex-shrink-0">
-                    {tool.logo && tool.logo !== "" ? (
-                      <SafeImage
-                        src={tool.logo}
-                        alt={tool.name}
-                        width={40}
-                        height={40}
-                        className="h-10 w-10 rounded-full object-contain"
-                      />
-                    ) : (
-                      <div className="h-10 w-10 rounded-full bg-gray-200"></div>
-                    )}
+                  <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-[8px] text-gray-400">{`Logo ${tool.name}`}</span>
                   </div>
                   <div className="ml-4">
                     <div className="text-sm font-medium text-secondary">{tool.name}</div>

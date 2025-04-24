@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 interface Author {
@@ -23,16 +22,8 @@ export default function ExpertAuthor({ author }: ExpertAuthorProps) {
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex items-center cursor-help">
-            <div className="relative h-8 w-8 flex-shrink-0">
-              {avatarSrc && (
-                <Image
-                  className="rounded-full"
-                  src={avatarSrc || "/placeholder.svg"}
-                  alt={author.name}
-                  fill
-                  sizes="32px"
-                />
-              )}
+            <div className="h-8 w-8 flex-shrink-0 rounded-full bg-gray-200 flex items-center justify-center">
+              <span className="text-[6px] text-gray-400">Avatar</span>
             </div>
             <div className="ml-2">
               <p className="text-sm font-medium text-secondary">{author.name}</p>

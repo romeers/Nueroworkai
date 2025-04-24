@@ -2,7 +2,6 @@ import { Card, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import SafeImage from "./safe-image"
 
 interface FeaturedToolCardProps {
   name: string
@@ -33,14 +32,8 @@ export default function FeaturedToolCard({
       <div className="p-6 flex-1">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md mr-4">
-              <SafeImage
-                src={imageUrl}
-                fallbackSrc={fallbackImage}
-                alt={`${name} logo`}
-                fill
-                className="object-contain"
-              />
+            <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md mr-4 bg-gray-100 flex items-center justify-center">
+              <span className="text-[8px] text-gray-400">{`Logo ${name}`}</span>
             </div>
             <div>
               <h3 className="text-xl font-bold text-secondary">{name}</h3>

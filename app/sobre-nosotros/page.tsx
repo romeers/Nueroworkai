@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +11,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
 import Stats from "@/components/stats"
 import TrustBadges from "@/components/trust-badges"
+import SafeImage from "@/components/safe-image"
 
 // Datos para estadísticas
 const stats = [
@@ -128,7 +128,15 @@ export default function SobreNosotrosPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl">
             <div className="mb-12 text-center">
-              <Image src="/logo.png" alt="NeuroWorkAI Logo" width={200} height={60} className="mx-auto h-auto w-48" />
+              <div className="mx-auto h-auto w-48">
+                <SafeImage
+                  src="/logo.png"
+                  alt="NeuroWorkAI Logo"
+                  width={200}
+                  height={60}
+                  className="mx-auto h-auto w-48"
+                />
+              </div>
             </div>
 
             <div className="prose prose-lg mx-auto max-w-none">
@@ -343,13 +351,15 @@ export default function SobreNosotrosPage() {
                 </div>
 
                 <div className="mt-12 overflow-hidden rounded-lg">
-                  <Image
-                    src="/modern-office-workspace.png"
-                    alt="Oficina de NeuroWorkAI"
-                    width={500}
-                    height={300}
-                    className="h-auto w-full object-cover"
-                  />
+                  <div className="h-auto w-full">
+                    <SafeImage
+                      src="/modern-office-workspace.png"
+                      alt="Oficina de NeuroWorkAI"
+                      width={500}
+                      height={300}
+                      className="h-auto w-full object-cover"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -3,7 +3,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Download } from "lucide-react"
-import SafeImage from "./safe-image"
 
 interface ResourceCardProps {
   title: string
@@ -19,14 +18,8 @@ export default function ResourceCard({ title, description, imageUrl, downloadUrl
 
   return (
     <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg">
-      <div className="relative h-40 w-full overflow-hidden">
-        <SafeImage
-          src={imageUrl}
-          fallbackSrc={fallbackImage}
-          alt={title}
-          fill
-          className="object-cover transition-transform duration-300 hover:scale-105"
-        />
+      <div className="relative h-40 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
+        <span className="text-sm text-gray-400">{`Recurso: ${title}`}</span>
       </div>
       <CardHeader className="pb-2">
         <CardTitle className="text-xl font-bold text-secondary">{title}</CardTitle>

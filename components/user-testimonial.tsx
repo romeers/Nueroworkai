@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 interface Testimonial {
   quote: string
   author: string
@@ -27,16 +25,8 @@ export default function UserTestimonial({ testimonial }: UserTestimonialProps) {
         <p className="ml-4 text-gray-600 text-sm">{testimonial.quote}</p>
       </div>
       <div className="mt-4 flex items-center">
-        <div className="relative h-10 w-10 flex-shrink-0">
-          {avatarSrc && (
-            <Image
-              className="rounded-full"
-              src={avatarSrc || "/placeholder.svg"}
-              alt={testimonial.author}
-              fill
-              sizes="40px"
-            />
-          )}
+        <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-200 flex items-center justify-center">
+          <span className="text-[8px] text-gray-400">Avatar</span>
         </div>
         <div className="ml-3">
           <p className="text-sm font-medium text-secondary">{testimonial.author}</p>

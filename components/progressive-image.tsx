@@ -1,7 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import Image, { type ImageProps } from "next/image"
+import type { ImageProps } from "next/image"
 import { cn } from "@/lib/utils"
 
 interface ProgressiveImageProps extends Omit<ImageProps, "src" | "onLoad"> {
@@ -18,46 +17,28 @@ export default function ProgressiveImage({
   placeholderColor = "#f3f4f6", // gray-100
   alt,
   className,
+  width,
+  height,
+  style,
   ...props
 }: ProgressiveImageProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [finalSrc, setFinalSrc] = useState(src && src !== "" ? src : fallbackSrc)
-
-  useEffect(() => {
-    setFinalSrc(src && src !== "" ? src : fallbackSrc)
-  }, [src, fallbackSrc])
-
-  // No renderizar nada si no hay una fuente válida
-  if (!finalSrc || finalSrc === "") {
-    return null
-  }
-
-  useEffect(() => {
-    // Reset state if src changes
-    setIsLoaded(false)
-  }, [finalSrc])
-
+  // Renderizamos un div vacío con las mismas dimensiones
   return (
-    <div className="relative overflow-hidden" style={{ backgroundColor: placeholderColor }}>
-      {/* Placeholder or low quality image */}
-      {!isLoaded && lowQualitySrc && lowQualitySrc !== "" && (
-        <Image
-          src={lowQualitySrc || "/placeholder.svg"}
-          alt={alt}
-          className={cn("transition-opacity duration-300", className)}
-          style={{ filter: "blur(10px)" }}
-          {...props}
-        />
-      )}
-
-      {/* Main image */}
-      <Image
-        src={finalSrc || "/placeholder.svg"}
-        alt={alt}
-        className={cn("transition-opacity duration-500", isLoaded ? "opacity-100" : "opacity-0", className)}
-        onLoad={() => setIsLoaded(true)}
-        {...props}
-      />
+    <div
+      className={cn("relative overflow-hidden", className)}
+      style={{
+        backgroundColor: placeholderColor,
+        width: typeof width === "number" ? `${width}px` : width,
+        height: typeof height === "number" ? `${height}px` : height,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        ...style,
+      }}
+      aria-label={`Placeholder para: ${alt}`}
+      {...props}
+    >
+      <span className="text-xs text-gray-400">{alt || "Imagen"}</span>
     </div>
   )
 }

@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge"
 import { Star, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import SafeImage from "./safe-image"
 import { cn } from "@/lib/utils"
 
 interface ToolCardProps {
@@ -43,14 +42,8 @@ export default function ToolCard({
         featured ? "border-primary/20" : "",
       )}
     >
-      <div className="relative h-40 w-full overflow-hidden">
-        <SafeImage
-          src={imageUrl}
-          fallbackSrc={fallbackImage}
-          alt={`${name} - ${category}`}
-          fill
-          className="object-cover transition-transform duration-300 hover:scale-105"
-        />
+      <div className="relative h-40 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
+        <span className="text-sm text-gray-400">{`Imagen: ${name}`}</span>
         <div className="absolute left-2 top-2">
           <Badge className="bg-primary hover:bg-primary/90">{category}</Badge>
         </div>

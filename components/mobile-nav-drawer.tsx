@@ -65,14 +65,16 @@ export default function MobileNavDrawer() {
         <div className="flex flex-col h-full">
           <div className="border-b p-4">
             <Link href="/" className="flex items-center">
-              <SafeImage
-                src={logoImage}
-                fallbackSrc="/abstract-brain-network.png"
-                alt="NeuroWorkAI Logo"
-                width={150}
-                height={40}
-                className="h-8 w-auto"
-              />
+              <div className="h-8 w-auto">
+                <SafeImage
+                  src={logoImage}
+                  fallbackSrc="/abstract-brain-network.png"
+                  alt="NeuroWorkAI Logo"
+                  width={150}
+                  height={40}
+                  className="h-8 w-auto"
+                />
+              </div>
             </Link>
           </div>
           <div className="flex-1 overflow-auto py-2">

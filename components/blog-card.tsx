@@ -2,7 +2,6 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CalendarIcon } from "lucide-react"
-import SafeImage from "./safe-image"
 
 interface BlogCardProps {
   title: string
@@ -18,14 +17,8 @@ export default function BlogCard({ title, excerpt, imageUrl, category, date, slu
 
   return (
     <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg">
-      <div className="relative h-48 w-full overflow-hidden">
-        <SafeImage
-          src={imageUrl}
-          fallbackSrc={fallbackImage}
-          alt={title}
-          fill
-          className="object-cover transition-transform duration-300 hover:scale-105"
-        />
+      <div className="relative h-48 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
+        <span className="text-sm text-gray-400">{`Imagen: ${title}`}</span>
         <Badge className="absolute right-2 top-2 bg-primary hover:bg-primary/90">{category}</Badge>
       </div>
       <CardHeader className="pb-2">

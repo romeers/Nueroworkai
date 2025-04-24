@@ -1,4 +1,4 @@
-import Image from "next/image"
+import SafeImage from "./safe-image"
 
 interface TrustBadge {
   name: string
@@ -25,8 +25,8 @@ export default function TrustBadges({ title, badges }: TrustBadgesProps) {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">
           {badges.map((badge, index) => (
             <div key={index} className="relative h-12 w-auto">
-              <Image
-                src={badge.logoUrl || "/placeholder.svg"}
+              <SafeImage
+                src={badge.logoUrl}
                 alt={badge.name}
                 width={badge.width}
                 height={badge.height}

@@ -1,4 +1,4 @@
-import Image from "next/image"
+import SafeImage from "./safe-image"
 
 interface Testimonial {
   quote: string
@@ -36,12 +36,12 @@ export default function Testimonials({ title, subtitle, testimonials }: Testimon
               </div>
               <div className="mt-6 flex items-center">
                 <div className="relative h-10 w-10 flex-shrink-0">
-                  <Image
+                  <SafeImage
+                    src={testimonial.avatarUrl}
+                    alt={`${testimonial.author}, ${testimonial.role}`}
+                    width={40}
+                    height={40}
                     className="rounded-full"
-                    src={testimonial.avatarUrl || "/placeholder.svg"}
-                    alt={testimonial.author}
-                    fill
-                    sizes="40px"
                   />
                 </div>
                 <div className="ml-3">

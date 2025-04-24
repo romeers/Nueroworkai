@@ -1,12 +1,8 @@
 import { Download } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import SafeImage from "@/components/safe-image"
 
 export default function HeroSection() {
-  const heroImage = "/ai-brain-illustration.png"
-  const fallbackImage = "/neural-network-head.png"
-
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#E6F0FF] to-[#F5F8FE] py-16 md:py-24">
       {/* Patrón de fondo sutil */}
@@ -65,17 +61,13 @@ export default function HeroSection() {
             <p className="mt-6 text-sm text-gray-500">+50 herramientas analizadas · Actualizado 2025</p>
           </div>
 
-          {/* Columna derecha: Imagen ilustrativa */}
+          {/* Columna derecha: Placeholder para imagen ilustrativa */}
           <div className="flex justify-center md:justify-end">
-            <div className="relative h-[400px] w-full max-w-md overflow-hidden rounded-lg md:h-[480px]">
-              <SafeImage
-                src={heroImage}
-                fallbackSrc={fallbackImage}
-                alt="Inteligencia Artificial para productividad"
-                fill
-                className="object-contain"
-                priority
-              />
+            <div
+              className="relative h-[400px] w-full max-w-md overflow-hidden rounded-lg md:h-[480px] bg-gray-100 flex items-center justify-center"
+              aria-label="Placeholder para imagen de Inteligencia Artificial para productividad"
+            >
+              <span className="text-gray-400">Imagen: Inteligencia Artificial para productividad</span>
             </div>
           </div>
         </div>
