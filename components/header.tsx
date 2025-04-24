@@ -83,19 +83,15 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">NeuroWorkAI</span>
-            {logoImage ? (
-              <SafeImage
-                src={logoImage}
-                fallbackSrc="/abstract-brain-network.png"
-                alt="NeuroWorkAI Logo"
-                width={180}
-                height={50}
-                priority
-                className="h-10 w-auto"
-              />
-            ) : (
-              <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
-            )}
+            <SafeImage
+              src={logoImage}
+              fallbackSrc="/abstract-brain-network.png"
+              alt="NeuroWorkAI Logo"
+              width={180}
+              height={50}
+              priority
+              className="h-10 w-auto"
+            />
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -171,18 +167,14 @@ export default function Header() {
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
                 <span className="sr-only">NeuroWorkAI</span>
-                {logoImage ? (
-                  <SafeImage
-                    src={logoImage}
-                    fallbackSrc="/abstract-brain-network.png"
-                    alt="NeuroWorkAI Logo"
-                    width={180}
-                    height={50}
-                    className="h-8 w-auto"
-                  />
-                ) : (
-                  <div className="h-8 w-28 bg-gray-200 rounded animate-pulse"></div>
-                )}
+                <SafeImage
+                  src={logoImage}
+                  fallbackSrc="/abstract-brain-network.png"
+                  alt="NeuroWorkAI Logo"
+                  width={180}
+                  height={50}
+                  className="h-8 w-auto"
+                />
               </Link>
               <button
                 type="button"

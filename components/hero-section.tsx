@@ -68,16 +68,14 @@ export default function HeroSection() {
           {/* Columna derecha: Imagen ilustrativa */}
           <div className="flex justify-center md:justify-end">
             <div className="relative h-[400px] w-full max-w-md overflow-hidden rounded-lg md:h-[480px]">
-              {heroImage ? (
-                <SafeImage
-                  src={heroImage}
-                  fallbackSrc={fallbackImage}
-                  alt="Inteligencia Artificial para productividad"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              ) : null}
+              <SafeImage
+                src={heroImage}
+                fallbackSrc={fallbackImage}
+                alt="Inteligencia Artificial para productividad"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
           </div>
         </div>

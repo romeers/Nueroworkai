@@ -14,6 +14,7 @@ interface UserTestimonialProps {
 
 export default function UserTestimonial({ testimonial }: UserTestimonialProps) {
   const fallbackAvatar = `/placeholder.svg?height=40&width=40&query=person avatar`
+  const avatarSrc = testimonial.avatarUrl && testimonial.avatarUrl !== "" ? testimonial.avatarUrl : fallbackAvatar
 
   return (
     <div className="rounded-lg bg-gray-50 p-4 border border-gray-100">
@@ -27,18 +28,10 @@ export default function UserTestimonial({ testimonial }: UserTestimonialProps) {
       </div>
       <div className="mt-4 flex items-center">
         <div className="relative h-10 w-10 flex-shrink-0">
-          {testimonial.avatarUrl && testimonial.avatarUrl !== "" ? (
+          {avatarSrc && (
             <Image
               className="rounded-full"
-              src={testimonial.avatarUrl || "/placeholder.svg"}
-              alt={testimonial.author}
-              fill
-              sizes="40px"
-            />
-          ) : (
-            <Image
-              className="rounded-full"
-              src={fallbackAvatar || "/placeholder.svg"}
+              src={avatarSrc || "/placeholder.svg"}
               alt={testimonial.author}
               fill
               sizes="40px"

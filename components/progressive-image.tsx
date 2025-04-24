@@ -21,9 +21,16 @@ export default function ProgressiveImage({
   ...props
 }: ProgressiveImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [finalSrc, setFinalSrc] = useState(src && src !== "" ? src : fallbackSrc)
 
-  // Si src es null, undefined o cadena vacía, usar la imagen de respaldo
-  const finalSrc = src && src !== "" ? src : fallbackSrc
+  useEffect(() => {
+    setFinalSrc(src && src !== "" ? src : fallbackSrc)
+  }, [src, fallbackSrc])
+
+  // No renderizar nada si no hay una fuente válida
+  if (!finalSrc || finalSrc === "") {
+    return null
+  }
 
   useEffect(() => {
     // Reset state if src changes
@@ -43,16 +50,14 @@ export default function ProgressiveImage({
         />
       )}
 
-      {/* Main image - only render if there's a valid source */}
-      {finalSrc ? (
-        <Image
-          src={finalSrc || "/placeholder.svg"}
-          alt={alt}
-          className={cn("transition-opacity duration-500", isLoaded ? "opacity-100" : "opacity-0", className)}
-          onLoad={() => setIsLoaded(true)}
-          {...props}
-        />
-      ) : null}
+      {/* Main image */}
+      <Image
+        src={finalSrc || "/placeholder.svg"}
+        alt={alt}
+        className={cn("transition-opacity duration-500", isLoaded ? "opacity-100" : "opacity-0", className)}
+        onLoad={() => setIsLoaded(true)}
+        {...props}
+      />
     </div>
   )
 }

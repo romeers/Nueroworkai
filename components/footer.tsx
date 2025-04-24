@@ -11,18 +11,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              {logoWhiteImage ? (
-                <SafeImage
-                  src={logoWhiteImage}
-                  fallbackSrc="/neuroworkai-logo-white.png"
-                  alt="NeuroWorkAI Logo"
-                  width={180}
-                  height={50}
-                  className="h-10 w-auto"
-                />
-              ) : (
-                <div className="h-10 w-32 bg-gray-700 rounded animate-pulse"></div>
-              )}
+              <SafeImage
+                src={logoWhiteImage}
+                fallbackSrc="/neuroworkai-logo-white.png"
+                alt="NeuroWorkAI Logo"
+                width={180}
+                height={50}
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="text-sm text-gray-300">
               Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.
