@@ -77,7 +77,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/herramientas"
+                  href="/herramientas-ia"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                 >
                   Herramientas

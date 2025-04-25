@@ -169,6 +169,11 @@ export default function TodasLasHerramientasPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [filteredTools, setFilteredTools] = useState(allTools)
+  const [isClient, setIsClient] = useState(false) // New state variable
+
+  useEffect(() => {
+    setIsClient(true) // Set to true when component mounts on client
+  }, [])
 
   // Aplicar filtros cuando cambien los criterios
   useEffect(() => {
@@ -441,7 +446,7 @@ export default function TodasLasHerramientasPage() {
       {/* Lista de herramientas */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {filteredTools.length > 0 ? (
+          {filteredTools.length > 0 && isClient ? (
             <>
               <div className="mb-6 flex items-center justify-between">
                 <p className="text-sm text-gray-500">
