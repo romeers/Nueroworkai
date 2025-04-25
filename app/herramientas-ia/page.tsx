@@ -3,16 +3,17 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Download, Search, Star, ExternalLink } from "lucide-react"
+import { Search, Star, ExternalLink, Download } from "lucide-react"
 import SafeImage from "@/components/safe-image"
+import { generateMetadata } from "@/lib/metadata"
 
-export const metadata: Metadata = {
-  title: "Herramientas de Productividad con IA | NeuroWorkAI",
+export const metadata: Metadata = generateMetadata({
+  title: "Herramientas de Productividad con IA",
   description:
     "Explora y prueba las mejores herramientas de IA para optimizar tu trabajo remoto. Análisis detallados y actualizados 2025.",
   keywords:
     "herramientas IA, productividad, trabajo remoto, Notion AI, Zapier, ClickUp, ChatGPT, automatización, IA para trabajo",
-}
+})
 
 // Categorías de herramientas
 const categories = [

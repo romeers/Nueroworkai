@@ -1,8 +1,8 @@
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import ToolCard from "@/components/tool-card"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
+import CTA from "@/components/cta"
 
 // Datos de ejemplo para las herramientas
 const tools = [
@@ -49,7 +49,7 @@ const tools = [
   {
     name: "Grammarly",
     description: "Corrector gramatical y asistente de escritura con IA.",
-    imageUrl: "/placeholder.svg?height=160&width=320&query=Grammarly logo on blue background",
+    imageUrl: "/grammarly-blue.png",
     category: "Escritura IA",
     url: "#",
     featured: false,
@@ -57,7 +57,7 @@ const tools = [
   {
     name: "Make",
     description: "Plataforma de automatización visual para conectar apps y automatizar flujos de trabajo.",
-    imageUrl: "/placeholder.svg?height=160&width=320&query=Make logo on blue background",
+    imageUrl: "/abstract-blue-logo.png",
     category: "Automatización",
     url: "#",
     featured: false,
@@ -65,7 +65,7 @@ const tools = [
   {
     name: "Otter.ai",
     description: "Asistente de notas con IA para transcribir y resumir reuniones.",
-    imageUrl: "/placeholder.svg?height=160&width=320&query=Otter.ai logo on blue background",
+    imageUrl: "/otter-ai-blue.png",
     category: "Reuniones",
     url: "#",
     featured: false,
@@ -132,6 +132,7 @@ export default function ResenasPage() {
                 category={tool.category}
                 url={tool.url}
                 featured={tool.featured}
+                slug={tool.name.toLowerCase().replace(/\s+/g, "-")}
               />
             ))}
           </div>
@@ -139,24 +140,13 @@ export default function ResenasPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-primary py-16 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-              ¿Quieres comparar herramientas?
-            </h2>
-            <p className="mt-4 text-lg text-white/90">
-              Visita nuestra sección de comparativas para ver análisis lado a lado de las mejores herramientas por
-              categoría.
-            </p>
-            <div className="mt-8">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/comparativas">Ver comparativas</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CTA bgColor="primary" href="/comparativas" size="lg">
+        ¿Quieres comparar herramientas?
+        <p>
+          Visita nuestra sección de comparativas para ver análisis lado a lado de las mejores herramientas por
+          categoría.
+        </p>
+      </CTA>
     </>
   )
 }

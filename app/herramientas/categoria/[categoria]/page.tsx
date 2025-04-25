@@ -1,9 +1,22 @@
+import { generateMetadata as generateCategoryMetadata } from "@/lib/metadata"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import ToolCard from "@/components/tool-card"
 import CategoryLeadMagnet from "@/components/category-lead-magnet"
+
+interface Params {
+  categoria: string
+}
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const categoryName = getCategoryName(params.categoria)
+  return generateCategoryMetadata({
+    title: `Herramientas de ${categoryName} | NeuroWorkAI`,
+    description: `Descubre y compara las mejores herramientas de ${categoryName.toLowerCase()} para potenciar tu productividad.`,
+  })
+}
 
 // Función para obtener datos de herramientas por categoría
 function getToolsByCategory(category: string) {
