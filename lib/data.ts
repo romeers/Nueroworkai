@@ -1,0 +1,124 @@
+interface Category {
+  name: string
+  slug: string
+  icon: string
+}
+
+export const getAllCategories = async (): Promise<Category[]> => {
+  return [
+    { name: "Escritura IA", slug: "escritura-ia", icon: "✍️" },
+    { name: "Automatización", slug: "automatizacion", icon: "⚙️" },
+    { name: "Gestión de Tareas", slug: "gestion-tareas", icon: "📋" },
+    { name: "Reuniones", slug: "reuniones", icon: "🎯" },
+    { name: "Comunicación", slug: "comunicacion", icon: "💬" },
+    { name: "Otras Herramientas", slug: "otras", icon: "🧰" },
+  ]
+}
+
+interface Tool {
+  name: string
+  description: string
+  imageUrl: string
+  category: string
+  slug: string
+  score?: number
+  featured?: boolean
+  isNew?: boolean
+  affiliateUrl: string
+}
+
+export const getToolsByCategory = async (category: string): Promise<Tool[]> => {
+  const allTools = {
+    "escritura-ia": [
+      {
+        name: "Notion AI",
+        description: "Asistente de escritura y organización con IA integrada en Notion.",
+        imageUrl: "/notion-ai-blue.png",
+        category: "Escritura IA",
+        slug: "notion-ai",
+        score: 9.2,
+        affiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+      },
+      {
+        name: "Jasper",
+        description: "Generador de contenido con IA para marketing y comunicación.",
+        imageUrl: "/ai-logo-blue.png",
+        category: "Escritura IA",
+        slug: "jasper",
+        score: 8.7,
+        affiliateUrl: "#",
+      },
+      {
+        name: "Grammarly",
+        description: "Corrector gramatical y asistente de escritura con IA.",
+        imageUrl: "/grammarly-blue.png",
+        category: "Escritura IA",
+        slug: "grammarly",
+        score: 8.9,
+        affiliateUrl: "#",
+      },
+    ],
+    automatizacion: [
+      {
+        name: "Zapier",
+        description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
+        imageUrl: "/zapier-blue-background.png",
+        category: "Automatización",
+        slug: "zapier",
+        score: 9.0,
+        affiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
+      },
+      {
+        name: "Make",
+        description: "Plataforma de automatización visual para conectar apps y automatizar flujos de trabajo.",
+        imageUrl: "/abstract-geometric-logo.png",
+        category: "Automatización",
+        slug: "make",
+        score: 8.8,
+        affiliateUrl: "#",
+      },
+    ],
+    "gestion-tareas": [
+      {
+        name: "ClickUp",
+        description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
+        imageUrl: "/clickup-blue-background.png",
+        category: "Gestión de tareas",
+        slug: "clickup",
+        score: 8.8,
+        affiliateUrl: "https://clickup.com/?af=123",
+      },
+      {
+        name: "Asana",
+        description: "Plataforma de gestión de proyectos y tareas para equipos.",
+        imageUrl: "/Asana-logo-abstract.png",
+        category: "Gestión de tareas",
+        slug: "asana",
+        score: 8.5,
+        affiliateUrl: "#",
+      },
+    ],
+    reuniones: [
+      {
+        name: "Fireflies",
+        description: "Transcribe y analiza reuniones automáticamente con IA.",
+        imageUrl: "/fireflies-ai-logo-blue.png",
+        category: "Reuniones",
+        slug: "fireflies",
+        score: 8.9,
+        affiliateUrl: "#",
+      },
+      {
+        name: "Otter.ai",
+        description: "Asistente de notas con IA para transcribir y resumir reuniones.",
+        imageUrl: "/otter-ai-logo-inspired-design.png",
+        category: "Reuniones",
+        slug: "otter-ai",
+        score: 8.7,
+        affiliateUrl: "#",
+      },
+    ],
+  }
+
+  return allTools[category as keyof typeof allTools] || []
+}

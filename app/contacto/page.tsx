@@ -199,7 +199,7 @@ export default function ContactoPage() {
 
                 <div className="mt-12 overflow-hidden rounded-lg">
                   <Image
-                    src="/placeholder.svg?height=300&width=500&query=modern office workspace with computers and blue lighting"
+                    src="/modern-office-workspace.png"
                     alt="Oficina de NeuroWorkAI"
                     width={500}
                     height={300}
