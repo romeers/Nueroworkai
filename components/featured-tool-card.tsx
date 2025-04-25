@@ -1,6 +1,7 @@
+import { Card, CardFooter } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { BaseCard, CardImage, CardContent, CardFooter } from "@/components/ui/card"
 
 interface FeaturedToolCardProps {
   name: string
@@ -23,16 +24,35 @@ export default function FeaturedToolCard({
   specialOffer,
   verified = false,
 }: FeaturedToolCardProps) {
+  const fallbackImage = `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " icon")}`
   const toolUrl = `/herramientas/${slug}`
 
   return (
-    <BaseCard>
-      <CardImage src={imageUrl} alt={name} aspectRatio="square" className="h-48" />
-      <CardContent padding="medium">
-        <h3 className="text-xl font-bold text-secondary">{name}</h3>
+    <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg flex flex-col h-full">
+      <div className="p-6 flex-1">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
+            <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md mr-4 bg-gray-100 flex items-center justify-center">
+              <span className="text-[8px] text-gray-400">{`Logo ${name}`}</span>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-secondary">{name}</h3>
+              <Badge className="mt-1 bg-primary/10 text-primary hover:bg-primary/20">{category}</Badge>
+            </div>
+          </div>
+          <div className="bg-primary text-white rounded-full h-12 w-12 flex items-center justify-center font-bold">
+            {score}
+          </div>
+        </div>
         <p className="text-gray-600">{description}</p>
-      </CardContent>
-      <CardFooter padding="small">
+
+        {specialOffer && (
+          <div className="mt-4 rounded-md bg-green-50 p-2 text-xs text-green-700 border border-green-200">
+            <span className="font-semibold">Oferta:</span> {specialOffer}
+          </div>
+        )}
+      </div>
+      <CardFooter className="bg-gray-50 p-4 flex justify-between gap-2 border-t">
         <Button asChild variant="outline" size="sm">
           <Link href={`${toolUrl}`}>Ver análisis</Link>
         </Button>
@@ -40,6 +60,6 @@ export default function FeaturedToolCard({
           <Link href={`${toolUrl}#probar`}>Probar gratis</Link>
         </Button>
       </CardFooter>
-    </BaseCard>
+    </Card>
   )
 }

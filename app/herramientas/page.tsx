@@ -2,7 +2,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, ArrowRight } from "lucide-react"
-import { BaseCard, CardImage, CardContent, CardFooter } from "@/components/ui/card"
+import CategoryCard from "@/components/category-card"
+import FeaturedToolCard from "@/components/featured-tool-card"
 import CTAButton from "@/components/cta-button"
 import EnhancedCTA from "@/components/enhanced-cta"
 
@@ -57,7 +58,7 @@ const featuredTools = [
   {
     name: "Notion AI",
     description: "Asistente de escritura y organización con IA integrada en Notion.",
-    imageUrl: "/abstract-ai-flow.png",
+    imageUrl: "/notion-ai-blue.png",
     category: "Escritura IA",
     slug: "notion-ai",
     score: 9.2,
@@ -65,7 +66,7 @@ const featuredTools = [
   {
     name: "Zapier",
     description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
-    imageUrl: "/zapier-logo-on-white.png",
+    imageUrl: "/zapier-blue-background.png",
     category: "Automatización",
     slug: "zapier",
     score: 9.0,
@@ -73,7 +74,7 @@ const featuredTools = [
   {
     name: "ClickUp",
     description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
-    imageUrl: "/clickup-logo-isolated.png",
+    imageUrl: "/clickup-blue-background.png",
     category: "Gestión de tareas",
     slug: "clickup",
     score: 8.8,
@@ -124,20 +125,14 @@ export default function HerramientasPage() {
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => (
-              <BaseCard key={category.slug}>
-                <CardContent padding="medium">
-                  <div className="mb-4 flex items-center">
-                    <span className="mr-3 text-4xl">{category.icon}</span>
-                    <h3 className="text-xl font-bold text-secondary">{category.name}</h3>
-                  </div>
-                  <p className="text-gray-600">{category.description}</p>
-                </CardContent>
-                <CardFooter padding="small">
-                  <Button asChild className="bg-primary hover:bg-primary/90">
-                    <Link href={`/herramientas/categoria/${category.slug}`}>Ver herramientas</Link>
-                  </Button>
-                </CardFooter>
-              </BaseCard>
+              <CategoryCard
+                key={category.slug}
+                name={category.name}
+                description={category.description}
+                slug={category.slug}
+                icon={category.icon}
+                toolCount={category.toolCount}
+              />
             ))}
           </div>
         </div>
@@ -155,21 +150,15 @@ export default function HerramientasPage() {
 
           <div className="grid gap-8 md:grid-cols-3">
             {featuredTools.map((tool) => (
-              <BaseCard key={tool.slug}>
-                <CardImage src={tool.imageUrl} alt={tool.name} aspectRatio="square" className="h-48" />
-                <CardContent padding="medium">
-                  <h3 className="text-xl font-bold text-secondary">{tool.name}</h3>
-                  <p className="text-gray-600">{tool.description}</p>
-                </CardContent>
-                <CardFooter padding="small">
-                  <Button asChild variant="outline" size="sm">
-                    <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
-                  </Button>
-                  <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
-                    <Link href={`${tool.slug}#probar`}>Probar gratis</Link>
-                  </Button>
-                </CardFooter>
-              </BaseCard>
+              <FeaturedToolCard
+                key={tool.slug}
+                name={tool.name}
+                description={tool.description}
+                imageUrl={tool.imageUrl}
+                category={tool.category}
+                slug={tool.slug}
+                score={tool.score}
+              />
             ))}
           </div>
 
@@ -190,41 +179,31 @@ export default function HerramientasPage() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <BaseCard>
-              <CardContent padding="medium">
-                <h3 className="text-xl font-semibold text-secondary">Notion AI vs Jasper</h3>
-                <p className="text-gray-600">¿Cuál es la mejor herramienta de escritura con IA para tu caso de uso?</p>
-              </CardContent>
-              <CardFooter padding="small">
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/herramientas/comparar/notion-ai-vs-jasper">Ver comparativa</Link>
-                </Button>
-              </CardFooter>
-            </BaseCard>
+            <Link
+              href="/herramientas/comparar/notion-ai-vs-jasper"
+              className="block p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <h3 className="text-xl font-semibold text-secondary">Notion AI vs Jasper</h3>
+              <p className="mt-2 text-gray-600">
+                ¿Cuál es la mejor herramienta de escritura con IA para tu caso de uso?
+              </p>
+            </Link>
 
-            <BaseCard>
-              <CardContent padding="medium">
-                <h3 className="text-xl font-semibold text-secondary">Zapier vs Make</h3>
-                <p className="text-gray-600">Comparativa entre las principales plataformas de automatización.</p>
-              </CardContent>
-              <CardFooter padding="small">
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/herramientas/comparar/zapier-vs-make">Ver comparativa</Link>
-                </Button>
-              </CardFooter>
-            </BaseCard>
+            <Link
+              href="/herramientas/comparar/zapier-vs-make"
+              className="block p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <h3 className="text-xl font-semibold text-secondary">Zapier vs Make</h3>
+              <p className="mt-2 text-gray-600">Comparativa entre las principales plataformas de automatización.</p>
+            </Link>
 
-            <BaseCard>
-              <CardContent padding="medium">
-                <h3 className="text-xl font-semibold text-secondary">ClickUp vs Asana</h3>
-                <p className="text-gray-600">Descubre cuál es la mejor plataforma para gestionar tus proyectos.</p>
-              </CardContent>
-              <CardFooter padding="small">
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/herramientas/comparar/clickup-vs-asana">Ver comparativa</Link>
-                </Button>
-              </CardFooter>
-            </BaseCard>
+            <Link
+              href="/herramientas/comparar/clickup-vs-asana"
+              className="block p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <h3 className="text-xl font-semibold text-secondary">ClickUp vs Asana</h3>
+              <p className="mt-2 text-gray-600">Descubre cuál es la mejor plataforma para gestionar tus proyectos.</p>
+            </Link>
           </div>
 
           <div className="mt-12 text-center">

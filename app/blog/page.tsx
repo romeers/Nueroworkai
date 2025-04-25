@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button"
-import { BaseCard, CardImage, CardContent, CardFooter } from "@/components/ui/card"
+import BlogCard from "@/components/blog-card"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
-import Link from "next/link"
 
 // Datos de ejemplo para los artículos del blog
 const blogPosts = [
@@ -10,7 +9,7 @@ const blogPosts = [
     title: "Top 10 herramientas de productividad con IA para equipos remotos",
     excerpt:
       "Descubre las mejores herramientas de IA que están transformando la forma en que trabajan los equipos remotos, aumentando la eficiencia y reduciendo las tareas repetitivas.",
-    imageUrl: "/collaborative-ai-workspace.png",
+    imageUrl: "/placeholder.svg?height=240&width=480&query=remote team using AI tools, digital illustration",
     category: "Productividad",
     date: "15 de abril, 2023",
     slug: "top-10-herramientas-productividad-ia-equipos-remotos",
@@ -19,7 +18,7 @@ const blogPosts = [
     title: "Cómo automatizar tareas con Zapier y Make",
     excerpt:
       "Aprende a crear flujos de trabajo automatizados entre tus aplicaciones favoritas utilizando Zapier y Make, ahorrando tiempo y reduciendo errores.",
-    imageUrl: "/connected-apps-workflow.png",
+    imageUrl: "/placeholder.svg?height=240&width=480&query=automation workflow diagram with connected apps",
     category: "Automatización",
     date: "3 de mayo, 2023",
     slug: "como-automatizar-tareas-zapier-make",
@@ -28,7 +27,7 @@ const blogPosts = [
     title: "Mejores extensiones de Chrome para productividad con IA",
     excerpt:
       "Potencia tu navegador con estas extensiones de Chrome impulsadas por IA que te ayudarán a ser más productivo durante tu jornada laboral remota.",
-    imageUrl: "/productive-chrome.png",
+    imageUrl: "/placeholder.svg?height=240&width=480&query=chrome browser with productivity extensions",
     category: "Herramientas",
     date: "22 de mayo, 2023",
     slug: "mejores-extensiones-chrome-productividad-ia",
@@ -37,7 +36,7 @@ const blogPosts = [
     title: "Notion AI vs. ClickUp: ¿Cuál es mejor para gestionar proyectos remotos?",
     excerpt:
       "Comparamos en profundidad Notion AI y ClickUp para ayudarte a decidir cuál es la mejor herramienta para gestionar tus proyectos y equipos remotos.",
-    imageUrl: "/productivity-apps.png",
+    imageUrl: "/placeholder.svg?height=240&width=480&query=notion and clickup logos side by side",
     category: "Comparativas",
     date: "10 de junio, 2023",
     slug: "notion-ai-vs-clickup-mejor-gestion-proyectos-remotos",
@@ -46,7 +45,7 @@ const blogPosts = [
     title: "Guía completa de prompts para Notion AI",
     excerpt:
       "Maximiza el potencial de Notion AI con esta guía completa de prompts que te ayudarán a generar mejores textos, resúmenes y más.",
-    imageUrl: "/notion-ai-typing.png",
+    imageUrl: "/placeholder.svg?height=240&width=480&query=person typing prompts in Notion AI interface",
     category: "Tutoriales",
     date: "28 de junio, 2023",
     slug: "guia-completa-prompts-notion-ai",
@@ -122,18 +121,15 @@ export default function BlogPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {blogPosts.map((post) => (
-              <BaseCard key={post.slug}>
-                <CardImage src={post.imageUrl} alt={post.title} aspectRatio="video" className="h-48" />
-                <CardContent padding="medium">
-                  <h3 className="text-xl font-bold text-secondary">{post.title}</h3>
-                  <p className="text-gray-600">{post.excerpt}</p>
-                </CardContent>
-                <CardFooter padding="small">
-                  <Button asChild variant="outline" size="sm">
-                    <Link href={`/blog/${post.slug}`}>Leer más</Link>
-                  </Button>
-                </CardFooter>
-              </BaseCard>
+              <BlogCard
+                key={post.slug}
+                title={post.title}
+                excerpt={post.excerpt}
+                imageUrl={post.imageUrl}
+                category={post.category}
+                date={post.date}
+                slug={post.slug}
+              />
             ))}
           </div>
         </div>

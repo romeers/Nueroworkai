@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Star, ExternalLink } from "lucide-react"
+import SafeImage from "@/components/safe-image"
 import KitPromoBlock from "@/components/kit-promo-block"
-import { BaseCard, CardImage, CardContent, CardFooter } from "@/components/ui/card"
 
 export const metadata: Metadata = {
   title: "Top Herramientas IA 2025 - Recomendaciones del editor",
@@ -106,21 +108,59 @@ export default function TopHerramientasIAPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {topTools.map((tool) => (
-              <BaseCard key={tool.slug}>
-                <CardImage src={tool.imageUrl} alt={tool.name} aspectRatio="square" className="h-48" />
-                <CardContent padding="medium">
-                  <h3 className="text-xl font-bold text-secondary">{tool.name}</h3>
-                  <p className="text-gray-600">{tool.description}</p>
-                </CardContent>
-                <CardFooter padding="small">
-                  <Button asChild variant="outline" size="sm">
+              <div
+                key={tool.slug}
+                className="rounded-xl shadow-sm hover:shadow-md transition bg-white p-5 flex flex-col items-center text-center h-full"
+              >
+                <div className="relative mb-4">
+                  <div className="w-16 h-16 flex items-center justify-center">
+                    <SafeImage
+                      src={tool.imageUrl}
+                      alt={`Logo de ${tool.name}`}
+                      width={64}
+                      height={64}
+                      className="object-contain"
+                    />
+                  </div>
+
+                  {/* Badges */}
+                  <div className="absolute -top-2 -right-2 flex flex-col gap-1">
+                    {tool.badge && <Badge className="bg-primary text-white">{tool.badge}</Badge>}
+                  </div>
+                </div>
+
+                <h3 className="font-semibold text-gray-800 text-lg mb-1">{tool.name}</h3>
+                <p className="text-sm text-gray-600 mb-4 flex-grow">{tool.description}</p>
+
+                {/* NeuroScore */}
+                {tool.score && (
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="flex items-center bg-gray-100 px-2 py-1 rounded-full">
+                      <Star className="h-3.5 w-3.5 text-yellow-500 mr-1" />
+                      <span className="text-sm font-medium">{tool.score}</span>
+                      <span className="text-xs text-gray-500 ml-1">/ 10</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="flex flex-col gap-2 w-full mt-auto">
+                  <Button asChild className="bg-primary hover:bg-primary/90 w-full">
+                    <Link
+                      href={tool.affiliateUrl}
+                      target="_blank"
+                      rel="noopener sponsored"
+                      className="flex items-center justify-center gap-1"
+                    >
+                      Probar Gratis
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full">
                     <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
                   </Button>
-                  <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
-                    <Link href={tool.affiliateUrl}>Probar gratis</Link>
-                  </Button>
-                </CardFooter>
-              </BaseCard>
+                </div>
+              </div>
             ))}
           </div>
         </div>

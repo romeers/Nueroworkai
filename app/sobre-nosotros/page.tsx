@@ -25,7 +25,6 @@ import {
 import Stats from "@/components/stats"
 import TrustBadges from "@/components/trust-badges"
 import SafeImage from "@/components/safe-image"
-import { BaseCard, CardContent } from "@/components/ui/card"
 
 // Datos para estadísticas
 const stats = [
@@ -327,24 +326,25 @@ export default function SobreNosotrosPage() {
 
           <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
             {teamMembers.map((member, index) => (
-              <BaseCard key={index}>
-                <CardContent padding="medium">
-                  <div className="flex flex-col items-center">
-                    <div className="w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-100">
-                      <SafeImage
-                        src={member.avatarUrl}
-                        alt={`Foto de ${member.name}`}
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h3 className="text-xl font-semibold text-secondary mb-1">{member.name}</h3>
-                    <p className="text-primary font-medium mb-3">{member.role}</p>
-                    <p className="text-gray-600 text-center">{member.bio}</p>
+              <div
+                key={index}
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+              >
+                <div className="flex flex-col items-center">
+                  <div className="w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-100">
+                    <SafeImage
+                      src={member.avatarUrl}
+                      alt={`Foto de ${member.name}`}
+                      width={96}
+                      height={96}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                </CardContent>
-              </BaseCard>
+                  <h3 className="text-xl font-semibold text-secondary mb-1">{member.name}</h3>
+                  <p className="text-primary font-medium mb-3">{member.role}</p>
+                  <p className="text-gray-600 text-center">{member.bio}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
