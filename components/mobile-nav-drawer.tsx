@@ -9,19 +9,21 @@ import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import SafeImage from "./safe-image"
 
-// Estructura de navegación simplificada
+// Update the navigation array to remove the Blog entry
 const navigation = [
   { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" }, // Elemento único, sin dropdown
   {
-    name: "Guías y Recursos",
-    href: "/guias-recursos",
+    name: "Recursos",
+    href: "/recursos",
     submenu: [
-      { name: "Guías de Uso", href: "/guias-recursos/guias-uso" },
-      { name: "Plantillas", href: "/guias-recursos/plantillas" },
-      { name: "Recursos Gratuitos", href: "/guias-recursos/recursos-gratuitos" },
+      { name: "Guías prácticas", href: "/recursos?categoria=guias" },
+      { name: "Prompts IA", href: "/recursos?categoria=prompts" },
+      { name: "Automatización", href: "/recursos?categoria=automatizacion" },
+      { name: "Plantillas", href: "/recursos?categoria=plantillas" },
+      { name: "Análisis", href: "/recursos?categoria=analisis" },
+      { name: "Tutoriales", href: "/recursos?categoria=tutoriales" },
     ],
   },
-  { name: "Blog", href: "/blog" },
   { name: "Sobre Nosotros", href: "/sobre-nosotros" },
 ]
 

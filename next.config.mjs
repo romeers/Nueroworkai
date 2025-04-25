@@ -102,6 +102,18 @@ const nextConfig = {
         destination: '/recursos#kit-gratuito',
         permanent: true,
       },
+      
+      // NEW: Redirects from blog to recursos
+      {
+        source: '/blog',
+        destination: '/recursos',
+        permanent: true,
+      },
+      {
+        source: '/blog/:slug*',
+        destination: '/recursos/:slug*',
+        permanent: true,
+      },
     ]
   },
   images: {

@@ -71,8 +71,9 @@ const featuredTools = [
   },
 ]
 
-// Datos de ejemplo para los artículos del blog
-const blogPosts = [
+// Rename blogPosts to resources
+// Datos de ejemplo para los recursos destacados
+const resources = [
   {
     title: "Cómo automatizar tareas con Make y Zapier en tu equipo remoto",
     excerpt:
@@ -286,47 +287,48 @@ export default function Home() {
               id="featured-articles-heading"
               className="font-heading text-3xl font-bold tracking-tight text-secondary sm:text-4xl"
             >
-              Artículos Destacados
+              Recursos Destacados
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              Descubre nuestros mejores artículos sobre productividad con IA para trabajo remoto.
+              Descubre nuestros mejores recursos sobre productividad con IA para trabajo remoto.
             </p>
           </div>
 
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
+            {resources.map((resource) => (
               <article
-                key={post.slug}
+                key={resource.slug}
                 className="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.01] transition duration-300 border border-gray-100 overflow-hidden flex flex-col h-full"
               >
                 <div className="relative">
                   <img
                     src={
-                      post.imageUrl || `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(post.title)}`
+                      resource.imageUrl ||
+                      `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(resource.title)}`
                     }
-                    alt={`Imagen para el artículo: ${post.title}`}
+                    alt={`Imagen para el recurso: ${resource.title}`}
                     className="h-[160px] w-full object-cover"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                   <span className="absolute top-4 right-4 bg-violet-100 text-violet-700 text-xs px-3 py-1 rounded-full font-medium">
-                    {post.category}
+                    {resource.category}
                   </span>
                 </div>
 
                 <div className="p-5 flex-grow flex flex-col">
                   <h3 className="text-xl font-bold text-secondary line-clamp-2 mb-2 hover:text-primary">
-                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                    <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
                   </h3>
-                  <p className="text-gray-600 line-clamp-3 mb-4 text-sm flex-grow">{post.excerpt}</p>
+                  <p className="text-gray-600 line-clamp-3 mb-4 text-sm flex-grow">{resource.excerpt}</p>
 
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
                     <div className="flex items-center text-sm text-gray-500">
                       <CalendarIcon className="h-4 w-4 mr-1" />
-                      <span>{post.date}</span>
+                      <span>{resource.date}</span>
                     </div>
                     <Link
-                      href={`/blog/${post.slug}`}
+                      href={`/recursos/${resource.slug}`}
                       className="text-violet-600 font-medium hover:underline flex items-center"
                     >
                       Leer más
@@ -343,8 +345,8 @@ export default function Home() {
               asChild
               className="bg-violet-600 hover:bg-violet-700 px-6 py-2.5 shadow-md hover:shadow-lg transition"
             >
-              <Link href="/blog" className="inline-flex items-center gap-2">
-                Ver todos los artículos
+              <Link href="/recursos" className="inline-flex items-center gap-2">
+                Ver todos los recursos
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

@@ -8,12 +8,11 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
 
-// Estructura de navegación simplificada - Sin dropdown para Recursos
+// Update the navigation array to remove the Blog entry
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
   { name: "Recursos", href: "/recursos", ariaLabel: "Ir a Recursos" }, // Cambiado de "Guías y Recursos" a "Recursos" sin dropdown
-  { name: "Blog", href: "/blog" },
   { name: "Sobre Nosotros", href: "/sobre-nosotros" },
 ]
 

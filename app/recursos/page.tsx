@@ -12,6 +12,7 @@ import SafeImage from "@/components/safe-image"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { cn } from "@/lib/utils"
 
+// Update the categories to include all former blog content
 // Categorías disponibles
 const categories = [
   { id: "todos", label: "Todos" },
@@ -19,6 +20,8 @@ const categories = [
   { id: "prompts", label: "Prompts IA" },
   { id: "automatizacion", label: "Automatización" },
   { id: "plantillas", label: "Plantillas" },
+  { id: "analisis", label: "Análisis" },
+  { id: "tutoriales", label: "Tutoriales" },
 ]
 
 // Datos para recursos destacados
@@ -217,6 +220,59 @@ const allResources = [
     toolAffiliateUrl: "#",
     featured: false,
   },
+  // Add more content types to allResources
+  // Análisis y tutoriales (previously in blog)
+  {
+    title: "Análisis: Notion AI vs ChatGPT para escritura de contenido",
+    description:
+      "Comparativa detallada entre Notion AI y ChatGPT para determinar cuál es mejor para diferentes tipos de contenido.",
+    imageUrl: "/ai-writing-comparison.png",
+    category: "Análisis",
+    categoryId: "analisis",
+    slug: "analisis-notion-ai-vs-chatgpt-escritura-contenido",
+    readTime: "13 min",
+    toolName: "Notion AI",
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    featured: false,
+  },
+  {
+    title: "Tutorial: Cómo configurar tu primer flujo de trabajo en Zapier",
+    description:
+      "Guía paso a paso para crear tu primera automatización en Zapier, desde la configuración inicial hasta la prueba final.",
+    imageUrl: "/zapier-tutorial-workflow.png",
+    category: "Tutoriales",
+    categoryId: "tutoriales",
+    slug: "tutorial-configurar-primer-flujo-trabajo-zapier",
+    readTime: "10 min",
+    toolName: "Zapier",
+    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
+    featured: false,
+  },
+  {
+    title: "Análisis: Las mejores herramientas IA para transcripción de reuniones",
+    description:
+      "Evaluación comparativa de las principales herramientas de transcripción de reuniones con IA disponibles en 2025.",
+    imageUrl: "/meeting-transcription-tools.png",
+    category: "Análisis",
+    categoryId: "analisis",
+    slug: "analisis-mejores-herramientas-ia-transcripcion-reuniones",
+    readTime: "15 min",
+    toolName: "Fireflies",
+    toolAffiliateUrl: "#",
+    featured: false,
+  },
+  {
+    title: "Tutorial: Optimiza tu flujo de trabajo con ClickUp y ChatGPT",
+    description: "Aprende a integrar ChatGPT con ClickUp para automatizar tareas y mejorar la gestión de proyectos.",
+    imageUrl: "/clickup-chatgpt-integration.png",
+    category: "Tutoriales",
+    categoryId: "tutoriales",
+    slug: "tutorial-optimiza-flujo-trabajo-clickup-chatgpt",
+    readTime: "12 min",
+    toolName: "ClickUp",
+    toolAffiliateUrl: "https://clickup.com/?af=123",
+    featured: false,
+  },
 ]
 
 // Recursos más visitados esta semana
@@ -237,14 +293,14 @@ const topResources = [
     views: 845,
   },
   {
-    title: "Plantilla editable de productividad IA en Notion",
-    slug: "plantilla-productividad-ia-notion",
-    views: 720,
+    title: "Análisis: Notion AI vs ChatGPT para escritura de contenido",
+    slug: "analisis-notion-ai-vs-chatgpt-escritura-contenido",
+    views: 780,
   },
   {
-    title: "Mejores prácticas para reuniones remotas con IA",
-    slug: "mejores-practicas-reuniones-remotas-ia",
-    views: 685,
+    title: "Tutorial: Cómo configurar tu primer flujo de trabajo en Zapier",
+    slug: "tutorial-configurar-primer-flujo-trabajo-zapier",
+    views: 720,
   },
 ]
 

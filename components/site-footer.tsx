@@ -47,17 +47,17 @@ export default function SiteFooter({
         { href: "/", label: "Inicio" },
         { href: "/herramientas", label: "Herramientas" },
         { href: "/herramientas/comparar", label: "Comparar Herramientas" },
-        { href: "/blog", label: "Blog" },
+        { href: "/recursos", label: "Recursos" },
         { href: "/sobre-nosotros", label: "Sobre Nosotros" },
       ],
     },
     {
       title: "Recursos",
       links: [
-        { href: "/guias-recursos", label: "Kit de herramientas IA" },
-        { href: "/guias-recursos/guias/prompts", label: "Guía de prompts" },
-        { href: "/guias-recursos/recursos/comparativas", label: "Comparativas imprimibles" },
-        { href: "/guias-recursos/plantillas", label: "Plantillas gratuitas" },
+        { href: "/recursos?categoria=guias", label: "Guías prácticas" },
+        { href: "/recursos?categoria=prompts", label: "Prompts IA" },
+        { href: "/recursos?categoria=automatizacion", label: "Automatización" },
+        { href: "/recursos?categoria=plantillas", label: "Plantillas gratuitas" },
       ],
     },
     {
