@@ -8,7 +8,24 @@ import { Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import SafeImage from "./safe-image"
-import { mainNavigation } from "@/lib/navigation"
+
+// Update the navigation array to remove the Blog entry
+const navigation = [
+  { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" }, // Elemento único, sin dropdown
+  {
+    name: "Recursos",
+    href: "/recursos",
+    submenu: [
+      { name: "Guías prácticas", href: "/recursos?categoria=guias" },
+      { name: "Prompts IA", href: "/recursos?categoria=prompts" },
+      { name: "Automatización", href: "/recursos?categoria=automatizacion" },
+      { name: "Plantillas", href: "/recursos?categoria=plantillas" },
+      { name: "Análisis", href: "/recursos?categoria=analisis" },
+      { name: "Tutoriales", href: "/recursos?categoria=tutoriales" },
+    ],
+  },
+  { name: "Sobre Nosotros", href: "/sobre-nosotros" },
+]
 
 export default function MobileNavDrawer() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
@@ -47,25 +64,34 @@ export default function MobileNavDrawer() {
             </Link>
           </div>
           <div className="flex-1 overflow-auto py-2">
-            <nav className="flex flex-col space-y-2">
-              {mainNavigation.map((item) => (
+            <nav className="flex flex-col space-y-1">
+              <div className="px-2">
+                <Link
+                  href="/"
+                  className={cn(
+                    "block rounded-md px-3 py-2 text-sm font-medium",
+                    pathname === "/" ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50",
+                  )}
+                >
+                  Inicio
+                </Link>
+              </div>
+              {navigation.map((item) => (
                 <div key={item.name} className="px-2">
                   {item.submenu ? (
                     <>
                       <button
                         onClick={() => toggleDropdown(item.name)}
                         className={cn(
-                          "flex w-full items-center justify-between rounded-md px-4 py-3 text-sm font-medium",
+                          "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium",
                           pathname.startsWith(item.href)
                             ? "bg-primary/10 text-primary"
-                            : "text-gray-700 hover:bg-gray-50",
+                            : "text-gray-700 hover:bg-gray-100",
                         )}
-                        aria-expanded={activeDropdown === item.name}
-                        aria-controls={`drawer-dropdown-${item.name}`}
                       >
                         {item.name}
                         <svg
-                          className={`h-5 w-5 transition-transform ${activeDropdown === item.name ? "rotate-180" : ""}`}
+                          className={`h-4 w-4 transition-transform ${activeDropdown === item.name ? "rotate-180" : ""}`}
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -79,13 +105,13 @@ export default function MobileNavDrawer() {
                         </svg>
                       </button>
                       {activeDropdown === item.name && (
-                        <div id={`drawer-dropdown-${item.name}`} className="ml-4 mt-1 space-y-1">
+                        <div className="ml-4 mt-1 space-y-1">
                           {item.submenu.map((subItem) => (
                             <Link
                               key={subItem.name}
                               href={subItem.href}
                               className={cn(
-                                "block rounded-md px-4 py-3 text-sm",
+                                "block rounded-md px-3 py-2 text-sm",
                                 pathname === subItem.href
                                   ? "bg-primary/10 text-primary"
                                   : "text-gray-600 hover:bg-gray-50",
@@ -101,13 +127,12 @@ export default function MobileNavDrawer() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "block rounded-md px-4 py-3 text-sm font-medium",
+                        "block rounded-md px-3 py-2 text-sm font-medium",
                         pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
                           ? "bg-primary/10 text-primary"
                           : "text-gray-600 hover:bg-gray-50",
                       )}
                       aria-label={item.ariaLabel || item.name}
-                      aria-current={pathname === item.href ? "page" : undefined}
                     >
                       {item.name}
                     </Link>
@@ -118,14 +143,14 @@ export default function MobileNavDrawer() {
           </div>
           <div className="border-t p-4">
             <Button asChild className="w-full bg-primary hover:bg-primary/90">
-              <Link href="/top-herramientas-ia">Mejores Herramientas IA</Link>
+              <Link href="/herramientas-ia">Mejores Herramientas IA</Link>
             </Button>
             <div className="mt-4 text-xs text-gray-500 text-center">
               <Link href="/sobre-nosotros" className="text-primary hover:underline">
                 Sobre Nosotros
               </Link>
               {" • "}
-              <Link href="/sobre-nosotros#contacto" className="text-primary hover:underline">
+              <Link href="/contacto" className="text-primary hover:underline">
                 Contacto
               </Link>
             </div>

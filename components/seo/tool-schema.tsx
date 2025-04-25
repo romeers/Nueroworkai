@@ -12,16 +12,13 @@ export default function ToolSchema({ tool, slug }: { tool: any; slug: string }) 
       price: tool.pricing && tool.pricing[0] ? tool.pricing[0].price.replace(/[^\d.]/g, "") : "",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
-      url: `https://neuroworkai.com/herramientas/${slug}`,
-      validFrom: tool.publishedAt || new Date().toISOString().split("T")[0],
     },
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: tool.neuroScore?.overall || "8.5",
+      ratingValue: tool.neuroScore.overall,
       bestRating: "10",
       worstRating: "1",
       ratingCount: tool.reviews ? tool.reviews.length : 5,
-      reviewCount: tool.reviews ? tool.reviews.length : 5,
     },
     review: tool.reviews
       ? tool.reviews.map((review: any) => ({
@@ -43,18 +40,6 @@ export default function ToolSchema({ tool, slug }: { tool: any; slug: string }) 
       : [],
     image: `https://neuroworkai.com${tool.imageUrl || "/placeholder.svg"}`,
     url: `https://neuroworkai.com/herramientas/${slug}`,
-    sameAs: tool.websiteUrl ? [tool.websiteUrl] : [],
-    brand: {
-      "@type": "Brand",
-      name: tool.brand || tool.name,
-      logo: tool.logoUrl
-        ? `https://neuroworkai.com${tool.logoUrl}`
-        : `https://neuroworkai.com${tool.imageUrl || "/placeholder.svg"}`,
-    },
-    category: tool.categories ? tool.categories.join(", ") : "Herramienta de IA",
-    releaseDate: tool.releaseDate || "",
-    featureList: tool.features ? tool.features.join(", ") : "",
-    keywords: tool.keywords ? tool.keywords.join(", ") : "",
   }
 
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }} />

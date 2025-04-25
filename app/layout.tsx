@@ -9,7 +9,6 @@ import { Analytics } from "@vercel/analytics/react"
 import { Suspense } from "react"
 import FontOptimization from "@/components/font-optimization"
 import ThirdPartyScripts from "@/components/third-party-scripts"
-import OrganizationSchema from "@/components/seo/organization-schema"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -92,7 +91,6 @@ export default function RootLayout({
           </div>
           <Analytics />
           <ThirdPartyScripts />
-          <OrganizationSchema />
         </ThemeProvider>
       </body>
     </html>

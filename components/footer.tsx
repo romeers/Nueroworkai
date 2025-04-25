@@ -1,8 +1,6 @@
 import Link from "next/link"
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
 import SafeImage from "./safe-image"
-// Import the centralized navigation configuration
-import { footerNavigation } from "@/lib/navigation"
 
 export default function Footer() {
   const logoWhiteImage =
@@ -73,17 +71,51 @@ export default function Footer() {
           <nav aria-label="Enlaces de navegación del sitio">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Navegación</h3>
             <ul className="space-y-2">
-              {footerNavigation.main.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                    aria-label={`Ir a ${item.name.toLowerCase()}`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ir a la página de inicio"
+                >
+                  Inicio
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/herramientas-ia"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Explorar herramientas de IA"
+                >
+                  Herramientas
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/herramientas/comparar"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Comparar diferentes herramientas"
+                >
+                  Comparar Herramientas
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/recursos"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Explorar recursos y guías"
+                >
+                  Recursos
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/sobre-nosotros"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Conocer más sobre NeuroWorkAI"
+                >
+                  Sobre Nosotros
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -91,17 +123,42 @@ export default function Footer() {
           <nav aria-label="Enlaces de recursos">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Recursos</h3>
             <ul className="space-y-2">
-              {footerNavigation.resources.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                    aria-label={item.name}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/recursos?categoria=guias"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Descargar kit de herramientas IA"
+                >
+                  Kit de herramientas IA
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/recursos?categoria=prompts"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver guía de prompts para IA"
+                >
+                  Guía de prompts
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/recursos?categoria=analisis"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver comparativas imprimibles"
+                >
+                  Comparativas imprimibles
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/recursos?categoria=plantillas"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Descargar plantillas gratuitas"
+                >
+                  Plantillas gratuitas
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -109,17 +166,42 @@ export default function Footer() {
           <nav aria-label="Enlaces legales">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Legal</h3>
             <ul className="space-y-2">
-              {footerNavigation.legal.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                    aria-label={`Ver ${item.name.toLowerCase()}`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/politica-privacidad"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver política de privacidad"
+                >
+                  Política de Privacidad
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/politica-cookies"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver política de cookies"
+                >
+                  Política de Cookies
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/aviso-afiliados"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver aviso de afiliados"
+                >
+                  Aviso de Afiliados
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/sobre-nosotros#contacto"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Contactar con nosotros"
+                >
+                  Contacto
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>

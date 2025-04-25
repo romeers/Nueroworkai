@@ -3,16 +3,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
-// Add responsive imports and hooks
-import { useResponsive } from "@/hooks/use-responsive"
-
 export default function HeroSection() {
-  // Inside the component, add the responsive hook
-  const { isMobile } = useResponsive()
-
   return (
     <section
-      className="relative"
+      className="relative py-16 md:py-24"
       style={{
         backgroundImage:
           'url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-seamless-ultra-light-abstract-tech-bac_77llVxuuSQq0MWmz2lHJpg_zlt8wHfaRXuVq1ca-Gj4mw-oJ6ierCcUf3EDUgvjgVyUNaoHdLVLN.png")',
@@ -21,14 +15,14 @@ export default function HeroSection() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
           {/* Left column: Text and CTAs */}
           <div className="flex flex-col items-start justify-center">
             <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
               Plataforma líder en productividad IA
             </p>
-            <h1 className="font-heading text-3xl font-bold leading-tight tracking-tight text-[#1E293B] sm:text-4xl md:text-5xl md:text-[56px]">
+            <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight text-[#1E293B] sm:text-5xl md:text-[56px]">
               Descubre las mejores herramientas de productividad con IA
             </h1>
 
@@ -36,7 +30,7 @@ export default function HeroSection() {
               Potencia tu trabajo remoto con las apps más inteligentes del mercado. Compara, elige y empieza hoy mismo.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
               <Button asChild className="bg-primary hover:bg-primary/90 px-6 text-base font-medium">
                 <Link href="/herramientas-ia" aria-label="Explorar herramientas de IA para productividad">
                   Explora herramientas IA
