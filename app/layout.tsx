@@ -7,6 +7,8 @@ import Footer from "@/components/footer"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/react"
 import { Suspense } from "react"
+import FontOptimization from "@/components/font-optimization"
+import ThirdPartyScripts from "@/components/third-party-scripts"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -65,21 +67,10 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YRJDF8M1RE"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-YRJDF8M1RE');
-            `,
-          }}
-        />
         <meta name="theme-color" content="#7C3AED" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <FontOptimization />
       </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
@@ -99,6 +90,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <Analytics />
+          <ThirdPartyScripts />
         </ThemeProvider>
       </body>
     </html>

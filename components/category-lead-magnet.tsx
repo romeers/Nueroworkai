@@ -1,13 +1,10 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Download, Check } from "lucide-react"
+import { Check } from "lucide-react"
 import SafeImage from "./safe-image"
 import { useToast } from "@/hooks/use-toast"
+import EmailSubscriptionForm from "./email-subscription-form"
 
 interface CategoryLeadMagnetProps {
   category: string
@@ -28,25 +25,15 @@ export default function CategoryLeadMagnet({
   formId = "default",
   ctaText = "Descargar Gratis",
 }: CategoryLeadMagnetProps) {
-  const [email, setEmail] = useState("")
-  const [name, setName] = useState("")
-  const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const { toast } = useToast()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-
-    // Simulación de envío
-    setTimeout(() => {
-      setLoading(false)
-      setSuccess(true)
-      toast({
-        title: "¡Recurso enviado!",
-        description: "Hemos enviado el recurso a tu correo electrónico.",
-      })
-    }, 1500)
+  const handleSuccess = () => {
+    setSuccess(true)
+    toast({
+      title: "¡Recurso enviado!",
+      description: "Hemos enviado el recurso a tu correo electrónico.",
+    })
   }
 
   return (
@@ -76,63 +63,14 @@ export default function CategoryLeadMagnet({
               </p>
             </div>
           ) : (
-            <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-              <div>
-                <Input
-                  type="text"
-                  placeholder="Tu nombre"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  className="bg-white"
-                  aria-label="Nombre para recibir el recurso gratuito"
-                />
-              </div>
-              <div>
-                <Input
-                  type="email"
-                  placeholder="Tu correo electrónico"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="bg-white"
-                  aria-label="Email para recibir el recurso gratuito"
-                />
-              </div>
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={loading}>
-                {loading ? (
-                  <span className="flex items-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Enviando...
-                  </span>
-                ) : (
-                  <span className="flex items-center">
-                    <Download className="mr-2 h-4 w-4" />
-                    Descargar Kit gratuito
-                  </span>
-                )}
-              </Button>
-              <p className="text-xs text-gray-500">Sin spam · Descarga inmediata tras confirmar</p>
-            </form>
+            <div className="mt-6">
+              <EmailSubscriptionForm
+                buttonText={ctaText}
+                includeName={true}
+                onSuccess={handleSuccess}
+                downloadIcon={true}
+              />
+            </div>
           )}
         </div>
 

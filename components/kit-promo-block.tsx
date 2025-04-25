@@ -1,13 +1,10 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Check } from "lucide-react"
 import SafeImage from "./safe-image"
 import { useToast } from "@/hooks/use-toast"
+import EmailSubscriptionForm from "./email-subscription-form"
 
 // Define the content in a single place for reuse across the site
 export const kitPromoContent = {
@@ -34,30 +31,20 @@ interface KitPromoBlockProps {
 }
 
 export default function KitPromoBlock({ variant = "default", className = "", showImage = true }: KitPromoBlockProps) {
-  const [email, setEmail] = useState("")
-  const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const { toast } = useToast()
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-
-    // Simulación de envío
-    setTimeout(() => {
-      setLoading(false)
-      setSuccess(true)
-      toast({
-        title: "¡Kit enviado!",
-        description: "Hemos enviado el Kit de Productividad a tu correo electrónico.",
-      })
-      setEmail("")
-    }, 1500)
-  }
 
   // Determine layout based on variant
   const isCompact = variant === "compact"
   const isSidebar = variant === "sidebar"
+
+  const handleSuccess = () => {
+    setSuccess(true)
+    toast({
+      title: "¡Kit enviado!",
+      description: "Hemos enviado el Kit de Productividad a tu correo electrónico.",
+    })
+  }
 
   return (
     <div
@@ -71,60 +58,43 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
           </h2>
           <p className={`mt-4 ${isCompact ? "text-base" : "text-lg"} text-gray-600`}>{kitPromoContent.subtitle}</p>
 
-          <ul className="mt-4 space-y-2" aria-label="Beneficios del kit">
+          <ul className="mt-4 space-y-2">
             {kitPromoContent.bulletPoints.map((point, index) => (
               <li key={index} className="flex items-start">
-                <Check className="mr-2 h-5 w-5 flex-shrink-0 text-primary" aria-hidden="true" />
+                <Check className="mr-2 h-5 w-5 flex-shrink-0 text-primary" />
                 <span className={`${isCompact ? "text-sm" : "text-base"} text-gray-600`}>{point}</span>
               </li>
             ))}
           </ul>
 
           {success ? (
-            <div className="mt-6 rounded-lg bg-green-50 p-4 border border-green-200" role="alert">
+            <div className="mt-6 rounded-lg bg-green-50 p-4 border border-green-200">
               <h4 className="font-medium text-green-800">¡Gracias por suscribirte!</h4>
               <p className="mt-1 text-sm text-green-700">
                 Hemos enviado el Kit a tu correo electrónico. Si no lo encuentras, revisa tu carpeta de spam.
               </p>
             </div>
           ) : (
-            <div className="mt-6" aria-labelledby="kit-form-label">
-              <h3 id="kit-form-label" className="text-lg font-semibold text-secondary mb-3">
-                {kitPromoContent.formLabel}
-              </h3>
-              <form onSubmit={handleSubmit} className="space-y-3 md:space-y-0 md:flex md:gap-2">
-                <Input
-                  type="email"
-                  placeholder="Tu correo electrónico"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="rounded-md px-4 py-2 w-full bg-white"
-                  aria-label="Email para recibir el kit gratuito"
-                />
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full md:w-auto bg-violet-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-violet-700 transition transform hover:scale-105"
-                  aria-label={loading ? "Enviando..." : kitPromoContent.buttonText}
-                >
-                  {loading ? "Enviando..." : kitPromoContent.buttonText}
-                </Button>
-              </form>
-              <p className="text-sm text-gray-500 mt-2 text-center md:text-left">{kitPromoContent.microcopy}</p>
+            <div className="mt-6" aria-label="Formulario de descarga de kit">
+              <h3 className="text-lg font-semibold text-secondary mb-3">{kitPromoContent.formLabel}</h3>
+              <EmailSubscriptionForm
+                buttonText={kitPromoContent.buttonText}
+                microcopy={kitPromoContent.microcopy}
+                onSuccess={handleSuccess}
+                downloadIcon={true}
+              />
             </div>
           )}
         </div>
 
         {showImage && (
           <div className="flex items-center justify-center">
-            <div className="relative h-64 w-full max-w-md overflow-hidden">
+            <div className="relative h-64 w-full max-w-md overflow-hidden sm:h-80">
               <SafeImage
                 src={kitPromoContent.imageUrl}
                 fallbackSrc={kitPromoContent.fallbackImageUrl}
                 alt={kitPromoContent.imageAlt}
-                width={400}
-                height={320}
+                fill
                 className="object-cover shadow-xl rounded-xl"
               />
             </div>
