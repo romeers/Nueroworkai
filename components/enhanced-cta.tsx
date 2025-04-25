@@ -1,9 +1,12 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useToast } from "@/hooks/use-toast"
 
 interface EnhancedCTAProps {
   title: string
@@ -75,6 +78,39 @@ export default function EnhancedCTA({
 
   const buttonStyles = getButtonStyles()
   const [email, setEmail] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const { toast } = useToast()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+      if (onSubmit) {
+        await onSubmit(email)
+      } else {
+        // Default behavior - simulate submission
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+      }
+
+      toast({
+        title: "¡Gracias por suscribirte!",
+        description: "Hemos enviado el recurso a tu correo electrónico.",
+      })
+
+      setEmail("")
+      setSubmitted(true)
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+        variant: "destructive",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <section
@@ -108,40 +144,55 @@ export default function EnhancedCTA({
 
           {withEmailForm ? (
             <div className="max-w-xl mx-auto">
-              <form
-                className="flex flex-col md:flex-row gap-4 justify-center items-center"
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  if (onSubmit) onSubmit(email)
-                }}
-              >
-                <Input
-                  type="email"
-                  placeholder={emailPlaceholder || "Tu correo electrónico"}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full md:w-[320px] px-4 py-3 rounded-md text-sm text-gray-900 bg-white border-0 shadow-sm"
-                />
-                <Button
-                  type="submit"
-                  className="bg-white text-violet-700 font-semibold px-6 py-3 rounded-md hover:bg-gray-100 transition w-full md:w-auto"
+              {submitted ? (
+                <div
+                  className={`p-4 rounded-md ${bgColor === "white" ? "bg-green-50 text-green-800" : "bg-white/10 text-white"}`}
+                  role="alert"
                 >
-                  {formButtonText || "Descargar Kit gratuito"}
-                </Button>
-              </form>
-              {microcopy && (
+                  <p className="font-medium">¡Gracias por suscribirte!</p>
+                  <p className="text-sm mt-1">Hemos enviado el recurso a tu correo electrónico.</p>
+                </div>
+              ) : (
+                <form
+                  className="flex flex-col md:flex-row gap-4 justify-center"
+                  onSubmit={handleSubmit}
+                  aria-label="Formulario de suscripción"
+                >
+                  <Input
+                    type="email"
+                    placeholder={emailPlaceholder || "Tu correo electrónico"}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full md:w-[320px] px-4 py-3 rounded-md text-sm text-gray-900 bg-white border-0 shadow-sm"
+                    aria-label="Email para suscripción"
+                  />
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-white text-violet-700 font-semibold px-6 py-3 rounded-md hover:bg-gray-100 transition w-full md:w-auto"
+                    aria-label={loading ? "Enviando..." : formButtonText || "Descargar Kit gratuito"}
+                  >
+                    {loading ? "Enviando..." : formButtonText || "Descargar Kit gratuito"}
+                  </Button>
+                </form>
+              )}
+              {microcopy && !submitted && (
                 <p className={`text-sm mt-4 ${bgColor === "white" ? "text-gray-500" : "text-white/80"}`}>{microcopy}</p>
               )}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size="lg" className={buttonStyles.primary}>
-                <Link href={primaryButtonUrl}>{primaryButtonText}</Link>
+                <Link href={primaryButtonUrl} aria-label={primaryButtonText}>
+                  {primaryButtonText}
+                </Link>
               </Button>
               {secondaryButtonText && secondaryButtonUrl && (
                 <Button asChild variant="outline" size="lg" className={buttonStyles.secondary}>
-                  <Link href={secondaryButtonUrl}>{secondaryButtonText}</Link>
+                  <Link href={secondaryButtonUrl} aria-label={secondaryButtonText}>
+                    {secondaryButtonText}
+                  </Link>
                 </Button>
               )}
               {microcopy && (

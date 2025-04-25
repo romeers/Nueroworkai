@@ -45,7 +45,7 @@ export default function SiteFooter({
       title: "Navegación",
       links: [
         { href: "/", label: "Inicio" },
-        { href: "/herramientas", label: "Herramientas" },
+        { href: "/herramientas-ia", label: "Herramientas" },
         { href: "/herramientas/comparar", label: "Comparar Herramientas" },
         { href: "/recursos", label: "Recursos" },
         { href: "/sobre-nosotros", label: "Sobre Nosotros" },
@@ -119,7 +119,7 @@ export default function SiteFooter({
               <div className="w-20 h-auto">
                 <SafeImage
                   src={logoSrc}
-                  fallbackSrc="/neuroworkai-logo-white.png"
+                  fallbackSrc="/public/neuroworkai-logo-white.png"
                   alt={logoAlt}
                   width={180}
                   height={50}

@@ -4,6 +4,7 @@ import { Star, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import SafeImage from "./safe-image"
 
 interface ToolCardProps {
   name: string
@@ -43,7 +44,15 @@ export default function ToolCard({
       )}
     >
       <div className="relative h-40 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
-        <span className="text-sm text-gray-400">{`Imagen: ${name}`}</span>
+        <SafeImage
+          src={imageUrl}
+          fallbackSrc={fallbackImage}
+          alt={`Logo de ${name}`}
+          width={160}
+          height={160}
+          className="h-auto w-auto max-h-32 max-w-[80%] object-contain"
+          priority={featured}
+        />
         <div className="absolute left-2 top-2">
           <Badge className="bg-primary hover:bg-primary/90">{category}</Badge>
         </div>
@@ -84,7 +93,9 @@ export default function ToolCard({
       </CardContent>
       <CardFooter className="flex justify-between mt-auto">
         <Button asChild variant="outline" size="sm">
-          <Link href={internalUrl}>Ver análisis</Link>
+          <Link href={internalUrl} aria-label={`Ver análisis de ${name}`}>
+            Ver análisis
+          </Link>
         </Button>
         <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
           <Link
@@ -92,6 +103,7 @@ export default function ToolCard({
             target={isExternalUrl ? "_blank" : undefined}
             rel={isExternalUrl ? "noopener sponsored" : undefined}
             className="flex items-center gap-1"
+            aria-label={`Probar ${name}${isExternalUrl ? " (se abre en una nueva ventana)" : ""}`}
           >
             Probar
             {isExternalUrl && (
@@ -106,6 +118,7 @@ export default function ToolCard({
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="h-3 w-3 ml-1"
+                aria-hidden="true"
               >
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                 <polyline points="15 3 21 3 21 9" />

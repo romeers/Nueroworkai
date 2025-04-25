@@ -12,7 +12,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 items-start">
           {/* Logo and brand information */}
           <div className="space-y-4">
-            <Link href="/" className="inline-block transition-opacity duration-200 hover:opacity-90">
+            <Link
+              href="/"
+              className="inline-block transition-opacity duration-200 hover:opacity-90"
+              aria-label="NeuroWorkAI - Ir a inicio"
+            >
               <div className="w-20 h-auto">
                 <SafeImage
                   src={logoWhiteImage}
@@ -27,7 +31,7 @@ export default function Footer() {
             <p className="text-sm text-white/80 max-w-xs">
               Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.
             </p>
-            <div className="flex gap-3 mt-4">
+            <div className="flex gap-3 mt-4" aria-label="Redes sociales">
               <Link
                 href="#"
                 className="text-white hover:text-white/80 transition-colors duration-200"
@@ -71,6 +75,7 @@ export default function Footer() {
                 <Link
                   href="/"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ir a la página de inicio"
                 >
                   Inicio
                 </Link>
@@ -79,6 +84,7 @@ export default function Footer() {
                 <Link
                   href="/herramientas-ia"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Explorar herramientas de IA"
                 >
                   Herramientas
                 </Link>
@@ -87,22 +93,25 @@ export default function Footer() {
                 <Link
                   href="/herramientas/comparar"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Comparar diferentes herramientas"
                 >
                   Comparar Herramientas
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/blog"
+                  href="/recursos"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Explorar recursos y guías"
                 >
-                  Blog
+                  Recursos
                 </Link>
               </li>
               <li>
                 <Link
                   href="/sobre-nosotros"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Conocer más sobre NeuroWorkAI"
                 >
                   Sobre Nosotros
                 </Link>
@@ -116,32 +125,36 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/guias-recursos"
+                  href="/recursos?categoria=guias"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Descargar kit de herramientas IA"
                 >
                   Kit de herramientas IA
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/guias-recursos/guias/prompts"
+                  href="/recursos?categoria=prompts"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver guía de prompts para IA"
                 >
                   Guía de prompts
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/guias-recursos/recursos/comparativas"
+                  href="/recursos?categoria=analisis"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver comparativas imprimibles"
                 >
                   Comparativas imprimibles
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/guias-recursos/plantillas"
+                  href="/recursos?categoria=plantillas"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Descargar plantillas gratuitas"
                 >
                   Plantillas gratuitas
                 </Link>
@@ -157,6 +170,7 @@ export default function Footer() {
                 <Link
                   href="/politica-privacidad"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver política de privacidad"
                 >
                   Política de Privacidad
                 </Link>
@@ -165,6 +179,7 @@ export default function Footer() {
                 <Link
                   href="/politica-cookies"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver política de cookies"
                 >
                   Política de Cookies
                 </Link>
@@ -173,6 +188,7 @@ export default function Footer() {
                 <Link
                   href="/aviso-afiliados"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver aviso de afiliados"
                 >
                   Aviso de Afiliados
                 </Link>
@@ -181,6 +197,7 @@ export default function Footer() {
                 <Link
                   href="/sobre-nosotros#contacto"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Contactar con nosotros"
                 >
                   Contacto
                 </Link>
@@ -194,6 +211,7 @@ export default function Footer() {
           <Link
             href="/herramientas/mejores"
             className="inline-flex items-center justify-center px-6 py-3 bg-white text-primary font-medium rounded-md hover:bg-white/90 transition-colors duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+            aria-label="Descubrir mejores herramientas IA"
           >
             Descubrir Mejores Herramientas IA
           </Link>
@@ -210,7 +228,8 @@ export default function Footer() {
             &copy; 2025 NeuroWorkAI. Todos los derechos reservados.
           </p>
           <p className="text-center text-xs text-white/50 mt-2">
-            Desarrollado con ♥ |{" "}
+            Desarrollado con <span aria-hidden="true">♥</span>
+            <span className="sr-only">amor</span> |{" "}
             <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
               Powered by Vercel
             </a>

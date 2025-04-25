@@ -27,6 +27,7 @@ export default function Header() {
 
   // Ref para detectar clics fuera del dropdown
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,11 +43,21 @@ export default function Header() {
       }
     }
 
+    // Manejar tecla Escape para cerrar menú móvil
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false)
+        setActiveDropdown(null)
+      }
+    }
+
     document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("keydown", handleEscKey)
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
       document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("keydown", handleEscKey)
     }
   }, [])
 
@@ -55,18 +66,34 @@ export default function Header() {
     setMobileMenuOpen(false)
   }, [pathname])
 
+  // Efecto para manejar el bloqueo del scroll cuando el menú móvil está abierto
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [mobileMenuOpen])
+
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name)
   }
 
   return (
     <header
+      ref={headerRef}
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-200",
         scrolled ? "bg-white shadow-md" : "bg-transparent backdrop-blur-sm",
       )}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
+      <nav
+        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
+        aria-label="Navegación principal"
+      >
         <div className="flex lg:flex-1">
           <Link
             href="/"
@@ -93,6 +120,7 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(true)}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
+            aria-label="Abrir menú principal"
           >
             <span className="sr-only">Abrir menú principal</span>
             <Menu className="h-6 w-6" aria-hidden="true" />
@@ -110,6 +138,7 @@ export default function Header() {
                   : "text-secondary hover:text-primary",
               )}
               aria-label={item.ariaLabel || item.name}
+              aria-current={pathname === item.href ? "page" : undefined}
             >
               {item.name}
             </Link>
@@ -117,15 +146,27 @@ export default function Header() {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Button asChild className="bg-primary hover:bg-primary/90">
-            <Link href="/top-herramientas-ia">Top Herramientas IA</Link>
+            <Link href="/top-herramientas-ia" aria-label="Ver top herramientas IA">
+              Top Herramientas IA
+            </Link>
           </Button>
         </div>
       </nav>
 
       {/* Mobile menu - mejorado para accesibilidad y usabilidad */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-white" id="mobile-menu" role="dialog" aria-modal="true">
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm">
+        <div
+          className="fixed inset-0 z-50 bg-black bg-opacity-25"
+          aria-hidden="true"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <div
+            className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-menu-heading"
+          >
             <div className="flex items-center justify-between">
               <Link
                 href="/"
@@ -157,6 +198,9 @@ export default function Header() {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-200">
                 <div className="space-y-2 py-6">
+                  <h2 id="mobile-menu-heading" className="sr-only">
+                    Menú de navegación
+                  </h2>
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
@@ -169,6 +213,7 @@ export default function Header() {
                       )}
                       onClick={() => setMobileMenuOpen(false)}
                       aria-label={item.ariaLabel || item.name}
+                      aria-current={pathname === item.href ? "page" : undefined}
                     >
                       {item.name}
                     </Link>
@@ -180,7 +225,9 @@ export default function Header() {
                     className="w-full bg-primary hover:bg-primary/90"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <Link href="/top-herramientas-ia">Mejores Herramientas IA</Link>
+                    <Link href="/top-herramientas-ia" aria-label="Ver mejores herramientas IA">
+                      Mejores Herramientas IA
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -193,12 +240,18 @@ export default function Header() {
       <div
         className={cn(
           "fixed bottom-4 left-0 right-0 z-40 mx-auto flex w-fit transform items-center justify-center transition-all duration-300",
-          showStickyCTA ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0",
+          showStickyCTA ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0 pointer-events-none",
         )}
         aria-hidden={!showStickyCTA}
       >
         <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
-          <Link href="/top-herramientas-ia">Descubrir Mejores Herramientas IA</Link>
+          <Link
+            href="/top-herramientas-ia"
+            aria-label="Descubrir mejores herramientas IA"
+            tabIndex={showStickyCTA ? 0 : -1}
+          >
+            Descubrir Mejores Herramientas IA
+          </Link>
         </Button>
       </div>
     </header>

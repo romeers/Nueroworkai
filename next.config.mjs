@@ -15,11 +15,9 @@ const nextConfig = {
         destination: '/herramientas-ia',
         permanent: true,
       },
-      {
-        source: '/herramientas/todas',
-        destination: '/herramientas-ia',
-        permanent: true,
-      },
+      // Eliminada la redirección redundante de /herramientas/todas
+      
+      // Redirección de categorías
       {
         source: '/herramientas/categoria/:slug*',
         destination: '/herramientas-ia?categoria=:slug*',
@@ -29,12 +27,12 @@ const nextConfig = {
       // Redirecciones de la sección de comparativas
       {
         source: '/comparativas',
-        destination: '/herramientas-ia',
+        destination: '/herramientas/comparar',
         permanent: true,
       },
       {
         source: '/comparativas/:slug*',
-        destination: '/herramientas-ia',
+        destination: '/herramientas/comparar/:slug*',
         permanent: true,
       },
       
@@ -103,7 +101,7 @@ const nextConfig = {
         permanent: true,
       },
       
-      // NEW: Redirects from blog to recursos
+      // Redirects from blog to recursos
       {
         source: '/blog',
         destination: '/recursos',

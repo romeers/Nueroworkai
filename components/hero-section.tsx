@@ -32,7 +32,9 @@ export default function HeroSection() {
 
             <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
               <Button asChild className="bg-primary hover:bg-primary/90 px-6 text-base font-medium">
-                <Link href="/herramientas">Explora herramientas IA</Link>
+                <Link href="/herramientas-ia" aria-label="Explorar herramientas de IA para productividad">
+                  Explora herramientas IA
+                </Link>
               </Button>
 
               <Button
@@ -40,8 +42,12 @@ export default function HeroSection() {
                 variant="outline"
                 className="border-[#7C3AED] px-6 text-base font-medium text-[#7C3AED] hover:bg-[#7C3AED]/10"
               >
-                <Link href="/guias-recursos" className="flex items-center">
-                  <Download className="mr-2 h-5 w-5" />
+                <Link
+                  href="/guias-recursos"
+                  className="flex items-center"
+                  aria-label="Descargar kit gratuito de recursos"
+                >
+                  <Download className="mr-2 h-5 w-5" aria-hidden="true" />
                   Descargar Kit gratuito
                 </Link>
               </Button>
@@ -55,7 +61,10 @@ export default function HeroSection() {
             <div className="relative w-full max-w-[65%] h-auto overflow-hidden">
               <div className="relative rounded-xl overflow-hidden backdrop-blur-sm backdrop-filter backdrop-blur-[2px]">
                 {/* Gradient overlay to blend with background */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-white/20 to-transparent opacity-70 z-10 rounded-xl"></div>
+                <div
+                  className="absolute inset-0 bg-gradient-to-tr from-white/30 via-white/20 to-transparent opacity-70 z-10 rounded-xl"
+                  aria-hidden="true"
+                ></div>
 
                 <Image
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-young-professional-working-remotely-on_NBKycgd-RlC5B3Knh0lstw_fsV1ydBFSi-8xmveHcX-zQ-k4AJDC2tcixvYgSMsRWjmgmqUpht2I.png"
@@ -63,6 +72,7 @@ export default function HeroSection() {
                   width={600}
                   height={600}
                   className="w-full h-auto rounded-xl object-cover opacity-90"
+                  priority
                 />
               </div>
             </div>

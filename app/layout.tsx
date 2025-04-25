@@ -27,6 +27,33 @@ export const metadata: Metadata = {
     "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Reseñas, comparativas y recursos gratuitos.",
   keywords:
     "IA, inteligencia artificial, productividad, trabajo remoto, herramientas IA, Notion AI, Zapier, Make, ClickUp, Grammarly, Jasper, Fireflies",
+  metadataBase: new URL("https://neuroworkai.com"),
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    url: "https://neuroworkai.com",
+    title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+    description: "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
+    siteName: "NeuroWorkAI",
+    images: [
+      {
+        url: "/neural-network-head.png",
+        width: 1200,
+        height: 630,
+        alt: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+    description: "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
+    images: ["/neural-network-head.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
     generator: 'v0.dev'
 }
 
@@ -50,13 +77,24 @@ export default function RootLayout({
             `,
           }}
         />
+        <meta name="theme-color" content="#7C3AED" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <div className="flex min-h-screen flex-col">
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-primary"
+            >
+              Saltar al contenido principal
+            </a>
             <Header />
-            <Suspense>
-              <main className="flex-1">{children}</main>
+            <Suspense fallback={<div className="flex-1 flex items-center justify-center">Cargando...</div>}>
+              <main id="main-content" className="flex-1">
+                {children}
+              </main>
             </Suspense>
             <Footer />
           </div>
