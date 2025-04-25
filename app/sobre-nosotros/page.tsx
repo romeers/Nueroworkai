@@ -1,17 +1,31 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  CheckCircle,
+  BarChart,
+  Users,
+  Lightbulb,
+  Shield,
+  Award,
+} from "lucide-react"
 import Stats from "@/components/stats"
 import TrustBadges from "@/components/trust-badges"
 import SafeImage from "@/components/safe-image"
+import { BaseCard, CardContent } from "@/components/ui/card"
 
 // Datos para estadísticas
 const stats = [
@@ -19,21 +33,25 @@ const stats = [
     value: "2021",
     label: "Fundación",
     description: "Ayudando a profesionales desde entonces",
+    icon: <Award className="h-6 w-6" />,
   },
   {
     value: "15.000+",
     label: "Usuarios mensuales",
     description: "Profesionales que confían en nosotros",
+    icon: <Users className="h-6 w-6" />,
   },
   {
     value: "200+",
     label: "Guías y recursos",
     description: "Contenido exclusivo y gratuito",
+    icon: <Lightbulb className="h-6 w-6" />,
   },
   {
     value: "50+",
     label: "Herramientas analizadas",
     description: "Reseñas detalladas y actualizadas",
+    icon: <BarChart className="h-6 w-6" />,
   },
 ]
 
@@ -68,6 +86,54 @@ const trustBadges = [
     logoUrl: "/grammarly-logo-gray.png",
     width: 120,
     height: 40,
+  },
+]
+
+// Datos del equipo
+const teamMembers = [
+  {
+    name: "Ana Gómez",
+    role: "Especialista en Productividad IA",
+    bio: "Experta en herramientas de IA para escritura y gestión de proyectos con más de 8 años de experiencia en trabajo remoto.",
+    avatarUrl: "/testimonial-avatar-1.png",
+  },
+  {
+    name: "Carlos Martínez",
+    role: "Analista de Herramientas IA",
+    bio: "Especialista en automatización y flujos de trabajo con IA. Ha evaluado más de 100 herramientas para equipos remotos.",
+    avatarUrl: "/testimonial-avatar-2.png",
+  },
+  {
+    name: "Laura Rodríguez",
+    role: "Directora de Contenido",
+    bio: "Experta en comunicación digital y creación de contenido educativo sobre productividad y herramientas IA.",
+    avatarUrl: "/testimonial-avatar-3.png",
+  },
+]
+
+// Valores de la empresa
+const companyValues = [
+  {
+    title: "Transparencia",
+    description: "Divulgamos claramente nuestras relaciones de afiliados y metodología de evaluación.",
+    icon: <Shield className="h-6 w-6 text-primary" />,
+  },
+  {
+    title: "Objetividad",
+    description:
+      "Evaluamos cada herramienta con nuestro sistema propietario NeuroScore™ basado en criterios objetivos.",
+    icon: <BarChart className="h-6 w-6 text-primary" />,
+  },
+  {
+    title: "Utilidad",
+    description:
+      "Creamos contenido práctico y accionable que realmente ayuda al profesional remoto a ser más productivo.",
+    icon: <Lightbulb className="h-6 w-6 text-primary" />,
+  },
+  {
+    title: "Comunidad",
+    description: "Escuchamos activamente a nuestra comunidad para mejorar constantemente nuestras recomendaciones.",
+    icon: <Users className="h-6 w-6 text-primary" />,
   },
 ]
 
@@ -108,27 +174,32 @@ export default function SobreNosotrosPage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-sky-light to-sky py-12">
+      {/* Hero Section - SEO Optimized */}
+      <section className="bg-gradient-to-r from-sky-light to-sky py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="font-heading text-3xl font-bold tracking-tight text-secondary sm:text-4xl md:text-5xl">
-              Sobre Nosotros
+            <h1 className="font-heading text-4xl font-bold tracking-tight text-secondary sm:text-5xl md:text-6xl">
+              Conoce a NeuroWorkAI
             </h1>
-            <p className="mt-4 text-lg text-gray-600">
-              Conoce más sobre NeuroWorkAI y nuestra misión de ayudar a los profesionales remotos a ser más productivos
-              con IA.
+            <p className="mt-6 text-xl text-gray-600 leading-relaxed">
+              Somos una plataforma experta en herramientas IA para trabajo remoto. Nuestra misión es ayudarte a ser más
+              productivo con inteligencia artificial.
             </p>
+            <div className="mt-8">
+              <Button asChild className="bg-primary hover:bg-primary/90 px-8 py-6 text-lg">
+                <Link href="/herramientas-ia">Explorar herramientas IA</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="py-16">
+      {/* Historia de la Marca */}
+      <section className="py-16 bg-white" id="historia">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl">
-            <div className="mb-12 text-center">
-              <div className="mx-auto h-auto w-48">
+            <div className="text-center mb-12">
+              <div className="mx-auto h-auto w-48 mb-8">
                 <SafeImage
                   src="/logo.png"
                   alt="NeuroWorkAI Logo"
@@ -137,63 +208,144 @@ export default function SobreNosotrosPage() {
                   className="mx-auto h-auto w-48"
                 />
               </div>
+              <h2 className="text-3xl font-bold text-secondary mb-6">Nuestra Historia</h2>
+              <div className="prose prose-lg mx-auto">
+                <p className="text-gray-600 leading-relaxed">
+                  NeuroWorkAI nació en 2021 cuando un equipo de profesionales remotos se enfrentó a un problema común:
+                  la abrumadora cantidad de herramientas de IA disponibles y la dificultad para encontrar las más
+                  adecuadas para cada necesidad específica.
+                </p>
+                <p className="text-gray-600 leading-relaxed mt-4">
+                  Fundamos esta plataforma con la visión de crear un recurso definitivo que ayude a los profesionales
+                  remotos a navegar por el ecosistema de herramientas de IA, proporcionando análisis imparciales,
+                  comparativas detalladas y recursos prácticos que realmente mejoren la productividad.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Nuestra Misión */}
+      <section className="py-16 bg-gray-50" id="mision">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center mb-12">
+            <h2 className="text-3xl font-bold text-secondary mb-6">Nuestra Misión</h2>
+            <p className="text-lg text-gray-600 mb-8">
+              En NeuroWorkAI, nos dedicamos a transformar la forma en que los profesionales remotos utilizan la IA para
+              mejorar su productividad.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start">
+              <div className="bg-primary/10 p-3 rounded-full mr-4">
+                <CheckCircle className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-secondary mb-2">Simplificar la búsqueda</h3>
+                <p className="text-gray-600">
+                  Facilitamos el descubrimiento de las herramientas de IA más adecuadas para cada profesional.
+                </p>
+              </div>
             </div>
 
-            <div className="prose prose-lg mx-auto max-w-none">
-              <h2 className="text-center text-2xl font-bold text-secondary sm:text-3xl">Nuestra Historia</h2>
-              <p>
-                NeuroWorkAI nació de una simple observación: el trabajo remoto está aquí para quedarse, y la
-                inteligencia artificial está transformando rápidamente cómo trabajamos. Sin embargo, con tantas
-                herramientas de IA disponibles, encontrar las soluciones adecuadas puede ser abrumador.
-              </p>
-              <p>
-                Fundamos NeuroWorkAI con la misión de ayudar a los profesionales remotos a navegar por este nuevo
-                panorama, proporcionando reseñas imparciales, comparativas detalladas y recursos prácticos sobre las
-                mejores herramientas de productividad con IA.
-              </p>
-
-              <h2 className="text-center text-2xl font-bold text-secondary sm:text-3xl">Nuestra Misión</h2>
-              <p>En NeuroWorkAI, nos dedicamos a:</p>
-              <ul>
-                <li>Simplificar la búsqueda de herramientas de IA para profesionales remotos</li>
-                <li>Proporcionar información objetiva y basada en pruebas reales</li>
-                <li>Ayudar a los trabajadores remotos a aumentar su productividad y reducir el estrés</li>
-                <li>Mantenernos al día con las últimas innovaciones en IA para el trabajo remoto</li>
-                <li>Crear una comunidad de profesionales remotos que comparten conocimientos y mejores prácticas</li>
-              </ul>
-
-              <h2 className="text-center text-2xl font-bold text-secondary sm:text-3xl">Nuestros Valores</h2>
-              <p>Nuestro trabajo se guía por estos principios fundamentales:</p>
-              <ul>
-                <li>
-                  <strong>Transparencia:</strong> Siempre divulgamos nuestras relaciones de afiliados y cómo monetizamos
-                  nuestro contenido.
-                </li>
-                <li>
-                  <strong>Objetividad:</strong> Evaluamos cada herramienta de forma imparcial, destacando tanto sus
-                  fortalezas como sus debilidades.
-                </li>
-                <li>
-                  <strong>Utilidad:</strong> Nos centramos en proporcionar información práctica y accionable que
-                  realmente ayude a nuestros lectores.
-                </li>
-                <li>
-                  <strong>Comunidad:</strong> Valoramos la retroalimentación de nuestra comunidad y la incorporamos en
-                  nuestro contenido.
-                </li>
-              </ul>
-
-              <h2 className="text-center text-2xl font-bold text-secondary sm:text-3xl">Nuestro Equipo</h2>
-              <p>
-                Somos un equipo de profesionales remotos apasionados por la tecnología y la productividad. Combinamos
-                experiencia en diversas áreas, desde desarrollo de software hasta marketing digital y gestión de
-                proyectos, para ofrecer una perspectiva completa sobre las herramientas de IA para el trabajo remoto.
-              </p>
-              <p>
-                Todos los miembros de nuestro equipo utilizan activamente las herramientas que reseñamos en su trabajo
-                diario, lo que nos permite proporcionar información basada en experiencia real.
-              </p>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start">
+              <div className="bg-primary/10 p-3 rounded-full mr-4">
+                <CheckCircle className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-secondary mb-2">Información objetiva</h3>
+                <p className="text-gray-600">
+                  Proporcionamos análisis basados en pruebas reales y criterios objetivos.
+                </p>
+              </div>
             </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start">
+              <div className="bg-primary/10 p-3 rounded-full mr-4">
+                <CheckCircle className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-secondary mb-2">Aumentar la productividad</h3>
+                <p className="text-gray-600">
+                  Ayudamos a los trabajadores remotos a ser más eficientes y reducir el estrés digital.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start">
+              <div className="bg-primary/10 p-3 rounded-full mr-4">
+                <CheckCircle className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-secondary mb-2">Innovación constante</h3>
+                <p className="text-gray-600">
+                  Nos mantenemos al día con las últimas innovaciones en IA para trabajo remoto.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Nuestros Valores */}
+      <section className="py-16 bg-white" id="valores">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center mb-12">
+            <h2 className="text-3xl font-bold text-secondary mb-6">Nuestros Valores</h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Estos principios fundamentales guían todo lo que hacemos en NeuroWorkAI.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
+            {companyValues.map((value, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all duration-300"
+              >
+                <div className="bg-primary/10 p-4 rounded-full inline-flex mb-4">{value.icon}</div>
+                <h3 className="text-xl font-semibold text-secondary mb-3">{value.title}</h3>
+                <p className="text-gray-600">{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Nuestro Equipo */}
+      <section className="py-16 bg-gray-50" id="equipo">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center mb-12">
+            <h2 className="text-3xl font-bold text-secondary mb-6">¿Quién está detrás de NeuroWorkAI?</h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Somos un equipo de profesionales remotos apasionados por la tecnología y la productividad. Todos
+              utilizamos activamente las herramientas que reseñamos en nuestro trabajo diario.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
+            {teamMembers.map((member, index) => (
+              <BaseCard key={index}>
+                <CardContent padding="medium">
+                  <div className="flex flex-col items-center">
+                    <div className="w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-100">
+                      <SafeImage
+                        src={member.avatarUrl}
+                        alt={`Foto de ${member.name}`}
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <h3 className="text-xl font-semibold text-secondary mb-1">{member.name}</h3>
+                    <p className="text-primary font-medium mb-3">{member.role}</p>
+                    <p className="text-gray-600 text-center">{member.bio}</p>
+                  </div>
+                </CardContent>
+              </BaseCard>
+            ))}
           </div>
         </div>
       </section>
@@ -209,25 +361,22 @@ export default function SobreNosotrosPage() {
       <TrustBadges title="Colaboramos con las principales herramientas de IA" badges={trustBadges} />
 
       {/* Contact Form Section */}
-      <section className="py-16" id="contacto">
+      <section className="py-16 bg-white" id="contacto">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center mb-12">
-              <h2 className="text-2xl font-bold text-secondary sm:text-3xl">Contacta con nosotros</h2>
-              <p className="mt-4 text-lg text-gray-600">¿Tienes preguntas o sugerencias? Estamos aquí para ayudarte.</p>
+              <h2 className="text-3xl font-bold text-secondary mb-4">Contacta con nosotros</h2>
+              <p className="text-lg text-gray-600">
+                ¿Tienes preguntas, sugerencias o quieres colaborar con nosotros? Estamos aquí para ayudarte.
+              </p>
             </div>
 
             <div className="grid gap-8 md:grid-cols-2">
-              <div>
-                <h3 className="text-xl font-bold text-secondary mb-4">Envíanos un mensaje</h3>
-                <p className="mt-4 text-gray-600">
-                  Completa el formulario y te responderemos lo antes posible. Estamos aquí para ayudarte con cualquier
-                  consulta sobre herramientas de IA para trabajo remoto.
-                </p>
-
-                <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+              <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold text-secondary mb-6">Envíanos un mensaje</h3>
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                       Nombre
                     </label>
                     <Input
@@ -237,12 +386,13 @@ export default function SobreNosotrosPage() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="mt-1"
+                      className="w-full"
+                      placeholder="Tu nombre"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                       Correo electrónico
                     </label>
                     <Input
@@ -252,12 +402,13 @@ export default function SobreNosotrosPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="mt-1"
+                      className="w-full"
+                      placeholder="tu@email.com"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
                       Asunto
                     </label>
                     <Input
@@ -267,12 +418,13 @@ export default function SobreNosotrosPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="mt-1"
+                      className="w-full"
+                      placeholder="Asunto de tu mensaje"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                       Mensaje
                     </label>
                     <Textarea
@@ -282,87 +434,116 @@ export default function SobreNosotrosPage() {
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      className="mt-1"
+                      className="w-full"
+                      placeholder="¿En qué podemos ayudarte?"
                     />
                   </div>
 
-                  <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90">
+                  <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 py-6">
                     {loading ? "Enviando..." : "Enviar mensaje"}
                   </Button>
                 </form>
               </div>
 
               <div>
-                <h3 className="text-xl font-bold text-secondary mb-4">Información de contacto</h3>
-                <p className="mt-4 text-gray-600">
-                  También puedes contactarnos directamente a través de los siguientes medios:
-                </p>
-
-                <div className="mt-8 space-y-6">
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <Mail className="h-6 w-6 text-primary" />
+                <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 mb-8">
+                  <h3 className="text-xl font-bold text-secondary mb-6">Información de contacto</h3>
+                  <div className="space-y-6">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full">
+                        <Mail className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-900">Email</p>
+                        <p className="mt-1 text-sm text-gray-600">contacto@neuroworkai.com</p>
+                      </div>
                     </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">Email</p>
-                      <p className="mt-1 text-sm text-gray-600">contacto@neuroworkai.com</p>
+
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full">
+                        <Phone className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-900">Teléfono</p>
+                        <p className="mt-1 text-sm text-gray-600">+34 123 456 789</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full">
+                        <MapPin className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-900">Ubicación</p>
+                        <p className="mt-1 text-sm text-gray-600">Madrid, España</p>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <Phone className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">Teléfono</p>
-                      <p className="mt-1 text-sm text-gray-600">+34 123 456 789</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <MapPin className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">Ubicación</p>
-                      <p className="mt-1 text-sm text-gray-600">Madrid, España</p>
-                    </div>
+                  <h3 className="text-lg font-semibold text-secondary mt-8 mb-4">Síguenos en redes sociales</h3>
+                  <div className="flex space-x-4">
+                    <Link
+                      href="#"
+                      className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
+                    >
+                      <span className="sr-only">Facebook</span>
+                      <Facebook className="h-5 w-5" />
+                    </Link>
+                    <Link
+                      href="#"
+                      className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
+                    >
+                      <span className="sr-only">Twitter</span>
+                      <Twitter className="h-5 w-5" />
+                    </Link>
+                    <Link
+                      href="#"
+                      className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
+                    >
+                      <span className="sr-only">Instagram</span>
+                      <Instagram className="h-5 w-5" />
+                    </Link>
+                    <Link
+                      href="#"
+                      className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
+                    >
+                      <span className="sr-only">LinkedIn</span>
+                      <Linkedin className="h-5 w-5" />
+                    </Link>
                   </div>
                 </div>
 
-                <h3 className="mt-12 text-lg font-semibold text-secondary">Síguenos en redes sociales</h3>
-                <div className="mt-4 flex space-x-4">
-                  <Link href="#" className="text-gray-600 hover:text-primary">
-                    <span className="sr-only">Facebook</span>
-                    <Facebook className="h-6 w-6" />
-                  </Link>
-                  <Link href="#" className="text-gray-600 hover:text-primary">
-                    <span className="sr-only">Twitter</span>
-                    <Twitter className="h-6 w-6" />
-                  </Link>
-                  <Link href="#" className="text-gray-600 hover:text-primary">
-                    <span className="sr-only">Instagram</span>
-                    <Instagram className="h-6 w-6" />
-                  </Link>
-                  <Link href="#" className="text-gray-600 hover:text-primary">
-                    <span className="sr-only">LinkedIn</span>
-                    <Linkedin className="h-6 w-6" />
-                  </Link>
-                </div>
-
-                <div className="mt-12 overflow-hidden rounded-lg">
-                  <div className="h-auto w-full">
-                    <SafeImage
-                      src="/modern-office-workspace.png"
-                      alt="Oficina de NeuroWorkAI"
-                      width={500}
-                      height={300}
-                      className="h-auto w-full object-cover"
-                    />
-                  </div>
+                <div className="overflow-hidden rounded-xl shadow-sm border border-gray-100">
+                  <SafeImage
+                    src="/diverse-group-city.png"
+                    alt="Equipo de NeuroWorkAI trabajando en un espacio moderno"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto object-cover"
+                  />
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SEO & Trust Microcopy */}
+      <section className="py-8 bg-gray-50 border-t border-gray-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm text-gray-500">
+              NeuroWorkAI participa en programas de afiliación. Recomendamos solo herramientas que hemos probado y
+              validado.
+              <Link href="/aviso-afiliados" className="text-primary hover:underline ml-1">
+                Leer nuestro aviso de afiliados
+              </Link>
+              {" y "}
+              <Link href="/politica-privacidad" className="text-primary hover:underline">
+                política de transparencia
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </section>
@@ -371,20 +552,21 @@ export default function SobreNosotrosPage() {
       <section className="bg-primary py-16 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">Únete a nuestra comunidad</h2>
+            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+              Descubre las mejores herramientas IA
+            </h2>
             <p className="mt-4 text-lg text-white/90">
-              Suscríbete a nuestro newsletter para recibir las últimas noticias, reseñas y recursos sobre herramientas
-              de IA para trabajo remoto.
+              Explora nuestra selección de herramientas de IA cuidadosamente analizadas para potenciar tu productividad
+              en el trabajo remoto.
             </p>
-            <form className="mx-auto mt-6 flex max-w-md flex-col gap-2 sm:flex-row">
-              <input
-                type="email"
-                placeholder="Tu correo electrónico"
-                className="w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-                required
-              />
-              <Button className="bg-secondary hover:bg-secondary/90">Suscribirse</Button>
-            </form>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 px-8">
+                <Link href="/top-herramientas-ia">Top Herramientas IA</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10 px-8">
+                <Link href="/recursos">Recursos Gratuitos</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

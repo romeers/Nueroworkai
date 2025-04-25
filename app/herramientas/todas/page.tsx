@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, SlidersHorizontal, X } from "lucide-react"
-import ToolCard from "@/components/tool-card"
+import { BaseCard, CardImage, CardContent, CardFooter } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
@@ -450,17 +450,21 @@ export default function TodasLasHerramientasPage() {
               </div>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredTools.map((tool) => (
-                  <ToolCard
-                    key={tool.slug}
-                    name={tool.name}
-                    description={tool.description}
-                    imageUrl={tool.imageUrl}
-                    category={tool.category}
-                    url={`/herramientas/${tool.slug}`}
-                    featured={tool.score > 9}
-                    score={tool.score}
-                    verified={tool.verified}
-                  />
+                  <BaseCard key={tool.slug}>
+                    <CardImage src={tool.imageUrl} alt={tool.name} aspectRatio="square" className="h-40" />
+                    <CardContent padding="medium">
+                      <h3 className="text-xl font-bold text-secondary">{tool.name}</h3>
+                      <p className="text-gray-600">{tool.description}</p>
+                    </CardContent>
+                    <CardFooter padding="small">
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
+                      </Button>
+                      <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
+                        <Link href={tool.url}>Probar</Link>
+                      </Button>
+                    </CardFooter>
+                  </BaseCard>
                 ))}
               </div>
             </>

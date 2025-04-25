@@ -7,10 +7,11 @@ import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Download, Search, ArrowRight, Clock, Star } from "lucide-react"
+import { Download, Search, ArrowRight } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { cn } from "@/lib/utils"
+import { BaseCard, CardImage, CardContent, CardFooter } from "@/components/ui/card"
 
 // Categorías disponibles
 const categories = [
@@ -354,7 +355,7 @@ export default function RecursosPage() {
     <>
       {/* Hero Section - SEO Optimized */}
       <section className="relative py-16 md:py-20 overflow-hidden bg-gradient-to-r from-gray-50 to-violet-50">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute inset-0 opacity-10 pointer-events-none hidden md:block">
           <SafeImage src="/neural-network-bg.png" alt="Patrón de red neuronal" fill className="object-cover" />
         </div>
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
@@ -446,75 +447,21 @@ export default function RecursosPage() {
           <h2 className="text-2xl font-bold text-secondary mb-8">Recursos destacados</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featuredResources.map((resource) => (
-              <article
-                key={resource.slug}
-                className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full"
-              >
-                <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-                  <SafeImage
-                    src={resource.imageUrl}
-                    alt={resource.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-0 left-0 m-3">
-                    <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                      {resource.category}
-                    </span>
-                  </div>
-                  {resource.featured && (
-                    <div className="absolute top-0 right-0 m-3">
-                      <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
-                        <Star className="mr-1 h-3 w-3" />
-                        Destacado
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex-1 p-6 flex flex-col">
-                  <h3 className="text-xl font-bold text-secondary mb-2 group-hover:text-primary transition-colors">
-                    <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
-                  </h3>
-                  <p className="text-gray-600 mb-4 flex-grow">{resource.description}</p>
-
-                  <div className="mt-auto flex flex-col sm:flex-row gap-3">
-                    <Button asChild variant={resource.isDownloadable ? "default" : "outline"} className="flex-1">
-                      <Link
-                        href={`/recursos/${resource.slug}`}
-                        className="flex items-center justify-center"
-                        data-umami-event={`resource-${resource.isDownloadable ? "download" : "read"}-${resource.slug}`}
-                      >
-                        {resource.isDownloadable ? (
-                          <>
-                            <Download className="mr-2 h-4 w-4" />
-                            {resource.ctaText}
-                          </>
-                        ) : (
-                          <>
-                            {resource.ctaText}
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </>
-                        )}
-                      </Link>
-                    </Button>
-
-                    {resource.toolName && resource.toolAffiliateUrl && (
-                      <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
-                        <Link
-                          href={resource.toolAffiliateUrl}
-                          target="_blank"
-                          rel="noopener sponsored"
-                          className="flex items-center justify-center"
-                          data-umami-event={`affiliate-${resource.toolName.toLowerCase().replace(/\s+/g, "-")}-${resource.slug}`}
-                        >
-                          Probar {resource.toolName}
-                        </Link>
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </article>
+              <BaseCard key={resource.slug}>
+                <CardImage src={resource.imageUrl} alt={resource.title} aspectRatio="square" className="h-40" />
+                <CardContent padding="medium">
+                  <h3 className="text-xl font-bold text-secondary">{resource.title}</h3>
+                  <p className="text-gray-600">{resource.description}</p>
+                </CardContent>
+                <CardFooter padding="small">
+                  <Button asChild className="w-full gap-2 bg-primary hover:bg-primary/90">
+                    <Link href={resource.downloadUrl} className="flex items-center justify-center">
+                      <Download className="mr-2 h-4 w-4" />
+                      Descargar
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </BaseCard>
             ))}
           </div>
         </div>
@@ -546,68 +493,18 @@ export default function RecursosPage() {
           {filteredResources.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filteredResources.map((resource) => (
-                <article
-                  key={resource.slug}
-                  className="group rounded-lg border bg-white overflow-hidden transition-all duration-200 hover:shadow-md flex flex-col h-full"
-                >
-                  <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-                    <SafeImage
-                      src={resource.imageUrl}
-                      alt={resource.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-0 right-0 m-2">
-                      <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                        {resource.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 p-6 flex flex-col">
-                    {resource.readTime && (
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs text-gray-500 flex items-center">
-                          <Clock className="h-3 w-3 mr-1" />
-                          {resource.readTime} de lectura
-                        </span>
-                      </div>
-                    )}
-
-                    <h3 className="text-xl font-bold text-secondary mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                      <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
-                    </h3>
-
-                    <p className="text-gray-600 mb-4 line-clamp-2">{resource.description}</p>
-
-                    <div className="mt-auto flex flex-col sm:flex-row gap-3">
-                      <Button asChild variant="outline" size="sm" className="flex-1">
-                        <Link
-                          href={`/recursos/${resource.slug}`}
-                          className="flex items-center justify-center"
-                          data-umami-event={`resource-read-${resource.slug}`}
-                        >
-                          Leer más
-                          <ArrowRight className="ml-2 h-3 w-3" />
-                        </Link>
-                      </Button>
-
-                      {resource.toolName && resource.toolAffiliateUrl && (
-                        <Button asChild className="bg-primary hover:bg-primary/90 flex-1" size="sm">
-                          <Link
-                            href={resource.toolAffiliateUrl}
-                            target="_blank"
-                            rel="noopener sponsored"
-                            className="flex items-center justify-center"
-                            data-umami-event={`affiliate-${resource.toolName.toLowerCase().replace(/\s+/g, "-")}-${resource.slug}`}
-                          >
-                            Probar {resource.toolName}
-                          </Link>
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </article>
+                <BaseCard key={resource.slug}>
+                  <CardImage src={resource.imageUrl} alt={resource.title} aspectRatio="square" className="h-40" />
+                  <CardContent padding="medium">
+                    <h3 className="text-xl font-bold text-secondary">{resource.title}</h3>
+                    <p className="text-gray-600">{resource.description}</p>
+                  </CardContent>
+                  <CardFooter padding="small">
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={`/recursos/${resource.slug}`}>Leer más</Link>
+                    </Button>
+                  </CardFooter>
+                </BaseCard>
               ))}
             </div>
           ) : (
@@ -640,7 +537,6 @@ export default function RecursosPage() {
                   key={resource.slug}
                   href={`/recursos/${resource.slug}`}
                   className="flex items-center p-4 hover:bg-gray-50 transition-colors"
-                  data-umami-event={`top-resource-click-${resource.slug}`}
                 >
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold mr-4">
                     {index + 1}
@@ -671,9 +567,7 @@ export default function RecursosPage() {
             </p>
             <div className="mt-8">
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/herramientas-ia" data-umami-event="recursos-to-herramientas-cta">
-                  Descubrir herramientas IA
-                </Link>
+                <Link href="/herramientas-ia">Descubrir herramientas IA</Link>
               </Button>
             </div>
           </div>

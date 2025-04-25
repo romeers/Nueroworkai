@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { BaseCard, CardImage, CardContent, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import ResourceCard from "@/components/resource-card"
 import { FileText, FileSpreadsheet, FileArchive, Download } from "lucide-react"
 import KitPromoBlock from "@/components/kit-promo-block"
 
@@ -139,14 +139,21 @@ export default function GuiasRecursosPage() {
             <TabsContent value="resources" className="mt-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {resources.map((resource) => (
-                  <ResourceCard
-                    key={resource.title}
-                    title={resource.title}
-                    description={resource.description}
-                    imageUrl={resource.imageUrl}
-                    downloadUrl={resource.downloadUrl}
-                    type={resource.type}
-                  />
+                  <BaseCard key={resource.title}>
+                    <CardImage src={resource.imageUrl} alt={resource.title} aspectRatio="square" className="h-40" />
+                    <CardContent padding="medium">
+                      <h3 className="text-xl font-bold text-secondary">{resource.title}</h3>
+                      <p className="text-gray-600">{resource.description}</p>
+                    </CardContent>
+                    <CardFooter padding="small">
+                      <Button asChild className="w-full gap-2 bg-primary hover:bg-primary/90">
+                        <Link href={resource.downloadUrl} className="flex items-center justify-center">
+                          <Download className="mr-2 h-4 w-4" />
+                          Descargar
+                        </Link>
+                      </Button>
+                    </CardFooter>
+                  </BaseCard>
                 ))}
               </div>
             </TabsContent>
@@ -154,19 +161,21 @@ export default function GuiasRecursosPage() {
             <TabsContent value="guides" className="mt-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
                 {guides.map((guide) => (
-                  <Link
-                    key={guide.slug}
-                    href={`/guias-recursos/guias/${guide.slug}`}
-                    className="block rounded-lg border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">{guide.category}</Badge>
-                      <span className="text-sm text-gray-500">{guide.readTime} de lectura</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-secondary">{guide.title}</h3>
-                    <p className="mt-2 text-gray-600">{guide.description}</p>
-                    <p className="mt-4 text-primary font-medium">Leer guía →</p>
-                  </Link>
+                  <BaseCard key={guide.slug}>
+                    <CardContent padding="medium">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge className="bg-primary/10 text-primary hover:bg-primary/20">{guide.category}</Badge>
+                        <span className="text-sm text-gray-500">{guide.readTime} de lectura</span>
+                      </div>
+                      <h3 className="text-xl font-bold text-secondary">{guide.title}</h3>
+                      <p className="text-gray-600">{guide.description}</p>
+                    </CardContent>
+                    <CardFooter padding="small">
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={`/guias-recursos/guias/${guide.slug}`}>Leer guía</Link>
+                      </Button>
+                    </CardFooter>
+                  </BaseCard>
                 ))}
               </div>
             </TabsContent>
@@ -185,49 +194,65 @@ export default function GuiasRecursosPage() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            <Link
-              href="/guias-recursos/categoria/escritura-ia"
-              className="flex flex-col items-center rounded-lg bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <div className="mb-4 rounded-full bg-primary/10 p-4">
-                <FileText className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-secondary">Escritura IA</h3>
-              <p className="mt-2 text-center text-sm text-gray-600">Recursos para mejorar tu escritura con IA</p>
-            </Link>
+            <BaseCard>
+              <CardContent padding="medium">
+                <div className="mb-4 rounded-full bg-primary/10 p-4">
+                  <FileText className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-secondary">Escritura IA</h3>
+                <p className="mt-2 text-center text-sm text-gray-600">Recursos para mejorar tu escritura con IA</p>
+              </CardContent>
+              <CardFooter padding="small">
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/guias-recursos/categoria/escritura-ia">Ver recursos</Link>
+                </Button>
+              </CardFooter>
+            </BaseCard>
 
-            <Link
-              href="/guias-recursos/categoria/automatizacion"
-              className="flex flex-col items-center rounded-lg bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <div className="mb-4 rounded-full bg-primary/10 p-4">
-                <FileArchive className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-secondary">Automatización</h3>
-              <p className="mt-2 text-center text-sm text-gray-600">Plantillas y guías para automatizar tareas</p>
-            </Link>
+            <BaseCard>
+              <CardContent padding="medium">
+                <div className="mb-4 rounded-full bg-primary/10 p-4">
+                  <FileArchive className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-secondary">Automatización</h3>
+                <p className="mt-2 text-center text-sm text-gray-600">Plantillas y guías para automatizar tareas</p>
+              </CardContent>
+              <CardFooter padding="small">
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/guias-recursos/categoria/automatizacion">Ver recursos</Link>
+                </Button>
+              </CardFooter>
+            </BaseCard>
 
-            <Link
-              href="/guias-recursos/categoria/gestion-tareas"
-              className="flex flex-col items-center rounded-lg bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <div className="mb-4 rounded-full bg-primary/10 p-4">
-                <FileSpreadsheet className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-secondary">Gestión de Tareas</h3>
-              <p className="mt-2 text-center text-sm text-gray-600">Recursos para organizar proyectos con IA</p>
-            </Link>
+            <BaseCard>
+              <CardContent padding="medium">
+                <div className="mb-4 rounded-full bg-primary/10 p-4">
+                  <FileSpreadsheet className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-secondary">Gestión de Tareas</h3>
+                <p className="mt-2 text-center text-sm text-gray-600">Recursos para organizar proyectos con IA</p>
+              </CardContent>
+              <CardFooter padding="small">
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/guias-recursos/categoria/gestion-tareas">Ver recursos</Link>
+                </Button>
+              </CardFooter>
+            </BaseCard>
 
-            <Link
-              href="/guias-recursos/categoria/reuniones"
-              className="flex flex-col items-center rounded-lg bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <div className="mb-4 rounded-full bg-primary/10 p-4">
-                <Download className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-secondary">Reuniones</h3>
-              <p className="mt-2 text-center text-sm text-gray-600">Optimiza tus reuniones con herramientas IA</p>
-            </Link>
+            <BaseCard>
+              <CardContent padding="medium">
+                <div className="mb-4 rounded-full bg-primary/10 p-4">
+                  <Download className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-secondary">Reuniones</h3>
+                <p className="mt-2 text-center text-sm text-gray-600">Optimiza tus reuniones con herramientas IA</p>
+              </CardContent>
+              <CardFooter padding="small">
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/guias-recursos/categoria/reuniones">Ver recursos</Link>
+                </Button>
+              </CardFooter>
+            </BaseCard>
           </div>
         </div>
       </section>
