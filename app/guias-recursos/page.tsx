@@ -3,9 +3,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ResourceCard from "@/components/resource-card"
-import NewsletterForm from "@/components/newsletter-form"
-import SafeImage from "@/components/safe-image"
 import { FileText, FileSpreadsheet, FileArchive, Download } from "lucide-react"
+import KitPromoBlock from "@/components/kit-promo-block"
 
 // Datos de ejemplo para los recursos
 const resources = [
@@ -31,7 +30,7 @@ const resources = [
     title: "Comparativa: Herramientas de escritura con IA",
     description:
       "Tabla comparativa detallada de las principales herramientas de escritura con IA, con características, precios y casos de uso ideales.",
-    imageUrl: "/placeholder.svg?height=160&width=320&query=comparison chart of AI writing tools",
+    imageUrl: "/ai-writing-tools-comparison.png",
     downloadUrl: "#",
     type: "PDF",
     icon: <FileText className="h-6 w-6 text-primary" />,
@@ -40,7 +39,7 @@ const resources = [
     title: "Plantillas de automatización para Zapier",
     description:
       "Colección de plantillas listas para usar en Zapier que automatizan tareas comunes para profesionales remotos.",
-    imageUrl: "/placeholder.svg?height=160&width=320&query=automation templates and workflow diagrams",
+    imageUrl: "/automation-blueprint.png",
     downloadUrl: "#",
     type: "ZIP",
     icon: <FileArchive className="h-6 w-6 text-primary" />,
@@ -49,7 +48,7 @@ const resources = [
     title: "Checklist: Optimización de reuniones con IA",
     description:
       "Lista de verificación para preparar, conducir y dar seguimiento a reuniones remotas utilizando herramientas de IA.",
-    imageUrl: "/placeholder.svg?height=160&width=320&query=meeting checklist with AI tools",
+    imageUrl: "/ai-powered-meeting-checklist.png",
     downloadUrl: "#",
     type: "PDF",
     icon: <FileText className="h-6 w-6 text-primary" />,
@@ -58,7 +57,7 @@ const resources = [
     title: "Calendario editorial con IA para content marketing",
     description:
       "Plantilla de calendario editorial que integra herramientas de IA para optimizar la creación y distribución de contenido.",
-    imageUrl: "/placeholder.svg?height=160&width=320&query=content calendar template with AI integration",
+    imageUrl: "/ai-integrated-content-calendar.png",
     downloadUrl: "#",
     type: "XLSX",
     icon: <FileSpreadsheet className="h-6 w-6 text-primary" />,
@@ -122,62 +121,8 @@ export default function GuiasRecursosPage() {
       {/* Lead Magnet Section */}
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-6xl rounded-xl bg-primary/10 p-6 sm:p-10">
-            <div className="grid gap-8 md:grid-cols-2 md:gap-12">
-              <div className="flex flex-col justify-center">
-                <h2 className="font-heading text-2xl font-bold text-secondary sm:text-3xl">
-                  Kit Completo de IA para Trabajo Remoto
-                </h2>
-                <p className="mt-4 text-lg text-gray-600">Descarga gratis nuestro kit completo con:</p>
-                <ul className="mt-4 space-y-2">
-                  <li className="flex items-center">
-                    <svg className="mr-2 h-5 w-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>Guía de 50+ herramientas de IA categorizadas</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="mr-2 h-5 w-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>100+ prompts para maximizar la productividad</span>
-                  </li>
-                  <li className="flex items-center">
-                    <svg className="mr-2 h-5 w-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>Plantillas de automatización listas para usar</span>
-                  </li>
-                </ul>
-                <div className="mt-8">
-                  <h3 className="text-lg font-semibold text-secondary">Suscríbete para descargar:</h3>
-                  <NewsletterForm />
-                </div>
-              </div>
-              <div className="flex items-center justify-center">
-                <div className="relative h-64 w-full max-w-md overflow-hidden rounded-lg shadow-lg sm:h-80">
-                  <SafeImage
-                    src={ebookImage}
-                    fallbackSrc="/ai-productivity-kit-ebook.png"
-                    alt="Kit de IA para Trabajo Remoto"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="mx-auto max-w-6xl">
+            <KitPromoBlock />
           </div>
         </div>
       </section>

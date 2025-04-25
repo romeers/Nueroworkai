@@ -1,38 +1,27 @@
 import { Download } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#E6F0FF] to-[#F5F8FE] py-16 md:py-24">
-      {/* Patrón de fondo sutil */}
-      <div className="absolute inset-0 z-0 opacity-10">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
-          <pattern
-            id="neural-pattern"
-            x="0"
-            y="0"
-            width="100"
-            height="100"
-            patternUnits="userSpaceOnUse"
-            patternTransform="rotate(10)"
-          >
-            <circle cx="50" cy="50" r="1" fill="#3B82F6" />
-            <circle cx="30" cy="40" r="1" fill="#7C3AED" />
-            <circle cx="70" cy="30" r="1" fill="#3B82F6" />
-            <circle cx="20" cy="70" r="1" fill="#7C3AED" />
-            <circle cx="80" cy="60" r="1" fill="#3B82F6" />
-            <path d="M50 50 L30 40 L20 70 Z" stroke="#3B82F6" strokeWidth="0.2" fill="none" />
-            <path d="M50 50 L70 30 L80 60 Z" stroke="#7C3AED" strokeWidth="0.2" fill="none" />
-          </pattern>
-          <rect x="0" y="0" width="100%" height="100%" fill="url(#neural-pattern)" />
-        </svg>
-      </div>
-
+    <section
+      className="relative py-16 md:py-24"
+      style={{
+        backgroundImage:
+          'url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-seamless-ultra-light-abstract-tech-bac_77llVxuuSQq0MWmz2lHJpg_zlt8wHfaRXuVq1ca-Gj4mw-oJ6ierCcUf3EDUgvjgVyUNaoHdLVLN.png")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
-          {/* Columna izquierda: Texto y CTAs */}
+          {/* Left column: Text and CTAs */}
           <div className="flex flex-col items-start justify-center">
+            <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
+              Plataforma líder en productividad IA
+            </p>
             <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight text-[#1E293B] sm:text-5xl md:text-[56px]">
               Descubre las mejores herramientas de productividad con IA
             </h1>
@@ -61,13 +50,21 @@ export default function HeroSection() {
             <p className="mt-6 text-sm text-gray-500">+50 herramientas analizadas · Actualizado 2025</p>
           </div>
 
-          {/* Columna derecha: Placeholder para imagen ilustrativa */}
+          {/* Right column: Professional using AI tools image */}
           <div className="flex justify-center md:justify-end">
-            <div
-              className="relative h-[400px] w-full max-w-md overflow-hidden rounded-lg md:h-[480px] bg-gray-100 flex items-center justify-center"
-              aria-label="Placeholder para imagen de Inteligencia Artificial para productividad"
-            >
-              <span className="text-gray-400">Imagen: Inteligencia Artificial para productividad</span>
+            <div className="relative w-full max-w-[65%] h-auto overflow-hidden">
+              <div className="relative rounded-xl overflow-hidden backdrop-blur-sm backdrop-filter backdrop-blur-[2px]">
+                {/* Gradient overlay to blend with background */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-white/20 to-transparent opacity-70 z-10 rounded-xl"></div>
+
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-young-professional-working-remotely-on_NBKycgd-RlC5B3Knh0lstw_fsV1ydBFSi-8xmveHcX-zQ-k4AJDC2tcixvYgSMsRWjmgmqUpht2I.png"
+                  alt="Profesional remoto utilizando herramientas de IA para productividad"
+                  width={600}
+                  height={600}
+                  className="w-full h-auto rounded-xl object-cover opacity-90"
+                />
+              </div>
             </div>
           </div>
         </div>

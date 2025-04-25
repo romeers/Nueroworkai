@@ -102,11 +102,19 @@ export default function ContextualPopup({
         <div className="mb-4 text-center">
           {imageUrl && (
             <div className="mx-auto mb-4 h-32 w-32 overflow-hidden rounded-lg">
-              <SafeImage src={imageUrl} alt={title} width={128} height={128} className="h-full w-full object-cover" />
+              <SafeImage
+                src={imageUrl}
+                alt="Kit de Productividad con IA para Trabajo Remoto (2025)"
+                width={128}
+                height={128}
+                className="h-full w-full object-cover"
+              />
             </div>
           )}
-          <h3 className="text-xl font-bold text-secondary">{title}</h3>
-          <p className="mt-2 text-gray-600">{description}</p>
+          <h3 className="text-xl font-bold text-secondary">Kit de Productividad con IA para Trabajo Remoto (2025)</h3>
+          <p className="mt-2 text-gray-600">
+            Descarga gratis nuestro kit definitivo y comienza a trabajar mejor con IA desde hoy
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -121,12 +129,9 @@ export default function ContextualPopup({
             />
           </div>
           <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={loading}>
-            {loading ? "Enviando..." : ctaText}
+            {loading ? "Enviando..." : "Descargar Kit gratuito"}
           </Button>
-          <p className="text-center text-xs text-gray-500">
-            Al suscribirte, aceptas recibir emails con recursos y actualizaciones. Puedes darte de baja en cualquier
-            momento.
-          </p>
+          <p className="text-center text-xs text-gray-500">Sin spam · Descarga inmediata tras confirmar</p>
         </form>
       </div>
     </div>

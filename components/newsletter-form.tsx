@@ -11,6 +11,7 @@ export default function NewsletterForm() {
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
+  const [success, setSuccess] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,6 +27,7 @@ export default function NewsletterForm() {
       })
 
       setEmail("")
+      setSuccess(true)
     } catch (error) {
       toast({
         title: "Error al suscribirse",
@@ -58,12 +60,15 @@ export default function NewsletterForm() {
         <Button
           type="submit"
           disabled={loading}
-          className="w-full bg-primary hover:bg-primary/90"
+          className="w-full bg-violet-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-violet-700 transition transform hover:scale-105"
           aria-label="Suscribirse al newsletter"
         >
-          {loading ? "Enviando..." : "Suscribirse"}
+          {loading ? "Enviando..." : "Descargar Kit gratuito"}
         </Button>
       </div>
+      {!loading && !success && (
+        <p className="mt-2 text-xs text-gray-500 text-center">Sin spam · Descarga inmediata tras confirmar</p>
+      )}
     </form>
   )
 }

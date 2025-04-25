@@ -127,14 +127,11 @@ export default function CategoryLeadMagnet({
                 ) : (
                   <span className="flex items-center">
                     <Download className="mr-2 h-4 w-4" />
-                    {ctaText}
+                    Descargar Kit gratuito
                   </span>
                 )}
               </Button>
-              <p className="text-xs text-gray-500">
-                Al suscribirte, aceptas recibir emails con recursos y actualizaciones. Puedes darte de baja en cualquier
-                momento.
-              </p>
+              <p className="text-xs text-gray-500">Sin spam · Descarga inmediata tras confirmar</p>
             </form>
           )}
         </div>

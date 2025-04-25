@@ -328,11 +328,12 @@ export default function CategoryPage({ params }: { params: { categoria: string }
               ¿Necesitas ayuda para elegir?
             </h2>
             <p className="mt-4 text-lg text-white/90">
-              Utiliza nuestro comparador para encontrar la herramienta perfecta para tus necesidades específicas.
+              Descarga nuestro Kit de Productividad con IA para Trabajo Remoto (2025) y encuentra la herramienta
+              perfecta para tus necesidades.
             </p>
             <div className="mt-8">
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/herramientas/comparar">Comparar herramientas</Link>
+                <Link href="/guias-recursos">Descargar Kit gratuito</Link>
               </Button>
             </div>
           </div>

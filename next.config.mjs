@@ -9,22 +9,39 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Redirect old herramientas routes to new herramientas-ia
+      {
+        source: '/herramientas',
+        destination: '/herramientas-ia',
+        permanent: true,
+      },
+      {
+        source: '/herramientas/todas',
+        destination: '/herramientas-ia',
+        permanent: true,
+      },
+      {
+        source: '/herramientas/categoria/:slug*',
+        destination: '/herramientas-ia?categoria=:slug*',
+        permanent: true,
+      },
+      
       // Redirecciones de la sección de comparativas
       {
         source: '/comparativas',
-        destination: '/herramientas/comparar',
+        destination: '/herramientas-ia',
         permanent: true,
       },
       {
         source: '/comparativas/:slug*',
-        destination: '/herramientas/comparar/:slug*',
+        destination: '/herramientas-ia',
         permanent: true,
       },
       
       // Redirecciones de la sección de reseñas
       {
         source: '/resenas',
-        destination: '/herramientas',
+        destination: '/herramientas-ia',
         permanent: true,
       },
       {
@@ -35,8 +52,33 @@ const nextConfig = {
       
       // Redirecciones de la sección de recursos
       {
-        source: '/recursos',
-        destination: '/guias-recursos',
+        source: '/guias-recursos',
+        destination: '/recursos',
+        permanent: true,
+      },
+      {
+        source: '/guias-recursos/:slug*',
+        destination: '/recursos/:slug*',
+        permanent: true,
+      },
+      {
+        source: '/recursos/guias',
+        destination: '/recursos?categoria=guias',
+        permanent: true,
+      },
+      {
+        source: '/recursos/prompts',
+        destination: '/recursos?categoria=prompts',
+        permanent: true,
+      },
+      {
+        source: '/recursos/automatizacion',
+        destination: '/recursos?categoria=automatizacion',
+        permanent: true,
+      },
+      {
+        source: '/recursos/plantillas',
+        destination: '/recursos?categoria=plantillas',
         permanent: true,
       },
       
@@ -57,13 +99,13 @@ const nextConfig = {
       // Redirección para la página de newsletter
       {
         source: '/newsletter',
-        destination: '/guias-recursos#newsletter',
+        destination: '/recursos#kit-gratuito',
         permanent: true,
       },
     ]
   },
   images: {
-    domains: ['v0.blob.com'],
+    domains: ['v0.blob.com', 'hebbkx1anhila5yf.public.blob.vercel-storage.com'],
     unoptimized: true,
   },
 }

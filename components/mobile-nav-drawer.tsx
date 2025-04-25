@@ -4,34 +4,14 @@ import { useState } from "react"
 import Link from "next/link"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { Menu, ChevronDown } from "lucide-react"
+import { Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import SafeImage from "./safe-image"
 
-// Estructura de navegación optimizada
+// Estructura de navegación simplificada
 const navigation = [
-  {
-    name: "Herramientas",
-    href: "/herramientas",
-    submenu: [
-      { name: "Escritura IA", href: "/herramientas/categoria/escritura-ia" },
-      { name: "Automatización", href: "/herramientas/categoria/automatizacion" },
-      { name: "Gestión de Tareas", href: "/herramientas/categoria/gestion-tareas" },
-      { name: "Reuniones", href: "/herramientas/categoria/reuniones" },
-      { name: "Comunicación", href: "/herramientas/categoria/comunicacion" },
-      { name: "Ver todas", href: "/herramientas" },
-    ],
-  },
-  {
-    name: "Comparativas",
-    href: "/comparativas",
-    submenu: [
-      { name: "Por Categoría", href: "/comparativas/por-categoria" },
-      { name: "Herramientas Populares", href: "/comparativas/populares" },
-      { name: "Comparador Personalizado", href: "/comparativas/personalizado" },
-    ],
-  },
+  { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" }, // Elemento único, sin dropdown
   {
     name: "Guías y Recursos",
     href: "/guias-recursos",
@@ -42,12 +22,14 @@ const navigation = [
     ],
   },
   { name: "Blog", href: "/blog" },
+  { name: "Sobre Nosotros", href: "/sobre-nosotros" },
 ]
 
 export default function MobileNavDrawer() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const pathname = usePathname()
-  const logoImage = "/logo.png"
+  const logoImage =
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
 
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name)
@@ -63,22 +45,35 @@ export default function MobileNavDrawer() {
       </SheetTrigger>
       <SheetContent side="left" className="w-[85vw] max-w-sm p-0">
         <div className="flex flex-col h-full">
-          <div className="border-b p-4">
-            <Link href="/" className="flex items-center">
-              <div className="h-8 w-auto">
-                <SafeImage
-                  src={logoImage}
-                  fallbackSrc="/abstract-brain-network.png"
-                  alt="NeuroWorkAI Logo"
-                  width={150}
-                  height={40}
-                  className="h-8 w-auto"
-                />
-              </div>
+          <div className="border-b p-4 flex items-center">
+            <Link
+              href="/"
+              className="flex items-center transition-all duration-300 hover:opacity-80 hover:scale-105"
+              aria-label="NeuroWorkAI - Ir a inicio"
+            >
+              <SafeImage
+                src={logoImage}
+                fallbackSrc="/abstract-brain-network.png"
+                alt="NeuroWorkAI Logo"
+                width={150}
+                height={40}
+                className="w-[120px] h-auto rounded-xl"
+              />
             </Link>
           </div>
           <div className="flex-1 overflow-auto py-2">
             <nav className="flex flex-col space-y-1">
+              <div className="px-2">
+                <Link
+                  href="/"
+                  className={cn(
+                    "block rounded-md px-3 py-2 text-sm font-medium",
+                    pathname === "/" ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50",
+                  )}
+                >
+                  Inicio
+                </Link>
+              </div>
               {navigation.map((item) => (
                 <div key={item.name} className="px-2">
                   {item.submenu ? (
@@ -93,12 +88,19 @@ export default function MobileNavDrawer() {
                         )}
                       >
                         {item.name}
-                        <ChevronDown
-                          className={cn(
-                            "h-4 w-4 transition-transform",
-                            activeDropdown === item.name ? "rotate-180" : "",
-                          )}
-                        />
+                        <svg
+                          className={`h-4 w-4 transition-transform ${activeDropdown === item.name ? "rotate-180" : ""}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
                       </button>
                       {activeDropdown === item.name && (
                         <div className="ml-4 mt-1 space-y-1">
@@ -124,8 +126,11 @@ export default function MobileNavDrawer() {
                       href={item.href}
                       className={cn(
                         "block rounded-md px-3 py-2 text-sm font-medium",
-                        pathname === item.href ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50",
+                        pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+                          ? "bg-primary/10 text-primary"
+                          : "text-gray-600 hover:bg-gray-50",
                       )}
+                      aria-label={item.ariaLabel || item.name}
                     >
                       {item.name}
                     </Link>
@@ -136,7 +141,7 @@ export default function MobileNavDrawer() {
           </div>
           <div className="border-t p-4">
             <Button asChild className="w-full bg-primary hover:bg-primary/90">
-              <Link href="/herramientas/mejores">Mejores Herramientas IA</Link>
+              <Link href="/herramientas-ia">Mejores Herramientas IA</Link>
             </Button>
             <div className="mt-4 text-xs text-gray-500 text-center">
               <Link href="/sobre-nosotros" className="text-primary hover:underline">
