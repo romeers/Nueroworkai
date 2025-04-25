@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Search, Star, ExternalLink, Download } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import { generateMetadata } from "@/lib/metadata"
+import { getCachedCategories, getCachedAllTools, searchTools } from "@/lib/db"
 
 export const metadata: Metadata = generateMetadata({
   title: "Herramientas de Productividad con IA",
@@ -15,148 +16,36 @@ export const metadata: Metadata = generateMetadata({
     "herramientas IA, productividad, trabajo remoto, Notion AI, Zapier, ClickUp, ChatGPT, automatización, IA para trabajo",
 })
 
-// Categorías de herramientas
-const categories = [
-  { name: "Todas", slug: "todas", icon: "🧠" },
-  { name: "Escritura IA", slug: "escritura-ia", icon: "✍️" },
-  { name: "Automatización", slug: "automatizacion", icon: "⚙️" },
-  { name: "Gestión de Tareas", slug: "gestion-tareas", icon: "📋" },
-  { name: "Reuniones", slug: "reuniones", icon: "🎯" },
-  { name: "Comunicación", slug: "comunicacion", icon: "💬" },
-]
+export default async function HerramientasIAPage({
+  searchParams,
+}: { searchParams: { categoria?: string; q?: string } }) {
+  // Obtener categorías y herramientas de la base de datos
+  const categories = await getCachedCategories()
 
-// Herramientas destacadas
-const tools = [
-  {
-    name: "Notion AI",
-    description: "Asistente de escritura y organización con IA integrada en Notion.",
-    imageUrl: "/notion-ai-blue.png",
-    category: "Escritura IA",
-    slug: "notion-ai",
-    score: 9.2,
-    featured: true,
-    isNew: false,
-    affiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
-  },
-  {
-    name: "Zapier",
-    description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
-    imageUrl: "/zapier-blue-background.png",
-    category: "Automatización",
-    slug: "zapier",
-    score: 9.0,
-    featured: true,
-    isNew: false,
-    affiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
-  },
-  {
-    name: "ClickUp",
-    description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
-    imageUrl: "/clickup-blue-background.png",
-    category: "Gestión de tareas",
-    slug: "clickup",
-    score: 8.8,
-    featured: true,
-    isNew: false,
-    affiliateUrl: "https://clickup.com/?af=123",
-  },
-  {
-    name: "Jasper",
-    description: "Generador de contenido con IA para marketing y comunicación.",
-    imageUrl: "/ai-logo-blue.png",
-    category: "Escritura IA",
-    slug: "jasper",
-    score: 8.7,
-    featured: false,
-    isNew: false,
-    affiliateUrl: "#",
-  },
-  {
-    name: "Grammarly",
-    description: "Corrector gramatical y asistente de escritura con IA.",
-    imageUrl: "/grammarly-blue.png",
-    category: "Escritura IA",
-    slug: "grammarly",
-    score: 8.9,
-    featured: false,
-    isNew: false,
-    affiliateUrl: "#",
-  },
-  {
-    name: "Make",
-    description: "Plataforma de automatización visual para conectar apps y automatizar flujos de trabajo.",
-    imageUrl: "/abstract-geometric-logo.png",
-    category: "Automatización",
-    slug: "make",
-    score: 8.8,
-    featured: false,
-    isNew: true,
-    affiliateUrl: "#",
-  },
-  {
-    name: "Asana",
-    description: "Plataforma de gestión de proyectos y tareas para equipos.",
-    imageUrl: "/Asana-logo-abstract.png",
-    category: "Gestión de tareas",
-    slug: "asana",
-    score: 8.5,
-    featured: false,
-    isNew: false,
-    affiliateUrl: "#",
-  },
-  {
-    name: "Fireflies",
-    description: "Transcribe y analiza reuniones automáticamente con IA.",
-    imageUrl: "/fireflies-ai-logo-blue.png",
-    category: "Reuniones",
-    slug: "fireflies",
-    score: 8.9,
-    featured: false,
-    isNew: false,
-    affiliateUrl: "#",
-  },
-  {
-    name: "Otter.ai",
-    description: "Asistente de notas con IA para transcribir y resumir reuniones.",
-    imageUrl: "/otter-ai-logo-inspired-design.png",
-    category: "Reuniones",
-    slug: "otter-ai",
-    score: 8.7,
-    featured: false,
-    isNew: true,
-    affiliateUrl: "#",
-  },
-  {
-    name: "ChatGPT",
-    description: "Asistente conversacional de IA para múltiples tareas y generación de contenido.",
-    imageUrl: "/stylized-chat-icon.png",
-    category: "Escritura IA",
-    slug: "chatgpt",
-    score: 9.1,
-    featured: true,
-    isNew: false,
-    affiliateUrl: "#",
-  },
-]
+  // Añadir la categoría "Todas" al principio
+  const allCategories = [{ name: "Todas", slug: "todas", icon: "🧠" }, ...categories]
 
-export default function HerramientasIAPage({ searchParams }: { searchParams: { categoria?: string; q?: string } }) {
   // Filtrar herramientas por categoría y búsqueda
   const categoriaSeleccionada = searchParams.categoria || "todas"
   const searchQuery = searchParams.q || ""
 
-  const filteredTools = tools.filter((tool) => {
-    // Filtrar por categoría
-    const matchesCategory =
-      categoriaSeleccionada === "todas" || tool.category.toLowerCase().replace(/\s+/g, "-") === categoriaSeleccionada
+  let tools
 
-    // Filtrar por búsqueda
-    const matchesSearch =
-      searchQuery === "" ||
-      tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tool.description.toLowerCase().includes(searchQuery.toLowerCase())
+  if (searchQuery) {
+    // Si hay una búsqueda, usar la función de búsqueda
+    tools = await searchTools(searchQuery)
+  } else {
+    // Si no hay búsqueda, obtener todas las herramientas
+    tools = await getCachedAllTools()
+  }
 
-    return matchesCategory && matchesSearch
-  })
+  // Filtrar por categoría si no es "todas"
+  const filteredTools =
+    categoriaSeleccionada === "todas"
+      ? tools
+      : tools.filter((tool: any) => {
+          return tool.category.toLowerCase().replace(/\s+/g, "-") === categoriaSeleccionada
+        })
 
   // Función para renderizar estrellas basadas en la puntuación
   const renderStars = (score: number) => {
@@ -263,7 +152,7 @@ export default function HerramientasIAPage({ searchParams }: { searchParams: { c
       <section className="py-6 bg-white sticky top-16 z-30 border-b" id="herramientas">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex overflow-x-auto scrollbar-hide pb-2 gap-2">
-            {categories.map((category) => (
+            {allCategories.map((category) => (
               <Link
                 key={category.slug}
                 href={`/herramientas-ia${category.slug === "todas" ? "" : `?categoria=${category.slug}`}`}
@@ -286,12 +175,12 @@ export default function HerramientasIAPage({ searchParams }: { searchParams: { c
           <h2 className="text-2xl font-bold text-secondary mb-8 text-center">
             {categoriaSeleccionada === "todas"
               ? "Todas las herramientas"
-              : `Herramientas de ${categories.find((c) => c.slug === categoriaSeleccionada)?.name || ""}`}
+              : `Herramientas de ${allCategories.find((c) => c.slug === categoriaSeleccionada)?.name || ""}`}
           </h2>
 
           {filteredTools.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredTools.map((tool) => (
+              {filteredTools.map((tool: any) => (
                 <div
                   key={tool.slug}
                   className="rounded-xl shadow-sm hover:shadow-md transition bg-white p-5 flex flex-col items-center text-center h-full"
@@ -299,7 +188,7 @@ export default function HerramientasIAPage({ searchParams }: { searchParams: { c
                   <div className="relative mb-4">
                     <div className="w-16 h-16 flex items-center justify-center">
                       <SafeImage
-                        src={tool.imageUrl}
+                        src={tool.image_url}
                         alt={`Logo de ${tool.name}`}
                         width={64}
                         height={64}
@@ -311,7 +200,7 @@ export default function HerramientasIAPage({ searchParams }: { searchParams: { c
                     {/* Badges */}
                     <div className="absolute -top-2 -right-2 flex flex-col gap-1">
                       {tool.featured && <Badge className="bg-primary text-white">Top Valorada</Badge>}
-                      {tool.isNew && <Badge className="bg-green-500 text-white">Nueva</Badge>}
+                      {tool.is_new && <Badge className="bg-green-500 text-white">Nueva</Badge>}
                     </div>
                   </div>
 
@@ -338,7 +227,7 @@ export default function HerramientasIAPage({ searchParams }: { searchParams: { c
                   <div className="flex flex-col sm:flex-row gap-2 w-full mt-auto">
                     <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
                       <Link
-                        href={tool.affiliateUrl}
+                        href={tool.affiliate_url || `https://example.com/${tool.slug}`}
                         target="_blank"
                         rel="noopener sponsored"
                         className="flex items-center justify-center gap-1"

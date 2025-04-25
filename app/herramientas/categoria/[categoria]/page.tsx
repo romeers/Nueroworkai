@@ -5,14 +5,18 @@ import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import ToolCard from "@/components/tool-card"
 import CategoryLeadMagnet from "@/components/category-lead-magnet"
-import { getAllCategories } from "@/lib/data"
+import { getCachedCategories, getCachedToolsByCategory } from "@/lib/db"
+import CategorySchema from "@/components/seo/category-schema"
 
 interface Params {
   categoria: string
 }
 
 export async function generateMetadata({ params }: { params: Params }) {
-  const categoryName = getCategoryName(params.categoria)
+  const categories = await getCachedCategories()
+  const category = categories.find((c: any) => c.slug === params.categoria)
+  const categoryName = category ? category.name : getCategoryName(params.categoria)
+
   return generateCategoryMetadata({
     title: `Herramientas de ${categoryName} | NeuroWorkAI`,
     description: `Descubre y compara las mejores herramientas de ${categoryName.toLowerCase()} para potenciar tu productividad.`,
@@ -20,102 +24,13 @@ export async function generateMetadata({ params }: { params: Params }) {
 }
 
 export async function generateStaticParams() {
-  const categories = await getAllCategories()
-  return categories.map((category) => ({
+  const categories = await getCachedCategories()
+  return categories.map((category: any) => ({
     categoria: category.slug,
   }))
 }
 
-// Función para obtener datos de herramientas por categoría
-async function getTools(category: string) {
-  // Datos de ejemplo - en una implementación real, esto vendría de una API o base de datos
-  const allTools = {
-    "escritura-ia": [
-      {
-        name: "Notion AI",
-        description: "Asistente de escritura y organización con IA integrada en Notion.",
-        imageUrl: "/notion-ai-blue.png",
-        category: "Escritura IA",
-        slug: "notion-ai",
-        score: 9.2,
-      },
-      {
-        name: "Jasper",
-        description: "Generador de contenido con IA para marketing y comunicación.",
-        imageUrl: "/ai-logo-blue.png",
-        category: "Escritura IA",
-        slug: "jasper",
-        score: 8.7,
-      },
-      {
-        name: "Grammarly",
-        description: "Corrector gramatical y asistente de escritura con IA.",
-        imageUrl: "/grammarly-blue.png",
-        category: "Escritura IA",
-        slug: "grammarly",
-        score: 8.9,
-      },
-    ],
-    automatizacion: [
-      {
-        name: "Zapier",
-        description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
-        imageUrl: "/zapier-blue-background.png",
-        category: "Automatización",
-        slug: "zapier",
-        score: 9.0,
-      },
-      {
-        name: "Make",
-        description: "Plataforma de automatización visual para conectar apps y automatizar flujos de trabajo.",
-        imageUrl: "/abstract-geometric-logo.png",
-        category: "Automatización",
-        slug: "make",
-        score: 8.8,
-      },
-    ],
-    "gestion-tareas": [
-      {
-        name: "ClickUp",
-        description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
-        imageUrl: "/clickup-blue-background.png",
-        category: "Gestión de tareas",
-        slug: "clickup",
-        score: 8.8,
-      },
-      {
-        name: "Asana",
-        description: "Plataforma de gestión de proyectos y tareas para equipos.",
-        imageUrl: "/Asana-logo-abstract.png",
-        category: "Gestión de tareas",
-        slug: "asana",
-        score: 8.5,
-      },
-    ],
-    reuniones: [
-      {
-        name: "Fireflies",
-        description: "Transcribe y analiza reuniones automáticamente con IA.",
-        imageUrl: "/fireflies-ai-logo-blue.png",
-        category: "Reuniones",
-        slug: "fireflies",
-        score: 8.9,
-      },
-      {
-        name: "Otter.ai",
-        description: "Asistente de notas con IA para transcribir y resumir reuniones.",
-        imageUrl: "/otter-ai-logo-inspired-design.png",
-        category: "Reuniones",
-        slug: "otter-ai",
-        score: 8.7,
-      },
-    ],
-  }
-
-  return allTools[category as keyof typeof allTools] || []
-}
-
-// Función para obtener el nombre legible de la categoría
+// Función para obtener el nombre legible de la categoría (fallback)
 function getCategoryName(slug: string) {
   const categoryMap: Record<string, string> = {
     "escritura-ia": "Escritura IA",
@@ -194,12 +109,27 @@ function getCategoryLeadMagnet(category: string) {
 }
 
 export default async function CategoryPage({ params }: { params: { categoria: string } }) {
-  const tools = await getTools(params.categoria)
-  const categoryName = getCategoryName(params.categoria)
+  const categories = await getCachedCategories()
+  const category = categories.find((c: any) => c.slug === params.categoria)
+  const tools = await getCachedToolsByCategory(params.categoria)
+  const categoryName = category ? category.name : getCategoryName(params.categoria)
   const leadMagnet = getCategoryLeadMagnet(params.categoria)
 
   return (
     <>
+      {/* Schema.org markup para SEO */}
+      <CategorySchema
+        category={{
+          name: categoryName,
+          description: `Las mejores herramientas de ${categoryName.toLowerCase()} para optimizar tu productividad.`,
+          slug: params.categoria,
+        }}
+        tools={tools.map((tool: any) => ({
+          name: tool.name,
+          slug: tool.slug,
+        }))}
+      />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-sky-light to-sky py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -262,15 +192,17 @@ export default async function CategoryPage({ params }: { params: { categoria: st
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {tools.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {tools.map((tool) => (
+              {tools.map((tool: any) => (
                 <ToolCard
                   key={tool.slug}
                   name={tool.name}
                   description={tool.description}
-                  imageUrl={tool.imageUrl}
+                  imageUrl={tool.image_url}
                   category={tool.category}
                   url={`/herramientas/${tool.slug}`}
-                  featured={tool.score > 9}
+                  featured={tool.featured}
+                  score={tool.score}
+                  slug={tool.slug}
                 />
               ))}
             </div>
