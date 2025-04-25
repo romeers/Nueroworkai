@@ -16,6 +16,7 @@ interface ToolCardProps {
   score?: number
   specialOffer?: string
   verified?: boolean
+  slug: string // Ensure slug is a required prop
 }
 
 export default function ToolCard({
@@ -28,13 +29,13 @@ export default function ToolCard({
   score,
   specialOffer,
   verified = false,
+  slug, // Make slug required
 }: ToolCardProps) {
   const fallbackImage = `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(name + " icon")}`
 
   // Determinar si la URL es interna o externa (afiliado)
   const isExternalUrl = url.startsWith("http")
-  const toolSlug = name.toLowerCase().replace(/\s+/g, "-")
-  const internalUrl = `/herramientas/${toolSlug}`
+  const internalUrl = `/herramientas/${slug}`
 
   return (
     <Card

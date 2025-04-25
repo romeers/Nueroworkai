@@ -465,6 +465,7 @@ export default function TodasLasHerramientasPage() {
                     featured={tool.score > 9}
                     score={tool.score}
                     verified={tool.verified}
+                    slug={tool.slug}
                   />
                 ))}
               </div>

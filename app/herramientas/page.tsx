@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -97,7 +99,7 @@ export default function HerramientasPage() {
 
             {/* Buscador de herramientas */}
             <form className="mt-8 flex items-center justify-center" action="/herramientas/buscar" method="GET">
-              <div className="relative w-full max-w-md">
+              <div className="relative w-full md:max-w-md">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <Search className="h-5 w-5 text-gray-400" />
                 </div>

@@ -14,11 +14,15 @@ export function getToolData(slug: string) {
         aiFeatures: 9.0,
         valueForMoney: 8.8,
         support: 9.0,
-        integration: 9.5,
-        implementationTime: 9.0,
+        integration: 9.7,
+        implementationTime: 8.5,
       },
-      url: "https://www.notion.so/product/ai",
-      affiliateUrl: "https://www.notion.so/product/ai?af=123",
+      url: "https://notion.so/product/ai",
+      affiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+      verified: true,
+      specialOffer: "7 días de prueba gratuita + 20% de descuento en el primer año",
+      whyWeRecommend:
+        "Notion AI destaca por su perfecta integración con el ecosistema de Notion, lo que lo convierte en una solución ideal para equipos que ya utilizan esta plataforma. Su capacidad para generar contenido contextual, resumir documentos y traducir textos sin salir del espacio de trabajo ahorra tiempo considerable y mejora la productividad.",
       pros: [
         "Integración perfecta con el ecosistema de Notion",
         "Interfaz intuitiva y fácil de usar",
@@ -57,19 +61,30 @@ export function getToolData(slug: string) {
           description: "Funciona directamente dentro de tu espacio de trabajo de Notion.",
         },
       ],
+      comparisonFeatures: [
+        "Generación de texto",
+        "Resumen automático",
+        "Traducción",
+        "Corrección gramatical",
+        "Integración con workspace",
+      ],
       pricing: [
         {
-          plan: "Plus",
+          plan: "Personal",
           price: "$10/mes",
           features: ["20 créditos de IA al mes", "Todas las funciones básicas de IA", "Uso personal"],
+          recommended: false,
+          affiliateUrl: "https://notion.so/product/ai/personal?ref=neuroworkai",
+        },
+        {
+          plan: "Plus",
+          price: "$15/mes",
+          features: ["50 créditos de IA al mes", "Todas las funciones de IA", "Uso personal o en equipos pequeños"],
+          recommended: true,
+          affiliateUrl: "https://notion.so/product/ai/plus?ref=neuroworkai",
         },
         {
           plan: "Business",
-          price: "$15/mes",
-          features: ["50 créditos de IA al mes", "Todas las funciones de IA", "Uso personal o en equipos pequeños"],
-        },
-        {
-          plan: "Enterprise",
           price: "$25/usuario/mes",
           features: [
             "100 créditos de IA al mes por usuario",
@@ -77,101 +92,172 @@ export function getToolData(slug: string) {
             "Funciones de administración y seguridad",
             "Soporte prioritario",
           ],
+          recommended: false,
+          affiliateUrl: "https://notion.so/product/ai/business?ref=neuroworkai",
         },
       ],
+      pricingAnalysis:
+        "Notion AI ofrece un buen equilibrio entre precio y funcionalidades. El plan Plus es el más recomendable para la mayoría de usuarios, ya que proporciona suficientes créditos para un uso regular y acceso a todas las funciones de IA. Para equipos grandes, el plan Business puede resultar costoso, pero las funciones adicionales de administración y seguridad justifican el precio para empresas que priorizan estos aspectos.",
       useCases: [
         {
           title: "Creación de contenido",
           description: "Genera borradores de artículos, publicaciones de blog o correos electrónicos rápidamente.",
+          icon: "Pencil",
+          steps: [
+            "Selecciona la opción 'Escribir con IA' en Notion",
+            "Proporciona un prompt claro sobre el contenido que necesitas",
+            "Edita y refina el resultado según tus necesidades",
+          ],
         },
         {
           title: "Documentación de proyectos",
           description: "Resume reuniones y crea documentación clara y concisa para tu equipo.",
+          icon: "FileText",
+          steps: [
+            "Toma notas durante la reunión en Notion",
+            "Usa la función 'Resumir con IA' para condensar la información",
+            "Organiza los puntos clave en una estructura clara",
+          ],
         },
         {
           title: "Gestión del conocimiento",
           description: "Organiza y resume información importante para facilitar su acceso y comprensión.",
+          icon: "Brain",
+          steps: [
+            "Recopila información relevante en una página de Notion",
+            "Utiliza IA para resumir y estructurar el contenido",
+            "Crea una base de conocimiento accesible para todo el equipo",
+          ],
         },
       ],
-      testimonials: [
+      realExamples: [
         {
-          author: "María Rodríguez",
-          role: "Diseñadora UX",
-          company: "Freelance",
-          avatar: "/testimonial-avatar-1.png",
-          rating: 5,
-          title: "Notion AI ha transformado mi flujo de trabajo",
-          comment:
-            "Como diseñadora UX, necesito crear documentación clara y concisa. Notion AI me ayuda a generar resúmenes y organizar mis ideas de forma eficiente.",
-          date: "15 de agosto, 2023",
-          helpful: 23,
-          unhelpful: 2,
+          title: "Optimización del proceso de creación de contenido en Acme Marketing",
+          company: "Acme Marketing",
+          description:
+            "Acme Marketing implementó Notion AI para su equipo de contenido, reduciendo el tiempo de creación de artículos de blog en un 40%. El equipo utiliza la IA para generar borradores iniciales y resumir investigaciones, permitiéndoles enfocarse en la estrategia y el refinamiento.",
+          results: [
+            "Reducción del 40% en tiempo de creación de contenido",
+            "Aumento del 25% en la producción mensual de artículos",
+            "Mejora en la consistencia y calidad del contenido",
+          ],
         },
         {
-          author: "Carlos Mendoza",
-          role: "Project Manager",
+          title: "Documentación eficiente en TechSolutions",
           company: "TechSolutions",
-          avatar: "/testimonial-avatar-2.png",
-          rating: 4,
-          title: "Excelente herramienta para la gestión de proyectos",
-          comment:
-            "Notion AI me permite mantener a mi equipo al tanto de los avances del proyecto y generar informes de progreso de forma automática.",
-          date: "22 de agosto, 2023",
-          helpful: 18,
-          unhelpful: 1,
+          description:
+            "El equipo de desarrollo de TechSolutions adoptó Notion AI para mejorar su documentación técnica. Utilizan la IA para resumir reuniones de planificación, generar documentación de API y traducir contenido para su equipo internacional.",
+          results: [
+            "Reducción del 60% en tiempo dedicado a documentación",
+            "Mejora en la claridad y accesibilidad de la documentación técnica",
+            "Facilitación de la colaboración entre equipos internacionales",
+          ],
+        },
+      ],
+      screenshots: [
+        {
+          url: "/notion-ai-text-generation.png",
+          alt: "Interfaz de Notion AI mostrando generación de texto",
+        },
+        {
+          url: "/notion-ai-summarization.png",
+          alt: "Notion AI resumiendo un documento",
+        },
+        {
+          url: "/notion-ai-translation-workflow.png",
+          alt: "Función de traducción de Notion AI en acción",
         },
       ],
       alternatives: [
         {
           name: "Jasper",
-          description: "Generador de contenido con IA para marketing y comunicación.",
-          imageUrl: "/ai-logo-blue.png",
           slug: "jasper",
+          description: "Plataforma especializada en generación de contenido con IA.",
+          imageUrl: "/ai-logo-blue.png",
           score: 8.7,
         },
         {
           name: "Grammarly",
-          description: "Corrector gramatical y asistente de escritura con IA.",
-          imageUrl: "/grammarly-blue.png",
           slug: "grammarly",
+          description: "Enfocado en corrección gramatical y mejora de textos.",
+          imageUrl: "/grammarly-blue.png",
           score: 8.9,
         },
       ],
-      comparisonFeatures: [
-        "Generación de texto",
-        "Corrección gramatical",
-        "Resumen automático",
-        "Traducción",
-        "Integración con workspace",
+      relatedTools: [
+        {
+          name: "Jasper",
+          slug: "jasper",
+          description: "Plataforma especializada en generación de contenido con IA.",
+          imageUrl: "/ai-logo-blue.png",
+          category: "Escritura IA",
+          score: 8.7,
+        },
+        {
+          name: "Grammarly",
+          slug: "grammarly",
+          description: "Enfocado en corrección gramatical y mejora de textos.",
+          imageUrl: "/grammarly-blue.png",
+          category: "Escritura IA",
+          score: 8.9,
+        },
+        {
+          name: "ClickUp",
+          slug: "clickup",
+          description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
+          imageUrl: "/clickup-blue-background.png",
+          category: "Gestión de tareas",
+          score: 8.8,
+        },
       ],
       reviews: [
         {
-          author: "Ana Pérez",
+          author: "María G.",
           rating: 5,
-          title: "La mejor herramienta de escritura con IA que he probado",
+          title: "Transformó mi forma de trabajar",
           comment:
-            "Notion AI ha superado mis expectativas. Me ayuda a generar contenido de alta calidad en cuestión de minutos.",
-          date: "10 de julio, 2023",
-          helpful: 15,
-          unhelpful: 0,
-        },
-        {
-          author: "Juan Gómez",
-          rating: 4,
-          title: "Muy útil para organizar mis ideas",
-          comment: "Notion AI me permite estructurar mis pensamientos y crear documentos de forma rápida y sencilla.",
-          date: "18 de julio, 2023",
-          helpful: 12,
+            "Notion AI ha cambiado completamente mi flujo de trabajo. Ahorro horas cada semana en la creación de contenido y documentación.",
+          date: "15/03/2023",
+          helpful: 24,
           unhelpful: 2,
         },
+        {
+          author: "Carlos R.",
+          rating: 4,
+          title: "Excelente, pero con margen de mejora",
+          comment:
+            "Una herramienta fantástica que me ayuda diariamente. Le falta pulir algunas funciones, pero su integración con Notion es perfecta.",
+          date: "22/04/2023",
+          helpful: 18,
+          unhelpful: 3,
+        },
       ],
-      whyWeRecommend:
-        "Recomendamos Notion AI por su perfecta integración con el ecosistema de Notion, su interfaz intuitiva y sus múltiples funcionalidades de IA en una sola herramienta. Es ideal para equipos que ya utilizan Notion y buscan mejorar su productividad.",
-      lastUpdated: "1 de septiembre, 2023",
-      relatedTools: [],
-      specialOffer: "20% de descuento en el plan Plus durante el primer año",
-      ctaText: "Comienza a crear contenido con IA",
-      verified: true,
+      testimonials: [
+        {
+          quote:
+            "Notion AI ha revolucionado nuestra forma de documentar proyectos. Ahorramos al menos 5 horas semanales en la creación y organización de contenido.",
+          author: "Laura Martínez",
+          role: "Project Manager",
+          company: "Digital Innovators",
+          avatarUrl: "/testimonial-avatar-1.png",
+        },
+        {
+          quote:
+            "La capacidad de resumir reuniones y generar documentación clara ha mejorado significativamente nuestra comunicación interna.",
+          author: "Javier Rodríguez",
+          role: "Team Lead",
+          company: "TechSolutions",
+          avatarUrl: "/testimonial-avatar-2.png",
+        },
+      ],
+      ctaText: "Prueba Notion AI gratis durante 7 días y descubre cómo puede transformar tu productividad.",
+      lastUpdated: "15 de abril, 2023",
+      reviewedBy: {
+        name: "Ana Gómez",
+        role: "Especialista en Productividad",
+        avatarUrl: "/expert-ana-gomez.png",
+        bio: "Ana es experta en herramientas de productividad y ha analizado más de 50 soluciones de IA para trabajo remoto.",
+      },
     },
     zapier: {
       name: "Zapier",
@@ -501,6 +587,181 @@ export function getToolData(slug: string) {
       relatedTools: [],
       specialOffer: "20% de descuento en el plan Unlimited durante el primer año",
       ctaText: "Comienza a gestionar tus proyectos con IA",
+      verified: true,
+    },
+    jasper: {
+      name: "Jasper",
+      description: "Generador de contenido con IA para marketing y comunicación.",
+      longDescription:
+        "Jasper es una plataforma de inteligencia artificial diseñada para la creación de contenido de marketing y comunicación. Permite a los usuarios generar textos originales, creativos y optimizados para SEO en cuestión de segundos.",
+      imageUrl: "/ai-logo-blue.png",
+      category: "Escritura IA",
+      tags: ["Escritura IA", "Marketing", "Contenido", "SEO"],
+      neuroScore: {
+        overall: 8.7,
+        easeOfUse: 8.0,
+        aiFeatures: 9.2,
+        valueForMoney: 7.5,
+        support: 8.5,
+        integration: 7.0,
+        implementationTime: 8.0,
+      },
+      url: "https://www.jasper.ai/",
+      affiliateUrl: "https://www.jasper.ai/?utm_source=neuroworkai&utm_medium=affiliate",
+      pros: [
+        "Generación de contenido de alta calidad en múltiples formatos",
+        "Optimización SEO integrada",
+        "Interfaz intuitiva y fácil de usar",
+        "Soporte para múltiples idiomas",
+        "Gran variedad de plantillas y casos de uso",
+      ],
+      cons: [
+        "El precio puede ser elevado para usuarios con necesidades básicas",
+        "Requiere una buena comprensión de marketing y SEO para obtener los mejores resultados",
+        "Algunas funciones avanzadas tienen limitaciones",
+      ],
+      features: [
+        {
+          name: "Generación de texto",
+          description: "Crea contenido original y creativo a partir de prompts simples.",
+        },
+        {
+          name: "Optimización SEO",
+          description: "Optimiza tu contenido para obtener un mejor posicionamiento en buscadores.",
+        },
+        {
+          name: "Múltiples formatos",
+          description: "Genera contenido en diferentes formatos, como artículos, emails, anuncios y más.",
+        },
+        {
+          name: "Soporte multilingüe",
+          description: "Crea contenido en múltiples idiomas con facilidad.",
+        },
+        {
+          name: "Plantillas y casos de uso",
+          description: "Utiliza plantillas y casos de uso predefinidos para acelerar el proceso de creación.",
+        },
+      ],
+      pricing: [
+        {
+          plan: "Creator",
+          price: "$49/mes",
+          features: ["50.000 palabras al mes", "Generación de texto", "Soporte básico"],
+        },
+        {
+          plan: "Teams",
+          price: "$125/mes",
+          features: [
+            "Uso ilimitado de palabras",
+            "Generación de texto",
+            "Soporte prioritario",
+            "Colaboración en equipo",
+          ],
+        },
+        {
+          plan: "Business",
+          price: "Personalizado",
+          features: [
+            "Uso ilimitado de palabras",
+            "Generación de texto",
+            "Soporte premium",
+            "Funciones avanzadas de colaboración",
+          ],
+        },
+      ],
+      useCases: [
+        {
+          title: "Creación de contenido para marketing",
+          description:
+            "Genera contenido para blogs, redes sociales, emails y otros canales de marketing de forma rápida y eficiente.",
+        },
+        {
+          title: "Redacción de textos publicitarios",
+          description: "Crea textos persuasivos para anuncios, landing pages y otros materiales publicitarios.",
+        },
+        {
+          title: "Generación de ideas para contenido",
+          description: "Obtén ideas originales para tu estrategia de contenido y planifica tu calendario editorial.",
+        },
+      ],
+      testimonials: [
+        {
+          author: "Elena Vargas",
+          role: "Marketing Specialist",
+          company: "Digital Growth",
+          avatar: "/testimonial-avatar-3.png",
+          rating: 5,
+          title: "Jasper ha revolucionado nuestra creación de contenido",
+          comment:
+            "Jasper nos ha permitido crear contenido de alta calidad de forma mucho más rápida y eficiente. ¡Lo recomiendo totalmente!",
+          date: "1 de septiembre, 2023",
+          helpful: 22,
+          unhelpful: 0,
+        },
+        {
+          author: "Ricardo Pérez",
+          role: "SEO Consultant",
+          company: "WebPositioning",
+          avatar: "/testimonial-avatar-2.png",
+          rating: 4,
+          title: "Jasper me ayuda a optimizar el contenido para SEO",
+          comment:
+            "Jasper me permite optimizar el contenido para SEO de forma rápida y sencilla, lo que ha mejorado significativamente el posicionamiento de mis clientes.",
+          date: "8 de septiembre, 2023",
+          helpful: 18,
+          unhelpful: 2,
+        },
+      ],
+      alternatives: [
+        {
+          name: "Notion AI",
+          description: "Asistente de escritura y organización con IA integrada en Notion.",
+          imageUrl: "/notion-ai-blue.png",
+          slug: "notion-ai",
+          score: 9.2,
+        },
+        {
+          name: "Grammarly",
+          description: "Corrector gramatical y asistente de escritura con IA.",
+          imageUrl: "/grammarly-blue.png",
+          slug: "grammarly",
+          score: 8.9,
+        },
+      ],
+      comparisonFeatures: [
+        "Generación de texto",
+        "Optimización SEO",
+        "Múltiples formatos",
+        "Soporte multilingüe",
+        "Plantillas y casos de uso",
+      ],
+      reviews: [
+        {
+          author: "Laura Gómez",
+          rating: 5,
+          title: "La mejor herramienta de generación de contenido que he probado",
+          comment:
+            "Jasper ha superado mis expectativas. Me permite generar contenido de alta calidad en cuestión de minutos.",
+          date: "15 de agosto, 2023",
+          helpful: 15,
+          unhelpful: 0,
+        },
+        {
+          author: "David Fernández",
+          rating: 4,
+          title: "Muy útil para generar ideas para contenido",
+          comment: "Jasper me ayuda a superar el bloqueo del escritor y generar ideas originales para mi blog.",
+          date: "22 de agosto, 2023",
+          helpful: 12,
+          unhelpful: 1,
+        },
+      ],
+      whyWeRecommend:
+        "Recomendamos Jasper por su capacidad para generar contenido de alta calidad en múltiples formatos, su optimización SEO integrada y su interfaz intuitiva. Es ideal para profesionales de marketing y comunicación que buscan ahorrar tiempo y mejorar sus resultados.",
+      lastUpdated: "1 de septiembre, 2023",
+      relatedTools: [],
+      specialOffer: "Prueba gratuita de 5 días",
+      ctaText: "Comienza a crear contenido con IA",
       verified: true,
     },
   }

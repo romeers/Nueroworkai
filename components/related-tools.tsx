@@ -34,6 +34,7 @@ export default function RelatedTools({ currentTool, category, tools }: RelatedTo
           category={tool.category}
           url={`/herramientas/${tool.slug}`}
           score={tool.score}
+          slug={tool.slug}
         />
       ))}
     </div>
