@@ -7,14 +7,12 @@ import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
+// Import the centralized navigation configuration
+import { mainNavigation } from "@/lib/navigation"
 
-// Update the navigation array to remove the Blog entry
-const navigation = [
-  { name: "Inicio", href: "/" },
-  { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
-  { name: "Recursos", href: "/recursos", ariaLabel: "Ir a Recursos" }, // Cambiado de "Guías y Recursos" a "Recursos" sin dropdown
-  { name: "Sobre Nosotros", href: "/sobre-nosotros" },
-]
+// Replace the existing navigation array with the imported configuration
+// Remove this line:
+// const navigation = [ ... ]
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -24,6 +22,8 @@ export default function Header() {
   const pathname = usePathname()
   const logoImage =
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
+  // Add state for mobile submenu
+  const [mobileActiveSubmenu, setMobileActiveSubmenu] = useState<string | null>(null)
 
   // Ref para detectar clics fuera del dropdown
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -82,6 +82,11 @@ export default function Header() {
     setActiveDropdown(activeDropdown === name ? null : name)
   }
 
+  // Add function to toggle mobile submenu
+  const toggleMobileSubmenu = (name: string) => {
+    setMobileActiveSubmenu(mobileActiveSubmenu === name ? null : name)
+  }
+
   return (
     <header
       ref={headerRef}
@@ -126,23 +131,76 @@ export default function Header() {
             <Menu className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
+        {/* Update the navigation mapping in the desktop menu section to use mainNavigation */}
         <div className="hidden lg:flex lg:gap-x-8">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "text-sm font-semibold leading-6 transition-colors",
-                pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
-                  ? "text-primary"
-                  : "text-secondary hover:text-primary",
-              )}
-              aria-label={item.ariaLabel || item.name}
-              aria-current={pathname === item.href ? "page" : undefined}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {mainNavigation.map((item) =>
+            item.submenu ? (
+              <div key={item.name} className="relative group" ref={dropdownRef}>
+                <button
+                  onClick={() => toggleDropdown(item.name)}
+                  className={cn(
+                    "text-sm font-semibold leading-6 transition-colors flex items-center gap-1",
+                    activeDropdown === item.name || pathname.startsWith(item.href)
+                      ? "text-primary"
+                      : "text-secondary hover:text-primary",
+                  )}
+                  aria-expanded={activeDropdown === item.name}
+                  aria-controls={`dropdown-${item.name}`}
+                >
+                  {item.name}
+                  <svg
+                    className={`h-4 w-4 transition-transform ${activeDropdown === item.name ? "rotate-180" : ""}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+                {activeDropdown === item.name && (
+                  <div
+                    id={`dropdown-${item.name}`}
+                    className="absolute left-0 z-10 mt-2 w-48 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby={`dropdown-button-${item.name}`}
+                  >
+                    {item.submenu.map((subItem) => (
+                      <Link
+                        key={subItem.name}
+                        href={subItem.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                        onClick={() => setActiveDropdown(null)}
+                      >
+                        {subItem.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "text-sm font-semibold leading-6 transition-colors",
+                  pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+                    ? "text-primary"
+                    : "text-secondary hover:text-primary",
+                )}
+                aria-label={item.ariaLabel || item.name}
+                aria-current={pathname === item.href ? "page" : undefined}
+              >
+                {item.name}
+              </Link>
+            ),
+          )}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Button asChild className="bg-primary hover:bg-primary/90">
@@ -195,40 +253,79 @@ export default function Header() {
                 <X className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
+            {/* Also update the mobile menu section to use the same navigation structure */}
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-200">
                 <div className="space-y-2 py-6">
                   <h2 id="mobile-menu-heading" className="sr-only">
                     Menú de navegación
                   </h2>
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className={cn(
-                        "-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7",
-                        pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
-                          ? "text-primary"
-                          : "text-secondary hover:bg-gray-50",
+                  {mainNavigation.map((item) => (
+                    <div key={item.name}>
+                      {item.submenu ? (
+                        <div className="relative">
+                          <button
+                            onClick={() => toggleMobileSubmenu(item.name)}
+                            className={cn(
+                              "-mx-3 flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7",
+                              pathname.startsWith(item.href) ? "text-primary" : "text-secondary hover:bg-gray-50",
+                            )}
+                            aria-expanded={mobileActiveSubmenu === item.name}
+                            aria-controls={`mobile-dropdown-${item.name}`}
+                          >
+                            {item.name}
+                            <svg
+                              className={`h-4 w-4 transition-transform ${mobileActiveSubmenu === item.name ? "rotate-180" : ""}`}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                          {mobileActiveSubmenu === item.name && (
+                            <div id={`mobile-dropdown-${item.name}`} className="ml-4 mt-1 space-y-1">
+                              {item.submenu.map((subItem) => (
+                                <Link
+                                  key={subItem.name}
+                                  href={subItem.href}
+                                  className={cn(
+                                    "block rounded-md px-3 py-2 text-sm",
+                                    pathname === subItem.href
+                                      ? "bg-primary/10 text-primary"
+                                      : "text-gray-600 hover:bg-gray-50",
+                                  )}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                >
+                                  {subItem.name}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            "-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7",
+                            pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+                              ? "text-primary"
+                              : "text-secondary hover:bg-gray-50",
+                          )}
+                          onClick={() => setMobileMenuOpen(false)}
+                          aria-label={item.ariaLabel || item.name}
+                          aria-current={pathname === item.href ? "page" : undefined}
+                        >
+                          {item.name}
+                        </Link>
                       )}
-                      onClick={() => setMobileMenuOpen(false)}
-                      aria-label={item.ariaLabel || item.name}
-                      aria-current={pathname === item.href ? "page" : undefined}
-                    >
-                      {item.name}
-                    </Link>
+                    </div>
                   ))}
-                </div>
-                <div className="py-6">
-                  <Button
-                    asChild
-                    className="w-full bg-primary hover:bg-primary/90"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Link href="/top-herramientas-ia" aria-label="Ver mejores herramientas IA">
-                      Mejores Herramientas IA
-                    </Link>
-                  </Button>
                 </div>
               </div>
             </div>

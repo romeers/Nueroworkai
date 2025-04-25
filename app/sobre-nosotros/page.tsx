@@ -192,7 +192,6 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </section>
-
       {/* Historia de la Marca */}
       <section className="py-16 bg-white" id="historia">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -224,7 +223,6 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </section>
-
       {/* Nuestra Misión */}
       <section className="py-16 bg-gray-50" id="mision">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -287,7 +285,6 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </section>
-
       {/* Nuestros Valores */}
       <section className="py-16 bg-white" id="valores">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -312,7 +309,6 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </section>
-
       {/* Nuestro Equipo */}
       <section className="py-16 bg-gray-50" id="equipo">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -349,17 +345,33 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </section>
-
       {/* Stats Section */}
       <Stats
         title="NeuroWorkAI en números"
         subtitle="Datos que respaldan nuestra experiencia y compromiso con la calidad"
         stats={stats}
       />
-
       {/* Trust Badges Section */}
       <TrustBadges title="Colaboramos con las principales herramientas de IA" badges={trustBadges} />
-
+      {/* SEO & Trust Microcopy */}
+      <section className="py-8 bg-gray-50 border-t border-gray-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm text-gray-500">
+              NeuroWorkAI participa en programas de afiliación. Recomendamos solo herramientas que hemos probado y
+              validado.
+              <Link href="/aviso-afiliados" className="text-primary hover:underline ml-1">
+                Leer nuestro aviso de afiliados
+              </Link>
+              {" y "}
+              <Link href="/politica-privacidad" className="text-primary hover:underline">
+                política de transparencia
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
       {/* Contact Form Section */}
       <section className="py-16 bg-white" id="contacto">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -527,27 +539,6 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </section>
-
-      {/* SEO & Trust Microcopy */}
-      <section className="py-8 bg-gray-50 border-t border-gray-100">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm text-gray-500">
-              NeuroWorkAI participa en programas de afiliación. Recomendamos solo herramientas que hemos probado y
-              validado.
-              <Link href="/aviso-afiliados" className="text-primary hover:underline ml-1">
-                Leer nuestro aviso de afiliados
-              </Link>
-              {" y "}
-              <Link href="/politica-privacidad" className="text-primary hover:underline">
-                política de transparencia
-              </Link>
-              .
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="bg-primary py-16 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -570,6 +561,25 @@ export default function SobreNosotrosPage() {
           </div>
         </div>
       </section>
+      + {/* Mission and Transparency */}+{" "}
+      <section className="py-16 bg-gray-50 border-t border-gray-100">
+        +{" "}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          + <h2 className="text-2xl font-bold text-secondary mb-4">Nuestra Misión</h2>+{" "}
+          <p className="text-lg text-gray-600 mb-4">
+            Empoderar a los profesionales remotos con las mejores herramientas de IA para transformar su productividad y
+            alcanzar sus metas.
+          </p>
+          +{" "}
+          <p className="text-sm text-gray-500">
+            En NeuroWorkAI, la transparencia es fundamental. Nos esforzamos por ofrecer información precisa, imparcial y
+            útil para ayudarte a tomar decisiones informadas.
+          </p>
+          +{" "}
+        </div>
+        +{" "}
+      </section>
+      +
     </>
   )
 }

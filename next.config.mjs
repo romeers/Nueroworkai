@@ -115,8 +115,20 @@ const nextConfig = {
     ]
   },
   images: {
-    domains: ['v0.blob.com', 'hebbkx1anhila5yf.public.blob.vercel-storage.com'],
-    unoptimized: true,
+    domains: [
+      'hebbkx1anhila5yf.public.blob.vercel-storage.com',
+      'v0.blob.com',
+      'neuroworkai.com',
+      'res.cloudinary.com',
+      'images.unsplash.com',
+    ],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+  experimental: {
+    optimizeCss: true,
+    scrollRestoration: true,
   },
 }
 
