@@ -374,7 +374,64 @@ export default function SobreNosotrosPage() {
                 <h3 className="text-xl font-bold text-secondary mb-6">Envíanos un mensaje</h3>
 
                 <div id="contact-form-container">
-                  <form id="contact-form" className="space-y-6">
+                  <form
+                    id="contact-form"
+                    className="space-y-6"
+                    onSubmit={(e) => {
+                      e.preventDefault()
+
+                      const formElement = e.currentTarget
+                      const statusDiv = document.getElementById("form-status")
+
+                      // Mostrar estado de envío
+                      if (statusDiv) {
+                        statusDiv.textContent = "Enviando..."
+                        statusDiv.className = "mt-4 p-3 rounded bg-blue-50 text-blue-700"
+                        statusDiv.style.display = "block"
+                      }
+
+                      // Recoger datos del formulario
+                      const formData = {
+                        name: formElement.name.value,
+                        email: formElement.email.value,
+                        subject: formElement.subject.value,
+                        message: formElement.message.value,
+                      }
+
+                      // Enviar datos
+                      fetch("/api/contact-message", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData),
+                      })
+                        .then((response) => {
+                          if (response.ok) {
+                            // Éxito
+                            if (statusDiv) {
+                              statusDiv.textContent = "¡Gracias por tu mensaje! Te responderemos lo antes posible."
+                              statusDiv.className = "mt-4 p-3 rounded bg-green-50 text-green-700"
+                            }
+                            formElement.reset()
+                          } else {
+                            // Error del servidor
+                            if (statusDiv) {
+                              statusDiv.textContent =
+                                "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."
+                              statusDiv.className = "mt-4 p-3 rounded bg-red-50 text-red-700"
+                            }
+                          }
+                        })
+                        .catch((error) => {
+                          console.error("Error al enviar el formulario:", error)
+                          // Error de red
+                          if (statusDiv) {
+                            statusDiv.textContent =
+                              "No se pudo conectar con el servidor. Por favor, verifica tu conexión."
+                            statusDiv.className = "mt-4 p-3 rounded bg-red-50 text-red-700"
+                          }
+                        })
+                    }}
+                  >
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                         Nombre
@@ -437,59 +494,8 @@ export default function SobreNosotrosPage() {
                     </button>
                   </form>
 
-                  <div id="form-status" className="mt-4 hidden"></div>
+                  <div id="form-status" className="mt-4" style={{ display: "none" }}></div>
                 </div>
-
-                <script
-                  dangerouslySetInnerHTML={{
-                    __html: `
-    document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('contact-form');
-      const statusDiv = document.getElementById('form-status');
-      
-      form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Mostrar estado de envío
-        statusDiv.textContent = 'Enviando...';
-        statusDiv.className = 'mt-4 p-3 rounded bg-blue-50 text-blue-700';
-        statusDiv.classList.remove('hidden');
-        
-        // Recoger datos del formulario
-        const formData = {
-          name: form.name.value,
-          email: form.email.value,
-          subject: form.subject.value,
-          message: form.message.value
-        };
-        
-        try {
-          const response = await fetch('/api/contact-message', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-          });
-          
-          if (response.ok) {
-            // Éxito
-            statusDiv.textContent = '¡Gracias por tu mensaje! Te responderemos lo antes posible.';
-            statusDiv.className = 'mt-4 p-3 rounded bg-green-50 text-green-700';
-            form.reset();
-          } else {
-            // Error del servidor
-            statusDiv.textContent = 'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.';
-            statusDiv.className = 'mt-4 p-3 rounded bg-red-50 text-red-700';
-          }
-        } catch (error) {
-          // Error de red
-          statusDiv.textContent = 'No se pudo conectar con el servidor. Por favor, verifica tu conexión.';
-          statusDiv.className = 'mt-4 p-3 rounded bg-red-50 text-red-700';
-        }
-      });
-    });
-  `,
-                  }}
-                ></script>
               </div>
 
               <div>
