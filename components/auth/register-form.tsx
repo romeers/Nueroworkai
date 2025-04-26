@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { sanitizeInput, validateEmail, validatePassword } from "@/utils/security"
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -19,16 +20,30 @@ export default function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const redirectTo = "/perfil"
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
     setError("")
+    setIsLoading(true)
 
-    // Validar contraseñas
-    if (password !== confirmPassword) {
-      setError("Las contraseñas no coinciden")
-      setLoading(false)
+    // Sanitizar entradas
+    const sanitizedEmail = sanitizeInput(email)
+    const sanitizedName = name ? sanitizeInput(name) : ""
+
+    // Validar email
+    if (!validateEmail(sanitizedEmail)) {
+      setError("Por favor, introduce un email válido")
+      setIsLoading(false)
+      return
+    }
+
+    // Validar contraseña
+    const passwordValidation = validatePassword(password)
+    if (!passwordValidation.valid) {
+      setError(passwordValidation.message || "Contraseña inválida")
+      setIsLoading(false)
       return
     }
 
@@ -38,21 +53,27 @@ export default function RegisterForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({
+          email: sanitizedEmail,
+          password,
+          name: sanitizedName,
+        }),
       })
 
       const data = await response.json()
 
-      if (!response.ok) {
-        throw new Error(data.message || "Error al registrarse")
+      if (data.success) {
+        // Registro exitoso
+        router.push(redirectTo || "/")
+      } else {
+        // Error en el registro
+        setError(data.message || "Error al registrar usuario")
       }
-
-      // Redirigir al perfil
-      router.push("/perfil")
-    } catch (err: any) {
-      setError(err.message || "Error al registrarse")
+    } catch (error) {
+      setError("Error de conexión. Por favor, inténtalo de nuevo.")
+      console.error("Error al registrar:", error)
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     }
   }
 
@@ -113,8 +134,8 @@ export default function RegisterForm() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Registrando..." : "Registrarse"}
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Registrando..." : "Registrarse"}
             </Button>
           </form>
         </CardContent>

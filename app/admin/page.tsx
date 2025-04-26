@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Database, Users, FileText, BarChart } from "lucide-react"
+import { Database, Users, FileText, BarChart, Activity } from "lucide-react"
 
 export default function AdminPage() {
   return (
@@ -81,6 +81,23 @@ export default function AdminPage() {
           <CardFooter>
             <Button asChild className="w-full">
               <Link href="/admin/stats">Ver Estadísticas</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Activity className="h-5 w-5" /> Diagnóstico
+            </CardTitle>
+            <CardDescription>Análisis del sitio</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-500">Verifica la integridad y el rendimiento del sitio.</p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full">
+              <Link href="/admin/diagnostics">Ejecutar Diagnóstico</Link>
             </Button>
           </CardFooter>
         </Card>

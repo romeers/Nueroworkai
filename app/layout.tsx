@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { Suspense } from "react"
 import FontOptimization from "@/components/font-optimization"
 import ThirdPartyScripts from "@/components/third-party-scripts"
+import SkipToContent from "@/components/accessibility/skip-to-content"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -75,6 +76,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <div className="flex min-h-screen flex-col">
+            <SkipToContent />
             <a
               href="#main-content"
               className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-primary"

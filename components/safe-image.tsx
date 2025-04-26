@@ -1,7 +1,10 @@
 "use client"
 
-import Image, { type ImageProps } from "next/image"
+import Image from "next/image"
+import { getOptimizedImageUrl, shouldPrioritizeImage } from "@/utils/performance-optimizations"
+import type { ImageProps } from "next/image"
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 interface SafeImageProps extends Omit<ImageProps, "src" | "onLoad"> {
@@ -14,9 +17,8 @@ interface SafeImageProps extends Omit<ImageProps, "src" | "onLoad"> {
 
 export default function SafeImage({
   src,
-  fallbackSrc = "/chromatic-whirl.png",
+  fallbackSrc = "/chromatic-whirl.png", // Proporcionar un valor por defecto
   alt,
-  onLoad,
   width,
   height,
   className,
@@ -28,36 +30,40 @@ export default function SafeImage({
   const [imgSrc, setImgSrc] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
+  const pathname = usePathname()
+
+  // Determinar si la imagen debe cargarse con prioridad
+  const shouldPrioritize = priority || (src && shouldPrioritizeImage(src, pathname))
 
   useEffect(() => {
     // Actualizar el estado cuando cambia la prop src
     if (src && src !== "") {
-      setImgSrc(src)
+      setImgSrc(getOptimizedImageUrl(src, typeof width === "number" ? width : 800))
       setError(false)
       setIsLoading(true)
     } else if (fallbackSrc) {
-      setImgSrc(fallbackSrc)
+      setImgSrc(getOptimizedImageUrl(fallbackSrc, typeof width === "number" ? width : 800))
       setError(false)
       setIsLoading(true)
     } else {
-      setImgSrc(null)
+      setImgSrc(getOptimizedImageUrl("/placeholder.svg", typeof width === "number" ? width : 800))
       setError(true)
       setIsLoading(false)
     }
-  }, [src, fallbackSrc])
+  }, [src, fallbackSrc, width])
 
   const handleLoad = () => {
     setIsLoading(false)
-    if (onLoad) onLoad()
+    if (props.onLoad) props.onLoad()
   }
 
   const handleError = () => {
     setError(true)
     setIsLoading(false)
-    if (fallbackSrc && imgSrc !== fallbackSrc) {
-      setImgSrc(fallbackSrc)
+    if (fallbackSrc && imgSrc !== getOptimizedImageUrl(fallbackSrc, typeof width === "number" ? width : 800)) {
+      setImgSrc(getOptimizedImageUrl(fallbackSrc, typeof width === "number" ? width : 800))
     } else {
-      setImgSrc(null)
+      setImgSrc(getOptimizedImageUrl("/placeholder.svg", typeof width === "number" ? width : 800))
     }
   }
 
@@ -90,8 +96,8 @@ export default function SafeImage({
         className={cn(className, isLoading ? "animate-pulse bg-gray-200" : "")}
         onLoad={handleLoad}
         onError={handleError}
-        loading={priority ? undefined : "lazy"}
-        priority={priority}
+        loading={shouldPrioritize ? undefined : "lazy"}
+        priority={shouldPrioritize}
         {...props}
       />
       {isLoading && showPlaceholder && (
