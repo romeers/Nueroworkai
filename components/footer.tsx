@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { Facebook, Instagram, Linkedin } from "lucide-react"
 import SafeImage from "./safe-image"
 
 export default function Footer() {
@@ -33,34 +33,32 @@ export default function Footer() {
             </p>
             <div className="flex gap-3 mt-4" aria-label="Redes sociales">
               <Link
-                href="#"
+                href="https://www.facebook.com/profile.php?id=61575664503316"
                 className="text-white hover:text-white/80 transition-colors duration-200"
                 aria-label="Facebook de NeuroWorkAI"
                 title="Síguenos en Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Facebook className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
-                className="text-white hover:text-white/80 transition-colors duration-200"
-                aria-label="Twitter de NeuroWorkAI"
-                title="Síguenos en Twitter"
-              >
-                <Twitter className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#"
+                href="https://www.instagram.com/neuroworkai"
                 className="text-white hover:text-white/80 transition-colors duration-200"
                 aria-label="Instagram de NeuroWorkAI"
                 title="Síguenos en Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Instagram className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
+                href="https://www.linkedin.com/company/neuroworksai/"
                 className="text-white hover:text-white/80 transition-colors duration-200"
                 aria-label="LinkedIn de NeuroWorkAI"
                 title="Síguenos en LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Linkedin className="h-5 w-5" />
               </Link>
@@ -194,20 +192,57 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/sobre-nosotros#contacto"
+                <a
+                  href="mailto:bussines@neuroworkai.com"
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Contactar con nosotros"
                 >
                   Contacto
-                </Link>
+                </a>
               </li>
             </ul>
           </nav>
         </div>
 
-        {/* CTA Section - Inline instead of floating */}
+        {/* Social Media Section - Más visible */}
         <div className="mt-12 pt-6 border-t border-white/10 text-center">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Síguenos en redes sociales</h3>
+          <div className="flex justify-center space-x-6">
+            <Link
+              href="https://www.facebook.com/profile.php?id=61575664503316"
+              className="text-white hover:text-white/80 transition-colors duration-200"
+              aria-label="Facebook de NeuroWorkAI"
+              title="Síguenos en Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Facebook className="h-8 w-8" />
+            </Link>
+            <Link
+              href="https://www.instagram.com/neuroworkai"
+              className="text-white hover:text-white/80 transition-colors duration-200"
+              aria-label="Instagram de NeuroWorkAI"
+              title="Síguenos en Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram className="h-8 w-8" />
+            </Link>
+            <Link
+              href="https://www.linkedin.com/company/neuroworksai/"
+              className="text-white hover:text-white/80 transition-colors duration-200"
+              aria-label="LinkedIn de NeuroWorkAI"
+              title="Síguenos en LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Linkedin className="h-8 w-8" />
+            </Link>
+          </div>
+        </div>
+
+        {/* CTA Section - Inline instead of floating */}
+        <div className="mt-8 pt-6 border-t border-white/10 text-center">
           <Link
             href="/herramientas/mejores"
             className="inline-flex items-center justify-center px-6 py-3 bg-white text-primary font-medium rounded-md hover:bg-white/90 transition-colors duration-200 focus-visible:outline-white focus-visible:outline-offset-2"

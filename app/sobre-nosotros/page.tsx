@@ -11,7 +11,6 @@ import {
   Phone,
   MapPin,
   Facebook,
-  Twitter,
   Instagram,
   Linkedin,
   CheckCircle,
@@ -540,92 +539,100 @@ export default function SobreNosotrosPage() {
               </div>
 
               <div>
-                <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 mb-8">
-                  <h3 className="text-xl font-bold text-secondary mb-6">Información de contacto</h3>
-                  <div className="space-y-6">
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full">
-                        <Mail className="h-6 w-6 text-primary" />
+                <div>
+                  <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 mb-8 hover:shadow-md transition-all duration-300">
+                    <h3 className="text-xl font-bold text-secondary mb-6">Información de contacto</h3>
+                    <div className="space-y-6">
+                      <div className="flex items-start group">
+                        <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full group-hover:bg-primary/20 transition-colors">
+                          <Mail className="h-6 w-6 text-primary" />
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-gray-900">Email de negocios</p>
+                          <a
+                            href="mailto:bussines@neuroworkai.com"
+                            className="mt-1 text-sm text-gray-600 hover:text-primary transition-colors font-medium"
+                          >
+                            bussines@neuroworkai.com
+                          </a>
+                        </div>
                       </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium text-gray-900">Email</p>
+
+                      <div className="flex items-start group">
+                        <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full group-hover:bg-primary/20 transition-colors">
+                          <Phone className="h-6 w-6 text-primary" />
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-gray-900">Teléfono directo</p>
+                          <a
+                            href="tel:+34675980055"
+                            className="mt-1 text-sm text-gray-600 hover:text-primary transition-colors font-medium"
+                          >
+                            +34 675 980 055
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start group">
+                        <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full group-hover:bg-primary/20 transition-colors">
+                          <MapPin className="h-6 w-6 text-primary" />
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-gray-900">Ubicación</p>
+                          <p className="mt-1 text-sm text-gray-600 font-medium">Madrid - España</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-8 pt-6 border-t border-gray-100">
+                      <h3 className="text-lg font-semibold text-secondary mb-4">Conéctate con nosotros</h3>
+                      <p className="text-sm text-gray-600 mb-4">
+                        Síguenos en redes sociales para estar al día de las últimas novedades en herramientas IA
+                      </p>
+                      <div className="flex space-x-4">
                         <a
-                          href="mailto:contacto@neuroworkai.com"
-                          className="mt-1 text-sm text-gray-600 hover:text-primary transition-colors"
+                          href="https://www.facebook.com/profile.php?id=61575664503316"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300"
+                          aria-label="Facebook"
                         >
-                          contacto@neuroworkai.com
+                          <span className="sr-only">Facebook</span>
+                          <Facebook className="h-6 w-6" />
+                        </a>
+                        <a
+                          href="https://www.instagram.com/neuroworkai"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-all duration-300"
+                          aria-label="Instagram"
+                        >
+                          <span className="sr-only">Instagram</span>
+                          <Instagram className="h-6 w-6" />
+                        </a>
+                        <a
+                          href="https://www.linkedin.com/company/neuroworksai/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-blue-700 hover:bg-blue-50 transition-all duration-300"
+                          aria-label="LinkedIn"
+                        >
+                          <span className="sr-only">LinkedIn</span>
+                          <Linkedin className="h-6 w-6" />
+                        </a>
+                      </div>
+                      <div className="mt-6 bg-primary/5 p-4 rounded-lg">
+                        <p className="text-sm text-gray-700 font-medium">
+                          ¿Buscas asesoramiento personalizado sobre herramientas IA?
+                        </p>
+                        <a
+                          href="#contact-form"
+                          className="mt-2 inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm"
+                        >
+                          Contáctanos ahora <ArrowRight className="ml-1 h-4 w-4" />
                         </a>
                       </div>
                     </div>
-
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full">
-                        <Phone className="h-6 w-6 text-primary" />
-                      </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium text-gray-900">Teléfono</p>
-                        <a
-                          href="tel:+34123456789"
-                          className="mt-1 text-sm text-gray-600 hover:text-primary transition-colors"
-                        >
-                          +34 123 456 789
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 bg-primary/10 p-3 rounded-full">
-                        <MapPin className="h-6 w-6 text-primary" />
-                      </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium text-gray-900">Ubicación</p>
-                        <p className="mt-1 text-sm text-gray-600">Madrid, España</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <h3 className="text-lg font-semibold text-secondary mt-8 mb-4">Síguenos en redes sociales</h3>
-                  <div className="flex space-x-4">
-                    <a
-                      href="https://facebook.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
-                      aria-label="Facebook"
-                    >
-                      <span className="sr-only">Facebook</span>
-                      <Facebook className="h-5 w-5" />
-                    </a>
-                    <a
-                      href="https://twitter.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
-                      aria-label="Twitter"
-                    >
-                      <span className="sr-only">Twitter</span>
-                      <Twitter className="h-5 w-5" />
-                    </a>
-                    <a
-                      href="https://instagram.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
-                      aria-label="Instagram"
-                    >
-                      <span className="sr-only">Instagram</span>
-                      <Instagram className="h-5 w-5" />
-                    </a>
-                    <a
-                      href="https://linkedin.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
-                      aria-label="LinkedIn"
-                    >
-                      <span className="sr-only">LinkedIn</span>
-                      <Linkedin className="h-5 w-5" />
-                    </a>
                   </div>
                 </div>
 

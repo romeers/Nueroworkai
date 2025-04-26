@@ -1,6 +1,6 @@
-import type React from "react"
+import React from "react"
 import Link from "next/link"
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { Facebook, Instagram, Linkedin } from "lucide-react"
 import SafeImage from "./safe-image"
 
 interface FooterLink {
@@ -66,32 +66,26 @@ export default function SiteFooter({
         { href: "/politica-privacidad", label: "Política de Privacidad" },
         { href: "/politica-cookies", label: "Política de Cookies" },
         { href: "/aviso-afiliados", label: "Aviso de Afiliados" },
-        { href: "/sobre-nosotros#contacto", label: "Contacto" },
+        { href: "mailto:bussines@neuroworkai.com", label: "Contacto" },
       ],
     },
   ],
   socialLinks = [
     {
       platform: "Facebook",
-      href: "#",
+      href: "https://www.facebook.com/profile.php?id=61575664503316",
       icon: <Facebook className="h-5 w-5" />,
       ariaLabel: "Facebook de NeuroWorkAI",
     },
     {
-      platform: "Twitter",
-      href: "#",
-      icon: <Twitter className="h-5 w-5" />,
-      ariaLabel: "Twitter de NeuroWorkAI",
-    },
-    {
       platform: "Instagram",
-      href: "#",
+      href: "https://www.instagram.com/neuroworkai",
       icon: <Instagram className="h-5 w-5" />,
       ariaLabel: "Instagram de NeuroWorkAI",
     },
     {
       platform: "LinkedIn",
-      href: "#",
+      href: "https://www.linkedin.com/company/neuroworksai/",
       icon: <Linkedin className="h-5 w-5" />,
       ariaLabel: "LinkedIn de NeuroWorkAI",
     },
@@ -136,6 +130,8 @@ export default function SiteFooter({
                   className="text-white hover:text-white/80 transition-colors duration-200"
                   aria-label={social.ariaLabel}
                   title={`Síguenos en ${social.platform}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {social.icon}
                 </Link>
@@ -150,12 +146,21 @@ export default function SiteFooter({
               <ul className="space-y-2">
                 {column.links.map((link) => (
                   <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                    >
-                      {link.label}
-                    </Link>
+                    {link.href.startsWith("mailto:") ? (
+                      <a
+                        href={link.href}
+                        className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -163,9 +168,29 @@ export default function SiteFooter({
           ))}
         </div>
 
+        {/* Social Media Section - Más visible */}
+        <div className="mt-12 pt-6 border-t border-white/10 text-center">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Síguenos en redes sociales</h3>
+          <div className="flex justify-center space-x-6">
+            {socialLinks.map((social) => (
+              <Link
+                key={social.platform}
+                href={social.href}
+                className="text-white hover:text-white/80 transition-colors duration-200"
+                aria-label={social.ariaLabel}
+                title={`Síguenos en ${social.platform}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {React.cloneElement(social.icon as React.ReactElement, { className: "h-8 w-8" })}
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* CTA Section - Inline instead of floating */}
         {showCta && (
-          <div className="mt-12 pt-6 border-t border-white/10 text-center">
+          <div className="mt-8 pt-6 border-t border-white/10 text-center">
             <Link
               href={ctaHref}
               className="inline-flex items-center justify-center px-6 py-3 bg-white text-primary font-medium rounded-md hover:bg-white/90 transition-colors duration-200 focus-visible:outline-white focus-visible:outline-offset-2"

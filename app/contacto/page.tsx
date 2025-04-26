@@ -1,7 +1,7 @@
 import ContactForm from "@/components/contact-form"
 import Image from "next/image"
 import Link from "next/link"
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react"
 
 export const metadata = {
   title: "Contacta con nosotros | NeuroWorkAI",
@@ -55,7 +55,9 @@ export default function ContactoPage() {
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-gray-900">Email</p>
-                      <p className="mt-1 text-sm text-gray-600">contacto@neuroworkai.com</p>
+                      <a href="mailto:bussines@neuroworkai.com" className="mt-1 text-sm text-primary hover:underline">
+                        bussines@neuroworkai.com
+                      </a>
                     </div>
                   </div>
 
@@ -82,19 +84,30 @@ export default function ContactoPage() {
 
                 <h3 className="mt-12 text-lg font-semibold text-secondary">Síguenos en redes sociales</h3>
                 <div className="mt-4 flex space-x-4">
-                  <Link href="#" className="text-gray-600 hover:text-primary">
+                  <Link
+                    href="https://www.facebook.com/profile.php?id=61575664503316"
+                    className="text-gray-600 hover:text-primary transition-colors duration-200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <span className="sr-only">Facebook</span>
                     <Facebook className="h-6 w-6" />
                   </Link>
-                  <Link href="#" className="text-gray-600 hover:text-primary">
-                    <span className="sr-only">Twitter</span>
-                    <Twitter className="h-6 w-6" />
-                  </Link>
-                  <Link href="#" className="text-gray-600 hover:text-primary">
+                  <Link
+                    href="https://www.instagram.com/neuroworkai"
+                    className="text-gray-600 hover:text-primary transition-colors duration-200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <span className="sr-only">Instagram</span>
                     <Instagram className="h-6 w-6" />
                   </Link>
-                  <Link href="#" className="text-gray-600 hover:text-primary">
+                  <Link
+                    href="https://www.linkedin.com/company/neuroworksai/"
+                    className="text-gray-600 hover:text-primary transition-colors duration-200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <span className="sr-only">LinkedIn</span>
                     <Linkedin className="h-6 w-6" />
                   </Link>
