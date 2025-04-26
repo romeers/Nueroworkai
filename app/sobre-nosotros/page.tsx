@@ -630,13 +630,25 @@ export default function SobreNosotrosPage() {
                 </div>
 
                 <div className="overflow-hidden rounded-xl shadow-sm border border-gray-100">
-                  <SafeImage
-                    src="/diverse-group-city.png"
-                    alt="Equipo de NeuroWorkAI trabajando en un espacio moderno"
-                    width={600}
-                    height={400}
-                    className="w-full h-auto object-cover"
-                  />
+                  <div className="relative w-full h-[300px]">
+                    <SafeImage
+                      src="/team-fallback.png"
+                      alt="Equipo de NeuroWorkAI trabajando en un espacio moderno"
+                      width={600}
+                      height={400}
+                      className="w-full h-full object-cover"
+                      fallback={
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100 p-6 text-center">
+                          <div>
+                            <Users className="h-12 w-12 text-primary/60 mx-auto mb-4" />
+                            <p className="text-gray-600 font-medium">
+                              Equipo de NeuroWorkAI trabajando en un espacio moderno
+                            </p>
+                          </div>
+                        </div>
+                      }
+                    />
+                  </div>
                 </div>
               </div>
             </div>
