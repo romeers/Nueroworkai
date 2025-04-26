@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { Menu } from "lucide-react"
+import { Menu, ChevronDown, ChevronUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import SafeImage from "./safe-image"
@@ -29,18 +29,25 @@ const navigation = [
 
 export default function MobileNavDrawer() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const logoImage =
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
+
+  // Reset active dropdown when pathname changes
+  useEffect(() => {
+    setActiveDropdown(null)
+    setIsOpen(false)
+  }, [pathname])
 
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name)
   }
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden">
+        <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menú de navegación">
           <Menu className="h-6 w-6" />
           <span className="sr-only">Abrir menú</span>
         </Button>
@@ -52,6 +59,7 @@ export default function MobileNavDrawer() {
               href="/"
               className="flex items-center transition-all duration-300 hover:opacity-80 hover:scale-105"
               aria-label="NeuroWorkAI - Ir a inicio"
+              onClick={() => setIsOpen(false)}
             >
               <SafeImage
                 src={logoImage}
@@ -72,6 +80,7 @@ export default function MobileNavDrawer() {
                     "block rounded-md px-3 py-2 text-sm font-medium",
                     pathname === "/" ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50",
                   )}
+                  onClick={() => setIsOpen(false)}
                 >
                   Inicio
                 </Link>
@@ -88,21 +97,14 @@ export default function MobileNavDrawer() {
                             ? "bg-primary/10 text-primary"
                             : "text-gray-700 hover:bg-gray-100",
                         )}
+                        aria-expanded={activeDropdown === item.name}
                       >
                         {item.name}
-                        <svg
-                          className={`h-4 w-4 transition-transform ${activeDropdown === item.name ? "rotate-180" : ""}`}
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
+                        {activeDropdown === item.name ? (
+                          <ChevronUp className="h-4 w-4 transition-transform" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4 transition-transform" />
+                        )}
                       </button>
                       {activeDropdown === item.name && (
                         <div className="ml-4 mt-1 space-y-1">
@@ -116,6 +118,7 @@ export default function MobileNavDrawer() {
                                   ? "bg-primary/10 text-primary"
                                   : "text-gray-600 hover:bg-gray-50",
                               )}
+                              onClick={() => setIsOpen(false)}
                             >
                               {subItem.name}
                             </Link>
@@ -133,6 +136,7 @@ export default function MobileNavDrawer() {
                           : "text-gray-600 hover:bg-gray-50",
                       )}
                       aria-label={item.ariaLabel || item.name}
+                      onClick={() => setIsOpen(false)}
                     >
                       {item.name}
                     </Link>
@@ -143,14 +147,16 @@ export default function MobileNavDrawer() {
           </div>
           <div className="border-t p-4">
             <Button asChild className="w-full bg-primary hover:bg-primary/90">
-              <Link href="/herramientas-ia">Mejores Herramientas IA</Link>
+              <Link href="/herramientas-ia" onClick={() => setIsOpen(false)}>
+                Mejores Herramientas IA
+              </Link>
             </Button>
             <div className="mt-4 text-xs text-gray-500 text-center">
-              <Link href="/sobre-nosotros" className="text-primary hover:underline">
+              <Link href="/sobre-nosotros" className="text-primary hover:underline" onClick={() => setIsOpen(false)}>
                 Sobre Nosotros
               </Link>
               {" • "}
-              <Link href="/contacto" className="text-primary hover:underline">
+              <Link href="/contacto" className="text-primary hover:underline" onClick={() => setIsOpen(false)}>
                 Contacto
               </Link>
             </div>

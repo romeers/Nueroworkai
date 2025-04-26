@@ -1,14 +1,18 @@
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin } from "lucide-react"
+import { Facebook, Instagram, Linkedin, ArrowUpRight } from "lucide-react"
 import SafeImage from "./safe-image"
+import { Button } from "@/components/ui/button"
 
 export default function Footer() {
   const logoWhiteImage =
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
 
+  const currentYear = new Date().getFullYear()
+
   return (
     <footer className="bg-secondary text-white py-16" role="contentinfo" aria-label="Pie de página del sitio">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Main footer content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 items-start">
           {/* Logo and brand information */}
           <div className="space-y-4">
@@ -34,7 +38,7 @@ export default function Footer() {
             <div className="flex gap-3 mt-4" aria-label="Redes sociales">
               <Link
                 href="https://www.facebook.com/profile.php?id=61575664503316"
-                className="text-white hover:text-white/80 transition-colors duration-200"
+                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
                 aria-label="Facebook de NeuroWorkAI"
                 title="Síguenos en Facebook"
                 target="_blank"
@@ -44,7 +48,7 @@ export default function Footer() {
               </Link>
               <Link
                 href="https://www.instagram.com/neuroworkai"
-                className="text-white hover:text-white/80 transition-colors duration-200"
+                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
                 aria-label="Instagram de NeuroWorkAI"
                 title="Síguenos en Instagram"
                 target="_blank"
@@ -54,7 +58,7 @@ export default function Footer() {
               </Link>
               <Link
                 href="https://www.linkedin.com/company/neuroworksai/"
-                className="text-white hover:text-white/80 transition-colors duration-200"
+                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
                 aria-label="LinkedIn de NeuroWorkAI"
                 title="Síguenos en LinkedIn"
                 target="_blank"
@@ -210,7 +214,7 @@ export default function Footer() {
           <div className="flex justify-center space-x-6">
             <Link
               href="https://www.facebook.com/profile.php?id=61575664503316"
-              className="text-white hover:text-white/80 transition-colors duration-200"
+              className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-3 rounded-full hover:bg-white/20"
               aria-label="Facebook de NeuroWorkAI"
               title="Síguenos en Facebook"
               target="_blank"
@@ -220,7 +224,7 @@ export default function Footer() {
             </Link>
             <Link
               href="https://www.instagram.com/neuroworkai"
-              className="text-white hover:text-white/80 transition-colors duration-200"
+              className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-3 rounded-full hover:bg-white/20"
               aria-label="Instagram de NeuroWorkAI"
               title="Síguenos en Instagram"
               target="_blank"
@@ -230,7 +234,7 @@ export default function Footer() {
             </Link>
             <Link
               href="https://www.linkedin.com/company/neuroworksai/"
-              className="text-white hover:text-white/80 transition-colors duration-200"
+              className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-3 rounded-full hover:bg-white/20"
               aria-label="LinkedIn de NeuroWorkAI"
               title="Síguenos en LinkedIn"
               target="_blank"
@@ -241,16 +245,23 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* CTA Section - Inline instead of floating */}
+        {/* CTA Section - Improved with button component */}
         <div className="mt-8 pt-6 border-t border-white/10 text-center">
-          <Link
-            href="/herramientas/mejores"
-            className="inline-flex items-center justify-center px-6 py-3 bg-white text-primary font-medium rounded-md hover:bg-white/90 transition-colors duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-            aria-label="Descubrir mejores herramientas IA"
+          <Button
+            asChild
+            size="lg"
+            className="bg-white text-primary hover:bg-white/90 shadow-md hover:shadow-lg transition-all"
           >
-            Descubrir Mejores Herramientas IA
-          </Link>
-          <p className="text-sm text-white/70 mt-2">Análisis actualizados 2025</p>
+            <Link
+              href="/herramientas/mejores"
+              className="inline-flex items-center gap-2"
+              aria-label="Descubrir mejores herramientas IA"
+            >
+              Descubrir Mejores Herramientas IA
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          <p className="text-sm text-white/70 mt-2">Análisis actualizados {currentYear}</p>
         </div>
 
         {/* Copyright and affiliate disclosure */}
@@ -260,7 +271,7 @@ export default function Footer() {
             a través de nuestros enlaces, sin costo adicional para ti.
           </p>
           <p className="text-center text-sm text-white/70 mt-4">
-            &copy; 2025 NeuroWorkAI. Todos los derechos reservados.
+            &copy; {currentYear} NeuroWorkAI. Todos los derechos reservados.
           </p>
           <p className="text-center text-xs text-white/50 mt-2">
             Desarrollado con <span aria-hidden="true">♥</span>

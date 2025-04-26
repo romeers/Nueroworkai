@@ -2,17 +2,18 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
+import MobileNavDrawer from "./mobile-nav-drawer"
+import { throttle } from "@/lib/utils"
 
 // Update the navigation array to remove the Blog entry
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
-  { name: "Recursos", href: "/recursos", ariaLabel: "Ir a Recursos" }, // Cambiado de "Guías y Recursos" a "Recursos" sin dropdown
+  { name: "Recursos", href: "/recursos", ariaLabel: "Ir a Recursos" },
   { name: "Sobre Nosotros", href: "/sobre-nosotros" },
 ]
 
@@ -30,10 +31,12 @@ export default function Header() {
   const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
+    // Optimized scroll handler with throttle
+    const handleScroll = throttle(() => {
       setScrolled(window.scrollY > 10)
       setShowStickyCTA(window.scrollY > 300)
-    }
+    }, 100)
+
     window.addEventListener("scroll", handleScroll)
 
     // Manejar clics fuera del dropdown
@@ -113,26 +116,20 @@ export default function Header() {
             </div>
           </Link>
         </div>
+
+        {/* Mobile menu button - replaced with MobileNavDrawer for better UX */}
         <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-secondary"
-            onClick={() => setMobileMenuOpen(true)}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label="Abrir menú principal"
-          >
-            <span className="sr-only">Abrir menú principal</span>
-            <Menu className="h-6 w-6" aria-hidden="true" />
-          </button>
+          <MobileNavDrawer />
         </div>
+
+        {/* Desktop navigation */}
         <div className="hidden lg:flex lg:gap-x-8">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "text-sm font-semibold leading-6 transition-colors",
+                "text-sm font-semibold leading-6 transition-colors relative group",
                 pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
                   ? "text-primary"
                   : "text-secondary hover:text-primary",
@@ -141,11 +138,14 @@ export default function Header() {
               aria-current={pathname === item.href ? "page" : undefined}
             >
               {item.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
           ))}
         </div>
+
+        {/* CTA button */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Button asChild className="bg-primary hover:bg-primary/90">
+          <Button asChild className="bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md transition-all">
             <Link href="/top-herramientas-ia" aria-label="Ver top herramientas IA">
               Top Herramientas IA
             </Link>
@@ -153,90 +153,7 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile menu - mejorado para accesibilidad y usabilidad */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-25"
-          aria-hidden="true"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          <div
-            className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm"
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="mobile-menu-heading"
-          >
-            <div className="flex items-center justify-between">
-              <Link
-                href="/"
-                className="flex items-center transition-opacity duration-200 hover:opacity-80"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label="NeuroWorkAI - Ir a inicio"
-              >
-                <div className="flex items-center">
-                  <SafeImage
-                    src={logoImage}
-                    fallbackSrc="/abstract-brain-network.png"
-                    alt="NeuroWorkAI Logo"
-                    width={180}
-                    height={50}
-                    className="w-[120px] h-auto rounded-lg"
-                  />
-                </div>
-              </Link>
-              <button
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-secondary"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label="Cerrar menú"
-              >
-                <span className="sr-only">Cerrar menú</span>
-                <X className="h-6 w-6" aria-hidden="true" />
-              </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-200">
-                <div className="space-y-2 py-6">
-                  <h2 id="mobile-menu-heading" className="sr-only">
-                    Menú de navegación
-                  </h2>
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className={cn(
-                        "-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7",
-                        pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
-                          ? "text-primary"
-                          : "text-secondary hover:bg-gray-50",
-                      )}
-                      onClick={() => setMobileMenuOpen(false)}
-                      aria-label={item.ariaLabel || item.name}
-                      aria-current={pathname === item.href ? "page" : undefined}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-                <div className="py-6">
-                  <Button
-                    asChild
-                    className="w-full bg-primary hover:bg-primary/90"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Link href="/top-herramientas-ia" aria-label="Ver mejores herramientas IA">
-                      Mejores Herramientas IA
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Sticky CTA - mejorado para accesibilidad */}
+      {/* Sticky CTA - mejorado para accesibilidad y rendimiento móvil */}
       <div
         className={cn(
           "fixed bottom-4 left-0 right-0 z-40 mx-auto flex w-fit transform items-center justify-center transition-all duration-300",
