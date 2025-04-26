@@ -1,14 +1,13 @@
 "use client"
 
-import { Fragment } from "react"
-import { Dialog, Transition } from "@headlessui/react"
-import { X } from "lucide-react"
+import { useEffect } from "react"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { ChevronRight, X } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/contexts/language-context"
-import T from "./t"
+import LanguageSwitcher from "./language-switcher"
 
 interface MobileNavDrawerProps {
   isOpen: boolean
@@ -19,7 +18,32 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
   const pathname = usePathname()
   const { t } = useLanguage()
 
-  // Navigation items with translations
+  // Prevent scrolling when drawer is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [isOpen])
+
+  // Close drawer when clicking outside
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (isOpen && target.id === "mobile-nav-backdrop") {
+        onClose()
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick)
+    return () => document.removeEventListener("click", handleOutsideClick)
+  }, [isOpen, onClose])
+
+  // Definir los elementos de navegación con traducciones
   const navigation = [
     { name: t("home"), href: "/" },
     { name: t("tools"), href: "/herramientas-ia" },
@@ -28,85 +52,65 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
     { name: t("contact"), href: "/contacto" },
   ]
 
-  return (
-    <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-in-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in-out duration-300"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity" />
-        </Transition.Child>
+  if (!isOpen) return null
 
-        <div className="fixed inset-0 overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-              <Transition.Child
-                as={Fragment}
-                enter="transform transition ease-in-out duration-300"
-                enterFrom="translate-x-full"
-                enterTo="translate-x-0"
-                leave="transform transition ease-in-out duration-300"
-                leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
-              >
-                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
-                    <div className="px-4 sm:px-6">
-                      <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                          <span className="sr-only">Menu</span>
-                        </Dialog.Title>
-                        <div className="ml-3 flex h-7 items-center">
-                          <button
-                            type="button"
-                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                            onClick={onClose}
-                          >
-                            <span className="sr-only">Cerrar panel</span>
-                            <X className="h-6 w-6" aria-hidden="true" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                      <nav className="flex flex-col space-y-6">
-                        {navigation.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className={cn(
-                              "text-lg font-medium transition-colors",
-                              pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
-                                ? "text-primary"
-                                : "text-secondary hover:text-primary",
-                            )}
-                            onClick={onClose}
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                        <div className="pt-4">
-                          <Button asChild className="w-full bg-primary hover:bg-primary/90">
-                            <Link href="/top-herramientas-ia" onClick={onClose}>
-                              <T text="topTools" />
-                            </Link>
-                          </Button>
-                        </div>
-                      </nav>
-                    </div>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
+  return (
+    <div
+      id="mobile-nav-backdrop"
+      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm md:hidden"
+      aria-hidden="true"
+    >
+      <div
+        className="fixed right-0 top-0 h-full w-3/4 max-w-xs bg-white shadow-xl transition-transform duration-300 ease-in-out"
+        style={{ transform: isOpen ? "translateX(0)" : "translateX(100%)" }}
+      >
+        <div className="flex h-full flex-col overflow-y-auto pb-6">
+          <div className="flex items-center justify-between p-4 border-b">
+            <h2 className="text-lg font-semibold">Menu</h2>
+            <button
+              type="button"
+              className="rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              onClick={onClose}
+            >
+              <span className="sr-only">{t("closeMenu")}</span>
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="px-4 py-6">
+            <nav className="flex flex-col space-y-1">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center justify-between rounded-md px-3 py-2 text-base font-medium",
+                    pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+                      ? "bg-primary/10 text-primary"
+                      : "text-gray-700 hover:bg-gray-100",
+                  )}
+                  onClick={onClose}
+                >
+                  {item.name}
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <div className="mt-auto px-4 space-y-4">
+            <div className="mb-4">
+              <LanguageSwitcher variant="flags" />
             </div>
+
+            <Button asChild className="w-full bg-primary hover:bg-primary/90">
+              <Link href="/kit-digital" onClick={onClose}>
+                {t("downloadFree")}
+              </Link>
+            </Button>
           </div>
         </div>
-      </Dialog>
-    </Transition.Root>
+      </div>
+    </div>
   )
 }

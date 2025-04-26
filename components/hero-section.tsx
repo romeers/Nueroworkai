@@ -1,106 +1,107 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import SafeImage from "./safe-image"
 import { useLanguage } from "@/contexts/language-context"
-import TranslatedContent from "./translated-content"
+import { cn } from "@/lib/utils"
 
-export default function HeroSection() {
-  const { language } = useLanguage()
+interface HeroSectionProps {
+  title?: string
+  subtitle?: string
+  primaryButtonText?: string
+  primaryButtonUrl?: string
+  secondaryButtonText?: string
+  secondaryButtonUrl?: string
+  imageSrc?: string
+  imageAlt?: string
+  imagePosition?: "right" | "left"
+  className?: string
+  contentClassName?: string
+  imageClassName?: string
+}
+
+export default function HeroSection({
+  title,
+  subtitle,
+  primaryButtonText,
+  primaryButtonUrl,
+  secondaryButtonText,
+  secondaryButtonUrl,
+  imageSrc = "/neural-network-head.png",
+  imageAlt,
+  imagePosition = "right",
+  className,
+  contentClassName,
+  imageClassName,
+}: HeroSectionProps) {
+  const { t } = useLanguage()
 
   return (
-    <section className="relative overflow-hidden bg-white pt-16 pb-8 md:pt-24 md:pb-12">
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-50 to-white z-0"></div>
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="text-center lg:text-left">
-            <TranslatedContent
-              content={{
-                es: (
-                  <h1 className="text-4xl font-bold tracking-tight text-secondary sm:text-5xl md:text-6xl">
-                    Potencia tu <span className="text-primary">productividad</span> con IA
-                  </h1>
-                ),
-                en: (
-                  <h1 className="text-4xl font-bold tracking-tight text-secondary sm:text-5xl md:text-6xl">
-                    Boost your <span className="text-primary">productivity</span> with AI
-                  </h1>
-                ),
-              }}
-            />
+    <section
+      className={cn("relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-16 md:py-24", className)}
+    >
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%239C92AC' fillOpacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+        }}
+        aria-hidden="true"
+      />
 
-            <TranslatedContent
-              content={{
-                es: (
-                  <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto lg:mx-0">
-                    Descubre y compara las mejores herramientas de IA para profesionales remotos. Análisis detallados,
-                    comparativas y recursos gratuitos para optimizar tu flujo de trabajo.
-                  </p>
-                ),
-                en: (
-                  <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto lg:mx-0">
-                    Discover and compare the best AI tools for remote professionals. Detailed analysis, comparisons, and
-                    free resources to optimize your workflow.
-                  </p>
-                ),
-              }}
-            />
-
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <TranslatedContent
-                content={{
-                  es: (
-                    <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                      <Link href="/herramientas-ia" className="inline-flex items-center gap-2">
-                        Explorar herramientas
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                  ),
-                  en: (
-                    <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                      <Link href="/herramientas-ia" className="inline-flex items-center gap-2">
-                        Explore tools
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                  ),
-                }}
-              />
-
-              <TranslatedContent
-                content={{
-                  es: (
-                    <Button asChild variant="outline" size="lg">
-                      <Link href="/guias-recursos">Descargar recursos gratuitos</Link>
-                    </Button>
-                  ),
-                  en: (
-                    <Button asChild variant="outline" size="lg">
-                      <Link href="/guias-recursos">Download free resources</Link>
-                    </Button>
-                  ),
-                }}
-              />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div
+          className={cn(
+            "flex flex-col gap-8 md:gap-12",
+            imagePosition === "right" ? "md:flex-row" : "md:flex-row-reverse",
+            contentClassName,
+          )}
+        >
+          {/* Text content */}
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-secondary tracking-tight mb-6">
+              {title || t("ctaTitle")}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto md:mx-0">
+              {subtitle || t("ctaSubtitle")}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                <Link href={primaryButtonUrl || "/herramientas-ia"}>
+                  {primaryButtonText || t("discoverTools")}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              {secondaryButtonText && secondaryButtonUrl && (
+                <Button asChild variant="outline" size="lg">
+                  <Link href={secondaryButtonUrl}>{secondaryButtonText}</Link>
+                </Button>
+              )}
             </div>
           </div>
 
-          <div className="relative">
-            <img
-              src="/neural-network-head.png"
-              alt="NeuroWorkAI - Herramientas de IA para profesionales"
-              className="w-full h-auto max-w-lg mx-auto lg:max-w-none rounded-lg shadow-xl"
-            />
-            <div className="absolute -bottom-4 -right-4 bg-white/80 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-gray-100 hidden md:block">
-              <TranslatedContent
-                content={{
-                  es: (
-                    <p className="text-sm font-medium text-gray-900">+50 herramientas de IA analizadas y comparadas</p>
-                  ),
-                  en: <p className="text-sm font-medium text-gray-900">+50 AI tools analyzed and compared</p>,
-                }}
-              />
+          {/* Image */}
+          <div className="flex-1 w-full max-w-md mx-auto">
+            <div className="relative">
+              <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary/20 to-secondary/20 blur-xl opacity-70"></div>
+              <div
+                className={cn(
+                  "relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg",
+                  imageClassName,
+                )}
+              >
+                <SafeImage
+                  src={imageSrc}
+                  alt={imageAlt || t("ctaTitle")}
+                  width={540}
+                  height={405}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>

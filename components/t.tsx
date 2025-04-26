@@ -2,7 +2,7 @@
 
 import { useLanguage } from "@/contexts/language-context"
 
-type TranslateProps = {
+interface TranslateProps {
   text: string
 }
 

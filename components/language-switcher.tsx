@@ -1,46 +1,74 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { useLanguage } from "@/contexts/language-context"
 import { languages } from "@/lib/i18n"
 import { Button } from "@/components/ui/button"
-import { Globe } from "lucide-react"
 
-export default function LanguageSwitcher() {
-  const { language, setLanguage } = useLanguage()
-  const [mounted, setMounted] = useState(false)
+type LanguageSwitcherProps = {
+  variant?: "default" | "minimal" | "flags"
+}
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+export default function LanguageSwitcher({ variant = "default" }: LanguageSwitcherProps) {
+  const { language, setLanguage, isLoading } = useLanguage()
 
-  if (!mounted) {
+  if (isLoading) {
+    return <div className="h-8 w-16 animate-pulse bg-gray-200 rounded"></div>
+  }
+
+  // Versión minimal (solo texto)
+  if (variant === "minimal") {
     return (
-      <div className="flex items-center space-x-1">
-        <Globe className="h-4 w-4 text-gray-500" />
-        <div className="h-6 w-12 bg-gray-200 animate-pulse rounded"></div>
+      <div className="flex items-center space-x-2">
+        {Object.entries(languages).map(([code, lang]) => (
+          <button
+            key={code}
+            onClick={() => setLanguage(code)}
+            className={`text-sm font-medium ${
+              language === code ? "text-primary" : "text-gray-500 hover:text-gray-700"
+            }`}
+            aria-label={`Cambiar a ${lang.name}`}
+          >
+            {code.toUpperCase()}
+          </button>
+        ))}
       </div>
     )
   }
 
-  return (
-    <div className="flex items-center space-x-1">
-      <Globe className="h-4 w-4 text-gray-500" />
-      <div className="flex space-x-1">
-        {Object.keys(languages).map((lang) => (
-          <Button
-            key={lang}
-            variant={language === lang ? "default" : "ghost"}
-            size="sm"
-            className={`px-2 py-1 text-xs ${
-              language === lang ? "bg-primary text-white" : "text-gray-600 hover:text-primary"
+  // Versión con banderas
+  if (variant === "flags") {
+    return (
+      <div className="flex items-center space-x-2">
+        {Object.entries(languages).map(([code, lang]) => (
+          <button
+            key={code}
+            onClick={() => setLanguage(code)}
+            className={`px-2 py-1 rounded ${
+              language === code ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-100"
             }`}
-            onClick={() => setLanguage(lang)}
+            aria-label={`Cambiar a ${lang.name}`}
           >
-            {lang.toUpperCase()}
-          </Button>
+            {code === "es" ? "🇪🇸" : "🇺🇸"} {code.toUpperCase()}
+          </button>
         ))}
       </div>
+    )
+  }
+
+  // Versión por defecto (botones)
+  return (
+    <div className="flex items-center space-x-2">
+      {Object.entries(languages).map(([code, lang]) => (
+        <Button
+          key={code}
+          variant={language === code ? "default" : "outline"}
+          size="sm"
+          onClick={() => setLanguage(code)}
+          className={language === code ? "bg-primary text-white" : ""}
+        >
+          {lang.name}
+        </Button>
+      ))}
     </div>
   )
 }

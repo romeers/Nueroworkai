@@ -1,4 +1,4 @@
-// Configuración básica de idiomas
+// Configuración simplificada de idiomas
 export const languages = {
   es: { name: "Español", code: "es", default: true },
   en: { name: "English", code: "en", default: false },
@@ -6,7 +6,7 @@ export const languages = {
 
 export const defaultLanguage = "es"
 
-// Traducciones comunes
+// Traducciones comunes - versión simplificada
 export const translations = {
   es: {
     // Navegación
@@ -64,6 +64,12 @@ export const translations = {
     date: "Fecha",
     author: "Autor",
     loading: "Cargando...",
+
+    // Mensajes de formularios
+    thankYou: "¡Gracias por suscribirte!",
+    emailSent: "Hemos enviado el recurso a tu correo electrónico.",
+    errorOccurred: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+    sending: "Enviando...",
   },
   en: {
     // Navigation
@@ -120,6 +126,12 @@ export const translations = {
     date: "Date",
     author: "Author",
     loading: "Loading...",
+
+    // Form messages
+    thankYou: "Thank you for subscribing!",
+    emailSent: "We've sent the resource to your email.",
+    errorOccurred: "An error occurred. Please try again.",
+    sending: "Sending...",
   },
 }
 
@@ -129,13 +141,23 @@ export function getTranslation(lang: string, key: string): string {
     lang = defaultLanguage
   }
 
-  return translations[lang][key] || translations[defaultLanguage][key] || key
+  // Si la clave no existe en el idioma, intentar en el idioma por defecto
+  if (!translations[lang][key] && lang !== defaultLanguage) {
+    return translations[defaultLanguage][key] || key
+  }
+
+  return translations[lang][key] || key
 }
 
 // Función para obtener el idioma del navegador
 export function getBrowserLanguage(): string {
   if (typeof window === "undefined") return defaultLanguage
 
-  const browserLang = navigator.language.split("-")[0]
-  return languages[browserLang] ? browserLang : defaultLanguage
+  try {
+    const browserLang = navigator.language.split("-")[0]
+    return languages[browserLang] ? browserLang : defaultLanguage
+  } catch (error) {
+    console.error("Error detecting browser language:", error)
+    return defaultLanguage
+  }
 }
