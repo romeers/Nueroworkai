@@ -167,7 +167,18 @@ export default function HerramientasIAPageClient({
                   <div className="relative mb-4">
                     <div className="w-16 h-16 flex items-center justify-center">
                       <SafeImage
-                        src={tool.image_url}
+                        src={
+                          tool.image_url
+                            ? tool.image_url
+                                .replace("/notion-ai-blue.png", "/notion-logo.png")
+                                .replace("/zapier-blue-background.png", "/zapier-logo.png")
+                                .replace("/clickup-blue-background.png", "/clickup-logo.png")
+                                .replace("/fireflies-ai-logo-blue.png", "/fireflies-logo-full.png")
+                                .replace("/otter-ai-logo-inspired-design.png", "/otter-ai-logo-full.png")
+                                .replace("/grammarly-blue.png", "/grammarly-logo.png")
+                                .replace("/ai-logo-blue.png", "/jasper-logo.png")
+                            : "/placeholder.svg?height=64&width=64&query=logo"
+                        }
                         alt={`Logo de ${tool.name}`}
                         width={64}
                         height={64}

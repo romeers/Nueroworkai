@@ -52,7 +52,7 @@ export const tools = [
     description: "Asistente de escritura y organización con IA integrada en Notion.",
     longDescription:
       "Notion AI es una potente herramienta de inteligencia artificial integrada directamente en la plataforma de Notion. Permite a los usuarios generar texto, resumir contenido, traducir a múltiples idiomas, mejorar la escritura y mucho más, todo sin salir de su espacio de trabajo habitual.",
-    imageUrl: "/notion-ai-blue.png",
+    imageUrl: "/notion-logo.png",
     category: "escritura-ia",
     tags: ["Escritura IA", "Productividad", "Organización", "Colaboración"],
     score: 9.2,
@@ -78,17 +78,17 @@ export const tools = [
       {
         name: "Generación de texto",
         description: "Crea contenido de alta calidad a partir de prompts simples.",
-        imageUrl: "/notion-ai-text-generation.png",
+        imageUrl: "/notion-logo.png",
       },
       {
         name: "Resumen automático",
         description: "Resume documentos largos o reuniones en puntos clave.",
-        imageUrl: "/notion-ai-summarization.png",
+        imageUrl: "/notion-logo.png",
       },
       {
         name: "Traducción",
         description: "Traduce contenido a múltiples idiomas con un solo clic.",
-        imageUrl: "/notion-ai-translation-workflow.png",
+        imageUrl: "/notion-logo.png",
       },
     ],
     pricing: [
@@ -136,7 +136,7 @@ export const tools = [
     description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
     longDescription:
       "Zapier es una plataforma de automatización que conecta más de 5,000 aplicaciones, permitiéndote crear flujos de trabajo automatizados sin necesidad de programación. Ideal para profesionales remotos que buscan ahorrar tiempo en tareas repetitivas.",
-    imageUrl: "/zapier-blue-background.png",
+    imageUrl: "/zapier-logo.png",
     category: "automatizacion",
     tags: ["Automatización", "Integración", "Sin código", "Productividad"],
     score: 9.0,
@@ -158,12 +158,12 @@ export const tools = [
       {
         name: "Zaps",
         description: "Crea flujos de trabajo automatizados entre aplicaciones",
-        imageUrl: "/connected-apps-workflow.png",
+        imageUrl: "/zapier-logo.png",
       },
       {
         name: "Integraciones",
         description: "Conecta con más de 5,000 aplicaciones populares",
-        imageUrl: "/interconnected-ai-workflow.png",
+        imageUrl: "/zapier-logo.png",
       },
     ],
     pricing: [
@@ -189,7 +189,7 @@ export const tools = [
     description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
     longDescription:
       "ClickUp es una plataforma de productividad todo en uno que reemplaza todas tus aplicaciones de trabajo. Combina tareas, documentos, chat, metas y más en una plataforma, ahora potenciada con IA.",
-    imageUrl: "/clickup-blue-background.png",
+    imageUrl: "/clickup-logo.png",
     category: "gestion-tareas",
     tags: ["Gestión de proyectos", "Productividad", "Colaboración", "IA"],
     score: 8.8,
@@ -211,12 +211,12 @@ export const tools = [
       {
         name: "Gestión de tareas",
         description: "Organiza y prioriza tu trabajo con múltiples vistas",
-        imageUrl: "/clickup-project-template-overview.png",
+        imageUrl: "/clickup-logo.png",
       },
       {
         name: "Documentos colaborativos",
         description: "Crea y edita documentos en tiempo real con tu equipo",
-        imageUrl: "/ai-integrated-content-calendar.png",
+        imageUrl: "/clickup-logo.png",
       },
     ],
     pricing: [
@@ -242,7 +242,7 @@ export const tools = [
     description: "Transcribe y analiza reuniones automáticamente con IA.",
     longDescription:
       "Fireflies.ai es un asistente de reuniones con IA que se une a tus llamadas, toma notas y crea resúmenes automáticamente. Permite buscar, transcribir y analizar conversaciones para extraer información valiosa.",
-    imageUrl: "/fireflies-ai-logo-blue.png",
+    imageUrl: "/fireflies-logo-full.png",
     category: "reuniones",
     tags: ["Transcripción", "Reuniones", "IA", "Productividad"],
     score: 8.9,
@@ -264,7 +264,7 @@ export const tools = [
       {
         name: "Transcripción automática",
         description: "Convierte el audio de tus reuniones en texto con alta precisión",
-        imageUrl: "/abstract-fireflies.png",
+        imageUrl: "/fireflies-logo-icon.png",
       },
     ],
     pricing: [
@@ -290,7 +290,7 @@ export const tools = [
     description: "Asistente de notas con IA para transcribir y resumir reuniones.",
     longDescription:
       "Otter.ai es una aplicación de transcripción y toma de notas impulsada por IA que convierte conversaciones de voz en texto en tiempo real. Ideal para reuniones, entrevistas y conferencias.",
-    imageUrl: "/otter-ai-blue.png",
+    imageUrl: "/otter-ai-logo-full.png",
     category: "reuniones",
     tags: ["Transcripción", "Notas", "IA", "Reuniones"],
     score: 8.7,
@@ -312,7 +312,7 @@ export const tools = [
       {
         name: "Transcripción en tiempo real",
         description: "Convierte conversaciones en texto mientras hablas",
-        imageUrl: "/otter-ai-logo-inspired-design.png",
+        imageUrl: "/otter-ai-logo.png",
       },
     ],
     pricing: [
@@ -338,7 +338,7 @@ export const tools = [
     description: "Corrector gramatical y asistente de escritura con IA.",
     longDescription:
       "Grammarly es un asistente de escritura impulsado por IA que ayuda a mejorar la gramática, ortografía, puntuación y estilo. Ofrece sugerencias en tiempo real mientras escribes en cualquier plataforma.",
-    imageUrl: "/grammarly-blue.png",
+    imageUrl: "/grammarly-logo.png",
     category: "escritura-ia",
     tags: ["Escritura", "Gramática", "IA", "Productividad"],
     score: 8.9,
@@ -360,7 +360,7 @@ export const tools = [
       {
         name: "Corrección gramatical",
         description: "Detecta y corrige errores gramaticales y ortográficos",
-        imageUrl: "/Grammarly-icon.png",
+        imageUrl: "/grammarly-logo.png",
       },
     ],
     pricing: [
@@ -379,6 +379,64 @@ export const tools = [
         affiliateUrl: "#",
       },
     ],
+  },
+]
+
+// Definición de comparaciones
+export const comparisons = [
+  {
+    id: 1,
+    slug: "notion-ai-vs-grammarly",
+    title: "Notion AI vs Grammarly: ¿Cuál es mejor para escritores?",
+    description: "Comparativa detallada entre Notion AI y Grammarly para mejorar tu escritura",
+    content: "Contenido detallado de la comparación entre Notion AI y Grammarly...",
+    viewCount: 1250,
+    tool1_id: 1,
+    tool2_id: 6,
+    tool1_name: "Notion AI",
+    tool1_slug: "notion-ai",
+    tool1_image: "/notion-logo.png",
+    tool1_description: "Asistente de escritura y organización con IA integrada en Notion.",
+    tool2_name: "Grammarly",
+    tool2_slug: "grammarly",
+    tool2_image: "/grammarly-logo.png",
+    tool2_description: "Corrector gramatical y asistente de escritura con IA.",
+  },
+  {
+    id: 2,
+    slug: "zapier-vs-clickup",
+    title: "Zapier vs ClickUp: Automatización y gestión de proyectos",
+    description: "Análisis comparativo entre Zapier y ClickUp para automatizar tu flujo de trabajo",
+    content: "Contenido detallado de la comparación entre Zapier y ClickUp...",
+    viewCount: 980,
+    tool1_id: 2,
+    tool2_id: 3,
+    tool1_name: "Zapier",
+    tool1_slug: "zapier",
+    tool1_image: "/zapier-logo.png",
+    tool1_description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
+    tool2_name: "ClickUp",
+    tool2_slug: "clickup",
+    tool2_image: "/clickup-logo.png",
+    tool2_description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
+  },
+  {
+    id: 3,
+    slug: "fireflies-vs-otter-ai",
+    title: "Fireflies vs Otter.ai: La batalla de los asistentes de reuniones",
+    description: "Comparamos Fireflies y Otter.ai para transcripción y análisis de reuniones",
+    content: "Contenido detallado de la comparación entre Fireflies y Otter.ai...",
+    viewCount: 850,
+    tool1_id: 4,
+    tool2_id: 5,
+    tool1_name: "Fireflies",
+    tool1_slug: "fireflies",
+    tool1_image: "/fireflies-logo-full.png",
+    tool1_description: "Transcribe y analiza reuniones automáticamente con IA.",
+    tool2_name: "Otter.ai",
+    tool2_slug: "otter-ai",
+    tool2_image: "/otter-ai-logo-full.png",
+    tool2_description: "Asistente de notas con IA para transcribir y resumir reuniones.",
   },
 ]
 

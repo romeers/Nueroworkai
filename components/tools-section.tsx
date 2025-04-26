@@ -197,7 +197,14 @@ export default function ToolsSection({ tools, categories, comparisons, defaultCa
                   <div className="relative mb-4">
                     <div className="w-16 h-16 flex items-center justify-center">
                       <SafeImage
-                        src={tool.imageUrl}
+                        src={tool.imageUrl
+                          .replace("/notion-ai-blue.png", "/notion-logo.png")
+                          .replace("/zapier-blue-background.png", "/zapier-logo.png")
+                          .replace("/clickup-blue-background.png", "/clickup-logo.png")
+                          .replace("/fireflies-ai-logo-blue.png", "/fireflies-logo-full.png")
+                          .replace("/otter-ai-logo-inspired-design.png", "/otter-ai-logo-full.png")
+                          .replace("/grammarly-blue.png", "/grammarly-logo.png")
+                          .replace("/ai-logo-blue.png", "/jasper-logo.png")}
                         alt={`Logo de ${tool.name}`}
                         width={64}
                         height={64}
@@ -291,7 +298,14 @@ export default function ToolsSection({ tools, categories, comparisons, defaultCa
                     return tool ? (
                       <div key={tool.slug} className="w-12 h-12 relative">
                         <SafeImage
-                          src={tool.imageUrl}
+                          src={tool.imageUrl
+                            .replace("/notion-ai-blue.png", "/notion-logo.png")
+                            .replace("/zapier-blue-background.png", "/zapier-logo.png")
+                            .replace("/clickup-blue-background.png", "/clickup-logo.png")
+                            .replace("/fireflies-ai-logo-blue.png", "/fireflies-logo-full.png")
+                            .replace("/otter-ai-logo-inspired-design.png", "/otter-ai-logo-full.png")
+                            .replace("/grammarly-blue.png", "/grammarly-logo.png")
+                            .replace("/ai-logo-blue.png", "/jasper-logo.png")}
                           alt={`Logo de ${tool.name}`}
                           width={48}
                           height={48}

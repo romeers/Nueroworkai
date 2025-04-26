@@ -59,7 +59,7 @@ export const tools = [
     description: "Asistente de escritura y organización con IA integrada en Notion.",
     longDescription:
       "Notion AI es una potente herramienta de inteligencia artificial integrada directamente en la plataforma de Notion. Permite a los usuarios generar texto, resumir contenido, traducir a múltiples idiomas, mejorar la escritura y mucho más, todo sin salir de su espacio de trabajo habitual.",
-    imageUrl: "/notion-ai-blue.png",
+    imageUrl: "/notion-logo.png",
     category: "escritura-ia",
     categoryId: 1,
     categorySlug: "escritura-ia",
@@ -87,17 +87,17 @@ export const tools = [
       {
         name: "Generación de texto",
         description: "Crea contenido de alta calidad a partir de prompts simples.",
-        imageUrl: "/notion-ai-text-generation.png",
+        imageUrl: "/notion-logo.png",
       },
       {
         name: "Resumen automático",
         description: "Resume documentos largos o reuniones en puntos clave.",
-        imageUrl: "/notion-ai-summarization.png",
+        imageUrl: "/notion-logo.png",
       },
       {
         name: "Traducción",
         description: "Traduce contenido a múltiples idiomas con un solo clic.",
-        imageUrl: "/notion-ai-translation-workflow.png",
+        imageUrl: "/notion-logo.png",
       },
     ],
     pricing: [
@@ -146,7 +146,7 @@ export const tools = [
     description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
     longDescription:
       "Zapier es una plataforma de automatización que conecta más de 5,000 aplicaciones, permitiéndote crear flujos de trabajo automatizados sin necesidad de programación. Ideal para profesionales remotos que buscan ahorrar tiempo en tareas repetitivas.",
-    imageUrl: "/zapier-blue-background.png",
+    imageUrl: "/zapier-logo.png",
     category: "automatizacion",
     categoryId: 2,
     categorySlug: "automatizacion",
@@ -172,12 +172,12 @@ export const tools = [
       {
         name: "Zaps",
         description: "Crea flujos de trabajo automatizados entre aplicaciones",
-        imageUrl: "/connected-apps-workflow.png",
+        imageUrl: "/zapier-logo.png",
       },
       {
         name: "Integraciones",
         description: "Conecta con más de 5,000 aplicaciones populares",
-        imageUrl: "/interconnected-ai-workflow.png",
+        imageUrl: "/zapier-logo.png",
       },
     ],
     pricing: [
@@ -216,7 +216,7 @@ export const tools = [
     description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
     longDescription:
       "ClickUp es una plataforma de productividad todo en uno que reemplaza todas tus aplicaciones de trabajo. Combina tareas, documentos, chat, metas y más en una plataforma, ahora potenciada con IA.",
-    imageUrl: "/clickup-blue-background.png",
+    imageUrl: "/clickup-logo.png",
     category: "gestion-tareas",
     categoryId: 3,
     categorySlug: "gestion-tareas",
@@ -242,12 +242,12 @@ export const tools = [
       {
         name: "Gestión de tareas",
         description: "Organiza y prioriza tu trabajo con múltiples vistas",
-        imageUrl: "/clickup-project-template-overview.png",
+        imageUrl: "/clickup-logo.png",
       },
       {
         name: "Documentos colaborativos",
         description: "Crea y edita documentos en tiempo real con tu equipo",
-        imageUrl: "/ai-integrated-content-calendar.png",
+        imageUrl: "/clickup-logo.png",
       },
     ],
     pricing: [
@@ -286,7 +286,7 @@ export const tools = [
     description: "Transcribe y analiza reuniones automáticamente con IA.",
     longDescription:
       "Fireflies.ai es un asistente de reuniones con IA que se une a tus llamadas, toma notas y crea resúmenes automáticamente. Permite buscar, transcribir y analizar conversaciones para extraer información valiosa.",
-    imageUrl: "/fireflies-ai-logo-blue.png",
+    imageUrl: "/fireflies-logo-full.png",
     category: "reuniones",
     categoryId: 4,
     categorySlug: "reuniones",
@@ -312,7 +312,7 @@ export const tools = [
       {
         name: "Transcripción automática",
         description: "Convierte el audio de tus reuniones en texto con alta precisión",
-        imageUrl: "/abstract-fireflies.png",
+        imageUrl: "/fireflies-logo-icon.png",
       },
     ],
     pricing: [
@@ -351,7 +351,7 @@ export const tools = [
     description: "Asistente de notas con IA para transcribir y resumir reuniones.",
     longDescription:
       "Otter.ai es una aplicación de transcripción y toma de notas impulsada por IA que convierte conversaciones de voz en texto en tiempo real. Ideal para reuniones, entrevistas y conferencias.",
-    imageUrl: "/otter-ai-blue.png",
+    imageUrl: "/otter-ai-logo-full.png",
     category: "reuniones",
     categoryId: 4,
     categorySlug: "reuniones",
@@ -377,7 +377,7 @@ export const tools = [
       {
         name: "Transcripción en tiempo real",
         description: "Convierte conversaciones en texto mientras hablas",
-        imageUrl: "/otter-ai-logo-inspired-design.png",
+        imageUrl: "/otter-ai-logo.png",
       },
     ],
     pricing: [
@@ -416,7 +416,7 @@ export const tools = [
     description: "Corrector gramatical y asistente de escritura con IA.",
     longDescription:
       "Grammarly es un asistente de escritura impulsado por IA que ayuda a mejorar la gramática, ortografía, puntuación y estilo. Ofrece sugerencias en tiempo real mientras escribes en cualquier plataforma.",
-    imageUrl: "/grammarly-blue.png",
+    imageUrl: "/grammarly-logo.png",
     category: "escritura-ia",
     categoryId: 1,
     categorySlug: "escritura-ia",
@@ -442,7 +442,7 @@ export const tools = [
       {
         name: "Corrección gramatical",
         description: "Detecta y corrige errores gramaticales y ortográficos",
-        imageUrl: "/Grammarly-icon.png",
+        imageUrl: "/grammarly-logo.png",
       },
     ],
     pricing: [
@@ -471,6 +471,71 @@ export const tools = [
         date: "2023-03-30",
         helpful: 22,
         unhelpful: 1,
+      },
+    ],
+  },
+  {
+    id: 7,
+    name: "Jasper",
+    slug: "jasper",
+    description: "Generador de contenido con IA para marketing y comunicación.",
+    longDescription:
+      "Jasper es una plataforma de IA que ayuda a crear contenido de alta calidad para marketing, blogs, redes sociales y más. Utiliza modelos avanzados de lenguaje para generar texto que suena natural y persuasivo.",
+    imageUrl: "/jasper-logo.png",
+    category: "escritura-ia",
+    categoryId: 1,
+    categorySlug: "escritura-ia",
+    tags: ["Escritura", "Marketing", "IA", "Contenido"],
+    score: 8.7,
+    featured: false,
+    isNew: false,
+    affiliateUrl: "#",
+    verified: true,
+    specialOffer: null,
+    pros: [
+      "Genera contenido de alta calidad rápidamente",
+      "Múltiples plantillas para diferentes tipos de contenido",
+      "Integración con herramientas de SEO",
+      "Interfaz intuitiva",
+    ],
+    cons: [
+      "Precio elevado para pequeñas empresas",
+      "Requiere revisión humana para obtener los mejores resultados",
+      "La calidad varía según el tema y la complejidad",
+    ],
+    features: [
+      {
+        name: "Generación de contenido",
+        description: "Crea artículos, publicaciones y textos de marketing con IA",
+        imageUrl: "/jasper-logo.png",
+      },
+    ],
+    pricing: [
+      {
+        plan: "Creator",
+        price: "$39/mes",
+        features: ["50,000 palabras/mes", "Más de 50 plantillas", "Integración con Chrome"],
+        recommended: false,
+        affiliateUrl: "#",
+      },
+      {
+        plan: "Teams",
+        price: "$99/mes",
+        features: ["100,000 palabras/mes", "Todas las plantillas", "Colaboración en equipo"],
+        recommended: true,
+        affiliateUrl: "#",
+      },
+    ],
+    reviews: [
+      {
+        author: "Marta R.",
+        rating: 4,
+        title: "Excelente para marketing de contenidos",
+        comment:
+          "Jasper ha acelerado enormemente nuestro proceso de creación de contenido. Ahorramos horas cada semana.",
+        date: "2023-07-15",
+        helpful: 18,
+        unhelpful: 2,
       },
     ],
   },

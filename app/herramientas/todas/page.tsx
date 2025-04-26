@@ -16,7 +16,7 @@ const allTools = [
   {
     name: "Notion AI",
     description: "Asistente de escritura y organización con IA integrada en Notion.",
-    imageUrl: "/notion-ai-blue.png",
+    imageUrl: "/notion-logo.png",
     category: "Escritura IA",
     slug: "notion-ai",
     score: 9.2,
@@ -27,7 +27,7 @@ const allTools = [
   {
     name: "Zapier",
     description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
-    imageUrl: "/zapier-blue-background.png",
+    imageUrl: "/zapier-logo.png",
     category: "Automatización",
     slug: "zapier",
     score: 9.0,
@@ -38,7 +38,7 @@ const allTools = [
   {
     name: "ClickUp",
     description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
-    imageUrl: "/clickup-blue-background.png",
+    imageUrl: "/clickup-logo.png",
     category: "Gestión de tareas",
     slug: "clickup",
     score: 8.8,
@@ -49,7 +49,7 @@ const allTools = [
   {
     name: "Jasper",
     description: "Generador de contenido con IA para marketing y comunicación.",
-    imageUrl: "/ai-logo-blue.png",
+    imageUrl: "/jasper-logo.png",
     category: "Escritura IA",
     slug: "jasper",
     score: 8.7,
@@ -60,7 +60,7 @@ const allTools = [
   {
     name: "Grammarly",
     description: "Corrector gramatical y asistente de escritura con IA.",
-    imageUrl: "/grammarly-blue.png",
+    imageUrl: "/grammarly-logo.png",
     category: "Escritura IA",
     slug: "grammarly",
     score: 8.9,
@@ -93,7 +93,7 @@ const allTools = [
   {
     name: "Fireflies",
     description: "Transcribe y analiza reuniones automáticamente con IA.",
-    imageUrl: "/fireflies-ai-logo-blue.png",
+    imageUrl: "/fireflies-logo-full.png",
     category: "Reuniones",
     slug: "fireflies",
     score: 8.9,
@@ -104,7 +104,7 @@ const allTools = [
   {
     name: "Otter.ai",
     description: "Asistente de notas con IA para transcribir y resumir reuniones.",
-    imageUrl: "/otter-ai-logo-inspired-design.png",
+    imageUrl: "/otter-ai-logo-full.png",
     category: "Reuniones",
     slug: "otter-ai",
     score: 8.7,

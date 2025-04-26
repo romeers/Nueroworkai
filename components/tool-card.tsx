@@ -34,6 +34,27 @@ export default function ToolCard({
   slug, // Make slug required
   id,
 }: ToolCardProps) {
+  // Actualizar las referencias a las imágenes en el componente de tarjeta de herramienta
+  // Buscar y reemplazar las URLs de las imágenes en este archivo
+
+  // Reemplazar:
+  // "/notion-ai-blue.png" por "/notion-logo.png"
+  // "/zapier-blue-background.png" por "/zapier-logo.png"
+  // "/clickup-blue-background.png" por "/clickup-logo.png"
+  // "/fireflies-ai-logo-blue.png" por "/fireflies-logo-full.png"
+  // "/otter-ai-logo-inspired-design.png" por "/otter-ai-logo-full.png"
+  // "/grammarly-blue.png" por "/grammarly-logo.png"
+  // "/ai-logo-blue.png" por "/jasper-logo.png"
+
+  const updatedImageUrl = imageUrl
+    ?.replace("/notion-ai-blue.png", "/notion-logo.png")
+    .replace("/zapier-blue-background.png", "/zapier-logo.png")
+    .replace("/clickup-blue-background.png", "/clickup-logo.png")
+    .replace("/fireflies-ai-logo-blue.png", "/fireflies-logo-full.png")
+    .replace("/otter-ai-logo-inspired-design.png", "/otter-ai-logo-full.png")
+    .replace("/grammarly-blue.png", "/grammarly-logo.png")
+    .replace("/ai-logo-blue.png", "/jasper-logo.png")
+
   const fallbackImage = `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(name + " icon")}`
 
   // Determinar si la URL es interna o externa (afiliado)
@@ -49,7 +70,7 @@ export default function ToolCard({
     >
       <div className="relative h-40 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
         <SafeImage
-          src={imageUrl}
+          src={updatedImageUrl || imageUrl}
           fallbackSrc={fallbackImage}
           alt={`Logo de ${name}`}
           width={160}

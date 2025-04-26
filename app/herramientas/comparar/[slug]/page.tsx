@@ -42,9 +42,28 @@ async function getComparisonData(slug: string) {
       featureMap[feature] = hasFeature
     })
 
+    let logo = tool.image_url
+
+    // Actualizar las referencias a las imágenes
+    if (logo === "/notion-ai-blue.png") {
+      logo = "/notion-logo.png"
+    } else if (logo === "/zapier-blue-background.png") {
+      logo = "/zapier-logo.png"
+    } else if (logo === "/clickup-blue-background.png") {
+      logo = "/clickup-logo.png"
+    } else if (logo === "/fireflies-ai-logo-blue.png") {
+      logo = "/fireflies-logo-full.png"
+    } else if (logo === "/otter-ai-logo-inspired-design.png") {
+      logo = "/otter-ai-logo-full.png"
+    } else if (logo === "/grammarly-blue.png") {
+      logo = "/grammarly-logo.png"
+    } else if (logo === "/ai-logo-blue.png") {
+      logo = "/jasper-logo.png"
+    }
+
     return {
       name: tool.name,
-      logo: tool.image_url,
+      logo: logo,
       price: tool.pricing && tool.pricing.length > 0 ? `Desde ${tool.pricing[0].price}` : "Consultar precios",
       features: featureMap,
       rating: tool.score,
