@@ -70,7 +70,8 @@
     "@vercel/analytics": "latest",
     "@neondatabase/serverless": "latest",
     "fs": "latest",
-    "path": "latest"
+    "path": "latest",
+    "@vercel/postgres": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
