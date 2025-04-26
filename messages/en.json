@@ -1,75 +1,87 @@
 {
   "common": {
-    "title": "NeuroWorkAI - AI Tools for Remote Professionals",
-    "description": "Discover and compare the best AI productivity tools for remote professionals. Reviews, comparisons, and free resources.",
-    "navigation": {
-      "home": "Home",
-      "tools": "AI Tools",
-      "resources": "Resources",
-      "about": "About Us"
-    },
-    "cta": {
-      "topTools": "Top AI Tools",
-      "discoverTools": "Discover Best AI Tools"
-    },
-    "footer": {
-      "navigation": "Navigation",
-      "resources": "Resources",
-      "legal": "Legal",
-      "contact": "Contact",
-      "copyright": "All rights reserved",
-      "poweredBy": "Powered by Vercel",
-      "affiliateDisclosure": "NeuroWorkAI participates in affiliate programs. This means we may receive a commission if you purchase through our links, at no additional cost to you."
+    "title": "NeuroWorkAI - AI Tools for Remote Work",
+    "description": "Discover the best AI tools to increase your productivity in remote work. Reviews, comparisons and free resources.",
+    "language": "Language",
+    "skipToContent": "Skip to main content",
+    "menu": "Menu",
+    "close": "Close",
+    "loading": "Loading...",
+    "notFound": {
+      "title": "Page not found",
+      "description": "Sorry, the page you are looking for does not exist or has been moved.",
+      "button": "Back to home"
     }
+  },
+  "nav": {
+    "home": "Home",
+    "tools": "AI Tools",
+    "topTools": "Top Tools",
+    "resources": "Resources",
+    "about": "About Us",
+    "methodology": "Methodology",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "profile": "My Profile"
+  },
+  "footer": {
+    "company": "Company",
+    "about": "About Us",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "affiliateDisclosure": "Affiliate Disclosure",
+    "resources": "Resources",
+    "allTools": "All Tools",
+    "comparisons": "Comparisons",
+    "guides": "Guides & Tutorials",
+    "newsletter": "Newsletter",
+    "subscribe": "Subscribe to our newsletter",
+    "emailPlaceholder": "Your email",
+    "subscribeButton": "Subscribe",
+    "copyright": "© 2025 NeuroWorkAI. All rights reserved.",
+    "followUs": "Follow us"
   },
   "home": {
     "hero": {
+      "title": "Power your remote work with the best AI tools",
+      "subtitle": "Discover, compare and optimize your workflow with our selection of AI tools for remote professionals",
+      "cta": "Discover tools",
+      "secondaryCta": "See free resources"
+    },
+    "trustBadges": {
+      "title": "Leading AI tools trust our analysis"
+    },
+    "featuredTools": {
+      "title": "Featured Tools",
+      "subtitle": "Discover the most popular AI tools that are transforming remote work",
+      "viewDetails": "View details",
+      "tryFree": "Try for free",
+      "viewAll": "View all tools"
+    },
+    "stats": {
+      "title": "NeuroWorkAI in numbers",
+      "subtitle": "Data that supports our experience and commitment to quality"
+    },
+    "testimonials": {
+      "title": "What our users say",
+      "subtitle": "Professionals who have improved their productivity with our recommendations"
+    },
+    "resources": {
+      "title": "Featured Resources",
+      "subtitle": "Discover our best resources on AI productivity for remote work",
+      "readMore": "Read more",
+      "viewAll": "View all resources"
+    },
+    "cta": {
       "title": "Boost your productivity with AI",
-      "subtitle": "Discover the best AI tools for remote professionals",
-      "cta": "Explore tools"
-    },
-    "features": {
-      "title": "Key Features",
-      "subtitle": "Discover why NeuroWorkAI is your best ally"
-    }
-  },
-  "tools": {
-    "title": "AI Tools",
-    "description": "Explore our selection of the best AI tools for remote professionals",
-    "categories": {
-      "all": "All",
-      "productivity": "Productivity",
-      "writing": "Writing",
-      "design": "Design",
-      "communication": "Communication"
-    }
-  },
-  "resources": {
-    "title": "Resources",
-    "description": "Guides, templates, and resources to maximize your productivity with AI",
-    "categories": {
-      "guides": "Guides",
-      "prompts": "Prompts",
-      "templates": "Templates",
-      "analysis": "Analysis"
-    }
-  },
-  "about": {
-    "title": "About Us",
-    "description": "Learn more about NeuroWorkAI and our team",
-    "team": {
-      "title": "Our Team",
-      "subtitle": "Meet the people behind NeuroWorkAI"
-    },
-    "contact": {
-      "title": "Contact",
-      "subtitle": "Have any questions? Contact us",
-      "form": {
-        "name": "Name",
-        "email": "Email",
-        "message": "Message",
-        "submit": "Submit"
-      }
+      "subtitle": "Download our AI Productivity Kit for Remote Work (2025) and start working better with AI today.",
+      "primaryButton": "Download free Kit",
+      "emailPlaceholder": "Your email",
+      "formButton": "Download free Kit",
+      "microcopy": "No spam · Immediate download after confirmation"
     }
   }
 }

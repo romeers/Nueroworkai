@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, type ReactNode } from "react"
-import { useRouter, usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import type { Locale } from "@/config/i18n"
 
 type LanguageContextType = {
@@ -22,11 +22,13 @@ export function LanguageProvider({
   const pathname = usePathname()
 
   const changeLocale = (newLocale: Locale) => {
-    // Get the current path without the locale prefix
-    const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(?:\/|$)/, "/")
+    if (newLocale === locale) return
+
+    // Get the path without the locale
+    const pathWithoutLocale = pathname.replace(`/${locale}`, "")
 
     // Navigate to the same path but with the new locale
-    router.push(`/${newLocale}${pathWithoutLocale}`)
+    router.push(`/${newLocale}${pathWithoutLocale || "/"}`)
   }
 
   return <LanguageContext.Provider value={{ locale, changeLocale }}>{children}</LanguageContext.Provider>

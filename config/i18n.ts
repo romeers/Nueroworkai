@@ -3,6 +3,13 @@ export const defaultLocale = "es" as const
 
 export type Locale = (typeof locales)[number]
 
+// Use this to create dynamic routes with locale parameter
+export function createLocalizedPathnameGenerator(locale: Locale) {
+  return (pathname: string) => {
+    return `/${locale}${pathname}`
+  }
+}
+
 // Define the structure of our messages
 export type Messages = {
   common: {

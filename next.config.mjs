@@ -157,6 +157,53 @@ const nextConfig = {
         destination: '/:locale/recursos/:slug*',
         permanent: true,
       },
+      
+      // Legacy redirects without locale
+      {
+        source: '/herramientas',
+        destination: '/es/herramientas-ia',
+        permanent: true,
+      },
+      {
+        source: '/herramientas/categoria/:slug*',
+        destination: '/es/herramientas-ia?categoria=:slug*',
+        permanent: true,
+      },
+      {
+        source: '/comparativas',
+        destination: '/es/herramientas/comparar',
+        permanent: true,
+      },
+      {
+        source: '/resenas',
+        destination: '/es/herramientas-ia',
+        permanent: true,
+      },
+      {
+        source: '/guias-recursos',
+        destination: '/es/recursos',
+        permanent: true,
+      },
+      {
+        source: '/como-funciona',
+        destination: '/es/sobre-nosotros',
+        permanent: true,
+      },
+      {
+        source: '/contacto',
+        destination: '/es/sobre-nosotros#contacto',
+        permanent: true,
+      },
+      {
+        source: '/newsletter',
+        destination: '/es/recursos#kit-gratuito',
+        permanent: true,
+      },
+      {
+        source: '/blog',
+        destination: '/es/recursos',
+        permanent: true,
+      },
     ]
   },
 };
