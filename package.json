@@ -68,6 +68,8 @@
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@vercel/analytics": "latest",
+    "fs": "latest",
+    "path": "latest",
     "@neondatabase/serverless": "latest"
   },
   "devDependencies": {

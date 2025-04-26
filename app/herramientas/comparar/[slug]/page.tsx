@@ -3,112 +3,83 @@ import { Button } from "@/components/ui/button"
 import ResponsiveComparisonTable from "@/components/responsive-comparison-table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Check, X } from "lucide-react"
+import { getCachedToolBySlug } from "@/lib/db"
 
 // Función para obtener datos de la comparativa basados en el slug
-function getComparisonData(slug: string) {
-  // Aquí normalmente obtendrías los datos de una API o base de datos
-  // Para este ejemplo, usaremos datos estáticos
+async function getComparisonData(slug: string) {
+  // Extraer los slugs de las herramientas a comparar
+  const toolSlugs = slug.split("-vs-")
 
-  const comparisons: Record<string, any> = {
-    "notion-ai-vs-jasper": {
-      title: "Notion AI vs Jasper",
-      description: "Comparativa detallada entre dos de las herramientas de escritura con IA más populares.",
-      category: "Escritura IA",
-      tools: [
-        {
-          name: "Notion AI",
-          logo: "/notion-ai-blue.png",
-          price: "Desde $10/mes",
-          features: {
-            "Generación de texto": true,
-            "Corrección gramatical": true,
-            "Resumen automático": true,
-            Traducción: true,
-            "Integración con workspace": true,
-          },
-          rating: 4.5,
-          url: "/herramientas/notion-ai",
-        },
-        {
-          name: "Jasper",
-          logo: "/ai-logo-blue.png",
-          price: "Desde $39/mes",
-          features: {
-            "Generación de texto": true,
-            "Corrección gramatical": true,
-            "Resumen automático": true,
-            Traducción: false,
-            "Integración con workspace": false,
-          },
-          rating: 4.2,
-          url: "/herramientas/jasper",
-        },
-      ],
-      features: [
-        "Generación de texto",
-        "Corrección gramatical",
-        "Resumen automático",
-        "Traducción",
-        "Integración con workspace",
-      ],
-      conclusion:
-        "Notion AI es ideal para usuarios que ya utilizan Notion y necesitan funcionalidades de IA integradas en su espacio de trabajo. Jasper, por otro lado, es una solución más especializada para la generación de contenido de marketing y ofrece más opciones avanzadas para este propósito específico.",
-      recommendation:
-        "Si ya utilizas Notion para organizar tu trabajo, Notion AI es la opción más conveniente. Si necesitas generar contenido de marketing de forma regular, Jasper podría ser más adecuado a pesar de su mayor precio.",
-    },
-    "zapier-vs-make": {
-      title: "Zapier vs Make",
-      description: "Comparación exhaustiva de las principales plataformas de automatización sin código.",
-      category: "Automatización",
-      tools: [
-        {
-          name: "Zapier",
-          logo: "/zapier-blue-background.png",
-          price: "Desde $19.99/mes",
-          features: {
-            Integraciones: true,
-            "Automatizaciones complejas": true,
-            "Plantillas predefinidas": true,
-            "Interfaz sin código": true,
-            "API personalizada": true,
-          },
-          rating: 4.6,
-          url: "/herramientas/zapier",
-        },
-        {
-          name: "Make",
-          logo: "/abstract-geometric-logo.png",
-          price: "Desde $9/mes",
-          features: {
-            Integraciones: true,
-            "Automatizaciones complejas": true,
-            "Plantillas predefinidas": true,
-            "Interfaz sin código": true,
-            "API personalizada": true,
-          },
-          rating: 4.4,
-          url: "/herramientas/make",
-        },
-      ],
-      features: [
-        "Integraciones",
-        "Automatizaciones complejas",
-        "Plantillas predefinidas",
-        "Interfaz sin código",
-        "API personalizada",
-      ],
-      conclusion:
-        "Tanto Zapier como Make ofrecen capacidades similares para automatizar flujos de trabajo entre aplicaciones. Zapier tiene una interfaz más sencilla y un mayor número de integraciones, mientras que Make ofrece más flexibilidad para automatizaciones complejas a un precio más accesible.",
-      recommendation:
-        "Para automatizaciones sencillas y usuarios principiantes, Zapier es más fácil de usar. Para flujos de trabajo complejos y usuarios técnicos que buscan más control, Make ofrece mejor relación calidad-precio.",
-    },
+  if (toolSlugs.length < 2) {
+    return null
   }
 
-  return comparisons[slug] || null
+  // Obtener datos de cada herramienta
+  const toolsData = await Promise.all(
+    toolSlugs.map(async (toolSlug) => {
+      return await getCachedToolBySlug(toolSlug)
+    }),
+  )
+
+  // Verificar que todas las herramientas existan
+  if (toolsData.some((tool) => tool === null)) {
+    return null
+  }
+
+  // Extraer características comunes para comparar
+  const allFeatures = toolsData.flatMap((tool) => tool.features.map((feature) => feature.name))
+
+  // Eliminar duplicados
+  const uniqueFeatures = [...new Set(allFeatures)]
+
+  // Crear objeto de herramientas con formato para la tabla de comparación
+  const tools = toolsData.map((tool) => {
+    // Crear un objeto de características para la comparación
+    const featureMap = {}
+    uniqueFeatures.forEach((feature) => {
+      // Verificar si la herramienta tiene esta característica
+      const hasFeature = tool.features.some((f) => f.name === feature)
+      featureMap[feature] = hasFeature
+    })
+
+    return {
+      name: tool.name,
+      logo: tool.image_url,
+      price: tool.pricing && tool.pricing.length > 0 ? `Desde ${tool.pricing[0].price}` : "Consultar precios",
+      features: featureMap,
+      rating: tool.score,
+      url: `/herramientas/${tool.slug}`,
+    }
+  })
+
+  // Generar título y descripción de la comparativa
+  const title = toolsData.map((tool) => tool.name).join(" vs ")
+  const category = toolsData[0].category_name
+
+  // Generar una conclusión basada en los datos
+  let conclusion = `Comparativa entre ${toolsData.map((tool) => tool.name).join(" y ")}, dos herramientas populares en la categoría de ${category}.`
+
+  if (toolsData[0].score > toolsData[1].score) {
+    conclusion += ` ${toolsData[0].name} tiene una puntuación más alta (${toolsData[0].score}) que ${toolsData[1].name} (${toolsData[1].score}), lo que sugiere que podría ser una mejor opción para la mayoría de los usuarios.`
+  } else if (toolsData[1].score > toolsData[0].score) {
+    conclusion += ` ${toolsData[1].name} tiene una puntuación más alta (${toolsData[1].score}) que ${toolsData[0].name} (${toolsData[0].score}), lo que sugiere que podría ser una mejor opción para la mayoría de los usuarios.`
+  } else {
+    conclusion += ` Ambas herramientas tienen una puntuación similar, por lo que la elección dependerá de tus necesidades específicas.`
+  }
+
+  return {
+    title,
+    description: `Comparativa detallada entre ${toolsData.map((tool) => tool.name).join(" y ")}.`,
+    category,
+    tools,
+    features: uniqueFeatures,
+    conclusion,
+    recommendation: `Para obtener más información sobre cada herramienta, te recomendamos revisar las reseñas detalladas de ${toolsData.map((tool) => tool.name).join(" y ")}.`,
+  }
 }
 
-export default function ComparisonPage({ params }: { params: { slug: string } }) {
-  const comparisonData = getComparisonData(params.slug)
+export default async function ComparisonPage({ params }: { params: { slug: string } }) {
+  const comparisonData = await getComparisonData(params.slug)
 
   if (!comparisonData) {
     return (
@@ -185,7 +156,7 @@ export default function ComparisonPage({ params }: { params: { slug: string } })
                   {comparisonData.tools[1].name}.
                 </p>
 
-                {/* Aquí iría el contenido detallado de características */}
+                {/* Contenido detallado de características */}
                 <div className="space-y-6">
                   {comparisonData.features.map((feature: string) => (
                     <div key={feature} className="border-b pb-6">
@@ -200,15 +171,7 @@ export default function ComparisonPage({ params }: { params: { slug: string } })
                                   <div className="flex-shrink-0 mt-0.5">
                                     <Check className="h-5 w-5 text-green-500" />
                                   </div>
-                                  <p className="ml-2 text-sm text-gray-600">
-                                    {feature === "Generación de texto" &&
-                                      tool.name === "Notion AI" &&
-                                      "Ofrece generación de texto contextual dentro del entorno de Notion, ideal para notas, documentación y contenido estructurado."}
-                                    {feature === "Generación de texto" &&
-                                      tool.name === "Jasper" &&
-                                      "Especializado en generación de contenido de marketing con plantillas específicas para diferentes formatos y tonos."}
-                                    {/* Aquí irían más descripciones específicas */}
-                                  </p>
+                                  <p className="ml-2 text-sm text-gray-600">Disponible</p>
                                 </>
                               ) : (
                                 <>
@@ -232,21 +195,33 @@ export default function ComparisonPage({ params }: { params: { slug: string } })
             <TabsContent value="pricing" className="mt-6">
               <div className="bg-white rounded-lg border p-6">
                 <h3 className="text-xl font-bold text-secondary mb-4">Comparación de precios</h3>
-                {/* Contenido de precios */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  {comparisonData.tools.map((tool: any) => (
+                    <div key={`pricing-${tool.name}`} className="border rounded-lg p-4">
+                      <h4 className="font-semibold text-secondary mb-2">{tool.name}</h4>
+                      <p className="text-lg font-bold text-primary">{tool.price}</p>
+                      <Button asChild className="mt-4 w-full">
+                        <Link href={tool.url}>Ver planes detallados</Link>
+                      </Button>
+                    </div>
+                  ))}
+                </div>
               </div>
             </TabsContent>
 
             <TabsContent value="usecases" className="mt-6">
               <div className="bg-white rounded-lg border p-6">
                 <h3 className="text-xl font-bold text-secondary mb-4">Casos de uso ideales</h3>
-                {/* Contenido de casos de uso */}
+                <p className="text-gray-600 mb-6">Cada herramienta tiene escenarios donde destaca especialmente.</p>
               </div>
             </TabsContent>
 
             <TabsContent value="alternatives" className="mt-6">
               <div className="bg-white rounded-lg border p-6">
                 <h3 className="text-xl font-bold text-secondary mb-4">Alternativas a considerar</h3>
-                {/* Contenido de alternativas */}
+                <p className="text-gray-600 mb-6">
+                  Si ninguna de estas herramientas se ajusta a tus necesidades, considera estas alternativas.
+                </p>
               </div>
             </TabsContent>
           </Tabs>

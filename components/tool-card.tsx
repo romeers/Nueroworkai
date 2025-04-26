@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
+import FavoriteButton from "@/components/favorite-button"
 
 interface ToolCardProps {
   name: string
@@ -17,6 +18,7 @@ interface ToolCardProps {
   specialOffer?: string
   verified?: boolean
   slug: string // Ensure slug is a required prop
+  id: string
 }
 
 export default function ToolCard({
@@ -30,6 +32,7 @@ export default function ToolCard({
   specialOffer,
   verified = false,
   slug, // Make slug required
+  id,
 }: ToolCardProps) {
   const fallbackImage = `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(name + " icon")}`
 
@@ -54,6 +57,9 @@ export default function ToolCard({
           className="h-auto w-auto max-h-32 max-w-[80%] object-contain"
           priority={featured}
         />
+        <div className="absolute right-2 top-2">
+          <FavoriteButton toolId={id} className="bg-white/90 hover:bg-white" />
+        </div>
         <div className="absolute left-2 top-2">
           <Badge className="bg-primary hover:bg-primary/90">{category}</Badge>
         </div>
