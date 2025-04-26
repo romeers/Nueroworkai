@@ -1,104 +1,77 @@
-"use client"
-
+import { Download } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import SafeImage from "./safe-image"
-import { useLanguage } from "@/contexts/language-context"
-import { cn } from "@/lib/utils"
+import Image from "next/image"
 
-interface HeroSectionProps {
-  title?: string
-  subtitle?: string
-  primaryButtonText?: string
-  primaryButtonUrl?: string
-  secondaryButtonText?: string
-  secondaryButtonUrl?: string
-  imageSrc?: string
-  imageAlt?: string
-  imagePosition?: "right" | "left"
-  className?: string
-  contentClassName?: string
-  imageClassName?: string
-}
-
-export default function HeroSection({
-  title,
-  subtitle,
-  primaryButtonText,
-  primaryButtonUrl,
-  secondaryButtonText,
-  secondaryButtonUrl,
-  imageSrc = "/neural-network-head.png",
-  imageAlt,
-  imagePosition = "right",
-  className,
-  contentClassName,
-  imageClassName,
-}: HeroSectionProps) {
-  const { t } = useLanguage()
-
+export default function HeroSection() {
   return (
     <section
-      className={cn("relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-16 md:py-24", className)}
+      className="relative py-16 md:py-24"
+      style={{
+        backgroundImage:
+          'url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-seamless-ultra-light-abstract-tech-bac_77llVxuuSQq0MWmz2lHJpg_zlt8wHfaRXuVq1ca-Gj4mw-oJ6ierCcUf3EDUgvjgVyUNaoHdLVLN.png")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
-      {/* Background pattern */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%239C92AC' fillOpacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
-        }}
-        aria-hidden="true"
-      />
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div
-          className={cn(
-            "flex flex-col gap-8 md:gap-12",
-            imagePosition === "right" ? "md:flex-row" : "md:flex-row-reverse",
-            contentClassName,
-          )}
-        >
-          {/* Text content */}
-          <div className="flex-1 text-center md:text-left">
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-secondary tracking-tight mb-6">
-              {title || t("ctaTitle")}
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto md:mx-0">
-              {subtitle || t("ctaSubtitle")}
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
+          {/* Left column: Text and CTAs */}
+          <div className="flex flex-col items-start justify-center">
+            <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
+              Plataforma líder en productividad IA
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                <Link href={primaryButtonUrl || "/herramientas-ia"}>
-                  {primaryButtonText || t("discoverTools")}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+            <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight text-[#1E293B] sm:text-5xl md:text-[56px]">
+              Descubre las mejores herramientas de productividad con IA
+            </h1>
+
+            <p className="mt-6 text-lg leading-relaxed text-gray-700">
+              Potencia tu trabajo remoto con las apps más inteligentes del mercado. Compara, elige y empieza hoy mismo.
+            </p>
+
+            <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+              <Button asChild className="bg-primary hover:bg-primary/90 px-6 text-base font-medium">
+                <Link href="/herramientas-ia" aria-label="Explorar herramientas de IA para productividad">
+                  Explora herramientas IA
                 </Link>
               </Button>
-              {secondaryButtonText && secondaryButtonUrl && (
-                <Button asChild variant="outline" size="lg">
-                  <Link href={secondaryButtonUrl}>{secondaryButtonText}</Link>
-                </Button>
-              )}
+
+              <Button
+                asChild
+                variant="outline"
+                className="border-[#7C3AED] px-6 text-base font-medium text-[#7C3AED] hover:bg-[#7C3AED]/10"
+              >
+                <Link
+                  href="/kit-digital"
+                  className="flex items-center"
+                  aria-label="Descargar kit gratuito de productividad con IA"
+                >
+                  <Download className="mr-2 h-5 w-5" aria-hidden="true" />
+                  Descargar Kit gratuito
+                </Link>
+              </Button>
             </div>
+
+            <p className="mt-6 text-sm text-gray-500">+50 herramientas analizadas · Actualizado 2025</p>
           </div>
 
-          {/* Image */}
-          <div className="flex-1 w-full max-w-md mx-auto">
-            <div className="relative">
-              <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary/20 to-secondary/20 blur-xl opacity-70"></div>
-              <div
-                className={cn(
-                  "relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg",
-                  imageClassName,
-                )}
-              >
-                <SafeImage
-                  src={imageSrc}
-                  alt={imageAlt || t("ctaTitle")}
-                  width={540}
-                  height={405}
-                  className="w-full h-auto"
+          {/* Right column: Professional using AI tools image */}
+          <div className="flex justify-center md:justify-end">
+            <div className="relative w-full max-w-[65%] h-auto overflow-hidden">
+              <div className="relative rounded-xl overflow-hidden backdrop-blur-sm backdrop-filter backdrop-blur-[2px]">
+                {/* Gradient overlay to blend with background */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-tr from-white/30 via-white/20 to-transparent opacity-70 z-10 rounded-xl"
+                  aria-hidden="true"
+                ></div>
+
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-young-professional-working-remotely-on_NBKycgd-RlC5B3Knh0lstw_fsV1ydBFSi-8xmveHcX-zQ-k4AJDC2tcixvYgSMsRWjmgmqUpht2I.png"
+                  alt="Profesional remoto utilizando herramientas de IA para productividad"
+                  width={600}
+                  height={600}
+                  className="w-full h-auto rounded-xl object-cover opacity-90"
                   priority
                 />
               </div>

@@ -1,53 +1,61 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
 import MobileNavDrawer from "./mobile-nav-drawer"
-import LanguageSwitcher from "./language-switcher"
-import { useLanguage } from "@/contexts/language-context"
+
+// Update the navigation array to remove the Blog entry
+const navigation = [
+  { name: "Inicio", href: "/" },
+  { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
+  { name: "Recursos", href: "/recursos", ariaLabel: "Ir a Recursos" },
+  { name: "Sobre Nosotros", href: "/sobre-nosotros" },
+]
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
-  const { t } = useLanguage()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [showStickyCTA, setShowStickyCTA] = useState(false)
   const pathname = usePathname()
+  const logoImage =
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
+
+  const headerRef = useRef<HTMLElement>(null)
+  const prevScrollY = useRef(0)
+  const ticking = useRef(false)
 
   // Optimized scroll handler with throttling
   const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY
-    setIsScrolled(currentScrollY > 10)
+    if (!ticking.current) {
+      window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY
+        setScrolled(currentScrollY > 10)
+        setShowStickyCTA(currentScrollY > 300)
+        prevScrollY.current = currentScrollY
+        ticking.current = false
+      })
+      ticking.current = true
+    }
   }, [])
 
   useEffect(() => {
-    // Throttled scroll event listener
-    let ticking = false
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll()
-          ticking = false
-        })
-        ticking = true
-      }
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [handleScroll])
 
   // Cerrar el menú móvil al cambiar de ruta
   useEffect(() => {
-    setIsMobileNavOpen(false)
+    setMobileMenuOpen(false)
   }, [pathname])
 
   // Efecto para manejar el bloqueo del scroll cuando el menú móvil está abierto
   useEffect(() => {
-    if (isMobileNavOpen) {
+    if (mobileMenuOpen) {
       document.body.style.overflow = "hidden"
     } else {
       document.body.style.overflow = ""
@@ -55,92 +63,103 @@ export default function Header() {
     return () => {
       document.body.style.overflow = ""
     }
-  }, [isMobileNavOpen])
-
-  // Definir los elementos de navegación con traducciones
-  const navigation = [
-    { name: t("home"), href: "/", ariaLabel: t("home") },
-    { name: t("tools"), href: "/herramientas-ia", ariaLabel: t("tools") },
-    { name: t("resources"), href: "/recursos", ariaLabel: t("resources") },
-    { name: t("about"), href: "/sobre-nosotros", ariaLabel: t("about") },
-    { name: t("contact"), href: "/contacto", ariaLabel: t("contact") },
-  ]
+  }, [mobileMenuOpen])
 
   return (
     <header
+      ref={headerRef}
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-200",
-        isScrolled ? "bg-white shadow-md" : "bg-white/80 backdrop-blur-sm",
+        scrolled ? "bg-white shadow-md" : "bg-transparent backdrop-blur-sm",
       )}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
+      <nav
+        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
+        aria-label="Navegación principal"
+      >
+        <div className="flex lg:flex-1">
+          <Link
+            href="/"
+            className="flex items-center transition-opacity duration-200 hover:opacity-80"
+            aria-label="NeuroWorkAI - Ir a inicio"
+          >
+            <div className="flex items-center">
               <SafeImage
-                src="/logo.png"
+                src={logoImage}
+                fallbackSrc="/abstract-brain-network.png"
                 alt="NeuroWorkAI Logo"
-                width={40}
+                width={120}
                 height={40}
-                className="h-10 w-auto"
                 priority
+                className="w-[120px] h-auto rounded-lg"
               />
-              <span className="ml-2 text-xl font-bold text-secondary">NeuroWorkAI</span>
-            </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                  pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
-                    ? "text-primary"
-                    : "text-gray-700 hover:text-primary",
-                )}
-                aria-label={item.ariaLabel}
-                aria-current={pathname === item.href ? "page" : undefined}
-              >
-                {item.name}
-              </Link>
-            ))}
-
-            {/* Language Switcher */}
-            <div className="ml-4">
-              <LanguageSwitcher variant="minimal" />
             </div>
-          </nav>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button asChild className="bg-primary hover:bg-primary/90">
-              <Link href="/kit-digital">{t("downloadFree")}</Link>
-            </Button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="flex md:hidden items-center gap-2">
-            <LanguageSwitcher variant="minimal" />
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
-              aria-controls="mobile-menu"
-              aria-expanded={isMobileNavOpen}
-              onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
-            >
-              <span className="sr-only">{isMobileNavOpen ? t("closeMenu") : t("openMenu")}</span>
-              {isMobileNavOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
+          </Link>
         </div>
-      </div>
 
-      {/* Mobile Navigation Drawer */}
-      <MobileNavDrawer isOpen={isMobileNavOpen} onClose={() => setIsMobileNavOpen(false)} />
+        {/* Mobile menu button */}
+        <div className="flex lg:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label="Abrir menú principal"
+            className="text-secondary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          >
+            <Menu className="h-6 w-6" aria-hidden="true" />
+            <span className="sr-only">Abrir menú principal</span>
+          </Button>
+        </div>
+
+        {/* Desktop navigation */}
+        <div className="hidden lg:flex lg:gap-x-8">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                "text-sm font-semibold leading-6 transition-colors relative group",
+                pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+                  ? "text-primary"
+                  : "text-secondary hover:text-primary",
+              )}
+              aria-label={item.ariaLabel || item.name}
+              aria-current={pathname === item.href ? "page" : undefined}
+            >
+              {item.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+          ))}
+        </div>
+
+        {/* CTA button */}
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          <Button asChild className="bg-primary hover:bg-primary/90">
+            <Link href="/top-herramientas-ia" aria-label="Ver top herramientas IA">
+              Top Herramientas IA
+            </Link>
+          </Button>
+        </div>
+      </nav>
+
+      {/* Mobile menu */}
+      {mobileMenuOpen && <MobileNavDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />}
+
+      {/* Sticky CTA - optimized for performance */}
+      {showStickyCTA && (
+        <div
+          className="fixed bottom-4 left-0 right-0 z-40 mx-auto flex w-fit transform items-center justify-center transition-all duration-300 translate-y-0 opacity-100"
+          aria-hidden="false"
+        >
+          <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
+            <Link href="/top-herramientas-ia" aria-label="Descubrir mejores herramientas IA" tabIndex={0}>
+              Descubrir Mejores Herramientas IA
+            </Link>
+          </Button>
+        </div>
+      )}
     </header>
   )
 }

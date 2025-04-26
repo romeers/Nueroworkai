@@ -1,13 +1,13 @@
 import type React from "react"
-import type { Metadata } from "next"
-import { Inter, Poppins } from "next/font/google"
 import "./globals.css"
+import { Inter, Poppins } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/react"
-import { LanguageProvider } from "@/contexts/language-context"
 import { Suspense } from "react"
+import SkipToContent from "@/components/accessibility/skip-to-content"
 
 // Optimize font loading with display swap and subset
 const inter = Inter({
@@ -36,7 +36,6 @@ export const metadata: Metadata = {
     canonical: "https://neuroworkai.com",
     languages: {
       "es-ES": "https://neuroworkai.com",
-      "en-US": "https://neuroworkai.com/en",
     },
   },
   openGraph: {
@@ -74,6 +73,16 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  authors: [{ name: "NeuroWorkAI Team" }],
+  applicationName: "NeuroWorkAI",
+  referrer: "origin-when-cross-origin",
+  creator: "NeuroWorkAI",
+  publisher: "NeuroWorkAI",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
     generator: 'v0.dev'
 }
 
@@ -91,29 +100,44 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="mask-icon" href="/favicon.ico" color="#7C3AED" />
+
+        {/* Preload critical assets */}
+        <link rel="preload" href="/logo.png" as="image" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* Add preload for critical CSS */}
+        <link rel="preload" href="/globals.css" as="style" />
+
+        {/* Add DNS prefetch for third-party domains */}
+        <link rel="dns-prefetch" href="https://v0.blob.com" />
+        <link rel="dns-prefetch" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
       </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <LanguageProvider>
-            <div className="flex min-h-screen flex-col">
-              <a
-                href="#main-content"
-                className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-primary"
-              >
-                Saltar al contenido principal
-              </a>
-              <Suspense>
-                <Header />
-              </Suspense>
+          <div className="flex min-h-screen flex-col">
+            <SkipToContent />
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-primary"
+            >
+              Saltar al contenido principal
+            </a>
+            <Header />
+            <Suspense
+              fallback={
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              }
+            >
               <main id="main-content" className="flex-1">
                 {children}
               </main>
-              <Suspense>
-                <Footer />
-              </Suspense>
-            </div>
-            <Analytics />
-          </LanguageProvider>
+            </Suspense>
+            <Footer />
+          </div>
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
-import { useLanguage } from "@/contexts/language-context"
 
 interface CTAProps {
   variant?: "primary" | "secondary" | "outline"
@@ -16,7 +15,7 @@ interface CTAProps {
   href?: string
   children?: React.ReactNode
   icon?: React.ReactNode
-  onSubmit?: (email: string) => Promise<void>
+  onSubmit?: (email: string) => void
   withEmailForm?: boolean
   emailPlaceholder?: string
   formButtonText?: string
@@ -47,7 +46,6 @@ export default function CTA({
   const [loading, setLoading] = React.useState(false)
   const [submitted, setSubmitted] = React.useState(false)
   const { toast } = useToast()
-  const { t } = useLanguage()
 
   const getBgColor = () => {
     switch (bgColor) {
@@ -97,35 +95,21 @@ export default function CTA({
       if (onSubmit) {
         await onSubmit(email)
       } else {
-        // Default behavior - submit to API
-        const response = await fetch("/api/subscribe", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            source: "cta-component",
-          }),
-        })
-
-        if (!response.ok) {
-          throw new Error("Error al enviar el formulario")
-        }
+        // Default behavior - simulate submission
+        await new Promise((resolve) => setTimeout(resolve, 1000))
       }
 
       toast({
-        title: t("thankYou"),
-        description: t("emailSent"),
+        title: "¡Gracias por suscribirte!",
+        description: "Hemos enviado el recurso a tu correo electrónico.",
       })
 
       setEmail("")
       setSubmitted(true)
     } catch (error) {
-      console.error("Error al enviar el formulario:", error)
       toast({
         title: "Error",
-        description: t("errorOccurred"),
+        description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
         variant: "destructive",
       })
     } finally {
@@ -153,19 +137,15 @@ export default function CTA({
             <div className="mx-auto mb-4 h-32 w-32 overflow-hidden rounded-lg">
               <SafeImage
                 src={imageSrc}
-                alt={imageAlt || ""}
+                alt={imageAlt}
                 width={128}
                 height={128}
                 className="h-full w-full object-cover"
               />
             </div>
           )}
-          <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            {children || t("ctaTitle")}
-          </h2>
-          <p className={`text-lg mb-8 ${bgColor === "white" ? "text-gray-600" : "text-white/90"}`}>
-            {microcopy || t("ctaSubtitle")}
-          </p>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight mb-4">{children}</h2>
+          <p className={`text-lg mb-8 ${bgColor === "white" ? "text-gray-600" : "text-white/90"}`}>{microcopy}</p>
 
           {withEmailForm ? (
             <div className="max-w-xl mx-auto">
@@ -174,8 +154,8 @@ export default function CTA({
                   className={`p-4 rounded-md ${bgColor === "white" ? "bg-green-50 text-green-800" : "bg-white/10 text-white"}`}
                   role="alert"
                 >
-                  <p className="font-medium">{t("thankYou")}</p>
-                  <p className="text-sm mt-1">{t("emailSent")}</p>
+                  <p className="font-medium">¡Gracias por suscribirte!</p>
+                  <p className="text-sm mt-1">Hemos enviado el recurso a tu correo electrónico.</p>
                 </div>
               ) : (
                 <form
@@ -185,7 +165,7 @@ export default function CTA({
                 >
                   <Input
                     type="email"
-                    placeholder={emailPlaceholder || t("emailPlaceholder")}
+                    placeholder={emailPlaceholder || "Tu correo electrónico"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -196,23 +176,21 @@ export default function CTA({
                     type="submit"
                     disabled={loading}
                     className="bg-white text-violet-700 font-semibold px-6 py-3 rounded-md hover:bg-gray-100 transition w-full md:w-auto"
-                    aria-label={loading ? t("sending") : formButtonText || t("ctaButtonText")}
+                    aria-label={loading ? "Enviando..." : formButtonText || "Descargar Kit gratuito"}
                   >
-                    {loading ? t("sending") : formButtonText || t("ctaButtonText")}
+                    {loading ? "Enviando..." : formButtonText || "Descargar Kit gratuito"}
                   </Button>
                 </form>
               )}
               {microcopy && !submitted && (
-                <p className={`text-sm mt-4 ${bgColor === "white" ? "text-gray-500" : "text-white/80"}`}>
-                  {microcopy || t("ctaMicrocopy")}
-                </p>
+                <p className={`text-sm mt-4 ${bgColor === "white" ? "text-gray-500" : "text-white/80"}`}>{microcopy}</p>
               )}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size={size} className={buttonStyles.primary}>
-                <Link href={href || "/kit-digital"} aria-label={(children as string) || t("downloadFree")}>
-                  {children || t("downloadFree")}
+                <Link href={href} aria-label={children as string}>
+                  {children}
                 </Link>
               </Button>
             </div>
