@@ -7,15 +7,14 @@ import Footer from "@/components/footer"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/react"
 import { Suspense } from "react"
-import FontOptimization from "@/components/font-optimization"
-import ThirdPartyScripts from "@/components/third-party-scripts"
 import SkipToContent from "@/components/accessibility/skip-to-content"
 
-// Optimized font loading with display swap
+// Optimize font loading with display swap and subset
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+  preload: true,
 })
 
 const poppins = Poppins({
@@ -23,18 +22,16 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
   display: "swap",
+  preload: true,
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://neuroworkai.com"),
-  title: {
-    default: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
-    template: "%s | NeuroWorkAI",
-  },
+  title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
   description:
     "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Reseñas, comparativas y recursos gratuitos.",
   keywords:
     "IA, inteligencia artificial, productividad, trabajo remoto, herramientas IA, Notion AI, Zapier, Make, ClickUp, Grammarly, Jasper, Fireflies",
+  metadataBase: new URL("https://neuroworkai.com"),
   openGraph: {
     type: "website",
     locale: "es_ES",
@@ -56,30 +53,11 @@ export const metadata: Metadata = {
     title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
     description: "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
     images: ["/neural-network-head.png"],
-    creator: "@neuroworkai",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
-  alternates: {
-    canonical: "https://neuroworkai.com",
-    languages: {
-      "es-ES": "https://neuroworkai.com",
-    },
-  },
-  verification: {
-    google: "verification_token",
-  },
-  authors: [{ name: "NeuroWorkAI" }],
-  category: "Technology",
     generator: 'v0.dev'
 }
 
@@ -94,13 +72,18 @@ export default function RootLayout({
         <meta name="theme-color" content="#7C3AED" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <FontOptimization />
 
         {/* Preload critical assets */}
         <link rel="preload" href="/logo.png" as="image" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* Add preload for critical CSS */}
+        <link rel="preload" href="/globals.css" as="style" />
+
+        {/* Add DNS prefetch for third-party domains */}
+        <link rel="dns-prefetch" href="https://v0.blob.com" />
+        <link rel="dns-prefetch" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
       </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
@@ -116,7 +99,7 @@ export default function RootLayout({
             <Suspense
               fallback={
                 <div className="flex-1 flex items-center justify-center">
-                  <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
                 </div>
               }
             >
@@ -127,7 +110,6 @@ export default function RootLayout({
             <Footer />
           </div>
           <Analytics />
-          <ThirdPartyScripts />
         </ThemeProvider>
       </body>
     </html>

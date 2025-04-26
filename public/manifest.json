@@ -1,0 +1,26 @@
+{
+  "name": "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+  "short_name": "NeuroWorkAI",
+  "description": "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7C3AED",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

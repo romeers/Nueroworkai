@@ -22,7 +22,7 @@ export function getOptimizedImageUrl(url: string | null | undefined, width = 800
   // Si es una imagen local, añadir parámetros de optimización
   if (url.startsWith("/")) {
     // Añadir parámetros para Next.js Image Optimization
-    return `${url}?w=${width}&q=75`
+    return `${url}?w=${width}&q=75&auto=format`
   }
 
   // Para otros casos, devolver la URL original
@@ -50,37 +50,6 @@ export function shouldPrioritizeImage(url: string | null | undefined, pathname: 
   return false
 }
 
-// Función para optimizar la carga de fuentes
-export function optimizeFontLoading(): void {
-  // Esta función podría implementar estrategias como:
-  // - Precargar fuentes críticas
-  // - Utilizar font-display: swap
-  // - Implementar Font Loading API
-  // Ejemplo de implementación (esto se haría en un componente real)
-  /*
-  const fontStyles = document.createElement('style')
-  fontStyles.textContent = `
-    @font-face {
-      font-family: 'CustomFont';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url('/fonts/custom-font.woff2') format('woff2');
-    }
-  `
-  document.head.appendChild(fontStyles)
-  
-  // Precargar fuente crítica
-  const preloadLink = document.createElement('link')
-  preloadLink.rel = 'preload'
-  preloadLink.href = '/fonts/custom-font.woff2'
-  preloadLink.as = 'font'
-  preloadLink.type = 'font/woff2'
-  preloadLink.crossOrigin = 'anonymous'
-  document.head.appendChild(preloadLink)
-  */
-}
-
 // Función para implementar lazy loading de componentes
 export function shouldLazyLoadComponent(pathname: string, componentName: string): boolean {
   // Componentes que siempre deben cargarse de forma inmediata
@@ -96,4 +65,82 @@ export function shouldLazyLoadComponent(pathname: string, componentName: string)
 
   // Por defecto, lazy load para componentes no críticos
   return true
+}
+
+// Throttle function to limit function calls
+export function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  limit: number,
+): (...args: Parameters<T>) => ReturnType<T> | undefined {
+  let inThrottle = false
+  let lastResult: ReturnType<T> | undefined
+
+  return function (this: any, ...args: Parameters<T>): ReturnType<T> | undefined {
+    if (!inThrottle) {
+      lastResult = func.apply(this, args)
+      inThrottle = true
+      setTimeout(() => {
+        inThrottle = false
+      }, limit)
+    }
+    return lastResult
+  }
+}
+
+// Debounce function to delay function execution
+export function debounce<T extends (...args: any[]) => any>(func: T, wait: number): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout | null = null
+
+  return function (this: any, ...args: Parameters<T>): void {
+    const later = () => {
+      timeout = null
+      func.apply(this, args)
+    }
+
+    if (timeout !== null) {
+      clearTimeout(timeout)
+    }
+    timeout = setTimeout(later, wait)
+  }
+}
+
+// Preload critical resources
+export function preloadCriticalResources(): void {
+  if (typeof window === "undefined") return
+
+  // Preload critical images
+  const criticalImages = ["/logo.png", "/neural-network-head.png", "/abstract-brain-network.png"]
+
+  criticalImages.forEach((imageSrc) => {
+    const link = document.createElement("link")
+    link.rel = "preload"
+    link.as = "image"
+    link.href = imageSrc
+    document.head.appendChild(link)
+  })
+}
+
+// Optimize font loading
+export function optimizeFontLoading(): void {
+  if (typeof window === "undefined") return
+
+  // Add font display swap
+  const style = document.createElement("style")
+  style.textContent = `
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2) format('woff2');
+    }
+  `
+  document.head.appendChild(style)
 }

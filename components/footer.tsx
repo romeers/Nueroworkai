@@ -10,12 +10,12 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-secondary text-white py-16" role="contentinfo" aria-label="Pie de página del sitio">
+    <footer className="bg-secondary text-white py-12 sm:py-16" role="contentinfo" aria-label="Pie de página del sitio">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Main footer content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 items-start">
+        {/* Main footer content - optimized grid for mobile */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 items-start">
           {/* Logo and brand information */}
-          <div className="space-y-4">
+          <div className="space-y-4 col-span-2 sm:col-span-1">
             <Link
               href="/"
               className="inline-block transition-opacity duration-200 hover:opacity-90"
@@ -26,8 +26,8 @@ export default function Footer() {
                   src={logoWhiteImage}
                   fallbackSrc="/neuroworkai-logo-white.png"
                   alt="NeuroWorkAI Logo"
-                  width={180}
-                  height={50}
+                  width={120}
+                  height={40}
                   className="w-full h-auto rounded-lg"
                 />
               </div>
@@ -45,6 +45,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 <Facebook className="h-5 w-5" />
+                <span className="sr-only">Facebook</span>
               </Link>
               <Link
                 href="https://www.instagram.com/neuroworkai"
@@ -55,6 +56,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 <Instagram className="h-5 w-5" />
+                <span className="sr-only">Instagram</span>
               </Link>
               <Link
                 href="https://www.linkedin.com/company/neuroworksai/"
@@ -65,6 +67,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 <Linkedin className="h-5 w-5" />
+                <span className="sr-only">LinkedIn</span>
               </Link>
             </div>
           </div>
@@ -208,44 +211,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        {/* Social Media Section - Más visible */}
-        <div className="mt-12 pt-6 border-t border-white/10 text-center">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Síguenos en redes sociales</h3>
-          <div className="flex justify-center space-x-6">
-            <Link
-              href="https://www.facebook.com/profile.php?id=61575664503316"
-              className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-3 rounded-full hover:bg-white/20"
-              aria-label="Facebook de NeuroWorkAI"
-              title="Síguenos en Facebook"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Facebook className="h-8 w-8" />
-            </Link>
-            <Link
-              href="https://www.instagram.com/neuroworkai"
-              className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-3 rounded-full hover:bg-white/20"
-              aria-label="Instagram de NeuroWorkAI"
-              title="Síguenos en Instagram"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Instagram className="h-8 w-8" />
-            </Link>
-            <Link
-              href="https://www.linkedin.com/company/neuroworksai/"
-              className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-3 rounded-full hover:bg-white/20"
-              aria-label="LinkedIn de NeuroWorkAI"
-              title="Síguenos en LinkedIn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin className="h-8 w-8" />
-            </Link>
-          </div>
-        </div>
-
-        {/* CTA Section - Improved with button component */}
+        {/* CTA Section - Improved for mobile */}
         <div className="mt-8 pt-6 border-t border-white/10 text-center">
           <Button
             asChild

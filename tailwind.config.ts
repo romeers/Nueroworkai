@@ -24,11 +24,11 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#7C3AED", // Violet/purple accent
+          DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#1E293B", // Deep blue for headers
+          DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
@@ -82,6 +82,18 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+  // Optimize for production
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  // Reduce file size in production
+  safelist: [
+    // Add only critical classes that might be dynamically generated
+    "text-primary",
+    "text-secondary",
+    "bg-primary",
+    "bg-secondary",
+  ],
 }
 
 export default config

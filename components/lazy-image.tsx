@@ -17,8 +17,10 @@ export default function LazyImage({
   lowQualitySrc,
   placeholderColor = "#f3f4f6",
   className,
-  transitionDuration = 500,
+  transitionDuration = 300, // Reduced from 500 for faster perception
   blurAmount = 10,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  quality = 80,
   ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -28,6 +30,7 @@ export default function LazyImage({
   useEffect(() => {
     if (!imgRef.current) return
 
+    // Use Intersection Observer API for better performance
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -35,7 +38,7 @@ export default function LazyImage({
           observer.disconnect()
         }
       },
-      { rootMargin: "200px" }, // Start loading 200px before it comes into view
+      { rootMargin: "200px", threshold: 0.01 }, // Start loading 200px before it comes into view
     )
 
     observer.observe(imgRef.current)
@@ -57,14 +60,17 @@ export default function LazyImage({
       {lowQualitySrc && !isLoaded && (
         <Image
           src={lowQualitySrc || "/placeholder.svg"}
-          alt={alt}
+          alt=""
           fill
+          sizes={sizes}
           className="object-cover"
           style={{
             filter: `blur(${blurAmount}px)`,
             transform: "scale(1.1)",
           }}
           aria-hidden="true"
+          priority={false}
+          quality={20} // Lower quality for placeholder
         />
       )}
 
@@ -74,6 +80,8 @@ export default function LazyImage({
           src={src || "/placeholder.svg"}
           alt={alt}
           fill
+          sizes={sizes}
+          quality={quality}
           {...props}
           className={cn("object-cover transition-opacity", isLoaded ? "opacity-100" : "opacity-0", props.className)}
           style={{
@@ -81,6 +89,7 @@ export default function LazyImage({
             transitionDuration: `${transitionDuration}ms`,
           }}
           onLoad={() => setIsLoaded(true)}
+          fetchPriority={props.priority ? "high" : "auto"}
         />
       )}
 

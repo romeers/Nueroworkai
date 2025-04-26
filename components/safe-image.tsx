@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image, { type ImageProps } from "next/image"
 import { cn } from "@/lib/utils"
 
@@ -23,11 +22,18 @@ export default function SafeImage({
   className,
   onLoad,
   onError,
+  loading = "lazy",
+  quality = 80,
+  sizes,
   ...props
 }: SafeImageProps) {
   const [imgSrc, setImgSrc] = useState<string | null | undefined>(src)
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
+  const imageRef = useRef<HTMLImageElement>(null)
+
+  // Default sizes if not provided
+  const defaultSizes = sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
 
   // Reset states when src changes
   useEffect(() => {
@@ -49,13 +55,36 @@ export default function SafeImage({
     onError?.()
   }
 
+  // Use Intersection Observer for lazy loading
+  useEffect(() => {
+    if (!imageRef.current || loading !== "lazy") return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsLoading(false)
+            observer.disconnect()
+          }
+        })
+      },
+      { rootMargin: "200px" },
+    )
+
+    observer.observe(imageRef.current)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [loading])
+
   // If custom fallback is provided and there's an error, render it
   if (hasError && fallback) {
     return <>{fallback}</>
   }
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative", className)} ref={imageRef}>
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
           <span className="sr-only">Cargando imagen...</span>
@@ -68,11 +97,22 @@ export default function SafeImage({
           alt={alt}
           onLoad={handleLoad}
           onError={handleError}
+          loading={loading}
+          quality={quality}
+          sizes={defaultSizes}
           className={cn("transition-opacity duration-300", isLoading ? "opacity-0" : "opacity-100", className)}
           {...props}
         />
       ) : (
-        <Image src={fallbackSrc || "/placeholder.svg"} alt={alt} className={className} {...props} />
+        <Image
+          src={fallbackSrc || "/placeholder.svg"}
+          alt={alt}
+          className={className}
+          loading={loading}
+          quality={quality}
+          sizes={defaultSizes}
+          {...props}
+        />
       )}
     </div>
   )

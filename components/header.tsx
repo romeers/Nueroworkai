@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
 import MobileNavDrawer from "./mobile-nav-drawer"
-import { throttle } from "@/lib/utils"
 
 // Update the navigation array to remove the Blog entry
 const navigation = [
@@ -21,48 +21,32 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const pathname = usePathname()
   const logoImage =
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
 
-  // Ref para detectar clics fuera del dropdown
-  const dropdownRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLElement>(null)
+  const prevScrollY = useRef(0)
+  const ticking = useRef(false)
 
-  useEffect(() => {
-    // Optimized scroll handler with throttle
-    const handleScroll = throttle(() => {
-      setScrolled(window.scrollY > 10)
-      setShowStickyCTA(window.scrollY > 300)
-    }, 100)
-
-    window.addEventListener("scroll", handleScroll)
-
-    // Manejar clics fuera del dropdown
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setActiveDropdown(null)
-      }
-    }
-
-    // Manejar tecla Escape para cerrar menú móvil
-    const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMobileMenuOpen(false)
-        setActiveDropdown(null)
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-    document.addEventListener("keydown", handleEscKey)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-      document.removeEventListener("mousedown", handleClickOutside)
-      document.removeEventListener("keydown", handleEscKey)
+  // Optimized scroll handler with throttling
+  const handleScroll = useCallback(() => {
+    if (!ticking.current) {
+      window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY
+        setScrolled(currentScrollY > 10)
+        setShowStickyCTA(currentScrollY > 300)
+        prevScrollY.current = currentScrollY
+        ticking.current = false
+      })
+      ticking.current = true
     }
   }, [])
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [handleScroll])
 
   // Cerrar el menú móvil al cambiar de ruta
   useEffect(() => {
@@ -80,10 +64,6 @@ export default function Header() {
       document.body.style.overflow = ""
     }
   }, [mobileMenuOpen])
-
-  const toggleDropdown = (name: string) => {
-    setActiveDropdown(activeDropdown === name ? null : name)
-  }
 
   return (
     <header
@@ -108,8 +88,8 @@ export default function Header() {
                 src={logoImage}
                 fallbackSrc="/abstract-brain-network.png"
                 alt="NeuroWorkAI Logo"
-                width={180}
-                height={50}
+                width={120}
+                height={40}
                 priority
                 className="w-[120px] h-auto rounded-lg"
               />
@@ -117,9 +97,20 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Mobile menu button - replaced with MobileNavDrawer for better UX */}
+        {/* Mobile menu button */}
         <div className="flex lg:hidden">
-          <MobileNavDrawer />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label="Abrir menú principal"
+            className="text-secondary"
+          >
+            <Menu className="h-6 w-6" aria-hidden="true" />
+            <span className="sr-only">Abrir menú principal</span>
+          </Button>
         </div>
 
         {/* Desktop navigation */}
@@ -145,7 +136,7 @@ export default function Header() {
 
         {/* CTA button */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Button asChild className="bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md transition-all">
+          <Button asChild className="bg-primary hover:bg-primary/90">
             <Link href="/top-herramientas-ia" aria-label="Ver top herramientas IA">
               Top Herramientas IA
             </Link>
@@ -153,24 +144,22 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Sticky CTA - mejorado para accesibilidad y rendimiento móvil */}
-      <div
-        className={cn(
-          "fixed bottom-4 left-0 right-0 z-40 mx-auto flex w-fit transform items-center justify-center transition-all duration-300",
-          showStickyCTA ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0 pointer-events-none",
-        )}
-        aria-hidden={!showStickyCTA}
-      >
-        <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
-          <Link
-            href="/top-herramientas-ia"
-            aria-label="Descubrir mejores herramientas IA"
-            tabIndex={showStickyCTA ? 0 : -1}
-          >
-            Descubrir Mejores Herramientas IA
-          </Link>
-        </Button>
-      </div>
+      {/* Mobile menu */}
+      {mobileMenuOpen && <MobileNavDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />}
+
+      {/* Sticky CTA - optimized for performance */}
+      {showStickyCTA && (
+        <div
+          className="fixed bottom-4 left-0 right-0 z-40 mx-auto flex w-fit transform items-center justify-center transition-all duration-300 translate-y-0 opacity-100"
+          aria-hidden="false"
+        >
+          <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
+            <Link href="/top-herramientas-ia" aria-label="Descubrir mejores herramientas IA" tabIndex={0}>
+              Descubrir Mejores Herramientas IA
+            </Link>
+          </Button>
+        </div>
+      )}
     </header>
   )
 }
