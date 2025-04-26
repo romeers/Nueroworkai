@@ -1,129 +1,104 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/hooks/use-toast"
-import { z } from "zod"
-import { Form, FormField, FormLabel, FormMessage } from "@/components/ui/form"
-import { Download } from "lucide-react"
-
-const subscriptionSchema = z.object({
-  email: z.string().email({ message: "Por favor, introduce un email válido" }),
-  name: z.string().optional(),
-})
-
-type SubscriptionFormValues = z.infer<typeof subscriptionSchema>
 
 interface EmailSubscriptionFormProps {
-  title?: string
-  description?: string
-  buttonText?: string
-  successMessage?: string
-  showName?: boolean
   className?: string
-  downloadIcon?: boolean
-  onSuccess?: () => void
+  buttonText?: string
+  showNameField?: boolean
+  source?: string
 }
 
-export function EmailSubscriptionForm({
-  title = "Suscríbete a nuestra newsletter",
-  description = "Recibe las últimas actualizaciones sobre herramientas de IA y productividad.",
-  buttonText = "Suscribirme",
-  successMessage = "¡Gracias por suscribirte! Recibirás nuestras actualizaciones pronto.",
-  showName = false,
+export default function EmailSubscriptionForm({
   className = "",
-  downloadIcon = false,
-  onSuccess,
+  buttonText = "Descargar Kit Gratuito",
+  showNameField = false,
+  source = "general",
 }: EmailSubscriptionFormProps) {
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [error, setError] = useState("")
 
-  const { toast } = useToast()
-
-  const handleSubmit = async (data: SubscriptionFormValues) => {
-    setLoading(true)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setError("")
 
     try {
-      // Simulación de envío - en producción, esto sería una llamada a la API
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      toast({
-        title: "¡Suscripción exitosa!",
-        description: successMessage,
+      // Usar el nuevo endpoint /api/subscribe
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          name: showNameField ? name : undefined,
+          source, // Opcional: para saber de dónde viene la suscripción
+        }),
       })
 
-      if (onSuccess) {
-        onSuccess()
+      const data = await response.json()
+
+      if (response.ok) {
+        setIsSuccess(true)
+        setEmail("")
+        setName("")
+      } else {
+        setError(data.message || "Error al procesar la suscripción")
       }
     } catch (error) {
-      toast({
-        title: "Error al suscribirse",
-        description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
-        variant: "destructive",
-      })
+      setError("Error al conectar con el servidor")
+      console.error("Error al enviar formulario:", error)
     } finally {
-      setLoading(false)
+      setIsSubmitting(false)
     }
   }
 
   return (
-    <Form schema={subscriptionSchema} onSubmit={handleSubmit}>
-      {(form) => (
-        <div className={className}>
-          {title && <h3 className="text-xl font-bold mb-2">{title}</h3>}
-          {description && <p className="text-gray-600 mb-4">{description}</p>}
-          <div className={`${showName ? "space-y-3" : ""}`}>
-            {showName && (
-              <FormField>
-                <FormLabel htmlFor="name" className="sr-only">
-                  Nombre
-                </FormLabel>
-                <Input
-                  {...form.register("name")}
-                  id="name"
-                  placeholder="Tu nombre"
-                  className="w-full"
-                  aria-label="Tu nombre"
-                />
-                <FormMessage>{form.formState.errors.name?.message}</FormMessage>
-              </FormField>
-            )}
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="flex-grow">
-                <FormField>
-                  <FormLabel htmlFor="email" className="sr-only">
-                    Correo electrónico
-                  </FormLabel>
-                  <Input
-                    {...form.register("email")}
-                    id="email"
-                    type="email"
-                    placeholder="Tu correo electrónico"
-                    className="w-full"
-                    aria-label="Tu correo electrónico"
-                    required
-                  />
-                  <FormMessage>{form.formState.errors.email?.message}</FormMessage>
-                </FormField>
-              </div>
-
-              <Button type="submit" disabled={loading} className="bg-primary hover:bg-primary/90 whitespace-nowrap">
-                {loading ? (
-                  "Enviando..."
-                ) : (
-                  <>
-                    {downloadIcon && <Download className="mr-2 h-4 w-4" />}
-                    {buttonText}
-                  </>
-                )}
-              </Button>
-            </div>
-          </div>
+    <div className={className}>
+      {isSuccess ? (
+        <div className="bg-green-50 border border-green-200 rounded-md p-4 text-green-800">
+          <p className="font-medium">¡Gracias por suscribirte!</p>
+          <p className="text-sm mt-1">Hemos registrado tu correo correctamente.</p>
         </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-3">
+          {showNameField && (
+            <div>
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Tu nombre"
+                aria-label="Tu nombre"
+              />
+            </div>
+          )}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex-grow">
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Tu correo electrónico"
+                aria-label="Tu correo electrónico"
+                required
+              />
+            </div>
+            <Button type="submit" disabled={isSubmitting} className="bg-primary hover:bg-primary/90 whitespace-nowrap">
+              {isSubmitting ? "Enviando..." : buttonText}
+            </Button>
+          </div>
+          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+        </form>
       )}
-    </Form>
+    </div>
   )
 }
-
-export default EmailSubscriptionForm

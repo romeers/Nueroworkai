@@ -1,65 +1,58 @@
 import { NextResponse } from "next/server"
-import { neon } from "@neondatabase/serverless"
-
-// Validación básica de email
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
+import { sql } from "@/lib/db-config"
 
 export async function POST(request: Request) {
   try {
-    // Obtener datos del cuerpo de la solicitud
-    const { email, name } = await request.json()
+    const body = await request.json()
+    const { email, name, source = "website" } = body
 
-    // Validar email
-    if (!email || !isValidEmail(email)) {
-      return NextResponse.json(
-        { success: false, message: "Por favor, proporciona un correo electrónico válido" },
-        { status: 400 },
-      )
+    // Validación básica
+    if (!email || typeof email !== "string" || !email.includes("@")) {
+      return NextResponse.json({ success: false, message: "Email inválido" }, { status: 400 })
     }
 
-    // Conectar a la base de datos
-    const sql = neon(process.env.DATABASE_URL!)
+    console.log(`Intentando guardar suscripción: ${email}, ${name || "sin nombre"}, fuente: ${source}`)
 
-    // Verificar si la tabla existe, si no, crearla
+    // Crear la tabla si no existe
     await sql`
       CREATE TABLE IF NOT EXISTS subscribers (
         id SERIAL PRIMARY KEY,
-        email VARCHAR(255) NOT NULL UNIQUE,
+        email VARCHAR(255) UNIQUE NOT NULL,
         name VARCHAR(255),
+        source VARCHAR(100),
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
     `
 
-    // Intentar insertar el suscriptor
-    try {
-      await sql`
-        INSERT INTO subscribers (email, name)
-        VALUES (${email.toLowerCase()}, ${name || null})
-      `
-    } catch (dbError: any) {
-      // Verificar si es un error de duplicado
-      if (dbError.message && dbError.message.includes("duplicate key")) {
-        return NextResponse.json(
-          { success: false, message: "Este correo electrónico ya está suscrito" },
-          { status: 409 },
-        )
-      }
-      throw dbError
-    }
+    // Insertar el suscriptor
+    // Si el email ya existe, simplemente actualizamos el nombre y la fuente si se proporcionan
+    const result = await sql`
+      INSERT INTO subscribers (email, name, source)
+      VALUES (${email}, ${name || null}, ${source})
+      ON CONFLICT (email) 
+      DO UPDATE SET 
+        name = COALESCE(${name || null}, subscribers.name),
+        source = COALESCE(${source}, subscribers.source),
+        updated_at = CURRENT_TIMESTAMP
+      RETURNING id, email
+    `
 
-    // Respuesta exitosa
+    console.log(`Suscripción guardada correctamente: ${JSON.stringify(result)}`)
+
     return NextResponse.json({
       success: true,
-      message: "¡Suscripción exitosa!",
+      message: "Suscripción registrada correctamente",
+      subscriber: result[0],
     })
   } catch (error) {
-    console.error("Error en la API de suscripción:", error)
+    console.error("Error al procesar suscripción:", error)
     return NextResponse.json(
-      { success: false, message: "Ha ocurrido un error al procesar tu solicitud" },
+      {
+        success: false,
+        message: "Error al procesar la suscripción",
+        error: String(error),
+      },
       { status: 500 },
     )
   }

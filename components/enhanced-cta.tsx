@@ -99,16 +99,6 @@ export default function EnhancedCTA({
         description: "Hemos enviado el recurso a tu correo electrónico.",
       })
 
-      // If this is for the kit (check by button text), trigger download
-      if (formButtonText?.includes("Kit") || formButtonText?.includes("kit")) {
-        const link = document.createElement("a")
-        link.href = "/kit-productividad-ia-2025.pdf"
-        link.setAttribute("download", "Kit-Productividad-IA-2025.pdf")
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-      }
-
       setEmail("")
       setSubmitted(true)
     } catch (error) {

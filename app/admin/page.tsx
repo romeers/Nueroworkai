@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Database, Users, FileText, BarChart, Activity } from "lucide-react"
+import { Database, Users, FileText, BarChart, Activity, Download } from "lucide-react"
 
 export default function AdminPage() {
   return (
@@ -98,6 +98,23 @@ export default function AdminPage() {
           <CardFooter>
             <Button asChild className="w-full">
               <Link href="/admin/diagnostics">Ejecutar Diagnóstico</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Download className="h-5 w-5" /> Descargas Kit
+            </CardTitle>
+            <CardDescription>Descargas del Kit Digital</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-500">Visualiza los correos de quienes han descargado el kit digital.</p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full">
+              <Link href="/admin/descargas-kit">Ver Descargas</Link>
             </Button>
           </CardFooter>
         </Card>

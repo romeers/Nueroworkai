@@ -4,17 +4,17 @@ import { useState } from "react"
 import { Check } from "lucide-react"
 import SafeImage from "./safe-image"
 import { useToast } from "@/hooks/use-toast"
-import SubscriptionForm from "./subscription-form"
+import EmailSubscriptionForm from "./email-subscription-form"
 
 // Define the content in a single place for reuse across the site
 export const kitPromoContent = {
-  title: "Kit de Productividad IA NeuroWorkAI (Actualizado 2025)",
+  title: "Kit de Productividad con IA para Trabajo Remoto (2025)",
   subtitle: "Descarga gratis nuestro kit definitivo y comienza a trabajar mejor con IA desde hoy:",
   bulletPoints: [
-    "Las 6 Herramientas IA Esenciales para Productividad Remota",
-    "10 Prompts Prácticos para Optimizar tu Productividad",
-    "3 Flujos de Automatización Inteligentes (Zapier, Make)",
-    "Plantilla de Productividad Diaria con IA (Notion)",
+    "Lista de 6 herramientas IA esenciales para productividad remota",
+    "10 prompts prácticos para ChatGPT, Notion AI, Jasper y más",
+    "3 flujos de automatización listos para usar (Zapier, Make)",
+    "Plantilla editable de productividad diaria con IA en Notion",
   ],
   formLabel: "Suscríbete para descargar:",
   buttonText: "Descargar Kit gratuito",
@@ -77,13 +77,12 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
           ) : (
             <div className="mt-6" aria-label="Formulario de descarga de kit">
               <h3 className="text-lg font-semibold text-secondary mb-3">{kitPromoContent.formLabel}</h3>
-              <SubscriptionForm
-                showName={false}
+              <EmailSubscriptionForm
                 buttonText={kitPromoContent.buttonText}
-                successMessage="¡Gracias por suscribirte! Recibirás el kit de productividad pronto."
+                microcopy={kitPromoContent.microcopy}
                 onSuccess={handleSuccess}
+                downloadIcon={true}
               />
-              <p className="text-xs text-gray-500 mt-2">{kitPromoContent.microcopy}</p>
             </div>
           )}
         </div>

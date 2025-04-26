@@ -1,6 +1,11 @@
 "use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import SafeImage from "./safe-image"
-import SubscriptionForm from "./subscription-form"
 
 interface FinalKitCTAProps {
   title?: string
@@ -9,16 +14,44 @@ interface FinalKitCTAProps {
   emailPlaceholder?: string
   microcopy?: string
   imageUrl?: string
+  onSubmit?: (email: string) => void
 }
 
 export default function FinalKitCTA({
   title = "Potencia tu productividad con IA",
-  subtitle = "Descarga nuestro Kit de Productividad IA NeuroWorkAI (Actualizado 2025) y comienza a trabajar mejor con IA desde hoy.",
+  subtitle = "Descarga nuestro Kit de Productividad con IA para Trabajo Remoto (2025) y comienza a trabajar mejor con IA desde hoy.",
   buttonText = "Descargar Kit gratuito",
   emailPlaceholder = "Tu correo electrónico",
   microcopy = "Sin spam · Descarga inmediata tras confirmar",
   imageUrl = "/ai-productivity-kit-ebook.png",
+  onSubmit,
 }: FinalKitCTAProps) {
+  const [email, setEmail] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+      if (onSubmit) {
+        await onSubmit(email)
+      } else {
+        // Default behavior - simulate submission
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        console.log("Kit download requested for:", email)
+      }
+
+      // Success handling could go here
+      setEmail("")
+    } catch (error) {
+      // Error handling could go here
+      console.error("Error submitting form:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <section
       className="py-20 px-6 relative overflow-hidden"
@@ -55,13 +88,23 @@ export default function FinalKitCTA({
           <p className="text-white/90 text-lg mb-8">{subtitle}</p>
 
           <div className="max-w-xl mx-auto">
-            <SubscriptionForm
-              showName={false}
-              buttonText={buttonText}
-              successMessage="¡Gracias por suscribirte! Recibirás el kit de productividad pronto."
-              className="bg-white/10 backdrop-blur-sm p-6 rounded-lg"
-              lightMode={true}
-            />
+            <form className="flex flex-col md:flex-row gap-4 justify-center items-center" onSubmit={handleSubmit}>
+              <Input
+                type="email"
+                placeholder={emailPlaceholder}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full md:w-[320px] px-4 py-3 rounded-md text-sm text-gray-900 bg-white border-0 shadow-sm"
+              />
+              <Button
+                type="submit"
+                disabled={loading}
+                className="bg-white text-violet-700 font-semibold px-6 py-3 rounded-md hover:bg-gray-100 transition w-full md:w-auto"
+              >
+                {loading ? "Enviando..." : buttonText}
+              </Button>
+            </form>
             <p className="text-sm text-white/80 mt-4">{microcopy}</p>
           </div>
         </div>
