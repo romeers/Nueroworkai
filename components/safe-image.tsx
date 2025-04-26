@@ -42,16 +42,29 @@ export default function SafeImage({
     setHasError(false)
   }, [src])
 
-  // Handle image load
+  // Handle image load with performance tracking
   const handleLoad = () => {
     setIsLoading(false)
+    // Report successful load to performance metrics if available
+    if (window.performance && window.performance.mark) {
+      window.performance.mark(`image-loaded-${alt.replace(/\s+/g, "-")}`)
+    }
     onLoad?.()
   }
 
-  // Handle image error
+  // Handle image error with improved fallback strategy
   const handleError = () => {
     setHasError(true)
     setImgSrc(fallbackSrc)
+    console.warn(`Image failed to load: ${src}. Using fallback.`)
+    // Try to preload the fallback to ensure it's available
+    if (fallbackSrc && typeof window !== "undefined") {
+      const preloadLink = document.createElement("link")
+      preloadLink.rel = "preload"
+      preloadLink.as = "image"
+      preloadLink.href = fallbackSrc
+      document.head.appendChild(preloadLink)
+    }
     onError?.()
   }
 

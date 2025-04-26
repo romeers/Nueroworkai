@@ -91,8 +91,9 @@ export default function ToolCard({
           alt={`Logo de ${name}`}
           width={160}
           height={160}
-          className="h-auto w-auto max-h-32 max-w-[80%] object-contain"
+          className="h-auto w-auto max-h-32 max-w-[80%] object-contain transition-transform duration-300"
           priority={featured}
+          sizes="(max-width: 640px) 80vw, (max-width: 768px) 40vw, (max-width: 1024px) 30vw, 160px"
         />
         <div className="absolute right-2 top-2">
           <FavoriteButton toolId={id} className="bg-white/90 hover:bg-white" />

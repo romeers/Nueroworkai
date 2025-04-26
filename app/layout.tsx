@@ -28,16 +28,23 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
   description:
-    "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Reseñas, comparativas y recursos gratuitos.",
+    "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Reseñas, comparativas y recursos gratuitos actualizados 2025.",
   keywords:
-    "IA, inteligencia artificial, productividad, trabajo remoto, herramientas IA, Notion AI, Zapier, Make, ClickUp, Grammarly, Jasper, Fireflies",
+    "IA, inteligencia artificial, productividad, trabajo remoto, herramientas IA, Notion AI, Zapier, Make, ClickUp, Grammarly, Jasper, Fireflies, ChatGPT, automatización, IA para trabajo",
   metadataBase: new URL("https://neuroworkai.com"),
+  alternates: {
+    canonical: "https://neuroworkai.com",
+    languages: {
+      "es-ES": "https://neuroworkai.com",
+    },
+  },
   openGraph: {
     type: "website",
     locale: "es_ES",
     url: "https://neuroworkai.com",
     title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
-    description: "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
+    description:
+      "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Análisis actualizados 2025.",
     siteName: "NeuroWorkAI",
     images: [
       {
@@ -51,12 +58,30 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
-    description: "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
+    description:
+      "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Análisis actualizados 2025.",
     images: ["/neural-network-head.png"],
+    creator: "@neuroworkai",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  authors: [{ name: "NeuroWorkAI Team" }],
+  applicationName: "NeuroWorkAI",
+  referrer: "origin-when-cross-origin",
+  creator: "NeuroWorkAI",
+  publisher: "NeuroWorkAI",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
     generator: 'v0.dev'
 }

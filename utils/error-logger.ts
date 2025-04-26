@@ -1,24 +1,22 @@
 /**
- * Utilidad para registrar errores
+ * Error logging utility for NeuroWorkAI
+ * Provides structured error logging and reporting
  */
 
-type ErrorSeverity = "info" | "warning" | "error" | "critical"
+type ErrorSeverity = "low" | "medium" | "high" | "critical"
 
-interface ErrorLogEntry {
-  timestamp: string
-  message: string
-  severity: ErrorSeverity
+interface ErrorLogOptions {
+  severity?: ErrorSeverity
   context?: Record<string, any>
-  stack?: string
+  user?: string
+  sendToAnalytics?: boolean
 }
 
 class ErrorLogger {
   private static instance: ErrorLogger
-  private logs: ErrorLogEntry[] = []
-  private maxLogs = 100
 
   private constructor() {
-    // Singleton
+    // Initialize error logging service
   }
 
   public static getInstance(): ErrorLogger {
@@ -28,80 +26,119 @@ class ErrorLogger {
     return ErrorLogger.instance
   }
 
-  public log(message: string, severity: ErrorSeverity = "info", context?: Record<string, any>, error?: Error): void {
-    const entry: ErrorLogEntry = {
-      timestamp: new Date().toISOString(),
-      message,
-      severity,
-      context,
-      stack: error?.stack,
+  /**
+   * Log an error with structured metadata
+   */
+  public logError(
+    error: Error | string,
+    options: ErrorLogOptions = { severity: "medium", sendToAnalytics: true },
+  ): void {
+    const errorObj = typeof error === "string" ? new Error(error) : error
+    const timestamp = new Date().toISOString()
+
+    // Create structured error object
+    const logEntry = {
+      timestamp,
+      message: errorObj.message,
+      stack: errorObj.stack,
+      severity: options.severity || "medium",
+      context: options.context || {},
+      user: options.user,
+      environment: process.env.NODE_ENV || "development",
     }
 
-    // Añadir al registro
-    this.logs.unshift(entry)
-
-    // Limitar el tamaño del registro
-    if (this.logs.length > this.maxLogs) {
-      this.logs = this.logs.slice(0, this.maxLogs)
+    // Log to console in development
+    if (process.env.NODE_ENV !== "production") {
+      console.error("ERROR:", logEntry)
+      return
     }
 
-    // Registrar en la consola
-    this.logToConsole(entry)
+    // In production, we would send to a logging service
+    // This is a placeholder for actual implementation
+    this.sendToLoggingService(logEntry)
 
-    // Si es un error crítico, enviar a un servicio externo
-    if (severity === "critical") {
-      this.sendToExternalService(entry)
-    }
-  }
-
-  private logToConsole(entry: ErrorLogEntry): void {
-    const { timestamp, message, severity, context, stack } = entry
-    const prefix = `[${timestamp}] [${severity.toUpperCase()}]`
-
-    switch (severity) {
-      case "info":
-        console.info(`${prefix} ${message}`, context || "")
-        break
-      case "warning":
-        console.warn(`${prefix} ${message}`, context || "")
-        break
-      case "error":
-      case "critical":
-        console.error(`${prefix} ${message}`, context || "")
-        if (stack) {
-          console.error(stack)
-        }
-        break
+    // Optionally send to analytics
+    if (options.sendToAnalytics) {
+      this.sendToAnalytics(logEntry)
     }
   }
 
-  private sendToExternalService(entry: ErrorLogEntry): void {
-    // Aquí se implementaría el envío a un servicio externo como Sentry
-    // Por ahora, solo simulamos el envío
-    console.log("Enviando error crítico a servicio externo:", entry)
-  }
-
-  public getLogs(severity?: ErrorSeverity): ErrorLogEntry[] {
-    if (severity) {
-      return this.logs.filter((log) => log.severity === severity)
+  /**
+   * Log API errors with request details
+   */
+  public logApiError(
+    error: Error | string,
+    request: { url: string; method: string; params?: any },
+    options: ErrorLogOptions = {},
+  ): void {
+    const context = {
+      ...options.context,
+      request: {
+        url: request.url,
+        method: request.method,
+        params: request.params,
+      },
     }
-    return this.logs
+
+    this.logError(error, { ...options, context })
   }
 
-  public clearLogs(): void {
-    this.logs = []
+  /**
+   * Send error to logging service (placeholder)
+   */
+  private sendToLoggingService(logEntry: any): void {
+    // In a real implementation, this would send to a service like Sentry, LogRocket, etc.
+    // For now, just log to console in production
+    console.error("PRODUCTION ERROR:", logEntry)
+  }
+
+  /**
+   * Send error to analytics (placeholder)
+   */
+  private sendToAnalytics(logEntry: any): void {
+    // In a real implementation, this would send to an analytics service
+    // For example, tracking error rates in Google Analytics or similar
   }
 }
 
-// Exportar una instancia singleton
+// Export singleton instance
 export const errorLogger = ErrorLogger.getInstance()
 
-// Función de utilidad para registrar errores en componentes
-export function logError(
-  message: string,
-  severity: ErrorSeverity = "error",
-  context?: Record<string, any>,
-  error?: Error,
+// Helper functions for common error scenarios
+export function logApiError(
+  error: Error | string,
+  request: { url: string; method: string; params?: any },
+  options: ErrorLogOptions = {},
 ): void {
-  errorLogger.log(message, severity, context, error)
+  errorLogger.logApiError(error, request, options)
 }
+
+export function logDatabaseError(
+  error: Error | string,
+  query?: string,
+  params?: any[],
+  options: ErrorLogOptions = { severity: "high" },
+): void {
+  const context = {
+    ...options.context,
+    database: {
+      query,
+      params,
+    },
+  }
+
+  errorLogger.logError(error, { ...options, context })
+}
+
+export function logAuthError(error: Error | string, userId?: string, options: ErrorLogOptions = {}): void {
+  const context = {
+    ...options.context,
+    auth: {
+      userId,
+    },
+  }
+
+  errorLogger.logError(error, { ...options, context })
+}
+
+export default errorLogger

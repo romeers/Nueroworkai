@@ -106,7 +106,7 @@ export default function Header() {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label="Abrir menú principal"
-            className="text-secondary"
+            className="text-secondary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             <Menu className="h-6 w-6" aria-hidden="true" />
             <span className="sr-only">Abrir menú principal</span>

@@ -1,18 +1,19 @@
-import { neon } from "@neondatabase/serverless"
+import { neon, neonConfig } from "@neondatabase/serverless"
 
-/**
- * Obtiene una conexión limpia a la base de datos Neon
- * Maneja casos donde la cadena de conexión puede tener un formato incorrecto
- */
+// Configure neon
+neonConfig.fetchConnectionCache = true
+
+// Get a direct SQL client
 export function getDbConnection() {
-  const databaseUrl = process.env.DATABASE_URL || ""
-  // Eliminar el signo igual si existe al principio de la cadena
-  const cleanDatabaseUrl = databaseUrl.startsWith("=") ? databaseUrl.substring(1) : databaseUrl
+  const connectionString = process.env.DATABASE_URL
 
-  if (!cleanDatabaseUrl) {
-    console.error("No se ha proporcionado una cadena de conexión a la base de datos")
-    throw new Error("DATABASE_URL no está configurado")
+  if (!connectionString) {
+    console.warn("DATABASE_URL environment variable is not set. Using a mock connection.")
+    return async (strings: TemplateStringsArray, ...values: any[]) => {
+      console.warn("Mock SQL query:", strings.join("?"), values)
+      return []
+    }
   }
 
-  return neon(cleanDatabaseUrl)
+  return neon(connectionString)
 }
