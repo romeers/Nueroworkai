@@ -4,8 +4,6 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import {
   Mail,
@@ -149,26 +147,6 @@ export default function SobreNosotrosPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-
-    // Simulación de envío
-    setTimeout(() => {
-      toast({
-        title: "Mensaje enviado",
-        description: "Gracias por contactarnos. Te responderemos lo antes posible.",
-      })
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      })
-      setLoading(false)
-    }, 1000)
   }
 
   return (
@@ -394,75 +372,124 @@ export default function SobreNosotrosPage() {
             <div className="grid gap-8 md:grid-cols-2">
               <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
                 <h3 className="text-xl font-bold text-secondary mb-6">Envíanos un mensaje</h3>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                      Nombre
-                    </label>
-                    <Input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full"
-                      placeholder="Tu nombre"
-                    />
-                  </div>
 
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Correo electrónico
-                    </label>
-                    <Input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full"
-                      placeholder="tu@email.com"
-                    />
-                  </div>
+                <div id="contact-form-container">
+                  <form id="contact-form" className="space-y-6">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                        Nombre
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        placeholder="Tu nombre"
+                      />
+                    </div>
 
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                      Asunto
-                    </label>
-                    <Input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="w-full"
-                      placeholder="Asunto de tu mensaje"
-                    />
-                  </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        Correo electrónico *
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        placeholder="tu@email.com"
+                      />
+                    </div>
 
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                      Mensaje
-                    </label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      rows={5}
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      className="w-full"
-                      placeholder="¿En qué podemos ayudarte?"
-                    />
-                  </div>
+                    <div>
+                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+                        Asunto
+                      </label>
+                      <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        placeholder="Asunto de tu mensaje"
+                      />
+                    </div>
 
-                  <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 py-6">
-                    {loading ? "Enviando..." : "Enviar mensaje"}
-                  </Button>
-                </form>
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                        Mensaje *
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={5}
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        placeholder="¿En qué podemos ayudarte?"
+                      ></textarea>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-primary/90 transition-colors"
+                    >
+                      Enviar mensaje
+                    </button>
+                  </form>
+
+                  <div id="form-status" className="mt-4 hidden"></div>
+                </div>
+
+                <script
+                  dangerouslySetInnerHTML={{
+                    __html: `
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('contact-form');
+      const statusDiv = document.getElementById('form-status');
+      
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Mostrar estado de envío
+        statusDiv.textContent = 'Enviando...';
+        statusDiv.className = 'mt-4 p-3 rounded bg-blue-50 text-blue-700';
+        statusDiv.classList.remove('hidden');
+        
+        // Recoger datos del formulario
+        const formData = {
+          name: form.name.value,
+          email: form.email.value,
+          subject: form.subject.value,
+          message: form.message.value
+        };
+        
+        try {
+          const response = await fetch('/api/contact-message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+          
+          if (response.ok) {
+            // Éxito
+            statusDiv.textContent = '¡Gracias por tu mensaje! Te responderemos lo antes posible.';
+            statusDiv.className = 'mt-4 p-3 rounded bg-green-50 text-green-700';
+            form.reset();
+          } else {
+            // Error del servidor
+            statusDiv.textContent = 'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.';
+            statusDiv.className = 'mt-4 p-3 rounded bg-red-50 text-red-700';
+          }
+        } catch (error) {
+          // Error de red
+          statusDiv.textContent = 'No se pudo conectar con el servidor. Por favor, verifica tu conexión.';
+          statusDiv.className = 'mt-4 p-3 rounded bg-red-50 text-red-700';
+        }
+      });
+    });
+  `,
+                  }}
+                ></script>
               </div>
 
               <div>
