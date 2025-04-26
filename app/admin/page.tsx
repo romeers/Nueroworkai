@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Database, Users, FileText, BarChart, Activity, Download } from "lucide-react"
+import { Database, Users, FileText, BarChart, Activity, Download, MessageSquare } from "lucide-react"
 
 export default function AdminPage() {
   return (
@@ -115,6 +115,25 @@ export default function AdminPage() {
           <CardFooter>
             <Button asChild className="w-full">
               <Link href="/admin/descargas-kit">Ver Descargas</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MessageSquare className="h-5 w-5" /> Mensajes
+            </CardTitle>
+            <CardDescription>Mensajes de Contacto</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-500">
+              Gestiona los mensajes recibidos a través del formulario de contacto.
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Button asChild className="w-full">
+              <Link href="/admin/mensajes">Ver Mensajes</Link>
             </Button>
           </CardFooter>
         </Card>

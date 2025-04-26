@@ -1,51 +1,10 @@
 "use client"
-
-import type React from "react"
-
-import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/hooks/use-toast"
+import ContactForm from "@/components/contact-form"
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
 
 export default function ContactoPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  })
-  const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-
-    // Simulación de envío
-    setTimeout(() => {
-      toast({
-        title: "Mensaje enviado",
-        description: "Gracias por contactarnos. Te responderemos lo antes posible.",
-      })
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      })
-      setLoading(false)
-    }, 1000)
-  }
-
   return (
     <>
       {/* Hero Section */}
@@ -72,71 +31,7 @@ export default function ContactoPage() {
                   consulta sobre herramientas de IA para trabajo remoto.
                 </p>
 
-                <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                      Nombre
-                    </label>
-                    <Input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                      Correo electrónico
-                    </label>
-                    <Input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-                      Asunto
-                    </label>
-                    <Input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                      Mensaje
-                    </label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      rows={5}
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90">
-                    {loading ? "Enviando..." : "Enviar mensaje"}
-                  </Button>
-                </form>
+                <ContactForm className="mt-8" />
               </div>
 
               <div>
