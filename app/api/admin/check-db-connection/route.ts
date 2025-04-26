@@ -19,6 +19,9 @@ export async function GET() {
         success: false,
         message: "Error al conectar con la base de datos",
         error: String(error),
+        connectionString: process.env.DATABASE_URL
+          ? `${process.env.DATABASE_URL.substring(0, 15)}...` // Only show the beginning for security
+          : "No disponible",
       },
       { status: 500 },
     )
