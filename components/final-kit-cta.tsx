@@ -19,7 +19,7 @@ interface FinalKitCTAProps {
 
 export default function FinalKitCTA({
   title = "Potencia tu productividad con IA",
-  subtitle = "Descarga nuestro Kit de Productividad con IA para Trabajo Remoto (2025) y comienza a trabajar mejor con IA desde hoy.",
+  subtitle = "Descarga nuestro Kit de Productividad IA NeuroWorkAI (Actualizado 2025) y comienza a trabajar mejor con IA desde hoy.",
   buttonText = "Descargar Kit gratuito",
   emailPlaceholder = "Tu correo electrónico",
   microcopy = "Sin spam · Descarga inmediata tras confirmar",
@@ -42,8 +42,15 @@ export default function FinalKitCTA({
         console.log("Kit download requested for:", email)
       }
 
-      // Success handling could go here
+      // Success handling - trigger PDF download
       setEmail("")
+      // Trigger download
+      const link = document.createElement("a")
+      link.href = "/kit-productividad-ia-2025.pdf"
+      link.setAttribute("download", "Kit-Productividad-IA-NeuroWorkAI-2025.pdf")
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
     } catch (error) {
       // Error handling could go here
       console.error("Error submitting form:", error)

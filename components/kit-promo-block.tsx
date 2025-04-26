@@ -8,13 +8,13 @@ import EmailSubscriptionForm from "./email-subscription-form"
 
 // Define the content in a single place for reuse across the site
 export const kitPromoContent = {
-  title: "Kit de Productividad con IA para Trabajo Remoto (2025)",
+  title: "Kit de Productividad IA NeuroWorkAI (Actualizado 2025)",
   subtitle: "Descarga gratis nuestro kit definitivo y comienza a trabajar mejor con IA desde hoy:",
   bulletPoints: [
-    "Lista de 6 herramientas IA esenciales para productividad remota",
-    "10 prompts prácticos para ChatGPT, Notion AI, Jasper y más",
-    "3 flujos de automatización listos para usar (Zapier, Make)",
-    "Plantilla editable de productividad diaria con IA en Notion",
+    "Las 6 Herramientas IA Esenciales para Productividad Remota",
+    "10 Prompts Prácticos para Optimizar tu Productividad",
+    "3 Flujos de Automatización Inteligentes (Zapier, Make)",
+    "Plantilla de Productividad Diaria con IA (Notion)",
   ],
   formLabel: "Suscríbete para descargar:",
   buttonText: "Descargar Kit gratuito",
@@ -44,6 +44,14 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
       title: "¡Kit enviado!",
       description: "Hemos enviado el Kit de Productividad a tu correo electrónico.",
     })
+
+    // Trigger PDF download
+    const link = document.createElement("a")
+    link.href = "/kit-productividad-ia-2025.pdf"
+    link.setAttribute("download", "Kit-Productividad-IA-NeuroWorkAI-2025.pdf")
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
@@ -82,6 +90,8 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
                 microcopy={kitPromoContent.microcopy}
                 onSuccess={handleSuccess}
                 downloadIcon={true}
+                downloadPdf={true}
+                pdfPath="/kit-productividad-ia-2025.pdf"
               />
             </div>
           )}
