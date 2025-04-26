@@ -87,13 +87,24 @@ export default function EnhancedCTA({
     setLoading(true)
 
     try {
-      if (onSubmit) {
-        await onSubmit(email)
-      } else {
-        // Default behavior - simulate submission
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+      // Enviar directamente al endpoint que sabemos que funciona
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          name: "",
+          source: "enhanced-cta",
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el formulario")
       }
 
+      // Si llegamos aquí, la solicitud fue exitosa
       toast({
         title: "¡Gracias por suscribirte!",
         description: "Hemos enviado el recurso a tu correo electrónico.",
@@ -102,6 +113,7 @@ export default function EnhancedCTA({
       setEmail("")
       setSubmitted(true)
     } catch (error) {
+      console.error("Error al enviar el formulario:", error)
       toast({
         title: "Error",
         description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",

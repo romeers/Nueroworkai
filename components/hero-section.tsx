@@ -43,9 +43,9 @@ export default function HeroSection() {
                 className="border-[#7C3AED] px-6 text-base font-medium text-[#7C3AED] hover:bg-[#7C3AED]/10"
               >
                 <Link
-                  href="/guias-recursos"
+                  href="/kit-digital"
                   className="flex items-center"
-                  aria-label="Descargar kit gratuito de recursos"
+                  aria-label="Descargar kit gratuito de productividad con IA"
                 >
                   <Download className="mr-2 h-5 w-5" aria-hidden="true" />
                   Descargar Kit gratuito
