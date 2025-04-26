@@ -70,7 +70,6 @@
     "@neondatabase/serverless": "latest",
     "fs": "latest",
     "path": "latest",
-    "next-intl": "latest",
     "@vercel/analytics": "latest"
   },
   "devDependencies": {

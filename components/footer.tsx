@@ -1,14 +1,9 @@
-"use client"
-
 import Link from "next/link"
 import { Facebook, Instagram, Linkedin, ArrowUpRight } from "lucide-react"
 import SafeImage from "./safe-image"
 import { Button } from "@/components/ui/button"
-import LanguageSwitcher from "./language-switcher"
-import { useTranslations } from "next-intl"
 
 export default function Footer() {
-  const t = useTranslations("common")
   const logoWhiteImage =
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
 
@@ -37,7 +32,9 @@ export default function Footer() {
                 />
               </div>
             </Link>
-            <p className="text-sm text-white/80 max-w-xs">{t("description")}</p>
+            <p className="text-sm text-white/80 max-w-xs">
+              Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.
+            </p>
             <div className="flex gap-3 mt-4" aria-label="Redes sociales">
               <Link
                 href="https://www.facebook.com/profile.php?id=61575664503316"
@@ -73,14 +70,11 @@ export default function Footer() {
                 <span className="sr-only">LinkedIn</span>
               </Link>
             </div>
-            <div className="mt-4">
-              <LanguageSwitcher variant="minimal" />
-            </div>
           </div>
 
           {/* Navigation links */}
           <nav aria-label="Enlaces de navegación del sitio">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("footer.navigation")}</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Navegación</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -88,7 +82,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ir a la página de inicio"
                 >
-                  {t("navigation.home")}
+                  Inicio
                 </Link>
               </li>
               <li>
@@ -97,7 +91,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Explorar herramientas de IA"
                 >
-                  {t("navigation.tools")}
+                  Herramientas
                 </Link>
               </li>
               <li>
@@ -115,7 +109,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Explorar recursos y guías"
                 >
-                  {t("navigation.resources")}
+                  Recursos
                 </Link>
               </li>
               <li>
@@ -124,7 +118,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Conocer más sobre NeuroWorkAI"
                 >
-                  {t("navigation.about")}
+                  Sobre Nosotros
                 </Link>
               </li>
             </ul>
@@ -132,7 +126,7 @@ export default function Footer() {
 
           {/* Resources links */}
           <nav aria-label="Enlaces de recursos">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("footer.resources")}</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Recursos</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -175,7 +169,7 @@ export default function Footer() {
 
           {/* Legal links */}
           <nav aria-label="Enlaces legales">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("footer.legal")}</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -210,7 +204,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Contactar con nosotros"
                 >
-                  {t("footer.contact")}
+                  Contacto
                 </a>
               </li>
             </ul>
@@ -227,9 +221,9 @@ export default function Footer() {
             <Link
               href="/herramientas/mejores"
               className="inline-flex items-center gap-2"
-              aria-label={t("cta.discoverTools")}
+              aria-label="Descubrir mejores herramientas IA"
             >
-              {t("cta.discoverTools")}
+              Descubrir Mejores Herramientas IA
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
@@ -238,15 +232,18 @@ export default function Footer() {
 
         {/* Copyright and affiliate disclosure */}
         <div className="mt-8 pt-6 border-t border-white/10">
-          <p className="text-xs text-white/50 text-center">{t("footer.affiliateDisclosure")}</p>
+          <p className="text-xs text-white/50 text-center">
+            NeuroWorkAI participa en programas de afiliación. Esto significa que podemos recibir una comisión si compras
+            a través de nuestros enlaces, sin costo adicional para ti.
+          </p>
           <p className="text-center text-sm text-white/70 mt-4">
-            &copy; {currentYear} NeuroWorkAI. {t("footer.copyright")}.
+            &copy; {currentYear} NeuroWorkAI. Todos los derechos reservados.
           </p>
           <p className="text-center text-xs text-white/50 mt-2">
             Desarrollado con <span aria-hidden="true">♥</span>
             <span className="sr-only">amor</span> |{" "}
             <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              {t("footer.poweredBy")}
+              Powered by Vercel
             </a>
           </p>
         </div>
