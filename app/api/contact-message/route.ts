@@ -1,96 +1,64 @@
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { getDbConnection } from "@/lib/db-connection"
 
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    console.log("Recibida solicitud POST en /api/contact-message")
-
-    const sql = getDbConnection()
-
-    // Crear la tabla si no existe
-    try {
-      await sql`
-        CREATE TABLE IF NOT EXISTS contact_messages (
-          id SERIAL PRIMARY KEY,
-          name TEXT,
-          email TEXT NOT NULL,
-          subject TEXT,
-          message TEXT NOT NULL,
-          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-        )
-      `
-      console.log("Tabla contact_messages verificada/creada correctamente")
-    } catch (tableError) {
-      console.error("Error al crear la tabla contact_messages:", tableError)
-      return NextResponse.json({ error: "Error al crear la tabla de mensajes." }, { status: 500 })
-    }
-
-    // Procesar los datos del formulario
-    let body
-    try {
-      body = await req.json()
-      console.log("Datos recibidos:", body)
-    } catch (parseError) {
-      console.error("Error al parsear el cuerpo de la solicitud:", parseError)
-      return NextResponse.json({ error: "Invalid request body" }, { status: 400 })
-    }
-
+    const body = await request.json()
     const { name, email, subject, message } = body
 
-    if (!email || !message) {
-      console.error("Faltan campos obligatorios:", { email, message })
-      return NextResponse.json({ error: "Email and message are required." }, { status: 400 })
+    // Validación básica
+    if (!email || !email.includes("@")) {
+      return NextResponse.json({ success: false, message: "Por favor, introduce un email válido" }, { status: 400 })
     }
 
-    // Insertar el mensaje en la base de datos
-    try {
-      await sql`
-        INSERT INTO contact_messages (name, email, subject, message)
-        VALUES (${name || null}, ${email}, ${subject || null}, ${message})
-      `
-      console.log("Mensaje guardado correctamente en la base de datos")
-    } catch (insertError) {
-      console.error("Error al insertar el mensaje en la base de datos:", insertError)
-      return NextResponse.json({ error: "Error al guardar el mensaje." }, { status: 500 })
+    if (!message || message.trim().length < 10) {
+      return NextResponse.json(
+        { success: false, message: "El mensaje debe tener al menos 10 caracteres" },
+        { status: 400 },
+      )
     }
 
-    return NextResponse.json({ message: "Message saved successfully." }, { status: 201 })
-  } catch (error) {
-    console.error("Error general en /api/contact-message:", error)
-    return NextResponse.json({ error: "Something went wrong." }, { status: 500 })
-  }
-}
-
-export async function GET() {
-  try {
-    console.log("Recibida solicitud GET en /api/contact-message")
-
+    // Conexión a la base de datos
     const sql = getDbConnection()
 
     // Verificar si la tabla existe
-    const tableCheck = await sql`
+    const tableExists = await sql`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
-        WHERE table_name = 'contact_messages'
+        WHERE table_schema = 'public'
+        AND table_name = 'contact_messages'
       );
     `
 
-    const tableExists = tableCheck[0]?.exists
-
-    if (!tableExists) {
-      console.log("La tabla contact_messages no existe")
-      return NextResponse.json({ messages: [] })
+    // Si la tabla no existe, la creamos
+    if (!tableExists[0].exists) {
+      await sql`
+        CREATE TABLE contact_messages (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(255),
+          email VARCHAR(255) NOT NULL,
+          subject VARCHAR(255),
+          message TEXT NOT NULL,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+      `
     }
 
-    const result = await sql`
-      SELECT * FROM contact_messages 
-      ORDER BY created_at DESC
+    // Insertar el mensaje en la base de datos
+    await sql`
+      INSERT INTO contact_messages (name, email, subject, message)
+      VALUES (${name || ""}, ${email}, ${subject || ""}, ${message});
     `
 
-    console.log(`Recuperados ${result.length} mensajes de contacto`)
-    return NextResponse.json({ messages: result })
+    return NextResponse.json({
+      success: true,
+      message: "Mensaje recibido correctamente",
+    })
   } catch (error) {
-    console.error("Error al obtener los mensajes de contacto:", error)
-    return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 })
+    console.error("Error al procesar el mensaje de contacto:", error)
+    return NextResponse.json(
+      { success: false, message: "Error al procesar el mensaje. Por favor, inténtalo de nuevo." },
+      { status: 500 },
+    )
   }
 }

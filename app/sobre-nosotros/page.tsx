@@ -1,7 +1,8 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
@@ -19,6 +20,7 @@ import {
   Lightbulb,
   Shield,
   Award,
+  ArrowRight,
 } from "lucide-react"
 import Stats from "@/components/stats"
 import TrustBadges from "@/components/trust-badges"
@@ -56,31 +58,31 @@ const stats = [
 const trustBadges = [
   {
     name: "Notion",
-    logoUrl: "/notion-logo-gray.png",
+    logoUrl: "/notion-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Zapier",
-    logoUrl: "/zapier-logo-gray.png",
+    logoUrl: "/zapier-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "ClickUp",
-    logoUrl: "/clickup-logo-gray.png",
+    logoUrl: "/clickup-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Jasper",
-    logoUrl: "/jasper-logo-gray.png",
+    logoUrl: "/jasper-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Grammarly",
-    logoUrl: "/grammarly-logo-gray.png",
+    logoUrl: "/grammarly-logo.png",
     width: 120,
     height: 40,
   },
@@ -142,6 +144,13 @@ export default function SobreNosotrosPage() {
     message: "",
   })
   const [loading, setLoading] = useState(false)
+  const [formStatus, setFormStatus] = useState<{
+    type: "success" | "error" | "info" | null
+    message: string | null
+  }>({
+    type: null,
+    message: null,
+  })
   const { toast } = useToast()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -149,10 +158,63 @@ export default function SobreNosotrosPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    setFormStatus({ type: "info", message: "Enviando mensaje..." })
+
+    try {
+      const response = await fetch("/api/contact-message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        setFormStatus({
+          type: "success",
+          message: "¡Gracias por tu mensaje! Te responderemos lo antes posible.",
+        })
+        toast({
+          title: "Mensaje enviado",
+          description: "Hemos recibido tu mensaje correctamente.",
+          variant: "default",
+        })
+        setFormData({ name: "", email: "", subject: "", message: "" })
+      } else {
+        const errorData = await response.json()
+        throw new Error(errorData.message || "Error al enviar el mensaje")
+      }
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error)
+      setFormStatus({
+        type: "error",
+        message: error instanceof Error ? error.message : "Error al enviar el mensaje. Por favor, inténtalo de nuevo.",
+      })
+      toast({
+        title: "Error",
+        description: "No se pudo enviar el mensaje. Por favor, inténtalo de nuevo.",
+        variant: "destructive",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Efecto para limpiar el estado del formulario después de un tiempo
+  useEffect(() => {
+    if (formStatus.type === "success" || formStatus.type === "error") {
+      const timer = setTimeout(() => {
+        setFormStatus({ type: null, message: null })
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [formStatus])
+
   return (
     <>
       {/* Hero Section - SEO Optimized */}
-      <section className="bg-gradient-to-r from-sky-light to-sky py-16 md:py-20">
+      <section className="bg-gradient-to-r from-sky-50 to-indigo-50 py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="font-heading text-4xl font-bold tracking-tight text-secondary sm:text-5xl md:text-6xl">
@@ -162,9 +224,16 @@ export default function SobreNosotrosPage() {
               Somos una plataforma experta en herramientas IA para trabajo remoto. Nuestra misión es ayudarte a ser más
               productivo con inteligencia artificial.
             </p>
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className="bg-primary hover:bg-primary/90 px-8 py-6 text-lg">
                 <Link href="/herramientas-ia">Explorar herramientas IA</Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary/10 px-8 py-6 text-lg"
+              >
+                <a href="#contacto">Contactar</a>
               </Button>
             </div>
           </div>
@@ -215,7 +284,7 @@ export default function SobreNosotrosPage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start hover:shadow-md transition-all duration-300">
               <div className="bg-primary/10 p-3 rounded-full mr-4">
                 <CheckCircle className="h-6 w-6 text-primary" />
               </div>
@@ -227,7 +296,7 @@ export default function SobreNosotrosPage() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start hover:shadow-md transition-all duration-300">
               <div className="bg-primary/10 p-3 rounded-full mr-4">
                 <CheckCircle className="h-6 w-6 text-primary" />
               </div>
@@ -239,7 +308,7 @@ export default function SobreNosotrosPage() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start hover:shadow-md transition-all duration-300">
               <div className="bg-primary/10 p-3 rounded-full mr-4">
                 <CheckCircle className="h-6 w-6 text-primary" />
               </div>
@@ -251,7 +320,7 @@ export default function SobreNosotrosPage() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start hover:shadow-md transition-all duration-300">
               <div className="bg-primary/10 p-3 rounded-full mr-4">
                 <CheckCircle className="h-6 w-6 text-primary" />
               </div>
@@ -373,129 +442,101 @@ export default function SobreNosotrosPage() {
               <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
                 <h3 className="text-xl font-bold text-secondary mb-6">Envíanos un mensaje</h3>
 
-                <div id="contact-form-container">
-                  <form
-                    id="contact-form"
-                    className="space-y-6"
-                    onSubmit={(e) => {
-                      e.preventDefault()
+                <form id="contact-form" className="space-y-6" onSubmit={handleSubmit}>
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      Nombre
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                      placeholder="Tu nombre"
+                    />
+                  </div>
 
-                      const formElement = e.currentTarget
-                      const statusDiv = document.getElementById("form-status")
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                      Correo electrónico *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                      placeholder="tu@email.com"
+                    />
+                  </div>
 
-                      // Mostrar estado de envío
-                      if (statusDiv) {
-                        statusDiv.textContent = "Enviando..."
-                        statusDiv.className = "mt-4 p-3 rounded bg-blue-50 text-blue-700"
-                        statusDiv.style.display = "block"
-                      }
+                  <div>
+                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+                      Asunto
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                      placeholder="Asunto de tu mensaje"
+                    />
+                  </div>
 
-                      // Recoger datos del formulario
-                      const formData = {
-                        name: formElement.name.value,
-                        email: formElement.email.value,
-                        subject: formElement.subject.value,
-                        message: formElement.message.value,
-                      }
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                      Mensaje *
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                      placeholder="¿En qué podemos ayudarte?"
+                    ></textarea>
+                  </div>
 
-                      // Enviar datos
-                      fetch("/api/contact-message", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(formData),
-                      })
-                        .then((response) => {
-                          if (response.ok) {
-                            // Éxito
-                            if (statusDiv) {
-                              statusDiv.textContent = "¡Gracias por tu mensaje! Te responderemos lo antes posible."
-                              statusDiv.className = "mt-4 p-3 rounded bg-green-50 text-green-700"
-                            }
-                            formElement.reset()
-                          } else {
-                            // Error del servidor
-                            if (statusDiv) {
-                              statusDiv.textContent =
-                                "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo."
-                              statusDiv.className = "mt-4 p-3 rounded bg-red-50 text-red-700"
-                            }
-                          }
-                        })
-                        .catch((error) => {
-                          console.error("Error al enviar el formulario:", error)
-                          // Error de red
-                          if (statusDiv) {
-                            statusDiv.textContent =
-                              "No se pudo conectar con el servidor. Por favor, verifica tu conexión."
-                            statusDiv.className = "mt-4 p-3 rounded bg-red-50 text-red-700"
-                          }
-                        })
-                    }}
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex justify-center items-center gap-2 bg-primary text-white py-3 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-70"
                   >
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                        Nombre
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                        placeholder="Tu nombre"
-                      />
-                    </div>
+                    {loading ? (
+                      <>
+                        <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                        <span>Enviando...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Enviar mensaje</span>
+                        <ArrowRight className="h-4 w-4" />
+                      </>
+                    )}
+                  </button>
 
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                        Correo electrónico *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                        placeholder="tu@email.com"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-                        Asunto
-                      </label>
-                      <input
-                        type="text"
-                        id="subject"
-                        name="subject"
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                        placeholder="Asunto de tu mensaje"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                        Mensaje *
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows={5}
-                        required
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                        placeholder="¿En qué podemos ayudarte?"
-                      ></textarea>
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-primary/90 transition-colors"
+                  {formStatus.type && (
+                    <div
+                      className={`mt-4 p-3 rounded text-sm ${
+                        formStatus.type === "success"
+                          ? "bg-green-50 text-green-700"
+                          : formStatus.type === "error"
+                            ? "bg-red-50 text-red-700"
+                            : "bg-blue-50 text-blue-700"
+                      }`}
                     >
-                      Enviar mensaje
-                    </button>
-                  </form>
-
-                  <div id="form-status" className="mt-4" style={{ display: "none" }}></div>
-                </div>
+                      {formStatus.message}
+                    </div>
+                  )}
+                </form>
               </div>
 
               <div>
@@ -508,7 +549,12 @@ export default function SobreNosotrosPage() {
                       </div>
                       <div className="ml-4">
                         <p className="text-sm font-medium text-gray-900">Email</p>
-                        <p className="mt-1 text-sm text-gray-600">contacto@neuroworkai.com</p>
+                        <a
+                          href="mailto:contacto@neuroworkai.com"
+                          className="mt-1 text-sm text-gray-600 hover:text-primary transition-colors"
+                        >
+                          contacto@neuroworkai.com
+                        </a>
                       </div>
                     </div>
 
@@ -518,7 +564,12 @@ export default function SobreNosotrosPage() {
                       </div>
                       <div className="ml-4">
                         <p className="text-sm font-medium text-gray-900">Teléfono</p>
-                        <p className="mt-1 text-sm text-gray-600">+34 123 456 789</p>
+                        <a
+                          href="tel:+34123456789"
+                          className="mt-1 text-sm text-gray-600 hover:text-primary transition-colors"
+                        >
+                          +34 123 456 789
+                        </a>
                       </div>
                     </div>
 
@@ -535,34 +586,46 @@ export default function SobreNosotrosPage() {
 
                   <h3 className="text-lg font-semibold text-secondary mt-8 mb-4">Síguenos en redes sociales</h3>
                   <div className="flex space-x-4">
-                    <Link
-                      href="#"
+                    <a
+                      href="https://facebook.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
+                      aria-label="Facebook"
                     >
                       <span className="sr-only">Facebook</span>
                       <Facebook className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href="#"
+                    </a>
+                    <a
+                      href="https://twitter.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
+                      aria-label="Twitter"
                     >
                       <span className="sr-only">Twitter</span>
                       <Twitter className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href="#"
+                    </a>
+                    <a
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
+                      aria-label="Instagram"
                     >
                       <span className="sr-only">Instagram</span>
                       <Instagram className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href="#"
+                    </a>
+                    <a
+                      href="https://linkedin.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="bg-gray-100 p-3 rounded-full text-gray-600 hover:text-primary hover:bg-gray-200 transition-colors"
+                      aria-label="LinkedIn"
                     >
                       <span className="sr-only">LinkedIn</span>
                       <Linkedin className="h-5 w-5" />
-                    </Link>
+                    </a>
                   </div>
                 </div>
 
