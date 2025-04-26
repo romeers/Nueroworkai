@@ -24,6 +24,21 @@ export default function FeaturedToolCard({
   specialOffer,
   verified = false,
 }: FeaturedToolCardProps) {
+  // Función para obtener la URL oficial si no hay URL de afiliado
+  const getOfficialUrl = (toolName: string) => {
+    const toolUrls: Record<string, string> = {
+      "Notion AI": "https://www.notion.so/product/ai",
+      Zapier: "https://zapier.com/",
+      ClickUp: "https://clickup.com/",
+      Fireflies: "https://fireflies.ai/",
+      "Otter.ai": "https://otter.ai/",
+      Grammarly: "https://www.grammarly.com/",
+      Jasper: "https://www.jasper.ai/",
+      ChatGPT: "https://chat.openai.com/",
+    }
+
+    return toolUrls[toolName] || "https://www.notion.so/product/ai" // Notion AI como fallback
+  }
   const fallbackImage = `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " icon")}`
   const toolUrl = `/herramientas/${slug}`
 
@@ -57,7 +72,9 @@ export default function FeaturedToolCard({
           <Link href={`${toolUrl}`}>Ver análisis</Link>
         </Button>
         <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
-          <Link href={`${toolUrl}#probar`}>Probar gratis</Link>
+          <Link href={getOfficialUrl(name)} target="_blank" rel="noopener sponsored">
+            Probar gratis
+          </Link>
         </Button>
       </CardFooter>
     </Card>

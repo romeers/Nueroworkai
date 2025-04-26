@@ -26,6 +26,22 @@ export default function HerramientasIAPageClient({
   // Añadir la categoría "Todas" al principio
   const allCategories = [{ name: "Todas", slug: "todas", icon: "🧠" }, ...categories]
 
+  // Función para obtener la URL oficial de cada herramienta si no existe affiliate_url
+  const getDefaultAffiliateUrl = (toolName: string) => {
+    const toolUrls: Record<string, string> = {
+      "Notion AI": "https://www.notion.so/product/ai",
+      Zapier: "https://zapier.com/",
+      ClickUp: "https://clickup.com/",
+      Fireflies: "https://fireflies.ai/",
+      "Otter.ai": "https://otter.ai/",
+      Grammarly: "https://www.grammarly.com/",
+      Jasper: "https://www.jasper.ai/",
+      ChatGPT: "https://chat.openai.com/",
+    }
+
+    return toolUrls[toolName] || "https://www.notion.so/product/ai" // Notion AI como fallback
+  }
+
   // Función para renderizar estrellas basadas en la puntuación
   const renderStars = (score: number) => {
     const fullStars = Math.floor(score / 2)
@@ -217,7 +233,7 @@ export default function HerramientasIAPageClient({
                   <div className="flex flex-col sm:flex-row gap-2 w-full mt-auto">
                     <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
                       <Link
-                        href={tool.affiliate_url || `https://example.com/${tool.slug}`}
+                        href={tool.affiliate_url || getDefaultAffiliateUrl(tool.name)}
                         target="_blank"
                         rel="noopener sponsored"
                         className="flex items-center justify-center gap-1"

@@ -108,6 +108,22 @@ export default async function ToolPage({ params }: { params: { slug: string } })
     alternatives: toolData.relatedTools || [],
   }
 
+  // Función para obtener la URL oficial si no hay URL de afiliado
+  const getOfficialUrl = (toolName: string) => {
+    const toolUrls: Record<string, string> = {
+      "Notion AI": "https://www.notion.so/product/ai",
+      Zapier: "https://zapier.com/",
+      ClickUp: "https://clickup.com/",
+      Fireflies: "https://fireflies.ai/",
+      "Otter.ai": "https://otter.ai/",
+      Grammarly: "https://www.grammarly.com/",
+      Jasper: "https://www.jasper.ai/",
+      ChatGPT: "https://chat.openai.com/",
+    }
+
+    return toolUrls[toolName] || "https://www.notion.so/product/ai" // Notion AI como fallback
+  }
+
   return (
     <>
       {/* Schema.org markup para SEO */}
@@ -157,7 +173,7 @@ export default async function ToolPage({ params }: { params: { slug: string } })
               <div className="mt-6 flex flex-col gap-4 sm:flex-row">
                 <Button asChild size="lg" className="bg-primary hover:bg-primary/90" id="probar">
                   <Link
-                    href={completeToolData.affiliate_url || "#"}
+                    href={completeToolData.affiliate_url || getOfficialUrl(completeToolData.name)}
                     target="_blank"
                     rel="noopener sponsored"
                     className="inline-flex items-center gap-2"
@@ -547,7 +563,7 @@ export default async function ToolPage({ params }: { params: { slug: string } })
             <div className="mt-8">
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
                 <Link
-                  href={completeToolData.affiliate_url || "#"}
+                  href={completeToolData.affiliate_url || getOfficialUrl(completeToolData.name)}
                   target="_blank"
                   rel="noopener sponsored"
                   className="inline-flex items-center gap-2"

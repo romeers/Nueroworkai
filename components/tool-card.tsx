@@ -61,6 +61,22 @@ export default function ToolCard({
   const isExternalUrl = url.startsWith("http")
   const internalUrl = `/herramientas/${slug}`
 
+  // Añadir una función para obtener la URL oficial si no hay URL de afiliado
+  const getOfficialUrl = (toolName: string) => {
+    const toolUrls: Record<string, string> = {
+      "Notion AI": "https://www.notion.so/product/ai",
+      Zapier: "https://zapier.com/",
+      ClickUp: "https://clickup.com/",
+      Fireflies: "https://fireflies.ai/",
+      "Otter.ai": "https://otter.ai/",
+      Grammarly: "https://www.grammarly.com/",
+      Jasper: "https://www.jasper.ai/",
+      ChatGPT: "https://chat.openai.com/",
+    }
+
+    return toolUrls[toolName] || "https://www.notion.so/product/ai" // Notion AI como fallback
+  }
+
   return (
     <Card
       className={cn(
@@ -127,32 +143,30 @@ export default function ToolCard({
         </Button>
         <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
           <Link
-            href={isExternalUrl ? url : `${internalUrl}#probar`}
-            target={isExternalUrl ? "_blank" : undefined}
-            rel={isExternalUrl ? "noopener sponsored" : undefined}
+            href={isExternalUrl ? url : getOfficialUrl(name)}
+            target="_blank"
+            rel="noopener sponsored"
             className="flex items-center gap-1"
-            aria-label={`Probar ${name}${isExternalUrl ? " (se abre en una nueva ventana)" : ""}`}
+            aria-label={`Probar ${name} (se abre en una nueva ventana)`}
           >
             Probar
-            {isExternalUrl && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-3 w-3 ml-1"
-                aria-hidden="true"
-              >
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15 3 21 3 21 9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
-              </svg>
-            )}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-3 w-3 ml-1"
+              aria-hidden="true"
+            >
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
           </Link>
         </Button>
       </CardFooter>
