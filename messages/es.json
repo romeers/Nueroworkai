@@ -1,0 +1,75 @@
+{
+  "common": {
+    "title": "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+    "description": "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Reseñas, comparativas y recursos gratuitos.",
+    "navigation": {
+      "home": "Inicio",
+      "tools": "Herramientas IA",
+      "resources": "Recursos",
+      "about": "Sobre Nosotros"
+    },
+    "cta": {
+      "topTools": "Top Herramientas IA",
+      "discoverTools": "Descubrir Mejores Herramientas IA"
+    },
+    "footer": {
+      "navigation": "Navegación",
+      "resources": "Recursos",
+      "legal": "Legal",
+      "contact": "Contacto",
+      "copyright": "Todos los derechos reservados",
+      "poweredBy": "Powered by Vercel",
+      "affiliateDisclosure": "NeuroWorkAI participa en programas de afiliación. Esto significa que podemos recibir una comisión si compras a través de nuestros enlaces, sin costo adicional para ti."
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Potencia tu productividad con IA",
+      "subtitle": "Descubre las mejores herramientas de IA para profesionales remotos",
+      "cta": "Explorar herramientas"
+    },
+    "features": {
+      "title": "Características principales",
+      "subtitle": "Descubre por qué NeuroWorkAI es tu mejor aliado"
+    }
+  },
+  "tools": {
+    "title": "Herramientas IA",
+    "description": "Explora nuestra selección de las mejores herramientas de IA para profesionales remotos",
+    "categories": {
+      "all": "Todas",
+      "productivity": "Productividad",
+      "writing": "Escritura",
+      "design": "Diseño",
+      "communication": "Comunicación"
+    }
+  },
+  "resources": {
+    "title": "Recursos",
+    "description": "Guías, plantillas y recursos para maximizar tu productividad con IA",
+    "categories": {
+      "guides": "Guías",
+      "prompts": "Prompts",
+      "templates": "Plantillas",
+      "analysis": "Análisis"
+    }
+  },
+  "about": {
+    "title": "Sobre Nosotros",
+    "description": "Conoce más sobre NeuroWorkAI y nuestro equipo",
+    "team": {
+      "title": "Nuestro Equipo",
+      "subtitle": "Conoce a las personas detrás de NeuroWorkAI"
+    },
+    "contact": {
+      "title": "Contacto",
+      "subtitle": "¿Tienes alguna pregunta? Contáctanos",
+      "form": {
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "message": "Mensaje",
+        "submit": "Enviar"
+      }
+    }
+  }
+}

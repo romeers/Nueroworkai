@@ -6,29 +6,45 @@ import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import SafeImage from "./safe-image"
-import { createPortal } from "react-dom"
+import { useTranslations } from "next-intl"
+import LanguageSwitcher from "./language-switcher"
 
 interface MobileNavDrawerProps {
   isOpen: boolean
   onClose: () => void
 }
 
-const navigation = [
-  { name: "Inicio", href: "/" },
-  { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
-  { name: "Recursos", href: "/recursos", ariaLabel: "Ir a Recursos" },
-  { name: "Sobre Nosotros", href: "/sobre-nosotros" },
-]
-
 export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
+  const t = useTranslations("common")
   const pathname = usePathname()
-  const logoImage =
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
-
   const drawerRef = useRef<HTMLDivElement>(null)
 
-  // Handle escape key
+  // Update the navigation array with translations
+  const navigation = [
+    { name: t("navigation.home"), href: "/" },
+    { name: t("navigation.tools"), href: "/herramientas-ia" },
+    { name: t("navigation.resources"), href: "/recursos" },
+    { name: t("navigation.about"), href: "/sobre-nosotros" },
+  ]
+
+  // Close drawer when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (drawerRef.current && !drawerRef.current.contains(event.target as Node)) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [isOpen, onClose])
+
+  // Close drawer when pressing Escape key
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -38,14 +54,6 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
 
     if (isOpen) {
       document.addEventListener("keydown", handleEscKey)
-      // Focus trap
-      const focusableElements = drawerRef.current?.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-      )
-
-      if (focusableElements && focusableElements.length > 0) {
-        ;(focusableElements[0] as HTMLElement).focus()
-      }
     }
 
     return () => {
@@ -53,95 +61,65 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
     }
   }, [isOpen, onClose])
 
-  // Prevent body scroll when drawer is open
+  // Close drawer when changing route
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
-
-    return () => {
-      document.body.style.overflow = ""
-    }
-  }, [isOpen])
+    onClose()
+  }, [pathname, onClose])
 
   if (!isOpen) return null
 
-  // Use portal to render at the document body level
-  return createPortal(
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-25" aria-hidden="true" onClick={onClose}>
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
       <div
         ref={drawerRef}
-        className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm"
-        onClick={(e) => e.stopPropagation()}
+        className="fixed right-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="mobile-menu-heading"
+        aria-labelledby="mobile-menu-title"
       >
-        <div className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center transition-opacity duration-200 hover:opacity-80"
-            onClick={onClose}
-            aria-label="NeuroWorkAI - Ir a inicio"
-          >
-            <div className="flex items-center">
-              <SafeImage
-                src={logoImage}
-                fallbackSrc="/abstract-brain-network.png"
-                alt="NeuroWorkAI Logo"
-                width={120}
-                height={40}
-                className="w-[120px] h-auto rounded-lg"
-              />
-            </div>
-          </Link>
-          <button
-            type="button"
-            className="-m-2.5 rounded-md p-2.5 text-secondary"
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 id="mobile-menu-title" className="text-lg font-semibold">
+            Menu
+          </h2>
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={onClose}
             aria-label="Cerrar menú"
+            className="text-secondary hover:text-primary"
           >
-            <span className="sr-only">Cerrar menú</span>
-            <X className="h-6 w-6" aria-hidden="true" />
-          </button>
+            <X className="h-6 w-6" />
+          </Button>
         </div>
-        <div className="mt-6 flow-root">
-          <div className="-my-6 divide-y divide-gray-200">
-            <div className="space-y-2 py-6">
-              <h2 id="mobile-menu-heading" className="sr-only">
-                Menú de navegación
-              </h2>
-              {navigation.map((item) => (
+        <nav className="p-4">
+          <ul className="space-y-4">
+            {navigation.map((item) => (
+              <li key={item.name}>
                 <Link
-                  key={item.name}
                   href={item.href}
                   className={cn(
-                    "-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7",
+                    "block py-2 text-base font-medium transition-colors",
                     pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
                       ? "text-primary"
-                      : "text-secondary hover:bg-gray-50",
+                      : "text-secondary hover:text-primary",
                   )}
                   onClick={onClose}
-                  aria-label={item.ariaLabel || item.name}
-                  aria-current={pathname === item.href ? "page" : undefined}
                 >
                   {item.name}
                 </Link>
-              ))}
-            </div>
-            <div className="py-6">
-              <Button asChild className="w-full bg-primary hover:bg-primary/90" onClick={onClose}>
-                <Link href="/top-herramientas-ia" aria-label="Ver mejores herramientas IA">
-                  Mejores Herramientas IA
-                </Link>
-              </Button>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <Button asChild className="w-full bg-primary hover:bg-primary/90">
+              <Link href="/top-herramientas-ia">{t("cta.topTools")}</Link>
+            </Button>
+            <div className="mt-4">
+              <LanguageSwitcher />
             </div>
           </div>
-        </div>
+        </nav>
       </div>
-    </div>,
-    document.body,
+    </div>
   )
 }

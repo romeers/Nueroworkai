@@ -8,22 +8,25 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
 import MobileNavDrawer from "./mobile-nav-drawer"
-
-// Update the navigation array to remove the Blog entry
-const navigation = [
-  { name: "Inicio", href: "/" },
-  { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
-  { name: "Recursos", href: "/recursos", ariaLabel: "Ir a Recursos" },
-  { name: "Sobre Nosotros", href: "/sobre-nosotros" },
-]
+import LanguageSwitcher from "./language-switcher"
+import { useTranslations } from "next-intl"
 
 export default function Header() {
+  const t = useTranslations("common")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
   const pathname = usePathname()
   const logoImage =
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
+
+  // Update the navigation array with translations
+  const navigation = [
+    { name: t("navigation.home"), href: "/" },
+    { name: t("navigation.tools"), href: "/herramientas-ia", ariaLabel: t("navigation.tools") },
+    { name: t("navigation.resources"), href: "/recursos", ariaLabel: t("navigation.resources") },
+    { name: t("navigation.about"), href: "/sobre-nosotros" },
+  ]
 
   const headerRef = useRef<HTMLElement>(null)
   const prevScrollY = useRef(0)
@@ -98,7 +101,8 @@ export default function Header() {
         </div>
 
         {/* Mobile menu button */}
-        <div className="flex lg:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
+          <LanguageSwitcher variant="minimal" />
           <Button
             variant="ghost"
             size="icon"
@@ -134,11 +138,12 @@ export default function Header() {
           ))}
         </div>
 
-        {/* CTA button */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        {/* CTA button and language switcher */}
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
+          <LanguageSwitcher />
           <Button asChild className="bg-primary hover:bg-primary/90">
-            <Link href="/top-herramientas-ia" aria-label="Ver top herramientas IA">
-              Top Herramientas IA
+            <Link href="/top-herramientas-ia" aria-label={t("cta.topTools")}>
+              {t("cta.topTools")}
             </Link>
           </Button>
         </div>
@@ -154,8 +159,8 @@ export default function Header() {
           aria-hidden="false"
         >
           <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
-            <Link href="/top-herramientas-ia" aria-label="Descubrir mejores herramientas IA" tabIndex={0}>
-              Descubrir Mejores Herramientas IA
+            <Link href="/top-herramientas-ia" aria-label={t("cta.discoverTools")} tabIndex={0}>
+              {t("cta.discoverTools")}
             </Link>
           </Button>
         </div>

@@ -1,0 +1,75 @@
+{
+  "common": {
+    "title": "NeuroWorkAI - AI Tools for Remote Professionals",
+    "description": "Discover and compare the best AI productivity tools for remote professionals. Reviews, comparisons, and free resources.",
+    "navigation": {
+      "home": "Home",
+      "tools": "AI Tools",
+      "resources": "Resources",
+      "about": "About Us"
+    },
+    "cta": {
+      "topTools": "Top AI Tools",
+      "discoverTools": "Discover Best AI Tools"
+    },
+    "footer": {
+      "navigation": "Navigation",
+      "resources": "Resources",
+      "legal": "Legal",
+      "contact": "Contact",
+      "copyright": "All rights reserved",
+      "poweredBy": "Powered by Vercel",
+      "affiliateDisclosure": "NeuroWorkAI participates in affiliate programs. This means we may receive a commission if you purchase through our links, at no additional cost to you."
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Boost your productivity with AI",
+      "subtitle": "Discover the best AI tools for remote professionals",
+      "cta": "Explore tools"
+    },
+    "features": {
+      "title": "Key Features",
+      "subtitle": "Discover why NeuroWorkAI is your best ally"
+    }
+  },
+  "tools": {
+    "title": "AI Tools",
+    "description": "Explore our selection of the best AI tools for remote professionals",
+    "categories": {
+      "all": "All",
+      "productivity": "Productivity",
+      "writing": "Writing",
+      "design": "Design",
+      "communication": "Communication"
+    }
+  },
+  "resources": {
+    "title": "Resources",
+    "description": "Guides, templates, and resources to maximize your productivity with AI",
+    "categories": {
+      "guides": "Guides",
+      "prompts": "Prompts",
+      "templates": "Templates",
+      "analysis": "Analysis"
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "description": "Learn more about NeuroWorkAI and our team",
+    "team": {
+      "title": "Our Team",
+      "subtitle": "Meet the people behind NeuroWorkAI"
+    },
+    "contact": {
+      "title": "Contact",
+      "subtitle": "Have any questions? Contact us",
+      "form": {
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Submit"
+      }
+    }
+  }
+}

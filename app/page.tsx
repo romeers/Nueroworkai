@@ -1,15 +1,7 @@
 "use client"
-
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import HeroSection from "@/components/hero-section"
-import Testimonials from "@/components/testimonials"
-import Stats from "@/components/stats"
-import TrustBadges from "@/components/trust-badges"
-import EnhancedCTA from "@/components/enhanced-cta"
-import KitPromoBlock from "@/components/kit-promo-block"
-import { CalendarIcon } from "lucide-react"
+import { redirect } from "next/navigation"
+import { headers } from "next/headers"
+import { defaultLocale, locales } from "@/config/i18n"
 
 // Datos de ejemplo para las herramientas destacadas
 const featuredTools = [
@@ -190,187 +182,21 @@ const trustBadges = [
 ]
 
 export default function Home() {
-  return (
-    <>
-      {/* Nuevo Hero Section */}
-      <HeroSection />
+  const headersList = headers()
+  const acceptLanguage = headersList.get("accept-language") || ""
 
-      {/* Trust Badges Section */}
-      <TrustBadges title="Herramientas de IA líderes confían en nuestros análisis" badges={trustBadges} />
+  // Check if the user's preferred language is supported
+  const userPreferredLocale = acceptLanguage
+    .split(",")
+    .map((lang) => lang.split(";")[0].trim())
+    .find((lang) => {
+      const langPrefix = lang.substring(0, 2)
+      return locales.includes(langPrefix as any)
+    })
 
-      {/* Featured Tools Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center mb-10">
-            <h2 className="font-heading text-3xl font-bold tracking-tight text-secondary sm:text-4xl">
-              Herramientas Destacadas
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Descubre las herramientas de IA más populares que están transformando el trabajo remoto.
-            </p>
-          </div>
+  // Use the user's preferred locale if supported, otherwise use the default
+  const locale = userPreferredLocale ? userPreferredLocale.substring(0, 2) : defaultLocale
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredTools.map((tool) => (
-              <div
-                key={tool.name}
-                className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col h-full"
-              >
-                <div className="flex flex-col items-center mb-4">
-                  <img
-                    src={tool.imageUrl || "/placeholder.svg"}
-                    alt={`Logo de ${tool.name}`}
-                    className="w-12 h-auto mb-3"
-                    loading="lazy"
-                  />
-                  <h3 className="text-lg font-bold text-secondary text-center">{tool.name}</h3>
-                </div>
-                <p className="text-gray-600 text-sm mb-6 flex-grow line-clamp-2">{tool.description}</p>
-                <div className="mt-auto">
-                  <div className="flex justify-center mb-4">
-                    <span className="text-sm bg-violet-100 text-violet-700 rounded-full px-3 py-1">
-                      {tool.category}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <Button asChild variant="outline" size="sm" className="flex-1">
-                      <Link href={tool.url}>Ver detalles</Link>
-                    </Button>
-                    <Button asChild className="bg-violet-600 text-white hover:bg-violet-700 flex-1" size="sm">
-                      <Link href={`${tool.url}#probar`}>Probar gratis</Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Button asChild className="bg-violet-600 hover:bg-violet-700 px-6 py-2.5">
-              <Link href="/herramientas-ia" className="inline-flex items-center gap-2">
-                Ver todas las herramientas
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <Stats
-        title="NeuroWorkAI en números"
-        subtitle="Datos que respaldan nuestra experiencia y compromiso con la calidad"
-        stats={stats}
-      />
-
-      {/* Lead Magnet Section */}
-      <section className="bg-primary/10 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-6xl">
-            <KitPromoBlock />
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <Testimonials
-        title="Lo que dicen nuestros usuarios"
-        subtitle="Profesionales que han mejorado su productividad con nuestras recomendaciones"
-        testimonials={testimonials}
-      />
-
-      {/* Blog Preview Section */}
-      <section className="py-16 bg-gray-50" aria-labelledby="featured-articles-heading">
-        <div className="container mx-auto px-4 md:px-12 lg:px-20">
-          <div className="mx-auto max-w-3xl text-center mb-12">
-            <h2
-              id="featured-articles-heading"
-              className="font-heading text-3xl font-bold tracking-tight text-secondary sm:text-4xl"
-            >
-              Recursos Destacados
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Descubre nuestros mejores recursos sobre productividad con IA para trabajo remoto.
-            </p>
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {resources.map((resource) => (
-              <article
-                key={resource.slug}
-                className="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.01] transition duration-300 border border-gray-100 overflow-hidden flex flex-col h-full"
-              >
-                <div className="relative">
-                  <img
-                    src={
-                      resource.imageUrl ||
-                      `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(resource.title)}`
-                    }
-                    alt={`Imagen para el recurso: ${resource.title}`}
-                    className="h-[160px] w-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                  <span className="absolute top-4 right-4 bg-violet-100 text-violet-700 text-xs px-3 py-1 rounded-full font-medium">
-                    {resource.category}
-                  </span>
-                </div>
-
-                <div className="p-5 flex-grow flex flex-col">
-                  <h3 className="text-xl font-bold text-secondary line-clamp-2 mb-2 hover:text-primary">
-                    <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
-                  </h3>
-                  <p className="text-gray-600 line-clamp-3 mb-4 text-sm flex-grow">{resource.excerpt}</p>
-
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-                    <div className="flex items-center text-sm text-gray-500">
-                      <CalendarIcon className="h-4 w-4 mr-1" />
-                      <span>{resource.date}</span>
-                    </div>
-                    <Link
-                      href={`/recursos/${resource.slug}`}
-                      className="text-violet-600 font-medium hover:underline flex items-center"
-                    >
-                      Leer más
-                      <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Button
-              asChild
-              className="bg-violet-600 hover:bg-violet-700 px-6 py-2.5 shadow-md hover:shadow-lg transition"
-            >
-              <Link href="/recursos" className="inline-flex items-center gap-2">
-                Ver todos los recursos
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced CTA Section */}
-      <EnhancedCTA
-        title="Potencia tu productividad con IA"
-        subtitle="Descarga nuestro Kit de Productividad con IA para Trabajo Remoto (2025) y comienza a trabajar mejor con IA desde hoy."
-        primaryButtonText="Descargar Kit gratuito"
-        primaryButtonUrl="/guias-recursos"
-        withEmailForm={true}
-        emailPlaceholder="Tu correo electrónico"
-        formButtonText="Descargar Kit gratuito"
-        onSubmit={(email) => {
-          console.log("Email submitted:", email)
-          // Here you would typically handle the form submission
-          // For example, sending the email to your API
-        }}
-        microcopy="Sin spam · Descarga inmediata tras confirmar"
-        bgColor="primary"
-      />
-    </>
-  )
+  // Redirect to the appropriate locale
+  redirect(`/${locale}`)
 }
