@@ -1,6 +1,6 @@
-# robots.txt for neuroworkai.com
+# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 
-# Sitemaps
+# Sitemap
 Sitemap: https://neuroworkai.com/sitemap.xml
