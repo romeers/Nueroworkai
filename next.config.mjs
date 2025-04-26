@@ -17,11 +17,11 @@ const nextConfig = {
   },
   // Enable compression
   compress: true,
-  // Add performance headers
+  // Add performance headers with fixed patterns
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/:path*',
         headers: [
           {
             key: 'Cache-Control',
@@ -30,7 +30,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/(.*).(?:jpg|jpeg|gif|png|svg|webp|avif)',
+        source: '/images/:path*',
         headers: [
           {
             key: 'Cache-Control',
@@ -39,7 +39,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/(.*).(?:js|css)',
+        source: '/_next/static/:path*',
         headers: [
           {
             key: 'Cache-Control',
