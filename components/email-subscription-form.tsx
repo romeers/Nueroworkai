@@ -24,6 +24,7 @@ interface EmailSubscriptionFormProps {
   downloadIcon?: boolean
   downloadPdf?: boolean
   pdfPath?: string
+  sendKitByEmail?: boolean
 }
 
 export default function EmailSubscriptionForm({
@@ -35,6 +36,7 @@ export default function EmailSubscriptionForm({
   downloadIcon = false,
   downloadPdf = false,
   pdfPath,
+  sendKitByEmail,
 }: EmailSubscriptionFormProps) {
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
@@ -43,17 +45,33 @@ export default function EmailSubscriptionForm({
     setLoading(true)
 
     try {
-      // Simulación de envío - en producción, esto sería una llamada a la API
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      if (sendKitByEmail) {
+        const response = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: data.email }),
+        })
 
-      // If downloadPdf is true, trigger the download
-      if (downloadPdf && pdfPath) {
-        const link = document.createElement("a")
-        link.href = pdfPath
-        link.setAttribute("download", pdfPath.split("/").pop() || "recurso.pdf")
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
+        const result = await response.json()
+
+        if (!result.success) {
+          throw new Error(result.message || "Error al enviar el kit")
+        }
+      } else {
+        // Simulación de envío - en producción, esto sería una llamada a la API
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+
+        // If downloadPdf is true, trigger the download
+        if (downloadPdf && pdfPath) {
+          const link = document.createElement("a")
+          link.href = pdfPath
+          link.setAttribute("download", pdfPath.split("/").pop() || "recurso.pdf")
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        }
       }
 
       toast({

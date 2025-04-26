@@ -6,6 +6,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import SafeImage from "./safe-image"
+import { toast } from "@/components/ui/use-toast"
 
 interface FinalKitCTAProps {
   title?: string
@@ -37,23 +38,35 @@ export default function FinalKitCTA({
       if (onSubmit) {
         await onSubmit(email)
       } else {
-        // Default behavior - simulate submission
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        console.log("Kit download requested for:", email)
+        const response = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        })
+
+        const result = await response.json()
+
+        if (!result.success) {
+          throw new Error(result.message || "Error al enviar el kit")
+        }
       }
 
-      // Success handling - trigger PDF download
+      // Success handling
       setEmail("")
-      // Trigger download
-      const link = document.createElement("a")
-      link.href = "/kit-productividad-ia-2025.pdf"
-      link.setAttribute("download", "Kit-Productividad-IA-NeuroWorkAI-2025.pdf")
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      toast({
+        title: "¡Kit enviado!",
+        description: "Hemos enviado el Kit de Productividad a tu correo electrónico.",
+      })
     } catch (error) {
       // Error handling could go here
       console.error("Error submitting form:", error)
+      toast({
+        title: "Error",
+        description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
     }

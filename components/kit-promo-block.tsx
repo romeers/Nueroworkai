@@ -38,20 +38,39 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
   const isCompact = variant === "compact"
   const isSidebar = variant === "sidebar"
 
-  const handleSuccess = () => {
-    setSuccess(true)
-    toast({
-      title: "¡Kit enviado!",
-      description: "Hemos enviado el Kit de Productividad a tu correo electrónico.",
-    })
+  const handleSuccess = async (data) => {
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: data.email }),
+      })
 
-    // Trigger PDF download
-    const link = document.createElement("a")
-    link.href = "/kit-productividad-ia-2025.pdf"
-    link.setAttribute("download", "Kit-Productividad-IA-NeuroWorkAI-2025.pdf")
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+      const result = await response.json()
+
+      if (result.success) {
+        setSuccess(true)
+        toast({
+          title: "¡Kit enviado!",
+          description: "Hemos enviado el Kit de Productividad a tu correo electrónico.",
+        })
+      } else {
+        toast({
+          title: "Error",
+          description: result.message || "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error("Error:", error)
+      toast({
+        title: "Error",
+        description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+        variant: "destructive",
+      })
+    }
   }
 
   return (
