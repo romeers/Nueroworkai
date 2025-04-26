@@ -4,9 +4,9 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
-import { Download } from "lucide-react"
 import { z } from "zod"
 import { Form, FormField, FormLabel, FormMessage } from "@/components/ui/form"
+import { Download } from "lucide-react"
 
 const subscriptionSchema = z.object({
   email: z.string().email({ message: "Por favor, introduce un email válido" }),
@@ -16,71 +16,44 @@ const subscriptionSchema = z.object({
 type SubscriptionFormValues = z.infer<typeof subscriptionSchema>
 
 interface EmailSubscriptionFormProps {
-  onSuccess?: (data: SubscriptionFormValues) => void
+  title?: string
+  description?: string
   buttonText?: string
-  includeName?: boolean
-  microcopy?: string
+  successMessage?: string
+  showName?: boolean
   className?: string
   downloadIcon?: boolean
-  downloadPdf?: boolean
-  pdfPath?: string
-  sendKitByEmail?: boolean
+  onSuccess?: () => void
 }
 
-export default function EmailSubscriptionForm({
-  onSuccess,
-  buttonText = "Suscribirse",
-  includeName = false,
-  microcopy = "Sin spam · Descarga inmediata tras confirmar",
+export function EmailSubscriptionForm({
+  title = "Suscríbete a nuestra newsletter",
+  description = "Recibe las últimas actualizaciones sobre herramientas de IA y productividad.",
+  buttonText = "Suscribirme",
+  successMessage = "¡Gracias por suscribirte! Recibirás nuestras actualizaciones pronto.",
+  showName = false,
   className = "",
   downloadIcon = false,
-  downloadPdf = false,
-  pdfPath,
-  sendKitByEmail,
+  onSuccess,
 }: EmailSubscriptionFormProps) {
   const [loading, setLoading] = useState(false)
+
   const { toast } = useToast()
 
   const handleSubmit = async (data: SubscriptionFormValues) => {
     setLoading(true)
 
     try {
-      if (sendKitByEmail) {
-        const response = await fetch("/api/subscribe", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: data.email }),
-        })
-
-        const result = await response.json()
-
-        if (!result.success) {
-          throw new Error(result.message || "Error al enviar el kit")
-        }
-      } else {
-        // Simulación de envío - en producción, esto sería una llamada a la API
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        // If downloadPdf is true, trigger the download
-        if (downloadPdf && pdfPath) {
-          const link = document.createElement("a")
-          link.href = pdfPath
-          link.setAttribute("download", pdfPath.split("/").pop() || "recurso.pdf")
-          document.body.appendChild(link)
-          link.click()
-          document.body.removeChild(link)
-        }
-      }
+      // Simulación de envío - en producción, esto sería una llamada a la API
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
       toast({
         title: "¡Suscripción exitosa!",
-        description: "Gracias por suscribirte.",
+        description: successMessage,
       })
 
       if (onSuccess) {
-        onSuccess(data)
+        onSuccess()
       }
     } catch (error) {
       toast({
@@ -94,11 +67,13 @@ export default function EmailSubscriptionForm({
   }
 
   return (
-    <Form schema={subscriptionSchema} onSubmit={handleSubmit} className={className}>
+    <Form schema={subscriptionSchema} onSubmit={handleSubmit}>
       {(form) => (
-        <>
-          <div className={`${includeName ? "space-y-3" : ""}`}>
-            {includeName && (
+        <div className={className}>
+          {title && <h3 className="text-xl font-bold mb-2">{title}</h3>}
+          {description && <p className="text-gray-600 mb-4">{description}</p>}
+          <div className={`${showName ? "space-y-3" : ""}`}>
+            {showName && (
               <FormField>
                 <FormLabel htmlFor="name" className="sr-only">
                   Nombre
@@ -145,10 +120,10 @@ export default function EmailSubscriptionForm({
               </Button>
             </div>
           </div>
-
-          {microcopy && <p className="text-xs text-gray-500 mt-2">{microcopy}</p>}
-        </>
+        </div>
       )}
     </Form>
   )
 }
+
+export default EmailSubscriptionForm

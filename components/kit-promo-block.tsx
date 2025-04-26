@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Check } from "lucide-react"
 import SafeImage from "./safe-image"
 import { useToast } from "@/hooks/use-toast"
-import EmailSubscriptionForm from "./email-subscription-form"
+import SubscriptionForm from "./subscription-form"
 
 // Define the content in a single place for reuse across the site
 export const kitPromoContent = {
@@ -38,39 +38,12 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
   const isCompact = variant === "compact"
   const isSidebar = variant === "sidebar"
 
-  const handleSuccess = async (data) => {
-    try {
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: data.email }),
-      })
-
-      const result = await response.json()
-
-      if (result.success) {
-        setSuccess(true)
-        toast({
-          title: "¡Kit enviado!",
-          description: "Hemos enviado el Kit de Productividad a tu correo electrónico.",
-        })
-      } else {
-        toast({
-          title: "Error",
-          description: result.message || "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
-          variant: "destructive",
-        })
-      }
-    } catch (error) {
-      console.error("Error:", error)
-      toast({
-        title: "Error",
-        description: "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
-        variant: "destructive",
-      })
-    }
+  const handleSuccess = () => {
+    setSuccess(true)
+    toast({
+      title: "¡Kit enviado!",
+      description: "Hemos enviado el Kit de Productividad a tu correo electrónico.",
+    })
   }
 
   return (
@@ -104,14 +77,13 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
           ) : (
             <div className="mt-6" aria-label="Formulario de descarga de kit">
               <h3 className="text-lg font-semibold text-secondary mb-3">{kitPromoContent.formLabel}</h3>
-              <EmailSubscriptionForm
+              <SubscriptionForm
+                showName={false}
                 buttonText={kitPromoContent.buttonText}
-                microcopy={kitPromoContent.microcopy}
+                successMessage="¡Gracias por suscribirte! Recibirás el kit de productividad pronto."
                 onSuccess={handleSuccess}
-                downloadIcon={true}
-                downloadPdf={true}
-                pdfPath="/kit-productividad-ia-2025.pdf"
               />
+              <p className="text-xs text-gray-500 mt-2">{kitPromoContent.microcopy}</p>
             </div>
           )}
         </div>
