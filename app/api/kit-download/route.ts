@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
-import { sql } from "@/lib/db-config"
+import { getDbConnection } from "@/lib/db-connection"
 
 export async function POST(request: Request) {
   try {
+    const sql = getDbConnection()
     const body = await request.json()
     const { email } = body
 

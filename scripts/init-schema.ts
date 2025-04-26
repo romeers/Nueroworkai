@@ -1,6 +1,7 @@
-import { sql } from "../lib/db-config"
+import { getDbConnection } from "@/lib/db-connection"
 
-async function initSchema() {
+export async function initSchema() {
+  const sql = getDbConnection()
   console.log("Inicializando esquema de base de datos...")
 
   try {
@@ -228,16 +229,16 @@ async function initSchema() {
 }
 
 // Ejecutar si se llama directamente
-if (require.main === module) {
-  initSchema()
-    .then(() => {
-      console.log("Esquema inicializado correctamente")
-      process.exit(0)
-    })
-    .catch((error) => {
-      console.error("Error:", error)
-      process.exit(1)
-    })
-}
+// if (require.main === module) {
+//   initSchema()
+//     .then(() => {
+//       console.log("Esquema inicializado correctamente")
+//       process.exit(0)
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error)
+//       process.exit(1)
+//     })
+// }
 
-export { initSchema }
+// export { initSchema }

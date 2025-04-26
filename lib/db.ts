@@ -1,5 +1,9 @@
 import { cache } from "react"
 import * as staticData from "./static-data"
+import { getDbConnection } from "@/lib/db-connection"
+
+// Reemplazar cualquier uso directo de neon con getDbConnection
+export const sql = getDbConnection()
 
 // Función para obtener todas las herramientas
 export const getCachedAllTools = cache(async () => {

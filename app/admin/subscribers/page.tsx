@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { formatDistanceToNow } from "date-fns"
 import { es } from "date-fns/locale"
+import { getDbConnection } from "@/lib/db-connection"
 
 interface Subscriber {
   id: number
@@ -28,6 +29,7 @@ export default function SubscribersPage() {
     setError(null)
 
     try {
+      const sql = getDbConnection()
       const response = await fetch("/api/subscriptions")
       const data = await response.json()
 

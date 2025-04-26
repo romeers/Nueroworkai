@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
-import { sql } from "@/lib/db-config"
+import { getDbConnection } from "@/lib/db-connection"
 
 export async function GET() {
   try {
+    const sql = getDbConnection()
     // Intentar ejecutar una consulta simple para verificar la conexión
     const result = await sql`SELECT NOW() as time`
 

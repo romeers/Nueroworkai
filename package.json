@@ -67,10 +67,10 @@
     "sharp": "latest",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
-    "fs": "latest",
-    "path": "latest",
+    "@vercel/analytics": "latest",
     "@neondatabase/serverless": "latest",
-    "@vercel/analytics": "latest"
+    "fs": "latest",
+    "path": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",

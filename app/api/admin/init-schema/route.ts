@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { initSchema } from "@/scripts/init-schema"
+import { getDbConnection } from "@/lib/db-connection"
 
 export async function POST() {
   try {
@@ -18,5 +19,14 @@ export async function POST() {
       },
       { status: 500 },
     )
+  }
+}
+
+export async function GET() {
+  try {
+    const sql = getDbConnection()
+    // Resto del código...
+  } catch (error) {
+    // Manejo de errores...
   }
 }

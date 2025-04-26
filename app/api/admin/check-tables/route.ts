@@ -1,46 +1,44 @@
 import { NextResponse } from "next/server"
-import { sql } from "@/lib/db-config"
+import { getDbConnection } from "@/lib/db-connection"
 
 export async function GET() {
   try {
-    // Consulta para obtener todas las tablas en la base de datos
-    const tables = await sql`
-      SELECT table_name 
-      FROM information_schema.tables 
-      WHERE table_schema = 'public'
-      ORDER BY table_name
-    `
+    const sql = getDbConnection()
 
-    // Verificar tablas específicas que deberían existir
-    const requiredTables = [
-      "categories",
-      "tools",
-      "users",
-      "sessions",
-      "pricing_plans",
-      "tool_features",
-      "testimonials",
-      "user_favorites",
-      "resource_tools",
-      "resources",
-    ]
+    // Verificar las tablas principales
+    const tables = ["tools", "categories", "resources", "comparisons", "users"]
 
-    const existingTables = tables.map((t) => t.table_name)
-    const missingTables = requiredTables.filter((t) => !existingTables.includes(t))
+    const results = {}
+
+    for (const table of tables) {
+      // Obtener el conteo de registros
+      const countQuery = await sql`SELECT COUNT(*) as count FROM ${sql(table)}`
+      const count = countQuery[0]?.count || 0
+
+      // Obtener algunos ejemplos si hay registros
+      let examples = []
+      if (count > 0) {
+        examples = await sql`SELECT * FROM ${sql(table)} LIMIT 3`
+      }
+
+      results[table] = {
+        count: Number(count),
+        examples,
+      }
+    }
 
     return NextResponse.json({
       success: true,
-      tables: existingTables,
-      missingTables,
-      allTablesExist: missingTables.length === 0,
+      message: "Estado de las tablas de la base de datos",
+      results,
     })
   } catch (error) {
-    console.error("Error al verificar tablas:", error)
+    console.error("Error al verificar las tablas:", error)
     return NextResponse.json(
       {
         success: false,
-        message: "Error al verificar tablas",
-        error: String(error),
+        message: "Error al verificar las tablas de la base de datos",
+        error: error.message,
       },
       { status: 500 },
     )

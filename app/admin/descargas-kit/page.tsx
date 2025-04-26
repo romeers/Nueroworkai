@@ -1,9 +1,10 @@
-import { sql } from "@/lib/db-config"
+import { getDbConnection } from "@/lib/db-connection"
 
 export const dynamic = "force-dynamic"
 
 async function getKitDownloads() {
   try {
+    const sql = getDbConnection()
     // Verificar si la tabla existe
     const tableExists = await sql`
       SELECT EXISTS (

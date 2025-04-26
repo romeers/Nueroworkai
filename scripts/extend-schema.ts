@@ -1,8 +1,9 @@
 import { query } from "../lib/db"
 import * as fs from "fs"
 import * as path from "path"
+import { getDbConnection } from "@/lib/db-connection"
 
-async function extendSchema() {
+export async function extendSchema() {
   try {
     console.log("Ampliando el esquema de la base de datos...")
 
@@ -11,6 +12,7 @@ async function extendSchema() {
     const schemaSql = fs.readFileSync(schemaPath, "utf8")
 
     // Ejecutar el SQL
+    const sql = getDbConnection()
     await query(schemaSql)
 
     console.log("✅ Esquema ampliado correctamente")
@@ -29,5 +31,3 @@ if (require.main === module) {
       process.exit(1)
     })
 }
-
-export { extendSchema }

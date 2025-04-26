@@ -1,8 +1,9 @@
-import { sql } from "../lib/db-config"
+import { getDbConnection } from "@/lib/db-connection"
 import { categories, tools } from "../lib/data"
 
 // Función para insertar datos en la base de datos
 async function seedDatabase() {
+  const sql = getDbConnection()
   console.log("Migrando datos a Neon...")
 
   try {

@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 
-// Usar la variable de entorno DATABASE_URL directamente
-const sql = neon(process.env.DATABASE_URL || "")
+// Corregir la forma en que se accede a la variable de entorno DATABASE_URL
+const databaseUrl = process.env.DATABASE_URL || ""
+// Eliminar el signo igual si existe al principio de la cadena
+const cleanDatabaseUrl = databaseUrl.startsWith("=") ? databaseUrl.substring(1) : databaseUrl
+const sql = neon(cleanDatabaseUrl)
 
 export async function GET() {
   try {
