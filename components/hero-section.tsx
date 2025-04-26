@@ -1,80 +1,106 @@
-import { Download } from "lucide-react"
-import Link from "next/link"
+"use client"
+
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+import { useLanguage } from "@/contexts/language-context"
+import TranslatedContent from "./translated-content"
 
 export default function HeroSection() {
+  const { language } = useLanguage()
+
   return (
-    <section
-      className="relative py-16 md:py-24"
-      style={{
-        backgroundImage:
-          'url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-seamless-ultra-light-abstract-tech-bac_77llVxuuSQq0MWmz2lHJpg_zlt8wHfaRXuVq1ca-Gj4mw-oJ6ierCcUf3EDUgvjgVyUNaoHdLVLN.png")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
+    <section className="relative overflow-hidden bg-white pt-16 pb-8 md:pt-24 md:pb-12">
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-50 to-white z-0"></div>
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
-          {/* Left column: Text and CTAs */}
-          <div className="flex flex-col items-start justify-center">
-            <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
-              Plataforma líder en productividad IA
-            </p>
-            <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight text-[#1E293B] sm:text-5xl md:text-[56px]">
-              Descubre las mejores herramientas de productividad con IA
-            </h1>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="text-center lg:text-left">
+            <TranslatedContent
+              content={{
+                es: (
+                  <h1 className="text-4xl font-bold tracking-tight text-secondary sm:text-5xl md:text-6xl">
+                    Potencia tu <span className="text-primary">productividad</span> con IA
+                  </h1>
+                ),
+                en: (
+                  <h1 className="text-4xl font-bold tracking-tight text-secondary sm:text-5xl md:text-6xl">
+                    Boost your <span className="text-primary">productivity</span> with AI
+                  </h1>
+                ),
+              }}
+            />
 
-            <p className="mt-6 text-lg leading-relaxed text-gray-700">
-              Potencia tu trabajo remoto con las apps más inteligentes del mercado. Compara, elige y empieza hoy mismo.
-            </p>
+            <TranslatedContent
+              content={{
+                es: (
+                  <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto lg:mx-0">
+                    Descubre y compara las mejores herramientas de IA para profesionales remotos. Análisis detallados,
+                    comparativas y recursos gratuitos para optimizar tu flujo de trabajo.
+                  </p>
+                ),
+                en: (
+                  <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto lg:mx-0">
+                    Discover and compare the best AI tools for remote professionals. Detailed analysis, comparisons, and
+                    free resources to optimize your workflow.
+                  </p>
+                ),
+              }}
+            />
 
-            <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-              <Button asChild className="bg-primary hover:bg-primary/90 px-6 text-base font-medium">
-                <Link href="/herramientas-ia" aria-label="Explorar herramientas de IA para productividad">
-                  Explora herramientas IA
-                </Link>
-              </Button>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <TranslatedContent
+                content={{
+                  es: (
+                    <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                      <Link href="/herramientas-ia" className="inline-flex items-center gap-2">
+                        Explorar herramientas
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  ),
+                  en: (
+                    <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                      <Link href="/herramientas-ia" className="inline-flex items-center gap-2">
+                        Explore tools
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  ),
+                }}
+              />
 
-              <Button
-                asChild
-                variant="outline"
-                className="border-[#7C3AED] px-6 text-base font-medium text-[#7C3AED] hover:bg-[#7C3AED]/10"
-              >
-                <Link
-                  href="/kit-digital"
-                  className="flex items-center"
-                  aria-label="Descargar kit gratuito de productividad con IA"
-                >
-                  <Download className="mr-2 h-5 w-5" aria-hidden="true" />
-                  Descargar Kit gratuito
-                </Link>
-              </Button>
+              <TranslatedContent
+                content={{
+                  es: (
+                    <Button asChild variant="outline" size="lg">
+                      <Link href="/guias-recursos">Descargar recursos gratuitos</Link>
+                    </Button>
+                  ),
+                  en: (
+                    <Button asChild variant="outline" size="lg">
+                      <Link href="/guias-recursos">Download free resources</Link>
+                    </Button>
+                  ),
+                }}
+              />
             </div>
-
-            <p className="mt-6 text-sm text-gray-500">+50 herramientas analizadas · Actualizado 2025</p>
           </div>
 
-          {/* Right column: Professional using AI tools image */}
-          <div className="flex justify-center md:justify-end">
-            <div className="relative w-full max-w-[65%] h-auto overflow-hidden">
-              <div className="relative rounded-xl overflow-hidden backdrop-blur-sm backdrop-filter backdrop-blur-[2px]">
-                {/* Gradient overlay to blend with background */}
-                <div
-                  className="absolute inset-0 bg-gradient-to-tr from-white/30 via-white/20 to-transparent opacity-70 z-10 rounded-xl"
-                  aria-hidden="true"
-                ></div>
-
-                <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-young-professional-working-remotely-on_NBKycgd-RlC5B3Knh0lstw_fsV1ydBFSi-8xmveHcX-zQ-k4AJDC2tcixvYgSMsRWjmgmqUpht2I.png"
-                  alt="Profesional remoto utilizando herramientas de IA para productividad"
-                  width={600}
-                  height={600}
-                  className="w-full h-auto rounded-xl object-cover opacity-90"
-                  priority
-                />
-              </div>
+          <div className="relative">
+            <img
+              src="/neural-network-head.png"
+              alt="NeuroWorkAI - Herramientas de IA para profesionales"
+              className="w-full h-auto max-w-lg mx-auto lg:max-w-none rounded-lg shadow-xl"
+            />
+            <div className="absolute -bottom-4 -right-4 bg-white/80 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-gray-100 hidden md:block">
+              <TranslatedContent
+                content={{
+                  es: (
+                    <p className="text-sm font-medium text-gray-900">+50 herramientas de IA analizadas y comparadas</p>
+                  ),
+                  en: <p className="text-sm font-medium text-gray-900">+50 AI tools analyzed and compared</p>,
+                }}
+              />
             </div>
           </div>
         </div>

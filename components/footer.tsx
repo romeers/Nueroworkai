@@ -1,251 +1,159 @@
+"use client"
+
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin, ArrowUpRight } from "lucide-react"
-import SafeImage from "./safe-image"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { ArrowRight } from "lucide-react"
+import SafeImage from "./safe-image"
+import T from "./t"
+import { useLanguage } from "@/contexts/language-context"
 
 export default function Footer() {
-  const logoWhiteImage =
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
-
+  const { t } = useLanguage()
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-secondary text-white py-12 sm:py-16" role="contentinfo" aria-label="Pie de página del sitio">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Main footer content - optimized grid for mobile */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 items-start">
-          {/* Logo and brand information */}
-          <div className="space-y-4 col-span-2 sm:col-span-1">
-            <Link
-              href="/"
-              className="inline-block transition-opacity duration-200 hover:opacity-90"
-              aria-label="NeuroWorkAI - Ir a inicio"
-            >
-              <div className="w-20 h-auto">
-                <SafeImage
-                  src={logoWhiteImage}
-                  fallbackSrc="/neuroworkai-logo-white.png"
-                  alt="NeuroWorkAI Logo"
-                  width={120}
-                  height={40}
-                  className="w-full h-auto rounded-lg"
-                />
-              </div>
+    <footer className="bg-gray-900 text-white">
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Logo and description */}
+          <div className="space-y-4">
+            <Link href="/" className="inline-block">
+              <SafeImage
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-6k1WtD9lyjkzTxj6ftmbF1uAgtYepR.png"
+                alt="NeuroWorkAI Logo"
+                width={150}
+                height={50}
+                className="h-10 w-auto"
+              />
             </Link>
-            <p className="text-sm text-white/80 max-w-xs">
-              Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.
+            <p className="text-gray-400 text-sm">
+              Descubre y compara las mejores herramientas de IA para profesionales remotos. Análisis detallados,
+              comparativas y recursos gratuitos.
             </p>
-            <div className="flex gap-3 mt-4" aria-label="Redes sociales">
-              <Link
-                href="https://www.facebook.com/profile.php?id=61575664503316"
-                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
-                aria-label="Facebook de NeuroWorkAI"
-                title="Síguenos en Facebook"
+            <div className="flex space-x-4">
+              <a
+                href="https://twitter.com/neuroworkai"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
               >
-                <Facebook className="h-5 w-5" />
-                <span className="sr-only">Facebook</span>
-              </Link>
-              <Link
-                href="https://www.instagram.com/neuroworkai"
-                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
-                aria-label="Instagram de NeuroWorkAI"
-                title="Síguenos en Instagram"
+                <span className="sr-only">Twitter</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                </svg>
+              </a>
+              <a
+                href="https://linkedin.com/company/neuroworkai"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
               >
-                <Instagram className="h-5 w-5" />
-                <span className="sr-only">Instagram</span>
-              </Link>
-              <Link
-                href="https://www.linkedin.com/company/neuroworksai/"
-                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
-                aria-label="LinkedIn de NeuroWorkAI"
-                title="Síguenos en LinkedIn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Linkedin className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
-              </Link>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </a>
             </div>
           </div>
 
-          {/* Navigation links */}
-          <nav aria-label="Enlaces de navegación del sitio">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Navegación</h3>
-            <ul className="space-y-2">
+          {/* Links */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">
+              <T text="resources" />
+            </h3>
+            <ul className="space-y-3">
               <li>
-                <Link
-                  href="/"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Ir a la página de inicio"
-                >
-                  Inicio
+                <Link href="/herramientas-ia" className="text-gray-400 hover:text-white transition-colors">
+                  <T text="tools" />
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/herramientas-ia"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Explorar herramientas de IA"
-                >
-                  Herramientas
+                <Link href="/recursos" className="text-gray-400 hover:text-white transition-colors">
+                  <T text="resources" />
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/herramientas/comparar"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Comparar diferentes herramientas"
-                >
-                  Comparar Herramientas
+                <Link href="/guias-recursos" className="text-gray-400 hover:text-white transition-colors">
+                  Guías y Recursos
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/recursos"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Explorar recursos y guías"
-                >
-                  Recursos
+                <Link href="/comparativas" className="text-gray-400 hover:text-white transition-colors">
+                  Comparativas
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/sobre-nosotros"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Conocer más sobre NeuroWorkAI"
-                >
-                  Sobre Nosotros
+                <Link href="/metodologia-neuroscore" className="text-gray-400 hover:text-white transition-colors">
+                  Metodología NeuroScore
                 </Link>
               </li>
             </ul>
-          </nav>
+          </div>
 
-          {/* Resources links */}
-          <nav aria-label="Enlaces de recursos">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Recursos</h3>
-            <ul className="space-y-2">
+          {/* Company */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">NeuroWorkAI</h3>
+            <ul className="space-y-3">
               <li>
-                <Link
-                  href="/recursos?categoria=guias"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Descargar kit de herramientas IA"
-                >
-                  Kit de herramientas IA
+                <Link href="/sobre-nosotros" className="text-gray-400 hover:text-white transition-colors">
+                  <T text="about" />
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/recursos?categoria=prompts"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Ver guía de prompts para IA"
-                >
-                  Guía de prompts
+                <Link href="/contacto" className="text-gray-400 hover:text-white transition-colors">
+                  <T text="contact" />
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/recursos?categoria=analisis"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Ver comparativas imprimibles"
-                >
-                  Comparativas imprimibles
+                <Link href="/aviso-afiliados" className="text-gray-400 hover:text-white transition-colors">
+                  <T text="affiliateDisclosure" />
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/recursos?categoria=plantillas"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Descargar plantillas gratuitas"
-                >
-                  Plantillas gratuitas
+                <Link href="/politica-privacidad" className="text-gray-400 hover:text-white transition-colors">
+                  <T text="privacyPolicy" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/politica-cookies" className="text-gray-400 hover:text-white transition-colors">
+                  <T text="cookiePolicy" />
                 </Link>
               </li>
             </ul>
-          </nav>
+          </div>
 
-          {/* Legal links */}
-          <nav aria-label="Enlaces legales">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Legal</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/politica-privacidad"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Ver política de privacidad"
-                >
-                  Política de Privacidad
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/politica-cookies"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Ver política de cookies"
-                >
-                  Política de Cookies
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/aviso-afiliados"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Ver aviso de afiliados"
-                >
-                  Aviso de Afiliados
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="mailto:bussines@neuroworkai.com"
-                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                  aria-label="Contactar con nosotros"
-                >
-                  Contacto
-                </a>
-              </li>
-            </ul>
-          </nav>
+          {/* Newsletter */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
+            <p className="text-gray-400 text-sm mb-4">
+              Recibe las últimas novedades sobre herramientas de IA y recursos para trabajo remoto.
+            </p>
+            <form className="space-y-2" onSubmit={(e) => e.preventDefault()}>
+              <div className="flex">
+                <Input
+                  type="email"
+                  placeholder={t("emailPlaceholder")}
+                  className="bg-gray-800 border-gray-700 text-white rounded-l-md focus:ring-primary focus:border-primary"
+                />
+                <Button type="submit" className="bg-primary hover:bg-primary/90 rounded-l-none">
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-gray-500">
+                <T text="ctaMicrocopy" />
+              </p>
+            </form>
+          </div>
         </div>
 
-        {/* CTA Section - Improved for mobile */}
-        <div className="mt-8 pt-6 border-t border-white/10 text-center">
-          <Button
-            asChild
-            size="lg"
-            className="bg-white text-primary hover:bg-white/90 shadow-md hover:shadow-lg transition-all"
-          >
-            <Link
-              href="/herramientas/mejores"
-              className="inline-flex items-center gap-2"
-              aria-label="Descubrir mejores herramientas IA"
-            >
-              Descubrir Mejores Herramientas IA
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
-          </Button>
-          <p className="text-sm text-white/70 mt-2">Análisis actualizados {currentYear}</p>
-        </div>
-
-        {/* Copyright and affiliate disclosure */}
-        <div className="mt-8 pt-6 border-t border-white/10">
-          <p className="text-xs text-white/50 text-center">
-            NeuroWorkAI participa en programas de afiliación. Esto significa que podemos recibir una comisión si compras
-            a través de nuestros enlaces, sin costo adicional para ti.
+        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-400 text-sm">
+            &copy; {currentYear} NeuroWorkAI. <T text="termsOfService" />.
           </p>
-          <p className="text-center text-sm text-white/70 mt-4">
-            &copy; {currentYear} NeuroWorkAI. Todos los derechos reservados.
-          </p>
-          <p className="text-center text-xs text-white/50 mt-2">
-            Desarrollado con <span aria-hidden="true">♥</span>
-            <span className="sr-only">amor</span> |{" "}
-            <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              Powered by Vercel
-            </a>
-          </p>
+          <div className="mt-4 md:mt-0">
+            <p className="text-gray-500 text-xs">Diseñado y desarrollado con ❤️ para profesionales remotos</p>
+          </div>
         </div>
       </div>
     </footer>

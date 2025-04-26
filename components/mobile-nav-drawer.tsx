@@ -1,154 +1,112 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { Fragment } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import { X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { X } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/contexts/language-context"
+import T from "./t"
 
 interface MobileNavDrawerProps {
   isOpen: boolean
   onClose: () => void
 }
 
-// Navigation items
-const navigation = [
-  { name: "Inicio", href: "/" },
-  { name: "Herramientas IA", href: "/herramientas-ia" },
-  { name: "Recursos", href: "/recursos" },
-  { name: "Comparativas", href: "/herramientas/comparar" },
-  { name: "Sobre Nosotros", href: "/sobre-nosotros" },
-]
-
 export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
   const pathname = usePathname()
-  const navRef = useRef<HTMLDivElement>(null)
+  const { t } = useLanguage()
 
-  // Handle escape key press
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
-    }
-
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscape)
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape)
-    }
-  }, [isOpen, onClose])
-
-  // Handle click outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        onClose()
-      }
-    }
-
-    if (isOpen) {
-      // Delay adding the event listener to prevent immediate closing
-      setTimeout(() => {
-        document.addEventListener("mousedown", handleClickOutside)
-      }, 100)
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [isOpen, onClose])
-
-  // Focus trap
-  useEffect(() => {
-    if (!isOpen || !navRef.current) return
-
-    const focusableElements = navRef.current.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    )
-
-    const firstElement = focusableElements[0] as HTMLElement
-    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement
-
-    const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key === "Tab") {
-        if (e.shiftKey && document.activeElement === firstElement) {
-          e.preventDefault()
-          lastElement.focus()
-        } else if (!e.shiftKey && document.activeElement === lastElement) {
-          e.preventDefault()
-          firstElement.focus()
-        }
-      }
-    }
-
-    document.addEventListener("keydown", handleTabKey)
-    firstElement?.focus()
-
-    return () => {
-      document.removeEventListener("keydown", handleTabKey)
-    }
-  }, [isOpen])
-
-  if (!isOpen) return null
+  // Navigation items with translations
+  const navigation = [
+    { name: t("home"), href: "/" },
+    { name: t("tools"), href: "/herramientas-ia" },
+    { name: t("resources"), href: "/recursos" },
+    { name: t("about"), href: "/sobre-nosotros" },
+    { name: t("contact"), href: "/contacto" },
+  ]
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" aria-hidden="true">
-      <div
-        ref={navRef}
-        className={cn(
-          "fixed right-0 top-0 z-50 h-full w-full max-w-xs bg-white p-6 shadow-lg transition-transform duration-300 ease-in-out",
-          isOpen ? "translate-x-0" : "translate-x-full",
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menú de navegación"
-      >
-        <div className="flex items-center justify-between">
-          <p className="text-lg font-semibold text-secondary">Menú</p>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            aria-label="Cerrar menú"
-            className="text-secondary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-          >
-            <X className="h-6 w-6" aria-hidden="true" />
-          </Button>
-        </div>
+    <Transition.Root show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-in-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in-out duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity" />
+        </Transition.Child>
 
-        <nav className="mt-6 flex flex-col space-y-4">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "py-2 text-base font-medium transition-colors",
-                pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
-                  ? "text-primary"
-                  : "text-secondary hover:text-primary",
-              )}
-              onClick={onClose}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="mt-8 space-y-4">
-          <Button asChild className="w-full bg-primary hover:bg-primary/90">
-            <Link href="/top-herramientas-ia" onClick={onClose}>
-              Top Herramientas IA
-            </Link>
-          </Button>
-          <Button asChild variant="outline" className="w-full">
-            <Link href="/recursos?categoria=guias" onClick={onClose}>
-              Guías y Recursos
-            </Link>
-          </Button>
+        <div className="fixed inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+              <Transition.Child
+                as={Fragment}
+                enter="transform transition ease-in-out duration-300"
+                enterFrom="translate-x-full"
+                enterTo="translate-x-0"
+                leave="transform transition ease-in-out duration-300"
+                leaveFrom="translate-x-0"
+                leaveTo="translate-x-full"
+              >
+                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
+                  <div className="flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
+                    <div className="px-4 sm:px-6">
+                      <div className="flex items-start justify-between">
+                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
+                          <span className="sr-only">Menu</span>
+                        </Dialog.Title>
+                        <div className="ml-3 flex h-7 items-center">
+                          <button
+                            type="button"
+                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                            onClick={onClose}
+                          >
+                            <span className="sr-only">Cerrar panel</span>
+                            <X className="h-6 w-6" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                      <nav className="flex flex-col space-y-6">
+                        {navigation.map((item) => (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            className={cn(
+                              "text-lg font-medium transition-colors",
+                              pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+                                ? "text-primary"
+                                : "text-secondary hover:text-primary",
+                            )}
+                            onClick={onClose}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                        <div className="pt-4">
+                          <Button asChild className="w-full bg-primary hover:bg-primary/90">
+                            <Link href="/top-herramientas-ia" onClick={onClose}>
+                              <T text="topTools" />
+                            </Link>
+                          </Button>
+                        </div>
+                      </nav>
+                    </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </Dialog>
+    </Transition.Root>
   )
 }

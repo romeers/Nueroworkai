@@ -1,10 +1,12 @@
-import SafeImage from "./safe-image"
+"use client"
+
+import { useLanguage } from "@/contexts/language-context"
 
 interface TrustBadge {
   name: string
   logoUrl: string
-  width: number
-  height: number
+  width?: number
+  height?: number
 }
 
 interface TrustBadgesProps {
@@ -12,30 +14,23 @@ interface TrustBadgesProps {
   badges: TrustBadge[]
 }
 
-// Update the TrustBadges component to make it more premium and credible
-
-// Change the section styling to add a subtle border and better background
 export default function TrustBadges({ title, badges }: TrustBadgesProps) {
-  return (
-    <section className="bg-white py-16 border-y border-gray-100">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {title && (
-          <div className="mx-auto max-w-3xl text-center mb-10">
-            <p className="text-lg font-semibold text-gray-800">
-              {title || "Estas plataformas líderes ya utilizan nuestras guías y análisis"}
-            </p>
-          </div>
-        )}
+  const { t } = useLanguage()
 
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
-          {badges.map((badge, index) => (
-            <div key={index} className="group relative transition-all duration-300">
-              <SafeImage
-                src={badge.logoUrl}
-                alt={badge.name}
-                width={badge.width}
-                height={badge.height}
-                className="w-20 h-auto grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
+  return (
+    <section className="py-8 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {title && <h2 className="text-center text-lg text-gray-600 mb-8">{title || t("trustBadgesTitle")}</h2>}
+        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+          {badges.map((badge) => (
+            <div key={badge.name} className="flex items-center justify-center">
+              <img
+                src={badge.logoUrl || "/placeholder.svg"}
+                alt={`Logo de ${badge.name}`}
+                width={badge.width || 120}
+                height={badge.height || 40}
+                className="h-8 md:h-10 w-auto grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+                loading="lazy"
               />
             </div>
           ))}
