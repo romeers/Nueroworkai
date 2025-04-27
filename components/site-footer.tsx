@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin } from "lucide-react"
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
 import SafeImage from "./safe-image"
 
 interface FooterLink {
@@ -88,6 +88,38 @@ export default function SiteFooter({
       href: "https://www.linkedin.com/company/neuroworksai/",
       icon: <Linkedin className="h-5 w-5" />,
       ariaLabel: "LinkedIn de NeuroWorkAI",
+    },
+    {
+      platform: "Pinterest",
+      href: "https://pin.it/5ruBArced",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-5 w-5"
+        >
+          <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+          <path d="M21 12c0 4.418 -4.03 8 -9 8a9.863 9.863 0 0 1 -4.255 -.949l-3.745 1.949l1.08 -3.098a7.902 7.902 0 0 1 -1.08 -3.902c0 -4.418 4.03 -8 9 -8s9 3.582 9 8z" />
+        </svg>
+      ),
+      ariaLabel: "Pinterest de NeuroWorkAI",
+    },
+    {
+      platform: "Twitter",
+      href: "https://x.com/Neuroworkai",
+      icon: <Twitter className="h-5 w-5" />,
+      ariaLabel: "Twitter de NeuroWorkAI",
+    },
+    {
+      platform: "YouTube",
+      href: "https://www.youtube.com/@Neuroworkai",
+      icon: <Youtube className="h-5 w-5" />,
+      ariaLabel: "YouTube de NeuroWorkAI",
     },
   ],
   showCta = true,

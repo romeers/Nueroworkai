@@ -8,9 +8,11 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://neuroworkai.com",
   ogImage: "/og-image.jpg",
   links: {
-    twitter: "https://twitter.com/neuroworkai",
+    twitter: "https://x.com/Neuroworkai",
     github: "https://github.com/neuroworkai",
     linkedin: "https://linkedin.com/company/neuroworkai",
+    pinterest: "https://pin.it/5ruBArced",
+    youtube: "https://www.youtube.com/@Neuroworkai",
   },
   creator: {
     name: "NeuroWorkAI Team",
@@ -117,7 +119,7 @@ export const navigationConfig = {
 export const socialLinks = [
   {
     name: "Twitter",
-    href: "https://twitter.com/neuroworkai",
+    href: "https://x.com/Neuroworkai",
     icon: "twitter",
   },
   {
@@ -132,7 +134,12 @@ export const socialLinks = [
   },
   {
     name: "YouTube",
-    href: "https://youtube.com/neuroworkai",
+    href: "https://youtube.com/@Neuroworkai",
     icon: "youtube",
+  },
+  {
+    name: "Pinterest",
+    href: "https://pin.it/5ruBArced",
+    icon: "pinterest",
   },
 ]

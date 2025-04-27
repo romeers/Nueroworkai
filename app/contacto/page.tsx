@@ -1,7 +1,7 @@
 import ContactForm from "@/components/contact-form"
 import Image from "next/image"
 import Link from "next/link"
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react"
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
 
 export const metadata = {
   title: "Contacta con nosotros | NeuroWorkAI",
@@ -83,7 +83,7 @@ export default function ContactoPage() {
                 </div>
 
                 <h3 className="mt-12 text-lg font-semibold text-secondary">Síguenos en redes sociales</h3>
-                <div className="mt-4 flex space-x-4">
+                <div className="mt-4 flex flex-wrap gap-4">
                   <Link
                     href="https://www.facebook.com/profile.php?id=61575664503316"
                     className="text-gray-600 hover:text-primary transition-colors duration-200"
@@ -110,6 +110,45 @@ export default function ContactoPage() {
                   >
                     <span className="sr-only">LinkedIn</span>
                     <Linkedin className="h-6 w-6" />
+                  </Link>
+                  <Link
+                    href="https://pin.it/5ruBArced"
+                    className="text-gray-600 hover:text-primary transition-colors duration-200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="sr-only">Pinterest</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-6 w-6"
+                    >
+                      <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                      <path d="M21 12c0 4.418 -4.03 8 -9 8a9.863 9.863 0 0 1 -4.255 -.949l-3.745 1.949l1.08 -3.098a7.902 7.902 0 0 1 -1.08 -3.902c0 -4.418 4.03 -8 9 -8s9 3.582 9 8z" />
+                    </svg>
+                  </Link>
+                  <Link
+                    href="https://x.com/Neuroworkai"
+                    className="text-gray-600 hover:text-primary transition-colors duration-200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="sr-only">Twitter</span>
+                    <Twitter className="h-6 w-6" />
+                  </Link>
+                  <Link
+                    href="https://www.youtube.com/@Neuroworkai"
+                    className="text-gray-600 hover:text-primary transition-colors duration-200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="sr-only">YouTube</span>
+                    <Youtube className="h-6 w-6" />
                   </Link>
                 </div>
 
