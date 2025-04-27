@@ -102,6 +102,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="mask-icon" href="/favicon.ico" color="#7C3AED" />
+        <link rel="canonical" href="https://neuroworkai.com/" />
 
         {/* Preload critical assets */}
         <link rel="preload" href="/logo.png" as="image" />

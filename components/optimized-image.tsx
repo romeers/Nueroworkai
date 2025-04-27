@@ -1,16 +1,27 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import Image, { type ImageProps } from "next/image"
-import { cn } from "@/lib/optimization-utils"
+import Image from "next/image"
+import { useState, useEffect } from "react"
+import { cn } from "@/lib/utils"
 
-interface OptimizedImageProps extends Omit<ImageProps, "onLoad"> {
-  aspectRatio?: "16:9" | "4:3" | "1:1" | string
-  previewSrc?: string
-  previewQuality?: number
-  fallbackSrc?: string
+interface OptimizedImageProps {
+  src: string
+  alt: string
+  width?: number
+  height?: number
+  className?: string
   containerClassName?: string
-  blurAmount?: number
+  priority?: boolean
+  quality?: number
+  sizes?: string
+  fill?: boolean
+  loading?: "eager" | "lazy"
+  objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down"
+  objectPosition?: string
+  placeholder?: "blur" | "empty" | "data:image/..."
+  blurDataURL?: string
+  onLoad?: () => void
+  onError?: () => void
 }
 
 export default function OptimizedImage({
@@ -19,139 +30,115 @@ export default function OptimizedImage({
   width,
   height,
   className,
-  aspectRatio,
-  previewSrc,
-  previewQuality = 10,
-  fallbackSrc = "/placeholder.svg",
   containerClassName,
-  blurAmount = 10,
   priority = false,
-  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
-  ...props
+  quality = 80,
+  sizes,
+  fill = false,
+  loading,
+  objectFit = "cover",
+  objectPosition = "center",
+  placeholder,
+  blurDataURL,
+  onLoad,
+  onError,
 }: OptimizedImageProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [isInView, setIsInView] = useState(false)
-  const [hasError, setHasError] = useState(false)
-  const imgRef = useRef<HTMLDivElement>(null)
-  const observerRef = useRef<IntersectionObserver | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [imgSrc, setImgSrc] = useState<string>(src)
+  const [imgType, setImgType] = useState<string | null>(null)
 
-  // Manejar carga de imagen
-  const handleImageLoad = () => {
-    setIsLoaded(true)
-  }
-
-  // Manejar error de imagen
-  const handleImageError = () => {
-    setHasError(true)
-    console.warn(`Failed to load image: ${src}`)
-  }
-
-  // Configurar observer para lazy loading
+  // Detectar el tipo de imagen y convertir a WebP si es posible
   useEffect(() => {
-    if (!imgRef.current || priority) {
-      setIsInView(true)
+    if (!src) return
+
+    // Detectar el tipo de imagen original
+    const extension = src.split(".").pop()?.toLowerCase()
+    if (extension) {
+      setImgType(extension)
+    }
+
+    // Si la imagen ya es WebP o AVIF, usarla directamente
+    if (extension === "webp" || extension === "avif") {
+      setImgSrc(src)
       return
     }
 
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsInView(true)
-          observerRef.current?.disconnect()
+    // Si la imagen es JPG, PNG o GIF, intentar usar WebP
+    if (["jpg", "jpeg", "png", "gif"].includes(extension || "")) {
+      // Verificar si el navegador soporta WebP
+      const webpSupported =
+        typeof window !== "undefined" &&
+        document.createElement("canvas").toDataURL("image/webp").indexOf("data:image/webp") === 0
+
+      if (webpSupported) {
+        // Si la URL es de Vercel Blob o similar, intentar usar parámetros de transformación
+        if (src.includes("vercel-storage.com") || src.includes("v0.blob.com")) {
+          setImgSrc(`${src}?format=webp&quality=${quality}`)
+        } else if (src.startsWith("/")) {
+          // Para imágenes locales, usar la optimización de Next.js
+          setImgSrc(src)
         }
-      },
-      { rootMargin: "200px", threshold: 0.01 },
-    )
-
-    observerRef.current.observe(imgRef.current)
-
-    return () => {
-      observerRef.current?.disconnect()
+      }
     }
-  }, [priority])
+  }, [src, quality])
 
-  // Calcular estilos de aspect ratio
-  const getAspectRatioStyles = () => {
-    if (!aspectRatio) return {}
-
-    let paddingTop = "56.25%" // Default 16:9
-
-    if (aspectRatio === "4:3") {
-      paddingTop = "75%"
-    } else if (aspectRatio === "1:1") {
-      paddingTop = "100%"
-    } else if (aspectRatio.includes(":")) {
-      const [width, height] = aspectRatio.split(":").map(Number)
-      paddingTop = `${(height / width) * 100}%`
-    }
-
-    return {
-      position: "relative" as const,
-      paddingTop,
-      overflow: "hidden",
-    }
+  // Manejar la carga de la imagen
+  const handleLoad = () => {
+    setIsLoading(false)
+    if (onLoad) onLoad()
   }
 
-  // Determinar la fuente de imagen a mostrar
-  const imageSrc = hasError ? fallbackSrc : src || fallbackSrc
+  // Manejar errores de carga
+  const handleError = () => {
+    // Si falla la carga de WebP, volver a la imagen original
+    if (imgSrc !== src) {
+      setImgSrc(src)
+    }
+    if (onError) onError()
+  }
+
+  // Generar tamaños responsivos si no se proporcionan
+  const defaultSizes = !sizes && !fill ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" : sizes
 
   return (
     <div
-      ref={imgRef}
-      className={cn("overflow-hidden bg-gray-100", containerClassName)}
-      style={getAspectRatioStyles()}
-      data-testid="optimized-image-container"
+      className={cn("relative overflow-hidden", isLoading && "bg-gray-100 animate-pulse", containerClassName)}
+      style={{
+        width: fill ? "100%" : "auto",
+        height: fill ? "100%" : "auto",
+      }}
     >
-      {/* Imagen de baja resolución (placeholder) */}
-      {previewSrc && !isLoaded && !hasError && (
-        <Image
-          src={previewSrc || "/placeholder.svg"}
-          alt=""
-          fill={!(width && height)}
-          width={width}
-          height={height}
-          className="object-cover blur-sm scale-105"
-          style={{ filter: `blur(${blurAmount}px)` }}
-          sizes={sizes}
-          quality={previewQuality}
-          aria-hidden="true"
-          priority={false}
-        />
-      )}
+      <Image
+        src={imgSrc || "/placeholder.svg"}
+        alt={alt}
+        width={fill ? undefined : width}
+        height={fill ? undefined : height}
+        className={cn(
+          "transition-opacity duration-300",
+          isLoading ? "opacity-0" : "opacity-100",
+          objectFit === "contain" && "object-contain",
+          objectFit === "cover" && "object-cover",
+          objectFit === "fill" && "object-fill",
+          objectFit === "none" && "object-none",
+          objectFit === "scale-down" && "object-scale-down",
+          className,
+        )}
+        style={{ objectPosition }}
+        quality={quality}
+        priority={priority}
+        loading={loading || (priority ? "eager" : "lazy")}
+        onLoad={handleLoad}
+        onError={handleError}
+        sizes={defaultSizes}
+        fill={fill}
+        placeholder={placeholder}
+        blurDataURL={blurDataURL}
+      />
 
-      {/* Imagen principal */}
-      {(isInView || priority) && (
-        <Image
-          src={imageSrc || "/placeholder.svg"}
-          alt={alt}
-          fill={!(width && height)}
-          width={width}
-          height={height}
-          sizes={sizes}
-          className={cn(
-            "object-cover transition-opacity duration-300",
-            isLoaded ? "opacity-100" : "opacity-0",
-            className,
-          )}
-          onLoad={handleImageLoad}
-          onError={handleImageError}
-          priority={priority}
-          {...props}
-        />
-      )}
-
-      {/* Indicador de carga */}
-      {!isLoaded && !hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-          <span className="sr-only">Cargando imagen...</span>
-          <div className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-        </div>
-      )}
-
-      {/* Fallback para error */}
-      {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-500 text-sm">
-          <span>{alt || "Imagen no disponible"}</span>
+      {/* Mostrar formato de imagen en modo desarrollo */}
+      {process.env.NODE_ENV === "development" && imgType && (
+        <div className="absolute bottom-0 right-0 bg-black bg-opacity-50 text-white text-xs px-1 py-0.5">
+          {imgType.toUpperCase()}
         </div>
       )}
     </div>

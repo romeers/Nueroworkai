@@ -1,38 +1,64 @@
 "use client"
 
+import { Suspense, lazy, type ComponentType, useState, useEffect } from "react"
+import { useInView } from "react-intersection-observer"
 import type React from "react"
 
-import { useState, useEffect } from "react"
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer"
-
-interface LazyComponentProps {
-  children: React.ReactNode
-  placeholder?: React.ReactNode
-  rootMargin?: string
+interface LazyComponentProps<P = any> {
+  component: () => Promise<{ default: ComponentType<P> }>
+  props?: P
+  fallback?: React.ReactNode
   threshold?: number
+  triggerOnce?: boolean
+  rootMargin?: string
+  loadingDelay?: number
+  errorComponent?: React.ReactNode
 }
 
-export default function LazyComponent({
-  children,
-  placeholder,
+export function LazyComponent<P = any>({
+  component,
+  props,
+  fallback = <div className="min-h-[100px] animate-pulse bg-gray-100 rounded-md" />,
+  threshold = 0.1,
+  triggerOnce = true,
   rootMargin = "200px",
-  threshold = 0,
-}: LazyComponentProps) {
-  const [ref, isIntersecting] = useIntersectionObserver<HTMLDivElement>({
-    rootMargin,
+  loadingDelay = 0,
+  errorComponent = <div className="p-4 text-red-500">Error al cargar el componente</div>,
+}: LazyComponentProps<P>) {
+  const [loaded, setLoaded] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
+  const { ref, inView } = useInView({
     threshold,
+    triggerOnce,
+    rootMargin,
   })
-  const [shouldRender, setShouldRender] = useState(false)
 
+  // Cargar el componente cuando esté en el viewport
   useEffect(() => {
-    if (isIntersecting && !shouldRender) {
-      setShouldRender(true)
+    if (inView && !loaded) {
+      const timer = setTimeout(() => {
+        setLoaded(true)
+      }, loadingDelay)
+
+      return () => clearTimeout(timer)
     }
-  }, [isIntersecting, shouldRender])
+  }, [inView, loaded, loadingDelay])
+
+  // Componente cargado de forma diferida
+  const Component = lazy(() =>
+    component().catch((err) => {
+      setError(err)
+      return { default: () => errorComponent as JSX.Element }
+    }),
+  )
 
   return (
     <div ref={ref}>
-      {shouldRender ? children : placeholder || <div className="animate-pulse bg-gray-200 h-40 rounded-md" />}
+      {loaded ? (
+        <Suspense fallback={fallback}>{error ? errorComponent : <Component {...(props as P)} />}</Suspense>
+      ) : (
+        fallback
+      )}
     </div>
   )
 }

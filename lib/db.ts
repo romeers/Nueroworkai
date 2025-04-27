@@ -1,11 +1,19 @@
+/**
+ * Utilidades para interactuar con la base de datos
+ */
+
 import { cache } from "react"
 import * as staticData from "./static-data"
-import { getDbConnection } from "@/lib/db-connection"
 
-// Reemplazar cualquier uso directo de neon con getDbConnection
-export const sql = getDbConnection()
+// Función para ejecutar consultas SQL (simulada)
+export const query = async (query: string, params: any[] = []) => {
+  console.warn("La función query() está deshabilitada en modo sin base de datos")
+  console.warn("Query:", query)
+  console.warn("Params:", params)
+  return []
+}
 
-// Función para obtener todas las herramientas
+// Función para obtener todas las herramientas (simulada)
 export const getCachedAllTools = cache(async () => {
   return staticData.getAllTools()
 })
@@ -63,10 +71,4 @@ export const getCachedResourceBySlug = cache(async (slug: string) => {
 // Función para buscar herramientas
 export const searchTools = async (query: string) => {
   return staticData.searchTools(query)
-}
-
-// Exportar una función de consulta simulada para mantener compatibilidad
-export const query = async () => {
-  console.warn("La función query() está deshabilitada en modo sin base de datos")
-  return []
 }

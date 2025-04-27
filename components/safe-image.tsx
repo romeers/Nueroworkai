@@ -1,86 +1,115 @@
 "use client"
 
+import Image from "next/image"
 import { useState, useEffect } from "react"
-import Image, { type ImageProps } from "next/image"
-import { cn } from "@/lib/optimization-utils"
+import { cn } from "@/lib/utils"
 
-interface SafeImageProps extends Omit<ImageProps, "src" | "onError"> {
+interface SafeImageProps {
   src: string | null | undefined
+  alt: string
+  width?: number
+  height?: number
+  className?: string
+  priority?: boolean
   fallbackSrc?: string
-  containerClassName?: string
   onLoad?: () => void
+  onError?: () => void
+  sizes?: string
+  loading?: "eager" | "lazy"
+  fill?: boolean
+  quality?: number
+  placeholder?: "blur" | "empty" | "data:image/..."
+  blurDataURL?: string
 }
 
 export default function SafeImage({
   src,
   alt,
-  fallbackSrc = "/placeholder.svg",
   width,
   height,
   className,
-  containerClassName,
+  priority = false,
+  fallbackSrc = "/placeholder.svg",
   onLoad,
+  onError,
+  sizes,
+  loading,
+  fill = false,
+  quality = 80,
+  placeholder,
+  blurDataURL,
   ...props
 }: SafeImageProps) {
-  const [imgSrc, setImgSrc] = useState<string | null>(src || null)
-  const [hasError, setHasError] = useState(false)
+  const [imgSrc, setImgSrc] = useState<string>(src || fallbackSrc)
   const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
 
+  // Actualizar la fuente de la imagen cuando cambia la prop src
   useEffect(() => {
-    setImgSrc(src || null)
-    setHasError(false)
-    setIsLoading(true)
+    if (src) {
+      setImgSrc(src)
+      setHasError(false)
+    }
   }, [src])
 
+  // Determinar si la imagen es decorativa
+  const isDecorative = alt === "" || alt === " "
+
+  // Manejar errores de carga de imagen
   const handleError = () => {
     if (imgSrc !== fallbackSrc) {
       setImgSrc(fallbackSrc)
+      setHasError(true)
+      if (onError) onError()
     }
-    setHasError(true)
-    console.warn(`Image load error for: ${src}`)
   }
 
+  // Manejar carga exitosa de imagen
   const handleLoad = () => {
-    // Pequeño retraso para mostrar el logo brevemente
-    setTimeout(() => {
-      setIsLoading(false)
-      if (onLoad) onLoad()
-    }, 300)
+    setIsLoading(false)
+    if (onLoad) onLoad()
   }
 
-  const generatePlaceholderAlt = () => {
-    return `Imagen no disponible: ${alt}`
-  }
-
-  const isPlaceholder = hasError || !src || imgSrc === fallbackSrc
+  // Generar un ID único para el aria-describedby
+  const imageDescriptionId = `img-desc-${Math.random().toString(36).substring(2, 9)}`
 
   return (
-    <div className={cn("relative overflow-hidden", containerClassName)}>
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
-          <div className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
-            <Image
-              src="/neuroworkai-logo.png"
-              alt="NeuroworkAI Logo"
-              width={120}
-              height={120}
-              className="object-contain animate-pulse"
-              priority
-            />
-            <div className="absolute inset-0 border-4 border-gray-200 border-t-primary rounded-full animate-spin opacity-30"></div>
-          </div>
-        </div>
+    <>
+      <div
+        className={cn("relative overflow-hidden", isLoading && "animate-pulse bg-gray-200", className)}
+        aria-busy={isLoading}
+      >
+        <Image
+          src={imgSrc || "/placeholder.svg"}
+          alt={alt}
+          width={fill ? undefined : width || 800}
+          height={fill ? undefined : height || 600}
+          onError={handleError}
+          onLoad={handleLoad}
+          priority={priority}
+          sizes={sizes}
+          loading={loading || (priority ? "eager" : "lazy")}
+          fill={fill}
+          quality={quality}
+          placeholder={placeholder}
+          blurDataURL={blurDataURL}
+          className={cn(
+            "transition-opacity duration-300",
+            isLoading ? "opacity-0" : "opacity-100",
+            hasError && "grayscale",
+          )}
+          aria-describedby={!isDecorative ? imageDescriptionId : undefined}
+          role={isDecorative ? "presentation" : undefined}
+          {...props}
+        />
+      </div>
+
+      {/* Descripción detallada para lectores de pantalla si la imagen no es decorativa */}
+      {!isDecorative && alt && alt.length > 0 && (
+        <span id={imageDescriptionId} className="sr-only">
+          {alt}
+        </span>
       )}
-      <Image
-        src={imgSrc || "/placeholder.svg"}
-        alt={isPlaceholder ? generatePlaceholderAlt() : alt}
-        width={width}
-        height={height}
-        className={cn("transition-opacity duration-300", props.className, isLoading ? "opacity-0" : "opacity-100")}
-        onError={handleError}
-        onLoad={handleLoad}
-        {...props}
-      />
-    </div>
+    </>
   )
 }
