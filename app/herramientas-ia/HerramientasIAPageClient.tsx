@@ -8,6 +8,20 @@ import { Search, Star, ExternalLink, Download } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import { useState, useEffect } from "react"
 
+// Añadir después de los imports
+const noScrollbarStyles = `
+  /* Ocultar scrollbar para Chrome, Safari y Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Ocultar scrollbar para IE, Edge y Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+`
+
 export default function HerramientasIAPageClient({
   initialSearchParams,
   tools,
@@ -22,6 +36,18 @@ export default function HerramientasIAPageClient({
     setSearchQuery(initialSearchParams.q || "")
     setFilteredTools(tools)
   }, [initialSearchParams, tools])
+
+  useEffect(() => {
+    if (categoriaSeleccionada === "todas") {
+      setFilteredTools(tools)
+    } else {
+      const filtered = tools.filter(
+        (tool) =>
+          tool.category_slug === categoriaSeleccionada || tool.category?.toLowerCase() === categoriaSeleccionada,
+      )
+      setFilteredTools(filtered.length > 0 ? filtered : tools)
+    }
+  }, [categoriaSeleccionada, tools])
 
   // Añadir la categoría "Todas" al principio
   const allCategories = [{ name: "Todas", slug: "todas", icon: "🧠" }, ...categories]
@@ -69,8 +95,14 @@ export default function HerramientasIAPageClient({
     )
   }
 
+  // Añadir justo antes del return
   return (
     <>
+      {/* Estilos para ocultar scrollbar */}
+      <style jsx global>
+        {noScrollbarStyles}
+      </style>
+
       {/* Hero Section */}
       <section
         className="py-16 md:py-24 relative overflow-hidden"
@@ -146,16 +178,28 @@ export default function HerramientasIAPageClient({
       {/* Filter Tabs - Scrollable on mobile */}
       <section className="py-6 bg-white sticky top-16 z-30 border-b" id="herramientas">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex overflow-x-auto scrollbar-hide pb-2 gap-2">
+          <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar whitespace-nowrap w-full">
             {allCategories.map((category) => (
               <Link
                 key={category.slug}
-                href={`/herramientas-ia${category.slug === "todas" ? "" : `?categoria=${category.slug}`}`}
-                className={`px-4 py-2 rounded-full border font-medium text-sm whitespace-nowrap transition ${
+                href={`/herramientas-ia/${category.slug === "todas" ? "" : `?categoria=${category.slug}`}`}
+                className={`px-4 py-2 rounded-full border font-medium text-sm whitespace-nowrap flex-shrink-0 transition ${
                   categoriaSeleccionada === category.slug
                     ? "bg-primary text-white border-primary"
                     : "text-gray-700 border-gray-300 hover:bg-violet-100"
                 }`}
+                onClick={(e) => {
+                  e.preventDefault()
+                  setCategoriaSeleccionada(category.slug)
+                  // Actualizar la URL sin recargar la página
+                  const url = new URL(window.location.href)
+                  if (category.slug === "todas") {
+                    url.searchParams.delete("categoria")
+                  } else {
+                    url.searchParams.set("categoria", category.slug)
+                  }
+                  window.history.pushState({}, "", url.toString())
+                }}
               >
                 <span className="mr-1">{category.icon}</span> {category.name}
               </Link>
