@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
-import { getDbConnection } from "@/lib/db-connection"
+import { getDbConnection } from "@/lib/db-simple"
 
 export async function POST(request: Request) {
   try {
+    const sql = getDbConnection()
+    if (!sql) {
+      return NextResponse.json({ success: false, message: "Error de conexión a la base de datos" }, { status: 500 })
+    }
+
     const { name, email, subject, message } = await request.json()
 
     // Validación básica
@@ -12,8 +17,6 @@ export async function POST(request: Request) {
         { status: 400 },
       )
     }
-
-    const sql = getDbConnection()
 
     // Crear la tabla si no existe
     await sql`
@@ -50,6 +53,9 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     const sql = getDbConnection()
+    if (!sql) {
+      return NextResponse.json({ success: false, message: "Error de conexión a la base de datos" }, { status: 500 })
+    }
 
     // Verificar si la tabla existe
     const tableExists = await sql`
