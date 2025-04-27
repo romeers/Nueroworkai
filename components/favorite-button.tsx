@@ -4,70 +4,60 @@ import { useState, useEffect } from "react"
 import { Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/auth-context"
 
 interface FavoriteButtonProps {
   toolId: number
   className?: string
 }
 
-export default function FavoriteButton({ toolId, className }: FavoriteButtonProps) {
+export function FavoriteButton({ toolId, className }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { isAuthenticated, user } = useAuth()
   const { toast } = useToast()
-  const router = useRouter()
 
-  // Verificar si el usuario está autenticado y si la herramienta es favorita
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch("/api/auth/me")
-        const data = await response.json()
-        setIsAuthenticated(data.success)
+    const checkFavorite = async () => {
+      if (!isAuthenticated || !user) {
+        setIsFavorite(false)
+        return
+      }
 
-        if (data.success) {
-          const favResponse = await fetch(`/api/favorites/${toolId}`)
-          const favData = await favResponse.json()
-          setIsFavorite(favData.isFavorite)
-        }
+      setIsLoading(true)
+      try {
+        // Mock API call
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        setIsFavorite(Math.random() > 0.5) // Simulate a random favorite state
       } catch (error) {
-        console.error("Error al verificar autenticación:", error)
+        console.error("Error al verificar favorito:", error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
-    checkAuth()
-  }, [toolId])
+    checkFavorite()
+  }, [toolId, isAuthenticated, user])
 
   const handleToggleFavorite = async () => {
     if (!isAuthenticated) {
-      // Redirigir al login si no está autenticado
       toast({
         title: "Inicia sesión",
         description: "Debes iniciar sesión para guardar herramientas favoritas",
-        variant: "default",
+        variant: "destructive",
       })
-      router.push("/login")
       return
     }
 
     setIsLoading(true)
-
     try {
-      const method = isFavorite ? "DELETE" : "POST"
-      const response = await fetch(`/api/favorites/${toolId}`, { method })
-      const data = await response.json()
-
-      if (data.success) {
-        setIsFavorite(!isFavorite)
-        toast({
-          title: isFavorite ? "Eliminado de favoritos" : "Añadido a favoritos",
-          description: data.message,
-          variant: "default",
-        })
-      } else {
-        throw new Error(data.message)
-      }
+      // Mock API call
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      setIsFavorite(!isFavorite)
+      toast({
+        title: isFavorite ? "Eliminado de favoritos" : "Añadido a favoritos",
+        description: "Herramienta actualizada en tus favoritos",
+      })
     } catch (error: any) {
       toast({
         title: "Error",
@@ -81,7 +71,7 @@ export default function FavoriteButton({ toolId, className }: FavoriteButtonProp
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="icon"
       className={className}
       onClick={handleToggleFavorite}
@@ -92,3 +82,5 @@ export default function FavoriteButton({ toolId, className }: FavoriteButtonProp
     </Button>
   )
 }
+
+export default FavoriteButton

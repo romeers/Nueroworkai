@@ -5,11 +5,11 @@ import Link from "next/link"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { cn, throttle } from "@/lib/optimization-utils"
 import SafeImage from "./safe-image"
 import MobileNavDrawer from "./mobile-nav-drawer"
 
-// Update the navigation array to remove the Blog entry
+// Definición de enlaces de navegación
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
@@ -30,18 +30,15 @@ export default function Header() {
   const ticking = useRef(false)
 
   // Optimized scroll handler with throttling
-  const handleScroll = useCallback(() => {
-    if (!ticking.current) {
-      window.requestAnimationFrame(() => {
-        const currentScrollY = window.scrollY
-        setScrolled(currentScrollY > 10)
-        setShowStickyCTA(currentScrollY > 300)
-        prevScrollY.current = currentScrollY
-        ticking.current = false
-      })
-      ticking.current = true
-    }
-  }, [])
+  const handleScroll = useCallback(
+    throttle(() => {
+      const currentScrollY = window.scrollY
+      setScrolled(currentScrollY > 10)
+      setShowStickyCTA(currentScrollY > 300)
+      prevScrollY.current = currentScrollY
+    }, 100),
+    [],
+  )
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true })

@@ -1,74 +1,150 @@
 "use client"
 
-import SafeImage from "./safe-image"
 import { useState, useEffect } from "react"
+import SafeImage from "@/components/safe-image"
+import { cn, removeDuplicates } from "@/lib/optimization-utils"
 
-interface TrustBadge {
+interface Badge {
   name: string
   logoUrl: string
   width?: number
   height?: number
+  url?: string
 }
 
 interface TrustBadgesProps {
   title?: string
-  badges?: TrustBadge[]
+  subtitle?: string
+  badges?: Badge[]
   showDefaultLogos?: boolean
+  grayscale?: boolean
+  className?: string
 }
 
-export default function TrustBadges({ title, badges = [], showDefaultLogos = true }: TrustBadgesProps) {
-  const [isClient, setIsClient] = useState(false)
+export default function TrustBadges({
+  title = "Herramientas de IA que analizamos",
+  subtitle,
+  badges = [],
+  showDefaultLogos = true,
+  grayscale = true,
+  className,
+}: TrustBadgesProps) {
+  const [isMounted, setIsMounted] = useState(false)
 
+  // Evitar problemas de hidratación
   useEffect(() => {
-    setIsClient(true)
+    setIsMounted(true)
   }, [])
 
-  // Logos predefinidos de las herramientas
-  const defaultLogos: TrustBadge[] = [
-    { name: "Notion", logoUrl: "/notion-logo.png", width: 120, height: 40 },
-    { name: "Zapier", logoUrl: "/zapier-logo.png", width: 120, height: 40 },
-    { name: "ClickUp", logoUrl: "/clickup-logo.png", width: 120, height: 40 },
-    { name: "Grammarly", logoUrl: "/grammarly-logo.png", width: 120, height: 40 },
-    { name: "Jasper", logoUrl: "/jasper-logo.png", width: 120, height: 40 },
-    { name: "Fireflies", logoUrl: "/fireflies-logo-full.png", width: 120, height: 40 },
-    { name: "Otter AI", logoUrl: "/otter-ai-logo-full.png", width: 120, height: 40 },
+  // Logos predefinidos de herramientas populares
+  const defaultBadges: Badge[] = [
+    {
+      name: "Notion AI",
+      logoUrl: "/notion-logo.png",
+      width: 120,
+      height: 40,
+      url: "https://www.notion.so/product/ai",
+    },
+    {
+      name: "Zapier",
+      logoUrl: "/zapier-logo.png",
+      width: 120,
+      height: 40,
+      url: "https://zapier.com/",
+    },
+    {
+      name: "ClickUp",
+      logoUrl: "/clickup-logo.png",
+      width: 120,
+      height: 40,
+      url: "https://clickup.com/",
+    },
+    {
+      name: "Grammarly",
+      logoUrl: "/grammarly-logo.png",
+      width: 120,
+      height: 40,
+      url: "https://www.grammarly.com/",
+    },
+    {
+      name: "Jasper",
+      logoUrl: "/jasper-logo.png",
+      width: 120,
+      height: 40,
+      url: "https://www.jasper.ai/",
+    },
+    {
+      name: "Fireflies",
+      logoUrl: "/fireflies-logo-full.png",
+      width: 120,
+      height: 40,
+      url: "https://fireflies.ai/",
+    },
+    {
+      name: "Otter.ai",
+      logoUrl: "/otter-ai-logo-full.png",
+      width: 120,
+      height: 40,
+      url: "https://otter.ai/",
+    },
   ]
 
-  // Combinar logos predefinidos con los proporcionados como props
-  const logosToShow = showDefaultLogos
-    ? [...defaultLogos, ...badges.filter((b) => !defaultLogos.some((dl) => dl.name === b.name))]
-    : badges
+  // Combinar badges personalizados con los predefinidos, evitando duplicados
+  const allBadges = showDefaultLogos ? removeDuplicates([...badges, ...defaultBadges], "name") : badges
+
+  if (!isMounted) {
+    return null
+  }
 
   return (
-    <section className="py-12 bg-white border-t border-gray-100">
+    <section className={cn("py-12 bg-white", className)}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {title && (
-          <div className="mx-auto max-w-3xl text-center mb-10">
-            <p className="text-lg font-medium text-gray-700">
-              {title || "Estas plataformas líderes ya utilizan nuestras guías y análisis"}
-            </p>
-          </div>
-        )}
+        <div className="text-center mb-8">
+          {title && <h2 className="text-2xl font-bold text-secondary mb-2">{title}</h2>}
+          {subtitle && <p className="text-gray-600">{subtitle}</p>}
+        </div>
 
         <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
-          {isClient &&
-            logosToShow.map((badge, index) => (
-              <div
-                key={index}
-                className="group relative transition-all duration-300 hover:transform hover:scale-105"
-                title={badge.name}
-              >
-                <SafeImage
-                  src={badge.logoUrl}
-                  alt={`Logo de ${badge.name}`}
-                  width={badge.width || 120}
-                  height={badge.height || 40}
-                  className="h-8 md:h-10 w-auto grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition duration-300"
-                />
-              </div>
-            ))}
+          {allBadges.map((badge, index) => (
+            <div
+              key={`${badge.name}-${index}`}
+              className="group relative transition-all duration-300"
+              title={badge.name}
+            >
+              {badge.url ? (
+                <a
+                  href={badge.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                  aria-label={`Visitar ${badge.name}`}
+                >
+                  <BadgeImage badge={badge} grayscale={grayscale} />
+                </a>
+              ) : (
+                <BadgeImage badge={badge} grayscale={grayscale} />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>
+  )
+}
+
+// Componente para la imagen del badge
+function BadgeImage({ badge, grayscale }: { badge: Badge; grayscale: boolean }) {
+  return (
+    <SafeImage
+      src={badge.logoUrl}
+      alt={`Logo de ${badge.name}`}
+      width={badge.width || 120}
+      height={badge.height || 40}
+      className={cn(
+        "h-auto max-h-12 w-auto max-w-[120px] object-contain transition-all duration-300",
+        grayscale && "filter grayscale opacity-70 hover:grayscale-0 hover:opacity-100",
+        "group-hover:scale-105",
+      )}
+    />
   )
 }
