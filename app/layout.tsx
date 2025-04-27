@@ -1,6 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
 import ClientLayout from "./clientLayout"
+import { GoogleAnalytics } from "@/components/google-analytics"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: {
@@ -84,8 +86,11 @@ export default function RootLayout({
 }) {
   return (
     <>
+      <GoogleAnalytics />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-      <ClientLayout children={children} />
+      <Suspense>
+        <ClientLayout children={children} />
+      </Suspense>
     </>
   )
 }
