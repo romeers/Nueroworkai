@@ -10,6 +10,7 @@ import TrustBadges from "@/components/trust-badges"
 import EnhancedCTA from "@/components/enhanced-cta"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { CalendarIcon } from "lucide-react"
+import HomeSchema from "@/components/seo/home-schema"
 
 // Datos de ejemplo para las herramientas destacadas
 const featuredTools = [
@@ -192,6 +193,9 @@ const trustBadges = [
 export default function Home() {
   return (
     <>
+      {/* Schema.org structured data */}
+      <HomeSchema />
+
       {/* Nuevo Hero Section */}
       <HeroSection />
 
@@ -304,7 +308,7 @@ export default function Home() {
                   <img
                     src={
                       resource.imageUrl ||
-                      `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(resource.title)}`
+                      `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(resource.title) || "/placeholder.svg"}`
                     }
                     alt={`Imagen para el recurso: ${resource.title}`}
                     className="h-[160px] w-full object-cover"

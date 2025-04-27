@@ -2,15 +2,24 @@ import ContactForm from "@/components/contact-form"
 import Image from "next/image"
 import Link from "next/link"
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react"
+import { generateMetadata } from "@/lib/metadata"
+import ContactPageSchema from "@/components/seo/contact-page-schema"
 
-export const metadata = {
+export const metadata = generateMetadata({
   title: "Contacta con nosotros | NeuroWorkAI",
-  description: "¿Tienes preguntas, sugerencias o quieres colaborar con nosotros? Estamos aquí para ayudarte.",
-}
+  description:
+    "¿Tienes preguntas, sugerencias o quieres colaborar con nosotros? Estamos aquí para ayudarte con tus consultas sobre herramientas de IA.",
+  keywords: ["contacto", "ayuda", "soporte", "consultas", "colaboración", "herramientas IA"],
+  ogImage: "/modern-office-workspace.png",
+  canonical: "/contacto",
+})
 
 export default function ContactoPage() {
   return (
     <>
+      {/* Schema.org structured data */}
+      <ContactPageSchema />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-sky-light to-sky py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

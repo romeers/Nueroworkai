@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
@@ -11,6 +10,7 @@ import { Download, Search, ArrowRight, Clock, Star } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { cn } from "@/lib/utils"
+import ResourcesCollectionSchema from "@/components/seo/resources-collection-schema"
 
 // Update the categories to include all former blog content
 // Categorías disponibles
@@ -408,6 +408,14 @@ export default function RecursosPage() {
 
   return (
     <>
+      {/* Schema.org structured data */}
+      <ResourcesCollectionSchema
+        title="Guías, Prompts y Plantillas IA para ser más productivo"
+        description="Descubre recursos prácticos para escribir, automatizar, organizar y optimizar tu trabajo remoto con inteligencia artificial."
+        resources={allResources}
+        categories={categories}
+      />
+
       {/* Hero Section - SEO Optimized */}
       <section className="relative py-16 md:py-20 overflow-hidden bg-gradient-to-r from-gray-50 to-violet-50">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
