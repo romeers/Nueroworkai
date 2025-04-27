@@ -22,68 +22,51 @@ export default function SafeImage({
   onLoad,
   ...props
 }: SafeImageProps) {
-  const [imgSrc, setImgSrc] = useState<string>(src || fallbackSrc || "/placeholder.svg")
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [imgSrc, setImgSrc] = useState<string | null>(src || null)
   const [hasError, setHasError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Actualizar la fuente de la imagen cuando cambia la prop src
   useEffect(() => {
-    if (src) {
-      setImgSrc(src)
-      setHasError(false)
-    }
+    setImgSrc(src || null)
+    setHasError(false)
+    setIsLoading(true)
   }, [src])
 
-  // Manejar error de carga de imagen
   const handleError = () => {
     if (imgSrc !== fallbackSrc) {
-      console.warn(`Error al cargar la imagen: ${imgSrc}, usando fallback`)
       setImgSrc(fallbackSrc)
-      setHasError(true)
     }
+    setHasError(true)
+    console.warn(`Image load error for: ${src}`)
   }
 
-  // Manejar carga exitosa de imagen
   const handleLoad = () => {
-    setIsLoaded(true)
-    onLoad?.()
+    setIsLoading(false)
   }
 
-  // Generar texto alternativo para placeholder
   const generatePlaceholderAlt = () => {
-    if (alt && alt !== "undefined" && alt !== "null") {
-      return `Imagen de ${alt}`
-    }
-    return "Imagen no disponible"
+    return `Imagen no disponible: ${alt}`
   }
 
-  // Determinar si es un placeholder
   const isPlaceholder = hasError || !src || imgSrc === fallbackSrc
 
   return (
     <div className={cn("relative overflow-hidden", containerClassName)}>
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
       <Image
         src={imgSrc || "/placeholder.svg"}
         alt={isPlaceholder ? generatePlaceholderAlt() : alt}
         width={width}
         height={height}
-        className={cn("transition-opacity duration-300", isLoaded ? "opacity-100" : "opacity-0", className)}
+        className={cn("transition-opacity duration-300", props.className, isLoading ? "opacity-0" : "opacity-100")}
         onError={handleError}
         onLoad={handleLoad}
         {...props}
       />
-
-      {!isLoaded && (
-        <div
-          className="absolute inset-0 bg-gray-100 animate-pulse"
-          aria-hidden="true"
-          style={{
-            backgroundImage: "url(/placeholder.svg)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-      )}
     </div>
   )
 }

@@ -59,7 +59,7 @@ export default function Header() {
       )}
     >
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between p-4 md:py-5 lg:px-8"
         aria-label="Navegación principal"
       >
         <div className="flex lg:flex-1">
@@ -91,7 +91,7 @@ export default function Header() {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label="Abrir menú principal"
-            className="text-secondary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="text-secondary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 h-12 w-12"
           >
             <Menu className="h-6 w-6" aria-hidden="true" />
             <span className="sr-only">Abrir menú principal</span>
@@ -138,7 +138,7 @@ export default function Header() {
           className="fixed bottom-4 left-0 right-0 z-40 mx-auto flex w-fit transform items-center justify-center transition-all duration-300 translate-y-0 opacity-100"
           aria-hidden="false"
         >
-          <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
+          <Button asChild className="rounded-full bg-primary px-6 py-3 h-14 text-base shadow-lg hover:bg-primary/90">
             <Link href="/top-herramientas-ia" aria-label="Descubrir mejores herramientas IA" tabIndex={0}>
               Descubrir Mejores Herramientas IA
             </Link>

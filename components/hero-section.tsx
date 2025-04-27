@@ -1,4 +1,3 @@
-import { Download } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
@@ -6,7 +5,7 @@ import Image from "next/image"
 export default function HeroSection() {
   return (
     <section
-      className="relative py-16 md:py-24"
+      className="relative py-12 md:py-16 lg:py-24"
       style={{
         backgroundImage:
           'url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-seamless-ultra-light-abstract-tech-bac_77llVxuuSQq0MWmz2lHJpg_zlt8wHfaRXuVq1ca-Gj4mw-oJ6ierCcUf3EDUgvjgVyUNaoHdLVLN.png")',
@@ -22,34 +21,21 @@ export default function HeroSection() {
             <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
               Plataforma líder en productividad IA
             </p>
-            <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight text-[#1E293B] sm:text-5xl md:text-[56px]">
-              Descubre las mejores herramientas de productividad con IA
+            <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-secondary md:text-5xl lg:text-6xl">
+              Herramientas de IA para <span className="text-primary">Trabajo Remoto</span>
             </h1>
 
-            <p className="mt-6 text-lg leading-relaxed text-gray-700">
-              Potencia tu trabajo remoto con las apps más inteligentes del mercado. Compara, elige y empieza hoy mismo.
+            <p className="mt-4 md:mt-6 text-base sm:text-lg text-gray-600 md:text-xl max-w-3xl mx-auto">
+              Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.
+              <br className="hidden md:inline" /> Reseñas, comparativas y recursos gratuitos actualizados 2025.
             </p>
 
-            <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-              <Button asChild className="bg-primary hover:bg-primary/90 px-6 text-base font-medium">
-                <Link href="/herramientas-ia" aria-label="Explorar herramientas de IA para productividad">
-                  Explora herramientas IA
-                </Link>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 h-12">
+                <Link href="/herramientas-ia">Descubrir Herramientas IA</Link>
               </Button>
-
-              <Button
-                asChild
-                variant="outline"
-                className="border-[#7C3AED] px-6 text-base font-medium text-[#7C3AED] hover:bg-[#7C3AED]/10"
-              >
-                <Link
-                  href="/kit-digital"
-                  className="flex items-center"
-                  aria-label="Descargar kit gratuito de productividad con IA"
-                >
-                  <Download className="mr-2 h-5 w-5" aria-hidden="true" />
-                  Descargar Kit gratuito
-                </Link>
+              <Button asChild variant="outline" size="lg" className="h-12">
+                <Link href="/recursos">Guías y Recursos</Link>
               </Button>
             </div>
 

@@ -101,7 +101,7 @@ export default function SiteFooter({
 }: SiteFooterProps) {
   return (
     <footer
-      className={`bg-secondary text-white py-16 ${className}`}
+      className={`bg-secondary text-white py-12 md:py-16 ${className}`}
       role="contentinfo"
       aria-label="Pie de página del sitio"
     >
@@ -171,12 +171,12 @@ export default function SiteFooter({
         {/* Social Media Section - Más visible */}
         <div className="mt-12 pt-6 border-t border-white/10 text-center">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Síguenos en redes sociales</h3>
-          <div className="flex justify-center space-x-6">
+          <div className="flex justify-center space-x-8">
             {socialLinks.map((social) => (
               <Link
                 key={social.platform}
                 href={social.href}
-                className="text-white hover:text-white/80 transition-colors duration-200"
+                className="text-white hover:text-white/80 transition-colors duration-200 p-2"
                 aria-label={social.ariaLabel}
                 title={`Síguenos en ${social.platform}`}
                 target="_blank"
@@ -193,7 +193,7 @@ export default function SiteFooter({
           <div className="mt-8 pt-6 border-t border-white/10 text-center">
             <Link
               href={ctaHref}
-              className="inline-flex items-center justify-center px-6 py-3 bg-white text-primary font-medium rounded-md hover:bg-white/90 transition-colors duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+              className="inline-flex items-center justify-center px-6 py-3 h-12 bg-white text-primary font-medium rounded-md hover:bg-white/90 transition-colors duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
             >
               {ctaText}
             </Link>

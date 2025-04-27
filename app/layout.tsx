@@ -94,7 +94,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" suppressHydrationWarning className="scroll-smooth">
+    <html lang="es" suppressHydrationWarning className="scroll-smooth" dir="ltr">
       <head>
         <meta name="theme-color" content="#7C3AED" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -116,7 +116,9 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
         <GoogleAnalytics />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} font-sans antialiased min-h-screen flex flex-col`}>
+      <body
+        className={`${inter.variable} ${poppins.variable} font-sans antialiased min-h-screen flex flex-col text-base`}
+      >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <AuthProvider>
             <div className="flex min-h-screen flex-col">
@@ -124,8 +126,13 @@ export default function RootLayout({
               <Header />
               <Suspense
                 fallback={
-                  <div className="flex-1 flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                  <div className="flex-1 flex items-center justify-center p-8">
+                    <div
+                      className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"
+                      role="status"
+                    >
+                      <span className="sr-only">Cargando...</span>
+                    </div>
                   </div>
                 }
               >

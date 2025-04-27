@@ -91,7 +91,7 @@ export default function ToolCard({
           alt={`Logo de ${name}`}
           width={160}
           height={160}
-          className="h-auto w-auto max-h-32 max-w-[80%] object-contain transition-transform duration-300"
+          className="h-auto w-auto max-h-32 max-w-[80%] object-contain transition-transform duration-300 mx-auto"
           priority={featured}
           sizes="(max-width: 640px) 80vw, (max-width: 768px) 40vw, (max-width: 1024px) 30vw, 160px"
         />
@@ -118,8 +118,8 @@ export default function ToolCard({
         )}
       </div>
       <CardHeader className="pb-2 flex-grow">
-        <CardTitle className="text-xl font-bold text-secondary">{name}</CardTitle>
-        <CardDescription className="line-clamp-2">{description}</CardDescription>
+        <CardTitle className="text-xl font-bold text-secondary truncate">{name}</CardTitle>
+        <CardDescription className="line-clamp-2 text-sm">{description}</CardDescription>
       </CardHeader>
       <CardContent className="pb-2">
         {specialOffer && (
@@ -137,12 +137,12 @@ export default function ToolCard({
         </div>
       </CardContent>
       <CardFooter className="flex justify-between mt-auto">
-        <Button asChild variant="outline" size="sm">
+        <Button asChild variant="outline" size="sm" className="h-10 min-w-[100px]">
           <Link href={internalUrl} aria-label={`Ver análisis de ${name}`}>
             Ver análisis
           </Link>
         </Button>
-        <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
+        <Button asChild className="bg-primary hover:bg-primary/90 h-10 min-w-[100px]" size="sm">
           <Link
             href={isExternalUrl ? url : getOfficialUrl(name)}
             target="_blank"

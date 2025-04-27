@@ -18,12 +18,12 @@ export default function ResourceCard({ title, description, imageUrl, downloadUrl
 
   return (
     <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg">
-      <div className="relative h-40 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
+      <div className="relative aspect-[2/1] w-full overflow-hidden bg-gray-100 flex items-center justify-center">
         <span className="text-sm text-gray-400">{`Recurso: ${title}`}</span>
       </div>
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-bold text-secondary">{title}</CardTitle>
-        <CardDescription className="line-clamp-2">{description}</CardDescription>
+        <CardTitle className="text-xl font-bold text-secondary line-clamp-2">{title}</CardTitle>
+        <CardDescription className="line-clamp-2 mt-2 text-sm">{description}</CardDescription>
       </CardHeader>
       <CardContent className="pb-2">
         <div className="flex items-center text-sm text-gray-500">
@@ -32,7 +32,7 @@ export default function ResourceCard({ title, description, imageUrl, downloadUrl
         </div>
       </CardContent>
       <CardFooter>
-        <Button asChild className="w-full gap-2 bg-primary hover:bg-primary/90">
+        <Button asChild className="w-full gap-2 bg-primary hover:bg-primary/90 h-11">
           <Link href={downloadUrl} className="flex items-center justify-center">
             <Download className="mr-2 h-4 w-4" />
             Descargar
