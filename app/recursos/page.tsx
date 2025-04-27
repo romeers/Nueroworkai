@@ -24,292 +24,21 @@ const categories = [
   { id: "tutoriales", label: "Tutoriales" },
 ]
 
-// Datos para recursos destacados
-const featuredResources = [
-  {
-    title: "50 Prompts Avanzados para Notion AI, ChatGPT y Jasper",
-    description:
-      "Colección de prompts optimizados para generar contenido de alta calidad con las principales herramientas de escritura IA.",
-    imageUrl: "/ai-prompt-examples.png",
-    category: "Prompts IA",
-    categoryId: "prompts",
-    slug: "prompts-avanzados-notion-chatgpt-jasper",
-    ctaText: "Descargar prompts",
-    isDownloadable: true,
-    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
-    toolName: "Notion AI",
-    featured: true,
-  },
-  {
-    title: "Automatiza tu equipo remoto con Zapier y Make",
-    description:
-      "Guía paso a paso para crear flujos de trabajo automatizados que ahorran hasta 10 horas semanales a tu equipo.",
-    imageUrl: "/automation-workflows-templates.png",
-    category: "Automatización",
-    categoryId: "automatizacion",
-    slug: "automatiza-equipo-remoto-zapier-make",
-    ctaText: "Leer guía",
-    isDownloadable: false,
-    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
-    toolName: "Zapier",
-    featured: true,
-  },
-  {
-    title: "Plantilla editable de productividad IA en Notion",
-    description:
-      "Sistema completo para gestionar tareas, proyectos y objetivos con integración de IA para maximizar tu productividad.",
-    imageUrl: "/task-management-templates.png",
-    category: "Plantillas",
-    categoryId: "plantillas",
-    slug: "plantilla-productividad-ia-notion",
-    ctaText: "Obtener plantilla",
-    isDownloadable: true,
-    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
-    toolName: "Notion",
-    featured: true,
-  },
-]
+// Datos para recursos destacados - Vacío para añadir manualmente
+const featuredResources = []
 
-// Datos para todos los recursos
-const allResources = [
-  // Recursos destacados
-  ...featuredResources,
+// Datos para todos los recursos - Vacío para añadir manualmente
+const allResources = []
 
-  // Guías prácticas
-  {
-    title: "Cómo implementar IA en tu flujo de trabajo diario",
-    description: "Guía paso a paso para integrar herramientas de IA en tu rutina diaria y aumentar tu productividad.",
-    imageUrl: "/interconnected-ai-workflow.png",
-    category: "Guías prácticas",
-    categoryId: "guias",
-    slug: "implementar-ia-flujo-trabajo",
-    readTime: "8 min",
-    toolName: "ChatGPT",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-  {
-    title: "Automatización para principiantes: Primeros pasos con Zapier",
-    description:
-      "Aprende a crear tus primeras automatizaciones y conectar tus aplicaciones favoritas sin escribir código.",
-    imageUrl: "/connected-apps-workflow.png",
-    category: "Automatización",
-    categoryId: "automatizacion",
-    slug: "automatizacion-principiantes-zapier",
-    readTime: "12 min",
-    toolName: "Zapier",
-    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
-    featured: false,
-  },
-  {
-    title: "Mejores prácticas para reuniones remotas con IA",
-    description:
-      "Descubre cómo utilizar herramientas de IA para hacer tus reuniones remotas más productivas y efectivas.",
-    imageUrl: "/collaborative-ai-meeting.png",
-    category: "Guías prácticas",
-    categoryId: "guias",
-    slug: "mejores-practicas-reuniones-remotas-ia",
-    readTime: "10 min",
-    toolName: "Fireflies.ai",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-
-  // Prompts IA
-  {
-    title: "Guía definitiva de prompts para ChatGPT y Notion AI",
-    description:
-      "Aprende a crear prompts efectivos para obtener los mejores resultados de las herramientas de IA generativa.",
-    imageUrl: "/ai-prompt-examples.png",
-    category: "Prompts IA",
-    categoryId: "prompts",
-    slug: "guia-definitiva-prompts-chatgpt-notion-ai",
-    readTime: "15 min",
-    toolName: "ChatGPT",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-  {
-    title: "30 prompts para marketing digital con IA",
-    description: "Colección de prompts optimizados para crear contenido de marketing digital de alta calidad con IA.",
-    imageUrl: "/ai-marketing-brainstorm.png",
-    category: "Prompts IA",
-    categoryId: "prompts",
-    slug: "prompts-marketing-digital-ia",
-    readTime: "7 min",
-    toolName: "Jasper",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-  {
-    title: "Prompts para crear imágenes profesionales con DALL-E y Midjourney",
-    description: "Guía completa para generar imágenes de alta calidad para tu negocio o proyecto con IA.",
-    imageUrl: "/bustling-city-market.png",
-    category: "Prompts IA",
-    categoryId: "prompts",
-    slug: "prompts-imagenes-profesionales-dalle-midjourney",
-    readTime: "9 min",
-    toolName: "Midjourney",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-
-  // Automatización
-  {
-    title: "Cómo automatizar tu proceso de ventas con IA",
-    description:
-      "Guía paso a paso para implementar automatizaciones que optimizan tu embudo de ventas y aumentan conversiones.",
-    imageUrl: "/AI-Powered-Sales-Growth.png",
-    category: "Automatización",
-    categoryId: "automatizacion",
-    slug: "automatizar-proceso-ventas-ia",
-    readTime: "14 min",
-    toolName: "Make",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-  {
-    title: "Flujos de trabajo automatizados para equipos de marketing",
-    description:
-      "Plantillas y ejemplos de automatizaciones para optimizar las tareas repetitivas en equipos de marketing.",
-    imageUrl: "/interconnected-marketing-flow.png",
-    category: "Automatización",
-    categoryId: "automatizacion",
-    slug: "flujos-trabajo-automatizados-equipos-marketing",
-    readTime: "11 min",
-    toolName: "Zapier",
-    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
-    featured: false,
-  },
-
-  // Plantillas
-  {
-    title: "Plantilla de gestión de proyectos con IA en ClickUp",
-    description:
-      "Sistema completo para gestionar proyectos integrando funciones de IA para optimizar el seguimiento y la colaboración.",
-    imageUrl: "/clickup-project-template-overview.png",
-    category: "Plantillas",
-    categoryId: "plantillas",
-    slug: "plantilla-gestion-proyectos-ia-clickup",
-    readTime: "5 min",
-    toolName: "ClickUp",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-  {
-    title: "Dashboard de productividad personal con Notion AI",
-    description: "Plantilla para monitorizar y mejorar tu productividad personal con la ayuda de Notion AI.",
-    imageUrl: "/notion-ai-dashboard-concept.png",
-    category: "Plantillas",
-    categoryId: "plantillas",
-    slug: "dashboard-productividad-personal-notion-ai",
-    readTime: "6 min",
-    toolName: "Notion AI",
-    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
-    featured: false,
-  },
-  {
-    title: "Plantilla de calendario editorial con IA para content marketing",
-    description: "Sistema para planificar, crear y distribuir contenido optimizado con herramientas de IA.",
-    imageUrl: "/ai-content-calendar-concept.png",
-    category: "Plantillas",
-    categoryId: "plantillas",
-    slug: "plantilla-calendario-editorial-ia-content-marketing",
-    readTime: "8 min",
-    toolName: "Jasper",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-  // Add more content types to allResources
-  // Análisis y tutoriales (previously in blog)
-  {
-    title: "Análisis: Notion AI vs ChatGPT para escritura de contenido",
-    description:
-      "Comparativa detallada entre Notion AI y ChatGPT para determinar cuál es mejor para diferentes tipos de contenido.",
-    imageUrl: "/ai-writing-comparison.png",
-    category: "Análisis",
-    categoryId: "analisis",
-    slug: "analisis-notion-ai-vs-chatgpt-escritura-contenido",
-    readTime: "13 min",
-    toolName: "Notion AI",
-    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
-    featured: false,
-  },
-  {
-    title: "Tutorial: Cómo configurar tu primer flujo de trabajo en Zapier",
-    description:
-      "Guía paso a paso para crear tu primera automatización en Zapier, desde la configuración inicial hasta la prueba final.",
-    imageUrl: "/zapier-tutorial-workflow.png",
-    category: "Tutoriales",
-    categoryId: "tutoriales",
-    slug: "tutorial-configurar-primer-flujo-trabajo-zapier",
-    readTime: "10 min",
-    toolName: "Zapier",
-    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
-    featured: false,
-  },
-  {
-    title: "Análisis: Las mejores herramientas IA para transcripción de reuniones",
-    description:
-      "Evaluación comparativa de las principales herramientas de transcripción de reuniones con IA disponibles en 2025.",
-    imageUrl: "/meeting-transcription-tools.png",
-    category: "Análisis",
-    categoryId: "analisis",
-    slug: "analisis-mejores-herramientas-ia-transcripcion-reuniones",
-    readTime: "15 min",
-    toolName: "Fireflies",
-    toolAffiliateUrl: "#",
-    featured: false,
-  },
-  {
-    title: "Tutorial: Optimiza tu flujo de trabajo con ClickUp y ChatGPT",
-    description: "Aprende a integrar ChatGPT con ClickUp para automatizar tareas y mejorar la gestión de proyectos.",
-    imageUrl: "/clickup-chatgpt-integration.png",
-    category: "Tutoriales",
-    categoryId: "tutoriales",
-    slug: "tutorial-optimiza-flujo-trabajo-clickup-chatgpt",
-    readTime: "12 min",
-    toolName: "ClickUp",
-    toolAffiliateUrl: "https://clickup.com/?af=123",
-    featured: false,
-  },
-]
-
-// Recursos más visitados esta semana
-const topResources = [
-  {
-    title: "50 Prompts Avanzados para Notion AI, ChatGPT y Jasper",
-    slug: "prompts-avanzados-notion-chatgpt-jasper",
-    views: 1250,
-  },
-  {
-    title: "Automatiza tu equipo remoto con Zapier y Make",
-    slug: "automatiza-equipo-remoto-zapier-make",
-    views: 980,
-  },
-  {
-    title: "Guía definitiva de prompts para ChatGPT y Notion AI",
-    slug: "guia-definitiva-prompts-chatgpt-notion-ai",
-    views: 845,
-  },
-  {
-    title: "Análisis: Notion AI vs ChatGPT para escritura de contenido",
-    slug: "analisis-notion-ai-vs-chatgpt-escritura-contenido",
-    views: 780,
-  },
-  {
-    title: "Tutorial: Cómo configurar tu primer flujo de trabajo en Zapier",
-    slug: "tutorial-configurar-primer-flujo-trabajo-zapier",
-    views: 720,
-  },
-]
+// Recursos más visitados esta semana - Vacío para añadir manualmente
+const topResources = []
 
 export default function RecursosPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [activeCategory, setActiveCategory] = useState("todos")
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredResources, setFilteredResources] = useState(allResources.filter((r) => !r.featured))
+  const [filteredResources, setFilteredResources] = useState([])
   const [isSearchFocused, setIsSearchFocused] = useState(false)
 
   // Referencias para scroll
@@ -500,79 +229,95 @@ export default function RecursosPage() {
       <section id="recursos" ref={recursosRef} className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-secondary mb-8">Recursos destacados</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {featuredResources.map((resource) => (
-              <article
-                key={resource.slug}
-                className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full"
-              >
-                <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-                  <SafeImage
-                    src={resource.imageUrl}
-                    alt={resource.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-0 left-0 m-3">
-                    <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                      {resource.category}
-                    </span>
-                  </div>
-                  {resource.featured && (
-                    <div className="absolute top-0 right-0 m-3">
-                      <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
-                        <Star className="mr-1 h-3 w-3" />
-                        Destacado
+          {featuredResources.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {featuredResources.map((resource) => (
+                <article
+                  key={resource.slug}
+                  className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full"
+                >
+                  <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                    <SafeImage
+                      src={resource.imageUrl}
+                      alt={resource.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute top-0 left-0 m-3">
+                      <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                        {resource.category}
                       </span>
                     </div>
-                  )}
-                </div>
-
-                <div className="flex-1 p-6 flex flex-col">
-                  <h3 className="text-xl font-bold text-secondary mb-2 group-hover:text-primary transition-colors">
-                    <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
-                  </h3>
-                  <p className="text-gray-600 mb-4 flex-grow">{resource.description}</p>
-
-                  <div className="mt-auto flex flex-col sm:flex-row gap-3">
-                    <Button asChild variant={resource.isDownloadable ? "default" : "outline"} className="flex-1">
-                      <Link
-                        href={`/recursos/${resource.slug}`}
-                        className="flex items-center justify-center"
-                        data-umami-event={`resource-${resource.isDownloadable ? "download" : "read"}-${resource.slug}`}
-                      >
-                        {resource.isDownloadable ? (
-                          <>
-                            <Download className="mr-2 h-4 w-4" />
-                            {resource.ctaText}
-                          </>
-                        ) : (
-                          <>
-                            {resource.ctaText}
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </>
-                        )}
-                      </Link>
-                    </Button>
-
-                    {resource.toolName && resource.toolAffiliateUrl && (
-                      <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
-                        <Link
-                          href={resource.toolAffiliateUrl}
-                          target="_blank"
-                          rel="noopener sponsored"
-                          className="flex items-center justify-center"
-                          data-umami-event={`affiliate-${resource.toolName.toLowerCase().replace(/\s+/g, "-")}-${resource.slug}`}
-                        >
-                          Probar {resource.toolName}
-                        </Link>
-                      </Button>
+                    {resource.featured && (
+                      <div className="absolute top-0 right-0 m-3">
+                        <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
+                          <Star className="mr-1 h-3 w-3" />
+                          Destacado
+                        </span>
+                      </div>
                     )}
                   </div>
-                </div>
-              </article>
-            ))}
-          </div>
+
+                  <div className="flex-1 p-6 flex flex-col">
+                    <h3 className="text-xl font-bold text-secondary mb-2 group-hover:text-primary transition-colors">
+                      <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
+                    </h3>
+                    <p className="text-gray-600 mb-4 flex-grow">{resource.description}</p>
+
+                    <div className="mt-auto flex flex-col sm:flex-row gap-3">
+                      <Button asChild variant={resource.isDownloadable ? "default" : "outline"} className="flex-1">
+                        <Link
+                          href={`/recursos/${resource.slug}`}
+                          className="flex items-center justify-center"
+                          data-umami-event={`resource-${resource.isDownloadable ? "download" : "read"}-${resource.slug}`}
+                        >
+                          {resource.isDownloadable ? (
+                            <>
+                              <Download className="mr-2 h-4 w-4" />
+                              {resource.ctaText}
+                            </>
+                          ) : (
+                            <>
+                              {resource.ctaText}
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </>
+                          )}
+                        </Link>
+                      </Button>
+
+                      {resource.toolName && resource.toolAffiliateUrl && (
+                        <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
+                          <Link
+                            href={resource.toolAffiliateUrl}
+                            target="_blank"
+                            rel="noopener sponsored"
+                            className="flex items-center justify-center"
+                            data-umami-event={`affiliate-${resource.toolName.toLowerCase().replace(/\s+/g, "-")}-${resource.slug}`}
+                          >
+                            Probar {resource.toolName}
+                          </Link>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-lg">
+              <p className="text-lg text-gray-600 mb-4">Próximamente nuevos recursos destacados.</p>
+              <Button
+                onClick={() => {
+                  setActiveCategory("todos")
+                  setSearchQuery("")
+                  router.push("/recursos", { scroll: false })
+                }}
+                className="bg-primary hover:bg-primary/90"
+              >
+                Explorar herramientas
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -689,29 +434,35 @@ export default function RecursosPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-secondary mb-8">Más visitados esta semana</h2>
 
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="divide-y">
-              {topResources.map((resource, index) => (
-                <Link
-                  key={resource.slug}
-                  href={`/recursos/${resource.slug}`}
-                  className="flex items-center p-4 hover:bg-gray-50 transition-colors"
-                  data-umami-event={`top-resource-click-${resource.slug}`}
-                >
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold mr-4">
-                    {index + 1}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-medium text-gray-900 truncate">{resource.title}</h3>
-                  </div>
-                  <div className="flex-shrink-0 text-sm text-gray-500">{resource.views.toLocaleString()} visitas</div>
-                  <div className="ml-4">
-                    <ArrowRight className="h-4 w-4 text-gray-400" />
-                  </div>
-                </Link>
-              ))}
+          {topResources.length > 0 ? (
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+              <div className="divide-y">
+                {topResources.map((resource, index) => (
+                  <Link
+                    key={resource.slug}
+                    href={`/recursos/${resource.slug}`}
+                    className="flex items-center p-4 hover:bg-gray-50 transition-colors"
+                    data-umami-event={`top-resource-click-${resource.slug}`}
+                  >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold mr-4">
+                      {index + 1}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base font-medium text-gray-900 truncate">{resource.title}</h3>
+                    </div>
+                    <div className="flex-shrink-0 text-sm text-gray-500">{resource.views.toLocaleString()} visitas</div>
+                    <div className="ml-4">
+                      <ArrowRight className="h-4 w-4 text-gray-400" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-12 bg-white rounded-lg shadow-sm">
+              <p className="text-lg text-gray-600 mb-4">Próximamente estadísticas de recursos más visitados.</p>
+            </div>
+          )}
         </div>
       </section>
 

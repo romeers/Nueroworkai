@@ -599,42 +599,8 @@ export const comparisons = [
   },
 ]
 
-// Actualizar la sección de recursos para eliminar los recursos anteriores y añadir el nuevo recurso
-export const resources = [
-  {
-    id: 1,
-    title: "Cómo implementar IA en tu flujo de trabajo diario",
-    slug: "implementar-ia-flujo-trabajo",
-    description:
-      "Guía práctica para integrar herramientas de IA en tus procesos diarios sin necesidad de ser un experto técnico.",
-    content: "Contenido completo del artículo sobre implementación de IA...",
-    imageUrl: "/ai-productivity-kit-ebook.png",
-    category: "Productividad",
-    categoryId: 1,
-    categorySlug: "productividad",
-    viewCount: 0,
-    published: true,
-    publishedAt: "2023-05-15T10:00:00Z",
-    relatedTools: [
-      {
-        id: 1,
-        name: "Notion AI",
-        slug: "notion-ai",
-        description: "Asistente de escritura y organización con IA integrada en Notion.",
-        imageUrl: "/notion-ai-blue.png",
-        category: "Escritura IA",
-      },
-      {
-        id: 6,
-        name: "Grammarly",
-        slug: "grammarly",
-        description: "Corrector gramatical y asistente de escritura con IA.",
-        imageUrl: "/grammarly-blue.png",
-        category: "Escritura IA",
-      },
-    ],
-  },
-]
+// Actualizar la sección de recursos para eliminar todos los recursos
+export const resources = []
 
 // Funciones para obtener datos
 export function getAllCategories() {
@@ -676,7 +642,7 @@ export function getComparisonBySlug(slug: string) {
   return comparisons.find((comparison) => comparison.slug === slug) || null
 }
 
-// Mantener el resto de las funciones relacionadas con recursos
+// Actualizar la función getResources para manejar el array vacío
 export function getResources(limit = 10) {
   return resources
     .filter((resource) => resource.published)
