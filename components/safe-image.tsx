@@ -22,7 +22,7 @@ export default function SafeImage({
   onLoad,
   ...props
 }: SafeImageProps) {
-  const [imgSrc, setImgSrc] = useState<string>(src || fallbackSrc)
+  const [imgSrc, setImgSrc] = useState<string>(src || fallbackSrc || "/placeholder.svg")
   const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
 
@@ -37,6 +37,7 @@ export default function SafeImage({
   // Manejar error de carga de imagen
   const handleError = () => {
     if (imgSrc !== fallbackSrc) {
+      console.warn(`Error al cargar la imagen: ${imgSrc}, usando fallback`)
       setImgSrc(fallbackSrc)
       setHasError(true)
     }
@@ -60,7 +61,7 @@ export default function SafeImage({
   const isPlaceholder = hasError || !src || imgSrc === fallbackSrc
 
   return (
-    <div className={cn("relative", containerClassName)}>
+    <div className={cn("relative overflow-hidden", containerClassName)}>
       <Image
         src={imgSrc || "/placeholder.svg"}
         alt={isPlaceholder ? generatePlaceholderAlt() : alt}
@@ -72,7 +73,17 @@ export default function SafeImage({
         {...props}
       />
 
-      {!isLoaded && <div className="absolute inset-0 bg-gray-100 animate-pulse" aria-hidden="true" />}
+      {!isLoaded && (
+        <div
+          className="absolute inset-0 bg-gray-100 animate-pulse"
+          aria-hidden="true"
+          style={{
+            backgroundImage: "url(/placeholder.svg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      )}
     </div>
   )
 }
