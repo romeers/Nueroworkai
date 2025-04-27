@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getDbConnection } from "@/lib/db-connection"
+import { db, getDbConnection } from "@/lib/db-connection"
 
 export async function POST(request: Request) {
   try {
@@ -18,7 +18,10 @@ export async function POST(request: Request) {
       )
     }
 
-    // Conexión a la base de datos
+    // Asegurarse de que la conexión a la base de datos esté inicializada
+    await db.connect()
+
+    // Obtener la conexión a la base de datos
     const sql = getDbConnection()
 
     // Verificar si la tabla existe
@@ -39,8 +42,14 @@ export async function POST(request: Request) {
           email VARCHAR(255) NOT NULL,
           subject VARCHAR(255),
           message TEXT NOT NULL,
-          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+          status VARCHAR(20) DEFAULT 'unread'
         );
+        
+        -- Añadir índices para mejorar el rendimiento
+        CREATE INDEX idx_contact_messages_email ON contact_messages(email);
+        CREATE INDEX idx_contact_messages_status ON contact_messages(status);
+        CREATE INDEX idx_contact_messages_created_at ON contact_messages(created_at);
       `
     }
 

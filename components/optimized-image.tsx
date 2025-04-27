@@ -43,44 +43,23 @@ export default function OptimizedImage({
   onLoad,
   onError,
 }: OptimizedImageProps) {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(!priority)
   const [imgSrc, setImgSrc] = useState<string>(src)
-  const [imgType, setImgType] = useState<string | null>(null)
+  const [error, setError] = useState<boolean>(false)
 
-  // Detectar el tipo de imagen y convertir a WebP si es posible
+  // Generar un placeholder blur si no se proporciona
+  const defaultBlurDataURL =
+    !blurDataURL && placeholder === "blur"
+      ? `data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${width || 100} ${height || 100}'%3E%3Cfilter id='b' colorInterpolationFilters='sRGB'%3E%3CfeGaussianBlur stdDeviation='20'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23f3f4f6'/%3E%3C/svg%3E`
+      : blurDataURL
+
+  // Manejar cambios en src
   useEffect(() => {
-    if (!src) return
-
-    // Detectar el tipo de imagen original
-    const extension = src.split(".").pop()?.toLowerCase()
-    if (extension) {
-      setImgType(extension)
-    }
-
-    // Si la imagen ya es WebP o AVIF, usarla directamente
-    if (extension === "webp" || extension === "avif") {
+    if (src !== imgSrc && !error) {
       setImgSrc(src)
-      return
+      if (!priority) setIsLoading(true)
     }
-
-    // Si la imagen es JPG, PNG o GIF, intentar usar WebP
-    if (["jpg", "jpeg", "png", "gif"].includes(extension || "")) {
-      // Verificar si el navegador soporta WebP
-      const webpSupported =
-        typeof window !== "undefined" &&
-        document.createElement("canvas").toDataURL("image/webp").indexOf("data:image/webp") === 0
-
-      if (webpSupported) {
-        // Si la URL es de Vercel Blob o similar, intentar usar parámetros de transformación
-        if (src.includes("vercel-storage.com") || src.includes("v0.blob.com")) {
-          setImgSrc(`${src}?format=webp&quality=${quality}`)
-        } else if (src.startsWith("/")) {
-          // Para imágenes locales, usar la optimización de Next.js
-          setImgSrc(src)
-        }
-      }
-    }
-  }, [src, quality])
+  }, [src, imgSrc, error, priority])
 
   // Manejar la carga de la imagen
   const handleLoad = () => {
@@ -90,10 +69,14 @@ export default function OptimizedImage({
 
   // Manejar errores de carga
   const handleError = () => {
-    // Si falla la carga de WebP, volver a la imagen original
-    if (imgSrc !== src) {
-      setImgSrc(src)
+    setError(true)
+    setIsLoading(false)
+
+    // Si la imagen no es un placeholder, intentar cargar un placeholder
+    if (!imgSrc.includes("placeholder") && !imgSrc.includes("data:image")) {
+      setImgSrc("/placeholder.svg")
     }
+
     if (onError) onError()
   }
 
@@ -132,15 +115,8 @@ export default function OptimizedImage({
         sizes={defaultSizes}
         fill={fill}
         placeholder={placeholder}
-        blurDataURL={blurDataURL}
+        blurDataURL={defaultBlurDataURL}
       />
-
-      {/* Mostrar formato de imagen en modo desarrollo */}
-      {process.env.NODE_ENV === "development" && imgType && (
-        <div className="absolute bottom-0 right-0 bg-black bg-opacity-50 text-white text-xs px-1 py-0.5">
-          {imgType.toUpperCase()}
-        </div>
-      )}
     </div>
   )
 }
