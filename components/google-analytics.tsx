@@ -1,6 +1,7 @@
 export default function GoogleAnalytics() {
   return (
     <>
+      {/* Google tag (gtag.js) */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-YRJDF8M1RE"></script>
       <script
         dangerouslySetInnerHTML={{

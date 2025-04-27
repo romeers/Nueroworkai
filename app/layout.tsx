@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { Suspense } from "react"
 import SkipToContent from "@/components/accessibility/skip-to-content"
 import { AuthProvider } from "@/contexts/auth-context"
+import GoogleAnalytics from "@/components/google-analytics"
 
 // Optimize font loading with display swap and subset
 const inter = Inter({
@@ -113,6 +114,7 @@ export default function RootLayout({
         {/* Add DNS prefetch for third-party domains */}
         <link rel="dns-prefetch" href="https://v0.blob.com" />
         <link rel="dns-prefetch" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
+        <GoogleAnalytics />
       </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>

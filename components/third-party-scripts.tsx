@@ -41,17 +41,6 @@ export default function ThirdPartyScripts() {
 
   return (
     <>
-      {/* Google Analytics - load with low priority */}
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" strategy="lazyOnload" />
-      <Script id="google-analytics" strategy="lazyOnload">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-XXXXXXXXXX');
-        `}
-      </Script>
-
       {/* Optimize image loading */}
       <Script id="image-optimization" strategy="afterInteractive">
         {`
