@@ -50,24 +50,12 @@ export default function Header() {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  // Efecto para manejar el bloqueo del scroll cuando el menú móvil está abierto
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
-    return () => {
-      document.body.style.overflow = ""
-    }
-  }, [mobileMenuOpen])
-
   return (
     <header
       ref={headerRef}
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-200",
-        scrolled ? "bg-white shadow-md" : "bg-transparent backdrop-blur-sm",
+        scrolled ? "bg-white shadow-md" : "bg-white/90 backdrop-blur-sm",
       )}
     >
       <nav
@@ -142,7 +130,7 @@ export default function Header() {
       </nav>
 
       {/* Mobile menu */}
-      {mobileMenuOpen && <MobileNavDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />}
+      <MobileNavDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
 
       {/* Sticky CTA - optimized for performance */}
       {showStickyCTA && (

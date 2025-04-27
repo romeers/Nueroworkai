@@ -91,21 +91,44 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
     }
   }, [isOpen])
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY
+      document.body.style.position = "fixed"
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = "100%"
+    } else {
+      // Restore scroll position
+      const scrollY = document.body.style.top
+      document.body.style.position = ""
+      document.body.style.top = ""
+      document.body.style.width = ""
+      if (scrollY) {
+        window.scrollTo(0, Number.parseInt(scrollY || "0", 10) * -1)
+      }
+    }
+  }, [isOpen])
+
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" aria-hidden="true">
+    <div
+      className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menú de navegación móvil"
+    >
       <div
         ref={navRef}
         className={cn(
-          "fixed right-0 top-0 z-50 h-full w-full max-w-xs bg-white p-6 shadow-lg transition-transform duration-300 ease-in-out",
+          "fixed right-0 top-0 z-[101] h-full w-[85%] max-w-xs overflow-y-auto bg-white p-6 shadow-lg transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "translate-x-full",
         )}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menú de navegación"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-6">
           <p className="text-lg font-semibold text-secondary">Menú</p>
           <Button
             variant="ghost"
@@ -118,7 +141,7 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
           </Button>
         </div>
 
-        <nav className="mt-6 flex flex-col space-y-4">
+        <nav className="flex flex-col space-y-5">
           {navigation.map((item) => (
             <Link
               key={item.name}
