@@ -1,3 +1,7 @@
+/**
+ * Utilidades para autenticación y autorización
+ */
+
 // Simulación de autenticación sin base de datos
 
 // Usuarios simulados
@@ -24,10 +28,7 @@ const mockUsers = [
 let mockSessions = []
 
 // Favoritos simulados
-let mockFavorites = [
-  { userId: 2, toolId: 1 },
-  { userId: 2, toolId: 3 },
-]
+let mockFavorites = []
 
 // Tipos
 export interface User {
@@ -232,4 +233,29 @@ export async function getUserFavorites(userId: number): Promise<any[]> {
 
 export async function isToolFavorite(userId: number, toolId: number): Promise<boolean> {
   return mockFavorites.some((f) => f.userId === userId && f.toolId === toolId)
+}
+
+// Funciones para verificar autenticación y rol
+export async function isAuthenticated(request: Request): Promise<boolean> {
+  const token = mockCookies["auth_token"]
+  if (!token) return false
+
+  const decoded = verifyToken(token)
+  return !!decoded
+}
+
+export async function getUserId(request: Request): Promise<number | null> {
+  const token = mockCookies["auth_token"]
+  if (!token) return null
+
+  const decoded = verifyToken(token)
+  return decoded ? decoded.userId : null
+}
+
+export async function isAdmin(request: Request): Promise<boolean> {
+  const token = mockCookies["auth_token"]
+  if (!token) return false
+
+  const decoded = verifyToken(token)
+  return decoded ? decoded.role === "admin" : false
 }

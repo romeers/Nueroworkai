@@ -70,7 +70,10 @@
     "@neondatabase/serverless": "latest",
     "fs": "latest",
     "path": "latest",
-    "@vercel/analytics": "latest"
+    "@vercel/analytics": "latest",
+    "@vercel/blob": "latest",
+    "child_process": "latest",
+    "dotenv": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
