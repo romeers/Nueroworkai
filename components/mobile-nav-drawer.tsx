@@ -6,8 +6,9 @@ import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import SafeImage from "./safe-image"
 import { createPortal } from "react-dom"
+// Import the Logo component
+import { Logo } from "./logo"
 
 interface MobileNavDrawerProps {
   isOpen: boolean
@@ -23,8 +24,8 @@ const navigation = [
 
 export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
   const pathname = usePathname()
-  const logoImage =
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
+  // Remove the logoImage constant since we're not using it anymore
+  // const logoImage = "/logo-texto-transparente.png"
 
   const drawerRef = useRef<HTMLDivElement>(null)
 
@@ -80,6 +81,7 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
         aria-labelledby="mobile-menu-heading"
       >
         <div className="flex items-center justify-between">
+          {/* Replace the SafeImage with Logo component in the Link */}
           <Link
             href="/"
             className="flex items-center transition-opacity duration-200 hover:opacity-80"
@@ -87,14 +89,7 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
             aria-label="NeuroWorkAI - Ir a inicio"
           >
             <div className="flex items-center">
-              <SafeImage
-                src={logoImage}
-                fallbackSrc="/abstract-brain-network.png"
-                alt="NeuroWorkAI Logo"
-                width={120}
-                height={40}
-                className="w-[120px] h-auto rounded-lg"
-              />
+              <Logo className="w-[120px] h-auto rounded-lg" />
             </div>
           </Link>
           <button

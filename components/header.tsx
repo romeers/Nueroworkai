@@ -6,8 +6,8 @@ import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import SafeImage from "./safe-image"
 import MobileNavDrawer from "./mobile-nav-drawer"
+import { Logo } from "./logo"
 
 // Update the navigation array to remove the Blog entry
 const navigation = [
@@ -22,8 +22,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
   const pathname = usePathname()
-  const logoImage =
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
+  // Remove the logoImage constant since we're not using it anymore
+  // const logoImage = "/logo-texto-transparente.png"
 
   const headerRef = useRef<HTMLElement>(null)
   const prevScrollY = useRef(0)
@@ -78,21 +78,14 @@ export default function Header() {
         aria-label="Navegación principal"
       >
         <div className="flex lg:flex-1">
+          {/* Replace the SafeImage with Logo component in the Link */}
           <Link
             href="/"
             className="flex items-center transition-opacity duration-200 hover:opacity-80"
             aria-label="NeuroWorkAI - Ir a inicio"
           >
             <div className="flex items-center">
-              <SafeImage
-                src={logoImage}
-                fallbackSrc="/abstract-brain-network.png"
-                alt="NeuroWorkAI Logo"
-                width={120}
-                height={40}
-                priority
-                className="w-[120px] h-auto rounded-lg"
-              />
+              <Logo priority className="w-[120px] h-auto rounded-lg" />
             </div>
           </Link>
         </div>

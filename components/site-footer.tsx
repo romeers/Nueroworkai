@@ -1,7 +1,8 @@
 import React from "react"
 import Link from "next/link"
 import { Facebook, Instagram, Linkedin } from "lucide-react"
-import SafeImage from "./safe-image"
+// Import the Logo component
+import { Logo } from "./logo"
 
 interface FooterLink {
   href: string
@@ -37,7 +38,7 @@ interface SiteFooterProps {
 }
 
 export default function SiteFooter({
-  logoSrc = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png",
+  logoSrc = "/logo-texto-transparente.png",
   logoAlt = "NeuroWorkAI Logo",
   tagline = "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
   navigationColumns = [
@@ -111,10 +112,8 @@ export default function SiteFooter({
           <div className="space-y-4">
             <Link href="/" className="inline-block transition-opacity duration-200 hover:opacity-90">
               <div className="w-20 h-auto">
-                <SafeImage
-                  src={logoSrc}
-                  fallbackSrc="/public/neuroworkai-logo-white.png"
-                  alt={logoAlt}
+                <Logo
+                  variant={className.includes("bg-secondary") ? "white" : "default"}
                   width={180}
                   height={50}
                   className="w-full h-auto rounded-lg"

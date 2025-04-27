@@ -24,6 +24,8 @@ import {
 import Stats from "@/components/stats"
 import TrustBadges from "@/components/trust-badges"
 import SafeImage from "@/components/safe-image"
+// Import the Logo component
+import { Logo } from "@/components/logo"
 
 // Datos para estadísticas
 const stats = [
@@ -244,14 +246,9 @@ export default function SobreNosotrosPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl">
             <div className="text-center mb-12">
+              {/* Replace the SafeImage with Logo component */}
               <div className="mx-auto h-auto w-48 mb-8">
-                <SafeImage
-                  src="/logo.png"
-                  alt="NeuroWorkAI Logo"
-                  width={200}
-                  height={60}
-                  className="mx-auto h-auto w-48"
-                />
+                <Logo width={200} height={60} className="mx-auto h-auto w-48" />
               </div>
               <h2 className="text-3xl font-bold text-secondary mb-6">Nuestra Historia</h2>
               <div className="prose prose-lg mx-auto">
