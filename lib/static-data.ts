@@ -286,7 +286,8 @@ export const tools = [
     description: "Transcribe y analiza reuniones automáticamente con IA.",
     longDescription:
       "Fireflies.ai es un asistente de reuniones con IA que se une a tus llamadas, toma notas y crea resúmenes automáticamente. Permite buscar, transcribir y analizar conversaciones para extraer información valiosa.",
-    imageUrl: "/fireflies-logo-full.png",
+    imageUrl:
+      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/Fireflies_AI_logo-SQM4PmNcI5QHxwoY5pzypxtQPl1Srd.png",
     category: "reuniones",
     categoryId: 4,
     categorySlug: "reuniones",
@@ -312,7 +313,8 @@ export const tools = [
       {
         name: "Transcripción automática",
         description: "Convierte el audio de tus reuniones en texto con alta precisión",
-        imageUrl: "/fireflies-logo-icon.png",
+        imageUrl:
+          "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/Fireflies_AI_logo-SQM4PmNcI5QHxwoY5pzypxtQPl1Srd.png",
       },
     ],
     pricing: [
@@ -351,7 +353,8 @@ export const tools = [
     description: "Asistente de notas con IA para transcribir y resumir reuniones.",
     longDescription:
       "Otter.ai es una aplicación de transcripción y toma de notas impulsada por IA que convierte conversaciones de voz en texto en tiempo real. Ideal para reuniones, entrevistas y conferencias.",
-    imageUrl: "/otter-ai-logo-full.png",
+    imageUrl:
+      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/CA_Otter-ai-logo%20200x200_0-SiWvUPzm7dw8BeCVRhJpgwlsKkl58v.png",
     category: "reuniones",
     categoryId: 4,
     categorySlug: "reuniones",
@@ -377,7 +380,8 @@ export const tools = [
       {
         name: "Transcripción en tiempo real",
         description: "Convierte conversaciones en texto mientras hablas",
-        imageUrl: "/otter-ai-logo.png",
+        imageUrl:
+          "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/CA_Otter-ai-logo%20200x200_0-SiWvUPzm7dw8BeCVRhJpgwlsKkl58v.png",
       },
     ],
     pricing: [
@@ -416,7 +420,8 @@ export const tools = [
     description: "Corrector gramatical y asistente de escritura con IA.",
     longDescription:
       "Grammarly es un asistente de escritura impulsado por IA que ayuda a mejorar la gramática, ortografía, puntuación y estilo. Ofrece sugerencias en tiempo real mientras escribes en cualquier plataforma.",
-    imageUrl: "/grammarly-logo.png",
+    imageUrl:
+      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/grammarly-logo-8qUO2GKBGxR5r9ZORVUXKrrRlSVGOa.webp",
     category: "escritura-ia",
     categoryId: 1,
     categorySlug: "escritura-ia",
@@ -442,7 +447,8 @@ export const tools = [
       {
         name: "Corrección gramatical",
         description: "Detecta y corrige errores gramaticales y ortográficos",
-        imageUrl: "/grammarly-logo.png",
+        imageUrl:
+          "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/grammarly-logo-8qUO2GKBGxR5r9ZORVUXKrrRlSVGOa.webp",
       },
     ],
     pricing: [
@@ -481,7 +487,7 @@ export const tools = [
     description: "Generador de contenido con IA para marketing y comunicación.",
     longDescription:
       "Jasper es una plataforma de IA que ayuda a crear contenido de alta calidad para marketing, blogs, redes sociales y más. Utiliza modelos avanzados de lenguaje para generar texto que suena natural y persuasivo.",
-    imageUrl: "/jasper-logo.png",
+    imageUrl: "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/jasperai-2Kn0R5xCQWprwX6FtM9PIasM6JP40x.png",
     category: "escritura-ia",
     categoryId: 1,
     categorySlug: "escritura-ia",
@@ -507,7 +513,7 @@ export const tools = [
       {
         name: "Generación de contenido",
         description: "Crea artículos, publicaciones y textos de marketing con IA",
-        imageUrl: "/jasper-logo.png",
+        imageUrl: "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/jasperai-2Kn0R5xCQWprwX6FtM9PIasM6JP40x.png",
       },
     ],
     pricing: [
@@ -558,7 +564,8 @@ export const comparisons = [
     tool1_description: "Asistente de escritura y organización con IA integrada en Notion.",
     tool2_name: "Grammarly",
     tool2_slug: "grammarly",
-    tool2_image: "/grammarly-blue.png",
+    tool2_image:
+      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/grammarly-logo-8qUO2GKBGxR5r9ZORVUXKrrRlSVGOa.webp",
     tool2_description: "Corrector gramatical y asistente de escritura con IA.",
   },
   {
@@ -590,11 +597,13 @@ export const comparisons = [
     tool2_id: 5,
     tool1_name: "Fireflies",
     tool1_slug: "fireflies",
-    tool1_image: "/fireflies-ai-logo-blue.png",
+    tool1_image:
+      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/Fireflies_AI_logo-SQM4PmNcI5QHxwoY5pzypxtQPl1Srd.png",
     tool1_description: "Transcribe y analiza reuniones automáticamente con IA.",
     tool2_name: "Otter.ai",
     tool2_slug: "otter-ai",
-    tool2_image: "/otter-ai-blue.png",
+    tool2_image:
+      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/CA_Otter-ai-logo%20200x200_0-SiWvUPzm7dw8BeCVRhJpgwlsKkl58v.png",
     tool2_description: "Asistente de notas con IA para transcribir y resumir reuniones.",
   },
 ]
@@ -635,7 +644,8 @@ export const resources = [
         name: "ChatGPT",
         slug: "chatgpt",
         description: "Modelo de lenguaje avanzado para generar texto y responder preguntas.",
-        imageUrl: "/abstract-ai-icon.png",
+        imageUrl:
+          "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/ChatGPT-Logo.svg-tEVS8llUmi8G8FbG0DKY0wCgYGCfLr.png",
         category: "Escritura IA",
       },
     ],
