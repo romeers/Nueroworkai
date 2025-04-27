@@ -8,6 +8,7 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/react"
 import { Suspense } from "react"
 import SkipToContent from "@/components/accessibility/skip-to-content"
+import { AuthProvider } from "@/contexts/auth-context"
 
 // Optimize font loading with display swap and subset
 const inter = Inter({
@@ -115,22 +116,24 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <div className="flex min-h-screen flex-col">
-            <SkipToContent />
-            <Header />
-            <Suspense
-              fallback={
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                </div>
-              }
-            >
-              <main id="main-content" className="flex-1">
-                {children}
-              </main>
-            </Suspense>
-            <Footer />
-          </div>
+          <AuthProvider>
+            <div className="flex min-h-screen flex-col">
+              <SkipToContent />
+              <Header />
+              <Suspense
+                fallback={
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                }
+              >
+                <main id="main-content" className="flex-1">
+                  {children}
+                </main>
+              </Suspense>
+              <Footer />
+            </div>
+          </AuthProvider>
           <Analytics />
         </ThemeProvider>
       </body>
