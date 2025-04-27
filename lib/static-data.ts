@@ -599,8 +599,76 @@ export const comparisons = [
   },
 ]
 
-// Actualizar la sección de recursos para eliminar todos los recursos
-export const resources = []
+// Actualizar la sección de recursos para incluir el primer recurso
+export const resources = [
+  {
+    id: 1,
+    title: "How to Implement AI in Your Daily Workflow",
+    slug: "implement-ai-daily-workflow",
+    description:
+      "Learn how to integrate artificial intelligence into your business or project. Practical examples, recommended tools, and easy steps to start.",
+    content: "Full content of the article about implementing AI in daily workflow...",
+    imageUrl: "/interconnected-ai-workflow.png",
+    category: "Guías prácticas",
+    categoryId: "guias",
+    categorySlug: "guias",
+    viewCount: 0,
+    published: true,
+    publishedAt: "2025-04-15T10:00:00Z",
+    readTime: "8 min",
+    featured: true,
+    isDownloadable: false,
+    ctaText: "Leer guía",
+    toolName: "Notion AI",
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    relatedTools: [
+      {
+        id: 1,
+        name: "Notion AI",
+        slug: "notion-ai",
+        description: "Asistente de escritura y organización con IA integrada en Notion.",
+        imageUrl: "/notion-ai-blue.png",
+        category: "Escritura IA",
+      },
+      {
+        id: 6,
+        name: "ChatGPT",
+        slug: "chatgpt",
+        description: "Modelo de lenguaje avanzado para generar texto y responder preguntas.",
+        imageUrl: "/abstract-ai-icon.png",
+        category: "Escritura IA",
+      },
+    ],
+  },
+]
+
+// Actualizar la sección de recursos destacados para la página de recursos
+export const featuredResources = [
+  {
+    id: 1,
+    title: "How to Implement AI in Your Daily Workflow",
+    slug: "implement-ai-daily-workflow",
+    description:
+      "Learn how to integrate artificial intelligence into your business or project. Practical examples, recommended tools, and easy steps to start.",
+    imageUrl: "/interconnected-ai-workflow.png",
+    category: "Guías prácticas",
+    categoryId: "guias",
+    featured: true,
+    isDownloadable: false,
+    ctaText: "Leer guía",
+    toolName: "Notion AI",
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+  },
+]
+
+// Actualizar la sección de recursos más visitados
+export const topResources = [
+  {
+    title: "How to Implement AI in Your Daily Workflow",
+    slug: "implement-ai-daily-workflow",
+    views: 120,
+  },
+]
 
 // Funciones para obtener datos
 export function getAllCategories() {

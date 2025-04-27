@@ -24,14 +24,50 @@ const categories = [
   { id: "tutoriales", label: "Tutoriales" },
 ]
 
-// Datos para recursos destacados - Vacío para añadir manualmente
-const featuredResources = []
+// Datos para recursos destacados
+const featuredResources = [
+  {
+    title: "How to Implement AI in Your Daily Workflow",
+    description:
+      "Learn how to integrate artificial intelligence into your business or project. Practical examples, recommended tools, and easy steps to start.",
+    imageUrl: "/interconnected-ai-workflow.png",
+    category: "Guías prácticas",
+    categoryId: "guias",
+    slug: "implement-ai-daily-workflow",
+    ctaText: "Leer guía",
+    isDownloadable: false,
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    toolName: "Notion AI",
+    featured: true,
+  },
+]
 
-// Datos para todos los recursos - Vacío para añadir manualmente
-const allResources = []
+// Datos para todos los recursos
+const allResources = [
+  // Incluir el recurso destacado
+  {
+    title: "How to Implement AI in Your Daily Workflow",
+    description:
+      "Learn how to integrate artificial intelligence into your business or project. Practical examples, recommended tools, and easy steps to start.",
+    imageUrl: "/interconnected-ai-workflow.png",
+    category: "Guías prácticas",
+    categoryId: "guias",
+    slug: "implement-ai-daily-workflow",
+    readTime: "8 min",
+    toolName: "Notion AI",
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    featured: true,
+  },
+]
 
-// Recursos más visitados esta semana - Vacío para añadir manualmente
-const topResources = []
+// Recursos más visitados esta semana
+const topResources = [
+  {
+    title: "How to Implement AI in Your Daily Workflow",
+    slug: "implement-ai-daily-workflow",
+    views: 120,
+  },
+]
 
 export default function RecursosPage() {
   const searchParams = useSearchParams()
