@@ -4,12 +4,14 @@ import { useState, useEffect } from "react"
 import SafeImage from "@/components/safe-image"
 import { cn } from "@/lib/utils"
 
+// Actualizar la interfaz Badge para incluir alt text explícito
 interface Badge {
   name: string
   logoUrl: string
   width?: number
   height?: number
   url?: string
+  alt?: string
 }
 
 interface TrustBadgesProps {
@@ -22,7 +24,7 @@ interface TrustBadgesProps {
 }
 
 export default function TrustBadges({
-  title = "Herramientas de IA que analizamos",
+  title = "Herramientas de IA líderes confían en nuestros análisis",
   subtitle,
   badges = [],
   showDefaultLogos = true,
@@ -36,7 +38,7 @@ export default function TrustBadges({
     setIsMounted(true)
   }, [])
 
-  // Logos predefinidos de herramientas populares
+  // Logos predefinidos de herramientas populares con URLs actualizadas
   const defaultBadges: Badge[] = [
     {
       name: "Notion AI",
@@ -44,34 +46,51 @@ export default function TrustBadges({
       width: 120,
       height: 40,
       url: "https://www.notion.so/product/ai",
+      alt: "Notion AI Logo",
     },
     {
-      name: "Zapier",
-      logoUrl: "/zapier-logo.png",
+      name: "ChatGPT",
+      logoUrl:
+        "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/ChatGPT-Logo.svg-tEVS8llUmi8G8FbG0DKY0wCgYGCfLr.png",
       width: 120,
       height: 40,
-      url: "https://zapier.com/",
-    },
-    {
-      name: "ClickUp",
-      logoUrl: "/clickup-logo.png",
-      width: 120,
-      height: 40,
-      url: "https://clickup.com/",
-    },
-    {
-      name: "Grammarly",
-      logoUrl: "/grammarly-logo.png",
-      width: 120,
-      height: 40,
-      url: "https://www.grammarly.com/",
+      url: "https://chat.openai.com/",
+      alt: "ChatGPT Logo",
     },
     {
       name: "Jasper",
-      logoUrl: "/jasper-logo.png",
+      logoUrl: "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/jasperai-2Kn0R5xCQWprwX6FtM9PIasM6JP40x.png",
       width: 120,
       height: 40,
       url: "https://www.jasper.ai/",
+      alt: "Jasper AI Logo",
+    },
+    {
+      name: "Grammarly",
+      logoUrl:
+        "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/grammarly-logo-8qUO2GKBGxR5r9ZORVUXKrrRlSVGOa.webp",
+      width: 120,
+      height: 40,
+      url: "https://www.grammarly.com/",
+      alt: "Grammarly Logo",
+    },
+    {
+      name: "Otter.ai",
+      logoUrl:
+        "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/CA_Otter-ai-logo%20200x200_0-SiWvUPzm7dw8BeCVRhJpgwlsKkl58v.png",
+      width: 120,
+      height: 40,
+      url: "https://otter.ai/",
+      alt: "Otter.ai Logo",
+    },
+    {
+      name: "Fireflies.ai",
+      logoUrl:
+        "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/Fireflies_AI_logo-SQM4PmNcI5QHxwoY5pzypxtQPl1Srd.png",
+      width: 120,
+      height: 40,
+      url: "https://fireflies.ai/",
+      alt: "Fireflies.ai Logo",
     },
   ]
 
@@ -109,7 +128,7 @@ export default function TrustBadges({
                 >
                   <SafeImage
                     src={badge.logoUrl}
-                    alt={`Logo de ${badge.name}`}
+                    alt={badge.alt || `Logo de ${badge.name}`}
                     width={badge.width || 120}
                     height={badge.height || 40}
                     className={cn(
@@ -123,7 +142,7 @@ export default function TrustBadges({
               ) : (
                 <SafeImage
                   src={badge.logoUrl}
-                  alt={`Logo de ${badge.name}`}
+                  alt={badge.alt || `Logo de ${badge.name}`}
                   width={badge.width || 120}
                   height={badge.height || 40}
                   className={cn(

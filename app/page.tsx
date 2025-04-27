@@ -195,7 +195,11 @@ export default function Home() {
       <HeroSection />
 
       {/* Trust Badges Section */}
-      <TrustBadges title="Herramientas de IA líderes confían en nuestros análisis" badges={trustBadges} />
+      <TrustBadges
+        title="Herramientas de IA líderes confían en nuestros análisis"
+        showDefaultLogos={true}
+        grayscale={true}
+      />
 
       {/* Featured Tools Section */}
       <section className="py-16 bg-gray-50">
