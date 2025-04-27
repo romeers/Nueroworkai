@@ -23,7 +23,7 @@ export default function Header() {
   const [showStickyCTA, setShowStickyCTA] = useState(false)
   const pathname = usePathname()
   const logoImage =
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
+    "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/logo%20%20texto%20transparente-eLlvV6wmzCjfkUskDOg0X8CielyUqJ.png"
 
   const headerRef = useRef<HTMLElement>(null)
   const prevScrollY = useRef(0)
@@ -73,10 +73,10 @@ export default function Header() {
                 src={logoImage}
                 fallbackSrc="/abstract-brain-network.png"
                 alt="NeuroWorkAI Logo"
-                width={120}
-                height={40}
+                width={150}
+                height={50}
                 priority
-                className="w-[120px] h-auto rounded-lg"
+                className="w-[150px] h-auto"
               />
             </div>
           </Link>

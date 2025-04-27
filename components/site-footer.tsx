@@ -37,7 +37,7 @@ interface SiteFooterProps {
 }
 
 export default function SiteFooter({
-  logoSrc = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png",
+  logoSrc = "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/logo%20%20texto%20transparente-eLlvV6wmzCjfkUskDOg0X8CielyUqJ.png",
   logoAlt = "NeuroWorkAI Logo",
   tagline = "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
   navigationColumns = [
