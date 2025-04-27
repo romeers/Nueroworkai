@@ -115,7 +115,7 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] bg-white"
       aria-hidden="true"
       role="dialog"
       aria-modal="true"
@@ -124,12 +124,11 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
       <div
         ref={navRef}
         className={cn(
-          "fixed right-0 top-0 z-[101] h-full w-[85%] max-w-xs overflow-y-auto bg-white p-6 shadow-lg transition-transform duration-300 ease-in-out",
+          "fixed inset-0 z-[101] flex flex-col justify-center items-center h-screen w-full bg-white p-6 transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-lg font-semibold text-secondary">Menú</p>
+        <div className="absolute top-6 right-6 flex items-center justify-between">
           <Button
             variant="ghost"
             size="icon"
@@ -141,13 +140,13 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
           </Button>
         </div>
 
-        <nav className="flex flex-col space-y-5">
+        <nav className="flex flex-col items-center justify-center space-y-8 mt-12">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "py-2 text-base font-medium transition-colors",
+                "py-2 text-xl font-medium transition-colors",
                 pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
                   ? "text-primary"
                   : "text-secondary hover:text-primary",
@@ -159,7 +158,7 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
           ))}
         </nav>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-12 space-y-4 w-full max-w-xs">
           <Button asChild className="w-full bg-primary hover:bg-primary/90">
             <Link href="/top-herramientas-ia" onClick={onClose}>
               Top Herramientas IA
