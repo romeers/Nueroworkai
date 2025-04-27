@@ -1,128 +1,206 @@
-// Service Worker for NeuroWorkAI
+// Service Worker para NeuroWorkAI
+// Versión: 1.0.0
+
 const CACHE_NAME = "neuroworkai-cache-v1"
-const urlsToCache = [
+const OFFLINE_URL = "/offline.html"
+
+// Recursos a cachear inmediatamente durante la instalación
+const PRECACHE_ASSETS = [
   "/",
-  "/index.html",
-  "/globals.css",
+  "/offline.html",
   "/logo.png",
-  "/favicon.ico",
-  "/manifest.json",
+  "/neuroworkai-logo.png",
   "/neural-network-head.png",
   "/abstract-brain-network.png",
+  "/favicon.ico",
+  "/manifest.webmanifest",
 ]
 
-// Install event - cache critical assets
+// Instalar el service worker
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache)
-    }),
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => {
+        // Cachear recursos críticos
+        return cache.addAll(PRECACHE_ASSETS)
+      })
+      .then(() => {
+        // Activar inmediatamente sin esperar a que se cierren las pestañas
+        return self.skipWaiting()
+      }),
   )
 })
 
-// Activate event - clean up old caches
+// Activar el service worker
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((cacheName) => {
-            return cacheName !== CACHE_NAME
-          })
-          .map((cacheName) => {
-            return caches.delete(cacheName)
-          }),
-      )
-    }),
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter((cacheName) => {
+              // Eliminar caches antiguos
+              return cacheName.startsWith("neuroworkai-cache-") && cacheName !== CACHE_NAME
+            })
+            .map((cacheName) => {
+              return caches.delete(cacheName)
+            }),
+        )
+      })
+      .then(() => {
+        // Tomar el control de todas las pestañas abiertas
+        return self.clients.claim()
+      }),
   )
 })
 
-// Fetch event - serve from cache, then network
+// Estrategia de caché: Network first, falling back to cache
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Cache hit - return response
-      if (response) {
-        return response
-      }
+  // Solo manejar solicitudes GET
+  if (event.request.method !== "GET") return
 
-      // Clone the request
-      const fetchRequest = event.request.clone()
+  // Ignorar solicitudes a la API
+  if (event.request.url.includes("/api/")) return
 
-      return fetch(fetchRequest).then((response) => {
-        // Check if valid response
-        if (!response || response.status !== 200 || response.type !== "basic") {
-          return response
+  // Estrategia para imágenes: Cache first, network fallback
+  if (isImageRequest(event.request)) {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        if (cachedResponse) {
+          // Devolver desde caché inmediatamente
+          // Y actualizar la caché en segundo plano
+          const fetchPromise = fetch(event.request)
+            .then((networkResponse) => {
+              const responseToCache = networkResponse.clone()
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, responseToCache)
+              })
+              return networkResponse
+            })
+            .catch(() => {
+              // Si la red falla, ya hemos devuelto la respuesta en caché
+            })
+
+          return cachedResponse
         }
 
-        // Clone the response
-        const responseToCache = response.clone()
+        // Si no está en caché, intentar desde la red
+        return fetch(event.request)
+          .then((response) => {
+            // Clonar la respuesta para poder cachearla
+            const responseToCache = response.clone()
 
-        // Cache the fetched response
-        caches.open(CACHE_NAME).then((cache) => {
-          // Don't cache API calls or external resources
-          if (!event.request.url.includes("/api/") && event.request.url.startsWith(self.location.origin)) {
+            // Cachear la respuesta para futuras solicitudes
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache)
+            })
+
+            return response
+          })
+          .catch(() => {
+            // Si la red falla y no hay caché, mostrar una imagen de fallback
+            return caches.match("/placeholder.svg")
+          })
+      }),
+    )
+    return
+  }
+
+  // Estrategia para HTML: Network first, cache fallback
+  if (isHTMLRequest(event.request)) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Clonar la respuesta para poder cachearla
+          const responseToCache = response.clone()
+
+          // Cachear la respuesta para futuras solicitudes
+          caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache)
-          }
-        })
+          })
 
-        return response
+          return response
+        })
+        .catch(() => {
+          // Si la red falla, intentar desde caché
+          return caches.match(event.request).then((cachedResponse) => {
+            // Si está en caché, devolverla
+            if (cachedResponse) {
+              return cachedResponse
+            }
+
+            // Si no está en caché, mostrar la página offline
+            return caches.match(OFFLINE_URL)
+          })
+        }),
+    )
+    return
+  }
+
+  // Estrategia para otros recursos: Stale-while-revalidate
+  event.respondWith(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request)
+          .then((networkResponse) => {
+            cache.put(event.request, networkResponse.clone())
+            return networkResponse
+          })
+          .catch(() => {
+            // Si la red falla y tenemos una respuesta en caché, la usamos
+            if (cachedResponse) {
+              return cachedResponse
+            }
+
+            // Si no hay caché, depende del tipo de recurso
+            if (isJSRequest(event.request) || isCSSRequest(event.request)) {
+              // Para JS y CSS, intentar usar una versión anterior si existe
+              return caches.match(getBaseUrl(event.request.url))
+            }
+
+            // Para otros recursos, simplemente fallar
+            throw new Error("Network error and no cache available")
+          })
+
+        // Devolver la respuesta en caché mientras se actualiza en segundo plano
+        return cachedResponse || fetchPromise
       })
     }),
   )
 })
 
-// Background sync for offline form submissions
-self.addEventListener("sync", (event) => {
-  if (event.tag === "sync-forms") {
-    event.waitUntil(syncForms())
-  }
+// Funciones auxiliares para determinar el tipo de solicitud
+function isImageRequest(request) {
+  return request.destination === "image" || /\.(jpe?g|png|gif|svg|webp|avif)$/i.test(request.url)
+}
+
+function isHTMLRequest(request) {
+  return (
+    request.destination === "document" ||
+    (request.mode === "navigate" && request.headers.get("accept").includes("text/html"))
+  )
+}
+
+function isJSRequest(request) {
+  return request.destination === "script" || /\.js$/i.test(request.url)
+}
+
+function isCSSRequest(request) {
+  return request.destination === "style" || /\.css$/i.test(request.url)
+}
+
+function getBaseUrl(url) {
+  // Eliminar parámetros de consulta y hash
+  return url.split("?")[0].split("#")[0]
+}
+
+// Crear una página offline simple
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll([OFFLINE_URL])
+    }),
+  )
 })
-
-// Function to sync stored form data
-async function syncForms() {
-  try {
-    const db = await openDB()
-    const forms = await db.getAll("forms")
-
-    for (const form of forms) {
-      try {
-        const response = await fetch(form.url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form.data),
-        })
-
-        if (response.ok) {
-          await db.delete("forms", form.id)
-        }
-      } catch (error) {
-        console.error("Failed to sync form:", error)
-      }
-    }
-  } catch (error) {
-    console.error("Error syncing forms:", error)
-  }
-}
-
-// Open IndexedDB
-function openDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open("neuroworkai-offline", 1)
-
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result
-      db.createObjectStore("forms", { keyPath: "id", autoIncrement: true })
-    }
-
-    request.onsuccess = (event) => {
-      resolve(event.target.result)
-    }
-
-    request.onerror = (event) => {
-      reject(event.target.error)
-    }
-  })
-}
