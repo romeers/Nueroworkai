@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { validateEmail } from "@/utils/security"
 
 export default function ContactForm() {
   const [name, setName] = useState("")
@@ -12,14 +13,30 @@ export default function ContactForm() {
   const [message, setMessage] = useState("")
   const [status, setStatus] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setStatus("")
 
+    // Client-side validation
+    if (!validateEmail(email)) {
+      setStatus("error")
+      setSuccessMessage("Por favor, introduce un email válido")
+      setIsSubmitting(false)
+      return
+    }
+
+    if (!message || message.trim().length < 10) {
+      setStatus("error")
+      setSuccessMessage("Por favor, introduce un mensaje con al menos 10 caracteres")
+      setIsSubmitting(false)
+      return
+    }
+
     try {
-      const response = await fetch("/api/contact-message", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,16 +48,19 @@ export default function ContactForm() {
 
       if (response.ok) {
         setStatus("success")
+        setSuccessMessage(data.message || "¡Gracias por tu mensaje! Te responderemos lo antes posible.")
         setName("")
         setEmail("")
         setSubject("")
         setMessage("")
       } else {
         setStatus("error")
+        setSuccessMessage(data.message || "Error al enviar el mensaje")
         console.error("Error:", data.message)
       }
     } catch (error) {
       setStatus("error")
+      setSuccessMessage("Error al conectar con el servidor. Por favor, inténtalo de nuevo más tarde.")
       console.error("Error:", error)
     } finally {
       setIsSubmitting(false)
@@ -49,17 +69,9 @@ export default function ContactForm() {
 
   return (
     <div className="w-full">
-      {status === "success" && (
-        <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-md">
-          Mensaje enviado correctamente. Te responderemos lo antes posible.
-        </div>
-      )}
+      {status === "success" && <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-md">{successMessage}</div>}
 
-      {status === "error" && (
-        <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md">
-          Error al enviar el mensaje. Por favor, inténtalo de nuevo.
-        </div>
-      )}
+      {status === "error" && <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md">{successMessage}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>

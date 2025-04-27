@@ -1,112 +1,141 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { validateEmail } from "@/utils/security"
 
 export default function ContactForm() {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" })
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [subject, setSubject] = useState("")
+  const [message, setMessage] = useState("")
   const [status, setStatus] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("")
 
-  const handleChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
-
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setStatus("Enviando...")
+    setIsSubmitting(true)
+    setStatus("")
+
+    // Client-side validation
+    if (!validateEmail(email)) {
+      setStatus("error")
+      setSuccessMessage("Por favor, introduce un email válido")
+      setIsSubmitting(false)
+      return
+    }
+
+    if (!message || message.trim().length < 10) {
+      setStatus("error")
+      setSuccessMessage("Por favor, introduce un mensaje con al menos 10 caracteres")
+      setIsSubmitting(false)
+      return
+    }
+
     try {
-      const res = await fetch("/api/contact-message", {
+      const response = await fetch("/api/contact-message", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, subject, message }),
       })
 
-      if (res.ok) {
-        setStatus("¡Gracias por tu mensaje!")
-        setForm({ name: "", email: "", subject: "", message: "" })
+      const data = await response.json()
+
+      if (response.ok) {
+        setStatus("success")
+        setSuccessMessage(data.message || "¡Gracias por tu mensaje! Te responderemos lo antes posible.")
+        setName("")
+        setEmail("")
+        setSubject("")
+        setMessage("")
       } else {
-        setStatus("Hubo un error, inténtalo de nuevo.")
+        setStatus("error")
+        setSuccessMessage(data.message || "Error al enviar el mensaje")
+        console.error("Error:", data.message)
       }
     } catch (error) {
-      setStatus("Hubo un error, inténtalo de nuevo.")
+      setStatus("error")
+      setSuccessMessage("Error al conectar con el servidor. Por favor, inténtalo de nuevo más tarde.")
+      console.error("Error:", error)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-          Nombre
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Tu nombre"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-        />
-      </div>
+    <div className="w-full">
+      {status === "success" && <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-md">{successMessage}</div>}
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Correo electrónico *
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="tu@email.com"
-          required
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-        />
-      </div>
+      {status === "error" && <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md">{successMessage}</div>}
 
-      <div>
-        <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-          Asunto
-        </label>
-        <input
-          type="text"
-          id="subject"
-          name="subject"
-          value={form.subject}
-          onChange={handleChange}
-          placeholder="Asunto de tu mensaje"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-          Mensaje *
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={form.message}
-          onChange={handleChange}
-          placeholder="¿En qué podemos ayudarte?"
-          required
-          rows={5}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-        />
-      </div>
-
-      <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded">
-        Enviar mensaje
-      </Button>
-
-      {status && (
-        <div
-          className={`mt-4 p-3 rounded ${status === "Enviando..." ? "bg-blue-50 text-blue-700" : status.includes("Gracias") ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"}`}
-        >
-          {status}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            Nombre
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+            placeholder="Tu nombre"
+          />
         </div>
-      )}
-    </form>
+
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Correo electrónico *
+          </label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+            placeholder="tu@email.com"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+            Asunto
+          </label>
+          <input
+            type="text"
+            id="subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+            placeholder="Asunto de tu mensaje"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+            Mensaje *
+          </label>
+          <textarea
+            id="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={5}
+            required
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+            placeholder="Escribe tu mensaje aquí..."
+          />
+        </div>
+
+        <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-primary/90">
+          {isSubmitting ? "Enviando..." : "Enviar mensaje"}
+        </Button>
+      </form>
+    </div>
   )
 }
