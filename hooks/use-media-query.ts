@@ -2,40 +2,31 @@
 
 import { useState, useEffect } from "react"
 
-/**
- * Hook para detectar media queries
- * @param query Media query a detectar (ej: "(max-width: 768px)")
- * @returns Boolean indicando si la media query coincide
- */
 export function useMediaQuery(query: string): boolean {
-  // Verificar si estamos en el cliente
-  const isClient = typeof window === "object"
-
-  // Estado para almacenar si la media query coincide
-  const [matches, setMatches] = useState<boolean>(() => {
-    // Solo ejecutar en el cliente
-    if (!isClient) return false
-    return window.matchMedia(query).matches
-  })
+  const [matches, setMatches] = useState(false)
 
   useEffect(() => {
-    // Solo ejecutar en el cliente
-    if (!isClient) return
+    // Verificar si estamos en el navegador
+    if (typeof window === "undefined") return
 
-    // Crear media query
-    const mediaQuery = window.matchMedia(query)
+    const media = window.matchMedia(query)
 
-    // Función para actualizar el estado
-    const updateMatches = () => setMatches(mediaQuery.matches)
+    // Establecer el estado inicial
+    setMatches(media.matches)
 
-    // Añadir listener
-    mediaQuery.addEventListener("change", updateMatches)
-
-    // Limpiar listener al desmontar
-    return () => {
-      mediaQuery.removeEventListener("change", updateMatches)
+    // Definir el callback para actualizar el estado
+    const listener = (e: MediaQueryListEvent) => {
+      setMatches(e.matches)
     }
-  }, [query, isClient])
+
+    // Añadir el listener
+    media.addEventListener("change", listener)
+
+    // Limpiar el listener al desmontar
+    return () => {
+      media.removeEventListener("change", listener)
+    }
+  }, [query])
 
   return matches
 }
