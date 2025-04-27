@@ -41,7 +41,11 @@ export default function SafeImage({
   }
 
   const handleLoad = () => {
-    setIsLoading(false)
+    // Pequeño retraso para mostrar el logo brevemente
+    setTimeout(() => {
+      setIsLoading(false)
+      if (onLoad) onLoad()
+    }, 300)
   }
 
   const generatePlaceholderAlt = () => {
@@ -53,8 +57,18 @@ export default function SafeImage({
   return (
     <div className={cn("relative overflow-hidden", containerClassName)}>
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
+          <div className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
+            <Image
+              src="/neuroworkai-logo.png"
+              alt="NeuroworkAI Logo"
+              width={120}
+              height={120}
+              className="object-contain animate-pulse"
+              priority
+            />
+            <div className="absolute inset-0 border-4 border-gray-200 border-t-primary rounded-full animate-spin opacity-30"></div>
+          </div>
         </div>
       )}
       <Image
