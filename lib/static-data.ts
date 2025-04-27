@@ -599,19 +599,20 @@ export const comparisons = [
   },
 ]
 
-// Definición de recursos
+// Actualizar la sección de recursos para eliminar los recursos anteriores y añadir el nuevo recurso
 export const resources = [
   {
     id: 1,
-    title: "Guía completa de herramientas de IA para escritores",
-    slug: "guia-herramientas-ia-escritores",
-    description: "Descubre las mejores herramientas de IA para mejorar tu escritura y productividad",
-    content: "Contenido detallado de la guía de herramientas de IA para escritores...",
-    imageUrl: "/ai-writing-prompts-collection.png",
-    category: "Escritura IA",
+    title: "Cómo implementar IA en tu flujo de trabajo diario",
+    slug: "implementar-ia-flujo-trabajo",
+    description:
+      "Guía práctica para integrar herramientas de IA en tus procesos diarios sin necesidad de ser un experto técnico.",
+    content: "Contenido completo del artículo sobre implementación de IA...",
+    imageUrl: "/ai-productivity-kit-ebook.png",
+    category: "Productividad",
     categoryId: 1,
-    categorySlug: "escritura-ia",
-    viewCount: 2300,
+    categorySlug: "productividad",
+    viewCount: 0,
     published: true,
     publishedAt: "2023-05-15T10:00:00Z",
     relatedTools: [
@@ -630,62 +631,6 @@ export const resources = [
         description: "Corrector gramatical y asistente de escritura con IA.",
         imageUrl: "/grammarly-blue.png",
         category: "Escritura IA",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Cómo automatizar tu flujo de trabajo con Zapier",
-    slug: "automatizar-flujo-trabajo-zapier",
-    description: "Aprende a crear automatizaciones eficientes con Zapier para ahorrar tiempo",
-    content: "Contenido detallado sobre cómo automatizar tu flujo de trabajo con Zapier...",
-    imageUrl: "/automation-workflows-templates.png",
-    category: "Automatización",
-    categoryId: 2,
-    categorySlug: "automatizacion",
-    viewCount: 1850,
-    published: true,
-    publishedAt: "2023-06-10T14:30:00Z",
-    relatedTools: [
-      {
-        id: 2,
-        name: "Zapier",
-        slug: "zapier",
-        description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
-        imageUrl: "/zapier-blue-background.png",
-        category: "Automatización",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "Optimiza tus reuniones con asistentes de IA",
-    slug: "optimiza-reuniones-asistentes-ia",
-    description: "Descubre cómo los asistentes de IA pueden transformar tus reuniones",
-    content: "Contenido detallado sobre cómo optimizar reuniones con asistentes de IA...",
-    imageUrl: "/ai-meetings-optimization-guide.png",
-    category: "Reuniones",
-    categoryId: 4,
-    categorySlug: "reuniones",
-    viewCount: 1420,
-    published: true,
-    publishedAt: "2023-07-05T09:15:00Z",
-    relatedTools: [
-      {
-        id: 4,
-        name: "Fireflies",
-        slug: "fireflies",
-        description: "Transcribe y analiza reuniones automáticamente con IA.",
-        imageUrl: "/fireflies-ai-logo-blue.png",
-        category: "Reuniones",
-      },
-      {
-        id: 5,
-        name: "Otter.ai",
-        slug: "otter-ai",
-        description: "Asistente de notas con IA para transcribir y resumir reuniones.",
-        imageUrl: "/otter-ai-blue.png",
-        category: "Reuniones",
       },
     ],
   },
@@ -731,6 +676,7 @@ export function getComparisonBySlug(slug: string) {
   return comparisons.find((comparison) => comparison.slug === slug) || null
 }
 
+// Mantener el resto de las funciones relacionadas con recursos
 export function getResources(limit = 10) {
   return resources
     .filter((resource) => resource.published)
