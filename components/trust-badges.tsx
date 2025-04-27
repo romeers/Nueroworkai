@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import SafeImage from "@/components/safe-image"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 // Actualizar la interfaz Badge para incluir alt text explícito
 interface Badge {
@@ -32,17 +32,18 @@ export default function TrustBadges({
   className,
 }: TrustBadgesProps) {
   const [isMounted, setIsMounted] = useState(false)
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({})
 
   // Evitar problemas de hidratación
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
-  // Logos predefinidos de herramientas populares con URLs actualizadas
+  // Logos predefinidos de herramientas populares con URLs actualizadas y fallbacks
   const defaultBadges: Badge[] = [
     {
       name: "Notion AI",
-      logoUrl: "/notion-logo.png",
+      logoUrl: "/public/notion-logo.png",
       width: 120,
       height: 40,
       url: "https://www.notion.so/product/ai",
@@ -50,16 +51,15 @@ export default function TrustBadges({
     },
     {
       name: "ChatGPT",
-      logoUrl:
-        "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/ChatGPT-Logo.svg-tEVS8llUmi8G8FbG0DKY0wCgYGCfLr.png",
+      logoUrl: "/public/chatgpt-logo.png",
       width: 120,
       height: 40,
       url: "https://chat.openai.com/",
       alt: "ChatGPT Logo",
     },
     {
-      name: "Jasper",
-      logoUrl: "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/jasperai-2Kn0R5xCQWprwX6FtM9PIasM6JP40x.png",
+      name: "Jasper AI",
+      logoUrl: "/public/jasper-logo.png",
       width: 120,
       height: 40,
       url: "https://www.jasper.ai/",
@@ -67,8 +67,7 @@ export default function TrustBadges({
     },
     {
       name: "Grammarly",
-      logoUrl:
-        "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/grammarly-logo-8qUO2GKBGxR5r9ZORVUXKrrRlSVGOa.webp",
+      logoUrl: "/public/grammarly-logo.png",
       width: 120,
       height: 40,
       url: "https://www.grammarly.com/",
@@ -76,8 +75,7 @@ export default function TrustBadges({
     },
     {
       name: "Otter.ai",
-      logoUrl:
-        "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/CA_Otter-ai-logo%20200x200_0-SiWvUPzm7dw8BeCVRhJpgwlsKkl58v.png",
+      logoUrl: "/public/otter-ai-logo.png",
       width: 120,
       height: 40,
       url: "https://otter.ai/",
@@ -85,8 +83,7 @@ export default function TrustBadges({
     },
     {
       name: "Fireflies.ai",
-      logoUrl:
-        "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/Fireflies_AI_logo-SQM4PmNcI5QHxwoY5pzypxtQPl1Srd.png",
+      logoUrl: "/public/fireflies-logo.png",
       width: 120,
       height: 40,
       url: "https://fireflies.ai/",
@@ -98,6 +95,16 @@ export default function TrustBadges({
   const allBadges = showDefaultLogos
     ? [...badges, ...defaultBadges.filter((defaultBadge) => !badges.some((badge) => badge.name === defaultBadge.name))]
     : badges
+
+  // Manejar el evento de carga de imagen exitosa
+  const handleImageLoad = (name: string) => {
+    setLoadedImages((prev) => ({ ...prev, [name]: true }))
+  }
+
+  // Manejar el evento de error de carga de imagen
+  const handleImageError = (name: string) => {
+    setLoadedImages((prev) => ({ ...prev, [name]: false }))
+  }
 
   if (!isMounted) {
     return null
@@ -126,32 +133,56 @@ export default function TrustBadges({
                   className="block"
                   aria-label={`Visitar ${badge.name}`}
                 >
-                  <SafeImage
-                    src={badge.logoUrl}
+                  <div className="relative h-10 w-[120px] flex items-center justify-center">
+                    {/* Imagen principal con manejo de errores */}
+                    <Image
+                      src={badge.logoUrl || "/placeholder.svg"}
+                      alt={badge.alt || `Logo de ${badge.name}`}
+                      width={badge.width || 120}
+                      height={badge.height || 40}
+                      className={cn(
+                        "h-auto max-h-10 w-auto max-w-[120px] object-contain transition-all duration-300",
+                        grayscale && "filter grayscale opacity-70 hover:grayscale-0 hover:opacity-100",
+                        "group-hover:scale-105",
+                      )}
+                      onLoad={() => handleImageLoad(badge.name)}
+                      onError={() => handleImageError(badge.name)}
+                      style={{ display: loadedImages[badge.name] === false ? "none" : "block" }}
+                    />
+
+                    {/* Fallback para imágenes que no se pueden cargar */}
+                    {loadedImages[badge.name] === false && (
+                      <div className="h-10 w-[120px] flex items-center justify-center bg-gray-100 rounded px-3 py-2">
+                        <span className="text-sm font-medium text-gray-600">{badge.name}</span>
+                      </div>
+                    )}
+                  </div>
+                </a>
+              ) : (
+                <div className="relative h-10 w-[120px] flex items-center justify-center">
+                  {/* Imagen principal con manejo de errores */}
+                  <Image
+                    src={badge.logoUrl || "/placeholder.svg"}
                     alt={badge.alt || `Logo de ${badge.name}`}
                     width={badge.width || 120}
                     height={badge.height || 40}
                     className={cn(
-                      "h-auto max-h-12 w-auto max-w-[120px] object-contain transition-all duration-300",
+                      "h-auto max-h-10 w-auto max-w-[120px] object-contain transition-all duration-300",
                       grayscale && "filter grayscale opacity-70 hover:grayscale-0 hover:opacity-100",
                       "group-hover:scale-105",
                     )}
-                    fallbackSrc="/abstract-geometric-logo.png"
+                    onLoad={() => handleImageLoad(badge.name)}
+                    onError={() => handleImageError(badge.name)}
+                    style={{ display: loadedImages[badge.name] === false ? "none" : "block" }}
                   />
-                </a>
-              ) : (
-                <SafeImage
-                  src={badge.logoUrl}
-                  alt={badge.alt || `Logo de ${badge.name}`}
-                  width={badge.width || 120}
-                  height={badge.height || 40}
-                  className={cn(
-                    "h-auto max-h-12 w-auto max-w-[120px] object-contain transition-all duration-300",
-                    grayscale && "filter grayscale opacity-70 hover:grayscale-0 hover:opacity-100",
-                    "group-hover:scale-105",
+
+                  {/* Fallback para imágenes que no se pueden cargar */}
+                  {loadedImages[badge.name] === false && (
+                    <div className="h-10 w-[120px] flex items-center justify-center bg-gray-100 rounded px-3 py-2">
+                      <span className="text-sm font-medium text-gray-600">{badge.name}</span>
+                    </div>
                   )}
-                  fallbackSrc="/abstract-geometric-logo.png"
-                />
+                </div>
               )}
             </div>
           ))}

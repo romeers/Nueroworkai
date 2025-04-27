@@ -154,40 +154,6 @@ const stats = [
   },
 ]
 
-// Datos para badges de confianza
-const trustBadges = [
-  {
-    name: "Notion",
-    logoUrl: "/notion-logo.png",
-    width: 120,
-    height: 40,
-  },
-  {
-    name: "Zapier",
-    logoUrl: "/zapier-logo.png",
-    width: 120,
-    height: 40,
-  },
-  {
-    name: "ClickUp",
-    logoUrl: "/clickup-logo.png",
-    width: 120,
-    height: 40,
-  },
-  {
-    name: "Jasper",
-    logoUrl: "/jasper-logo.png",
-    width: 120,
-    height: 40,
-  },
-  {
-    name: "Grammarly",
-    logoUrl: "/grammarly-logo.png",
-    width: 120,
-    height: 40,
-  },
-]
-
 export default function Home() {
   return (
     <>
@@ -197,6 +163,7 @@ export default function Home() {
       {/* Trust Badges Section */}
       <TrustBadges
         title="Herramientas de IA líderes confían en nuestros análisis"
+        subtitle="Analizamos y recomendamos las mejores soluciones de IA para profesionales"
         showDefaultLogos={true}
         grayscale={true}
       />
