@@ -10,6 +10,7 @@ import { Suspense } from "react"
 import SkipToContent from "@/components/accessibility/skip-to-content"
 import { AuthProvider } from "@/contexts/auth-context"
 import GoogleAnalytics from "@/components/google-analytics"
+import { siteConfig } from "@/config/site"
 
 // Optimize font loading with display swap and subset
 const inter = Inter({
@@ -28,63 +29,70 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
-  description:
-    "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Reseñas, comparativas y recursos gratuitos actualizados 2025.",
-  keywords:
-    "IA, inteligencia artificial, productividad, trabajo remoto, herramientas IA, Notion AI, Zapier, Make, ClickUp, Grammarly, Jasper, Fireflies, ChatGPT, automatización, IA para trabajo",
-  metadataBase: new URL("https://neuroworkai.com"),
-  alternates: {
-    canonical: "https://neuroworkai.com",
-    languages: {
-      "es-ES": "https://neuroworkai.com",
-    },
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
+  description: siteConfig.description,
+  keywords: [
+    "herramientas IA",
+    "inteligencia artificial",
+    "productividad",
+    "trabajo remoto",
+    "automatización",
+    "comparativas IA",
+    "reseñas IA",
+    "mejores herramientas IA",
+    "IA para profesionales",
+    "NeuroWorkAI",
+  ],
+  authors: [
+    {
+      name: "NeuroWorkAI",
+      url: "https://neuroworkai.com",
+    },
+  ],
+  creator: "NeuroWorkAI",
   openGraph: {
     type: "website",
     locale: "es_ES",
-    url: "https://neuroworkai.com",
-    title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
-    description:
-      "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Análisis actualizados 2025.",
-    siteName: "NeuroWorkAI",
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
     images: [
       {
-        url: "/neural-network-head.png",
+        url: `${siteConfig.url}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+        alt: siteConfig.name,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
-    description:
-      "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Análisis actualizados 2025.",
-    images: ["/neural-network-head.png"],
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [`${siteConfig.url}/og-image.jpg`],
     creator: "@neuroworkai",
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/safari-pinned-tab.svg",
+        color: "#0070f3",
+      },
+    ],
   },
-  authors: [{ name: "NeuroWorkAI Team" }],
-  applicationName: "NeuroWorkAI",
-  referrer: "origin-when-cross-origin",
-  creator: "NeuroWorkAI",
-  publisher: "NeuroWorkAI",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
+  manifest: "/manifest.webmanifest",
+  metadataBase: new URL(siteConfig.url),
     generator: 'v0.dev'
 }
 
@@ -97,11 +105,6 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning className="scroll-smooth" dir="ltr">
       <head>
         <meta name="theme-color" content="#7C3AED" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="mask-icon" href="/favicon.ico" color="#7C3AED" />
         <link rel="canonical" href="https://neuroworkai.com/" />
 
         {/* Preload critical assets */}
@@ -115,6 +118,7 @@ export default function RootLayout({
         {/* Add DNS prefetch for third-party domains */}
         <link rel="dns-prefetch" href="https://v0.blob.com" />
         <link rel="dns-prefetch" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
+        <link rel="dns-prefetch" href="https://tb4dwzggtieausz8.public.blob.vercel-storage.com" />
         <GoogleAnalytics />
       </head>
       <body

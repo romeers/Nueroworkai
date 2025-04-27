@@ -73,9 +73,9 @@
     "@vercel/blob": "latest",
     "child_process": "latest",
     "dotenv": "latest",
-    "@vercel/analytics": "latest",
     "react-intersection-observer": "latest",
-    "web-vitals": "latest"
+    "web-vitals": "latest",
+    "@vercel/analytics": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
