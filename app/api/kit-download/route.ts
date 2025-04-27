@@ -1,13 +1,9 @@
 import { NextResponse } from "next/server"
-import { getDbConnection } from "@/lib/db-simple"
+import { getDbConnection } from "@/lib/db-connection"
 
 export async function POST(request: Request) {
   try {
     const sql = getDbConnection()
-    if (!sql) {
-      return NextResponse.json({ success: false, message: "Error de conexión a la base de datos" }, { status: 500 })
-    }
-
     const body = await request.json()
     const { email } = body
 

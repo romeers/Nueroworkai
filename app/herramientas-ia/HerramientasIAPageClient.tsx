@@ -6,22 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Search, Star, ExternalLink, Download } from "lucide-react"
 import SafeImage from "@/components/safe-image"
-import { useEffect, useState, useCallback } from "react"
-import { useMediaQuery } from "@/hooks/use-media-query"
-
-// Añadir después de los imports
-const noScrollbarStyles = `
-  /* Ocultar scrollbar para Chrome, Safari y Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Ocultar scrollbar para IE, Edge y Firefox */
-  .no-scrollbar {
-    -ms-overflow-style: none;  /* IE y Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-`
+import { useState, useEffect } from "react"
 
 export default function HerramientasIAPageClient({
   initialSearchParams,
@@ -31,43 +16,12 @@ export default function HerramientasIAPageClient({
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialSearchParams.categoria || "todas")
   const [searchQuery, setSearchQuery] = useState(initialSearchParams.q || "")
   const [filteredTools, setFilteredTools] = useState(tools)
-  const [isFiltering, setIsFiltering] = useState(false)
-  const isMobile = useMediaQuery("(max-width: 768px)")
-  const imageSize = isMobile ? 48 : 64
-
-  const debounce = (func, wait) => {
-    let timeout
-    return (...args) => {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => func(...args), wait)
-    }
-  }
-
-  const handleSearch = useCallback(
-    debounce((value) => {
-      setSearchQuery(value)
-      // Lógica de búsqueda
-    }, 300),
-    [],
-  )
 
   useEffect(() => {
     setCategoriaSeleccionada(initialSearchParams.categoria || "todas")
     setSearchQuery(initialSearchParams.q || "")
     setFilteredTools(tools)
   }, [initialSearchParams, tools])
-
-  useEffect(() => {
-    if (categoriaSeleccionada === "todas") {
-      setFilteredTools(tools)
-    } else {
-      const filtered = tools.filter(
-        (tool) =>
-          tool.category_slug === categoriaSeleccionada || tool.category?.toLowerCase() === categoriaSeleccionada,
-      )
-      setFilteredTools(filtered.length > 0 ? filtered : tools)
-    }
-  }, [categoriaSeleccionada, tools])
 
   // Añadir la categoría "Todas" al principio
   const allCategories = [{ name: "Todas", slug: "todas", icon: "🧠" }, ...categories]
@@ -115,44 +69,8 @@ export default function HerramientasIAPageClient({
     )
   }
 
-  // Añadir justo antes del return
-  const toolListSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    itemListElement: filteredTools.map((tool, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "SoftwareApplication",
-        name: tool.name,
-        description: tool.description,
-        image: tool.image_url,
-        applicationCategory: "ProductivityApplication",
-        offers: {
-          "@type": "Offer",
-          price: "0",
-          priceCurrency: "EUR",
-        },
-        ...(tool.score && {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: tool.score,
-            bestRating: "10",
-            worstRating: "1",
-            ratingCount: "1",
-          },
-        }),
-      },
-    })),
-  }
-
   return (
     <>
-      {/* Estilos para ocultar scrollbar */}
-      <style jsx global>
-        {noScrollbarStyles}
-      </style>
-
       {/* Hero Section */}
       <section
         className="py-16 md:py-24 relative overflow-hidden"
@@ -211,7 +129,6 @@ export default function HerramientasIAPageClient({
                   placeholder="Buscar herramienta IA..."
                   className="pl-10 py-3 pr-4 w-full rounded-md border-gray-300"
                   defaultValue={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
                   aria-label="Buscar herramientas de IA"
                 />
                 <Button
@@ -229,34 +146,16 @@ export default function HerramientasIAPageClient({
       {/* Filter Tabs - Scrollable on mobile */}
       <section className="py-6 bg-white sticky top-16 z-30 border-b" id="herramientas">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar whitespace-nowrap w-full">
+          <div className="flex overflow-x-auto scrollbar-hide pb-2 gap-2">
             {allCategories.map((category) => (
               <Link
                 key={category.slug}
-                href={`/herramientas-ia/${category.slug === "todas" ? "" : `?categoria=${category.slug}`}`}
-                className={`px-4 py-2 rounded-full border font-medium text-sm whitespace-nowrap flex-shrink-0 transition ${
+                href={`/herramientas-ia${category.slug === "todas" ? "" : `?categoria=${category.slug}`}`}
+                className={`px-4 py-2 rounded-full border font-medium text-sm whitespace-nowrap transition ${
                   categoriaSeleccionada === category.slug
                     ? "bg-primary text-white border-primary"
                     : "text-gray-700 border-gray-300 hover:bg-violet-100"
                 }`}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setIsFiltering(true)
-                  setCategoriaSeleccionada(category.slug)
-                  // Actualizar la URL sin recargar la página
-                  const url = new URL(window.location.href)
-                  if (category.slug === "todas") {
-                    url.searchParams.delete("categoria")
-                  } else {
-                    url.searchParams.set("categoria", category.slug)
-                  }
-                  window.history.pushState({}, "", url.toString())
-
-                  // Simular tiempo de carga para mejor UX
-                  setTimeout(() => {
-                    setIsFiltering(false)
-                  }, 300)
-                }}
               >
                 <span className="mr-1">{category.icon}</span> {category.name}
               </Link>
@@ -275,9 +174,7 @@ export default function HerramientasIAPageClient({
           </h2>
 
           {filteredTools.length > 0 ? (
-            <div
-              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ${isFiltering ? "opacity-70 transition-opacity duration-300" : ""}`}
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredTools.map((tool: any) => (
                 <div
                   key={tool.slug}
@@ -295,18 +192,14 @@ export default function HerramientasIAPageClient({
                                 .replace("/fireflies-ai-logo-blue.png", "/fireflies-logo-full.png")
                                 .replace("/otter-ai-logo-inspired-design.png", "/otter-ai-logo-full.png")
                                 .replace("/grammarly-blue.png", "/grammarly-logo.png")
-                                .replace("/ai-logo-blue.png", "/jasper-logo-gray.png")
-                            : `/placeholder.svg?height=64&width=64&query=logo for ${tool.name}`
+                                .replace("/ai-logo-blue.png", "/jasper-logo.png")
+                            : "/placeholder.svg?height=64&width=64&query=logo"
                         }
                         alt={`Logo de ${tool.name}`}
                         width={64}
                         height={64}
                         className="object-contain"
                         loading="lazy"
-                        onError={() => {
-                          // Fallback a un placeholder si la imagen falla
-                          return `/placeholder.svg?height=64&width=64&query=logo for ${tool.name}`
-                        }}
                       />
                     </div>
 
@@ -411,12 +304,8 @@ export default function HerramientasIAPageClient({
                   className="flex-grow"
                   aria-label="Email para recibir el kit gratuito"
                 />
-                <Button
-                  type="submit"
-                  className="bg-primary hover:bg-primary/90 whitespace-nowrap font-medium text-white transition-all duration-300 transform hover:scale-105"
-                  data-analytics-event="kit-download-main-cta"
-                >
-                  Quiero mejorar mi productividad
+                <Button type="submit" className="bg-primary hover:bg-primary/90 whitespace-nowrap">
+                  Descargar Kit gratuito
                 </Button>
               </div>
               <p className="text-xs text-center text-gray-500 mt-2">Sin spam · Descarga inmediata tras confirmar</p>
@@ -424,8 +313,6 @@ export default function HerramientasIAPageClient({
           </div>
         </div>
       </section>
-      {/* Schema.org structured data */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolListSchema) }} />
     </>
   )
 }

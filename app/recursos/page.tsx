@@ -1,32 +1,18 @@
 "use client"
 
 import type React from "react"
+
 import { useState, useEffect, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Download, Search, ArrowRight, Clock, Star, ExternalLink } from "lucide-react"
+import { Download, Search, ArrowRight, Clock, Star } from "lucide-react"
 import SafeImage from "@/components/safe-image"
+import KitPromoBlock from "@/components/kit-promo-block"
 import { cn } from "@/lib/utils"
 
-// Función segura para formatear la fecha en español
-function obtenerFechaFormateada() {
-  try {
-    return new Date().toLocaleDateString("es-ES", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    })
-  } catch (error) {
-    // Fallback por si hay problemas con la localización
-    const fecha = new Date()
-    return `${fecha.getDate()} de abril, ${fecha.getFullYear()}`
-  }
-}
-
-const fechaActual = obtenerFechaFormateada()
-
+// Update the categories to include all former blog content
 // Categorías disponibles
 const categories = [
   { id: "todos", label: "Todos" },
@@ -41,20 +27,6 @@ const categories = [
 // Datos para recursos destacados
 const featuredResources = [
   {
-    title: "Cómo implementar IA en tu flujo de trabajo diario",
-    description:
-      "Descubre cómo integrar herramientas de IA en tus procesos diarios sin necesidad de ser un experto técnico. Guía práctica para empresas de cualquier tamaño.",
-    imageUrl: "/implementar-ia-flujo-trabajo-2025.png",
-    category: "Guías prácticas",
-    categoryId: "guias",
-    slug: "implement-ai-daily-workflow",
-    ctaText: "Leer guía",
-    isDownloadable: false,
-    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
-    toolName: "Notion AI",
-    featured: true,
-  },
-  {
     title: "50 Prompts Avanzados para Notion AI, ChatGPT y Jasper",
     description:
       "Colección de prompts optimizados para generar contenido de alta calidad con las principales herramientas de escritura IA.",
@@ -64,146 +36,286 @@ const featuredResources = [
     slug: "prompts-avanzados-notion-chatgpt-jasper",
     ctaText: "Descargar prompts",
     isDownloadable: true,
-    toolAffiliateUrl: "https://jasper.ai/?ref=neuroworkai",
-    toolName: "Jasper",
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    toolName: "Notion AI",
     featured: true,
   },
   {
-    title: "Plantilla de Automatización para Zapier y Make",
+    title: "Automatiza tu equipo remoto con Zapier y Make",
     description:
-      "Plantilla lista para usar que conecta tus herramientas de IA con el resto de tu stack tecnológico para automatizar tareas repetitivas.",
-    imageUrl: "/automation-blueprint.png",
+      "Guía paso a paso para crear flujos de trabajo automatizados que ahorran hasta 10 horas semanales a tu equipo.",
+    imageUrl: "/automation-workflows-templates.png",
     category: "Automatización",
     categoryId: "automatizacion",
-    slug: "plantilla-automatizacion-zapier-make",
+    slug: "automatiza-equipo-remoto-zapier-make",
+    ctaText: "Leer guía",
+    isDownloadable: false,
+    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
+    toolName: "Zapier",
+    featured: true,
+  },
+  {
+    title: "Plantilla editable de productividad IA en Notion",
+    description:
+      "Sistema completo para gestionar tareas, proyectos y objetivos con integración de IA para maximizar tu productividad.",
+    imageUrl: "/task-management-templates.png",
+    category: "Plantillas",
+    categoryId: "plantillas",
+    slug: "plantilla-productividad-ia-notion",
     ctaText: "Obtener plantilla",
     isDownloadable: true,
-    toolAffiliateUrl: "https://zapier.com/?ref=neuroworkai",
-    toolName: "Zapier",
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    toolName: "Notion",
     featured: true,
   },
 ]
 
 // Datos para todos los recursos
 const allResources = [
-  // Incluir los recursos destacados
+  // Recursos destacados
   ...featuredResources,
+
+  // Guías prácticas
   {
-    title: "Guía de Optimización de Reuniones con IA",
-    description:
-      "Aprende a utilizar herramientas de IA para preparar, conducir y dar seguimiento a reuniones de manera más eficiente.",
-    imageUrl: "/ai-powered-meeting-checklist.png",
+    title: "Cómo implementar IA en tu flujo de trabajo diario",
+    description: "Guía paso a paso para integrar herramientas de IA en tu rutina diaria y aumentar tu productividad.",
+    imageUrl: "/interconnected-ai-workflow.png",
     category: "Guías prácticas",
     categoryId: "guias",
-    slug: "guia-optimizacion-reuniones-ia",
+    slug: "implementar-ia-flujo-trabajo",
+    readTime: "8 min",
+    toolName: "ChatGPT",
+    toolAffiliateUrl: "#",
+    featured: false,
+  },
+  {
+    title: "Automatización para principiantes: Primeros pasos con Zapier",
+    description:
+      "Aprende a crear tus primeras automatizaciones y conectar tus aplicaciones favoritas sin escribir código.",
+    imageUrl: "/connected-apps-workflow.png",
+    category: "Automatización",
+    categoryId: "automatizacion",
+    slug: "automatizacion-principiantes-zapier",
     readTime: "12 min",
+    toolName: "Zapier",
+    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
+    featured: false,
+  },
+  {
+    title: "Mejores prácticas para reuniones remotas con IA",
+    description:
+      "Descubre cómo utilizar herramientas de IA para hacer tus reuniones remotas más productivas y efectivas.",
+    imageUrl: "/collaborative-ai-meeting.png",
+    category: "Guías prácticas",
+    categoryId: "guias",
+    slug: "mejores-practicas-reuniones-remotas-ia",
+    readTime: "10 min",
     toolName: "Fireflies.ai",
-    toolAffiliateUrl: "https://fireflies.ai/?ref=neuroworkai",
+    toolAffiliateUrl: "#",
+    featured: false,
   },
+
+  // Prompts IA
   {
-    title: "Plantilla de Calendario Editorial con IA",
+    title: "Guía definitiva de prompts para ChatGPT y Notion AI",
     description:
-      "Organiza tu contenido y automatiza la creación con esta plantilla que integra herramientas de IA para marketing de contenidos.",
-    imageUrl: "/ai-content-calendar-concept.png",
-    category: "Plantillas",
-    categoryId: "plantillas",
-    slug: "plantilla-calendario-editorial-ia",
-    readTime: "5 min",
-    toolName: "Jasper",
-    toolAffiliateUrl: "https://jasper.ai/?ref=neuroworkai",
-  },
-  {
-    title: "Análisis Comparativo: ChatGPT vs Claude vs Gemini",
-    description:
-      "Comparativa detallada de los tres modelos de lenguaje más potentes y cómo utilizarlos para diferentes casos de uso profesionales.",
-    imageUrl: "/ai-writing-tools-comparison.png",
-    category: "Análisis",
-    categoryId: "analisis",
-    slug: "comparativa-chatgpt-claude-gemini",
+      "Aprende a crear prompts efectivos para obtener los mejores resultados de las herramientas de IA generativa.",
+    imageUrl: "/ai-prompt-examples.png",
+    category: "Prompts IA",
+    categoryId: "prompts",
+    slug: "guia-definitiva-prompts-chatgpt-notion-ai",
     readTime: "15 min",
+    toolName: "ChatGPT",
+    toolAffiliateUrl: "#",
+    featured: false,
   },
   {
-    title: "Tutorial: Creación de Dashboards Automatizados con IA",
-    description:
-      "Aprende a crear dashboards que se actualizan automáticamente utilizando herramientas de IA para análisis de datos.",
-    imageUrl: "/notion-ai-dashboard-concept.png",
-    category: "Tutoriales",
-    categoryId: "tutoriales",
-    slug: "tutorial-dashboards-automatizados-ia",
-    readTime: "20 min",
-    toolName: "Notion AI",
-    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
-  },
-  {
-    title: "25 Prompts para Marketing Digital con IA",
-    description:
-      "Colección de prompts específicos para crear contenido de marketing digital de alta conversión con herramientas de IA.",
+    title: "30 prompts para marketing digital con IA",
+    description: "Colección de prompts optimizados para crear contenido de marketing digital de alta calidad con IA.",
     imageUrl: "/ai-marketing-brainstorm.png",
     category: "Prompts IA",
     categoryId: "prompts",
     slug: "prompts-marketing-digital-ia",
+    readTime: "7 min",
+    toolName: "Jasper",
+    toolAffiliateUrl: "#",
+    featured: false,
+  },
+  {
+    title: "Prompts para crear imágenes profesionales con DALL-E y Midjourney",
+    description: "Guía completa para generar imágenes de alta calidad para tu negocio o proyecto con IA.",
+    imageUrl: "/bustling-city-market.png",
+    category: "Prompts IA",
+    categoryId: "prompts",
+    slug: "prompts-imagenes-profesionales-dalle-midjourney",
+    readTime: "9 min",
+    toolName: "Midjourney",
+    toolAffiliateUrl: "#",
+    featured: false,
+  },
+
+  // Automatización
+  {
+    title: "Cómo automatizar tu proceso de ventas con IA",
+    description:
+      "Guía paso a paso para implementar automatizaciones que optimizan tu embudo de ventas y aumentan conversiones.",
+    imageUrl: "/AI-Powered-Sales-Growth.png",
+    category: "Automatización",
+    categoryId: "automatizacion",
+    slug: "automatizar-proceso-ventas-ia",
+    readTime: "14 min",
+    toolName: "Make",
+    toolAffiliateUrl: "#",
+    featured: false,
+  },
+  {
+    title: "Flujos de trabajo automatizados para equipos de marketing",
+    description:
+      "Plantillas y ejemplos de automatizaciones para optimizar las tareas repetitivas en equipos de marketing.",
+    imageUrl: "/interconnected-marketing-flow.png",
+    category: "Automatización",
+    categoryId: "automatizacion",
+    slug: "flujos-trabajo-automatizados-equipos-marketing",
+    readTime: "11 min",
+    toolName: "Zapier",
+    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
+    featured: false,
+  },
+
+  // Plantillas
+  {
+    title: "Plantilla de gestión de proyectos con IA en ClickUp",
+    description:
+      "Sistema completo para gestionar proyectos integrando funciones de IA para optimizar el seguimiento y la colaboración.",
+    imageUrl: "/clickup-project-template-overview.png",
+    category: "Plantillas",
+    categoryId: "plantillas",
+    slug: "plantilla-gestion-proyectos-ia-clickup",
+    readTime: "5 min",
+    toolName: "ClickUp",
+    toolAffiliateUrl: "#",
+    featured: false,
+  },
+  {
+    title: "Dashboard de productividad personal con Notion AI",
+    description: "Plantilla para monitorizar y mejorar tu productividad personal con la ayuda de Notion AI.",
+    imageUrl: "/notion-ai-dashboard-concept.png",
+    category: "Plantillas",
+    categoryId: "plantillas",
+    slug: "dashboard-productividad-personal-notion-ai",
+    readTime: "6 min",
+    toolName: "Notion AI",
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    featured: false,
+  },
+  {
+    title: "Plantilla de calendario editorial con IA para content marketing",
+    description: "Sistema para planificar, crear y distribuir contenido optimizado con herramientas de IA.",
+    imageUrl: "/ai-content-calendar-concept.png",
+    category: "Plantillas",
+    categoryId: "plantillas",
+    slug: "plantilla-calendario-editorial-ia-content-marketing",
+    readTime: "8 min",
+    toolName: "Jasper",
+    toolAffiliateUrl: "#",
+    featured: false,
+  },
+  // Add more content types to allResources
+  // Análisis y tutoriales (previously in blog)
+  {
+    title: "Análisis: Notion AI vs ChatGPT para escritura de contenido",
+    description:
+      "Comparativa detallada entre Notion AI y ChatGPT para determinar cuál es mejor para diferentes tipos de contenido.",
+    imageUrl: "/ai-writing-comparison.png",
+    category: "Análisis",
+    categoryId: "analisis",
+    slug: "analisis-notion-ai-vs-chatgpt-escritura-contenido",
+    readTime: "13 min",
+    toolName: "Notion AI",
+    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    featured: false,
+  },
+  {
+    title: "Tutorial: Cómo configurar tu primer flujo de trabajo en Zapier",
+    description:
+      "Guía paso a paso para crear tu primera automatización en Zapier, desde la configuración inicial hasta la prueba final.",
+    imageUrl: "/zapier-tutorial-workflow.png",
+    category: "Tutoriales",
+    categoryId: "tutoriales",
+    slug: "tutorial-configurar-primer-flujo-trabajo-zapier",
     readTime: "10 min",
-    toolName: "ChatGPT",
-    toolAffiliateUrl: "https://chat.openai.com/?ref=neuroworkai",
+    toolName: "Zapier",
+    toolAffiliateUrl: "https://zapier.com/?utm_source=neuroworkai&utm_medium=affiliate",
+    featured: false,
+  },
+  {
+    title: "Análisis: Las mejores herramientas IA para transcripción de reuniones",
+    description:
+      "Evaluación comparativa de las principales herramientas de transcripción de reuniones con IA disponibles en 2025.",
+    imageUrl: "/meeting-transcription-tools.png",
+    category: "Análisis",
+    categoryId: "analisis",
+    slug: "analisis-mejores-herramientas-ia-transcripcion-reuniones",
+    readTime: "15 min",
+    toolName: "Fireflies",
+    toolAffiliateUrl: "#",
+    featured: false,
+  },
+  {
+    title: "Tutorial: Optimiza tu flujo de trabajo con ClickUp y ChatGPT",
+    description: "Aprende a integrar ChatGPT con ClickUp para automatizar tareas y mejorar la gestión de proyectos.",
+    imageUrl: "/clickup-chatgpt-integration.png",
+    category: "Tutoriales",
+    categoryId: "tutoriales",
+    slug: "tutorial-optimiza-flujo-trabajo-clickup-chatgpt",
+    readTime: "12 min",
+    toolName: "ClickUp",
+    toolAffiliateUrl: "https://clickup.com/?af=123",
+    featured: false,
   },
 ]
 
 // Recursos más visitados esta semana
 const topResources = [
   {
-    title: "Cómo implementar IA en tu flujo de trabajo diario",
-    slug: "implement-ai-daily-workflow",
+    title: "50 Prompts Avanzados para Notion AI, ChatGPT y Jasper",
+    slug: "prompts-avanzados-notion-chatgpt-jasper",
     views: 1250,
   },
   {
-    title: "50 Prompts Avanzados para Notion AI, ChatGPT y Jasper",
-    slug: "prompts-avanzados-notion-chatgpt-jasper",
+    title: "Automatiza tu equipo remoto con Zapier y Make",
+    slug: "automatiza-equipo-remoto-zapier-make",
     views: 980,
   },
   {
-    title: "Plantilla de Automatización para Zapier y Make",
-    slug: "plantilla-automatizacion-zapier-make",
+    title: "Guía definitiva de prompts para ChatGPT y Notion AI",
+    slug: "guia-definitiva-prompts-chatgpt-notion-ai",
     views: 845,
   },
   {
-    title: "Guía de Optimización de Reuniones con IA",
-    slug: "guia-optimizacion-reuniones-ia",
-    views: 720,
+    title: "Análisis: Notion AI vs ChatGPT para escritura de contenido",
+    slug: "analisis-notion-ai-vs-chatgpt-escritura-contenido",
+    views: 780,
   },
   {
-    title: "25 Prompts para Marketing Digital con IA",
-    slug: "prompts-marketing-digital-ia",
-    views: 650,
+    title: "Tutorial: Cómo configurar tu primer flujo de trabajo en Zapier",
+    slug: "tutorial-configurar-primer-flujo-trabajo-zapier",
+    views: 720,
   },
 ]
-
-// Recursos relacionados para recomendaciones
-const relatedResourcesMap = {
-  "implement-ai-daily-workflow": ["guia-optimizacion-reuniones-ia", "plantilla-automatizacion-zapier-make"],
-  "prompts-avanzados-notion-chatgpt-jasper": ["prompts-marketing-digital-ia", "tutorial-dashboards-automatizados-ia"],
-  "plantilla-automatizacion-zapier-make": ["implement-ai-daily-workflow", "plantilla-calendario-editorial-ia"],
-  "guia-optimizacion-reuniones-ia": ["implement-ai-daily-workflow", "comparativa-chatgpt-claude-gemini"],
-  "plantilla-calendario-editorial-ia": ["prompts-marketing-digital-ia", "plantilla-automatizacion-zapier-make"],
-  "comparativa-chatgpt-claude-gemini": [
-    "prompts-avanzados-notion-chatgpt-jasper",
-    "tutorial-dashboards-automatizados-ia",
-  ],
-  "tutorial-dashboards-automatizados-ia": ["implement-ai-daily-workflow", "plantilla-automatizacion-zapier-make"],
-  "prompts-marketing-digital-ia": ["prompts-avanzados-notion-chatgpt-jasper", "plantilla-calendario-editorial-ia"],
-}
 
 export default function RecursosPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [activeCategory, setActiveCategory] = useState("todos")
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredResources, setFilteredResources] = useState(allResources)
+  const [filteredResources, setFilteredResources] = useState(allResources.filter((r) => !r.featured))
   const [isSearchFocused, setIsSearchFocused] = useState(false)
 
   // Referencias para scroll
   const recursosRef = useRef<HTMLDivElement>(null)
   const kitRef = useRef<HTMLDivElement>(null)
-  const filteredResourcesRef = useRef<HTMLDivElement>(null)
+  const filteredResourcesRef = useRef<HTMLDivElement>(null) // Nueva referencia para la sección de recursos filtrados
 
   // Inicializar desde parámetros de URL
   useEffect(() => {
@@ -216,7 +328,7 @@ export default function RecursosPage() {
 
   // Filtrar recursos cuando cambia la categoría o la búsqueda
   useEffect(() => {
-    let filtered = [...allResources]
+    let filtered = [...allResources.filter((r) => !r.featured)]
 
     // Filtrar por categoría
     if (activeCategory !== "todos") {
@@ -294,12 +406,6 @@ export default function RecursosPage() {
     }
   }
 
-  // Obtener recursos relacionados para un slug dado
-  const getRelatedResources = (slug: string) => {
-    const relatedSlugs = relatedResourcesMap[slug as keyof typeof relatedResourcesMap] || []
-    return allResources.filter((resource) => relatedSlugs.includes(resource.slug))
-  }
-
   return (
     <>
       {/* Hero Section - SEO Optimized */}
@@ -317,21 +423,10 @@ export default function RecursosPage() {
               inteligencia artificial.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                className="bg-primary hover:bg-primary/90"
-                onClick={() => scrollToSection(recursosRef)}
-                data-analytics-event="explore-resources-click"
-                aria-label="Explorar recursos de IA"
-              >
+              <Button className="bg-primary hover:bg-primary/90" onClick={() => scrollToSection(recursosRef)}>
                 Explorar recursos
               </Button>
-              <Button
-                variant="outline"
-                className="flex items-center gap-2"
-                onClick={() => scrollToSection(kitRef)}
-                data-analytics-event="download-kit-hero-click"
-                aria-label="Descargar Kit de Productividad IA gratuito"
-              >
+              <Button variant="outline" className="flex items-center gap-2" onClick={() => scrollToSection(kitRef)}>
                 <Download className="h-4 w-4" />
                 Descargar Kit Gratuito
               </Button>
@@ -365,7 +460,6 @@ export default function RecursosPage() {
                       type="submit"
                       size="sm"
                       className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary/90"
-                      data-analytics-event="search-resources-submit"
                     >
                       Buscar
                     </Button>
@@ -393,7 +487,6 @@ export default function RecursosPage() {
                       ? "bg-primary text-white border-primary"
                       : "text-gray-700 border-gray-300 hover:bg-violet-100",
                   )}
-                  data-analytics-event={`filter-category-${category.id}`}
                 >
                   {category.label}
                 </button>
@@ -407,166 +500,87 @@ export default function RecursosPage() {
       <section id="recursos" ref={recursosRef} className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-secondary mb-8">Recursos destacados</h2>
-          {featuredResources.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {featuredResources.map((resource) => (
-                <article
-                  key={resource.slug}
-                  className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full"
-                >
-                  <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-                    <SafeImage
-                      src={resource.imageUrl}
-                      alt={`Imagen de portada: ${resource.title}`}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-0 left-0 m-3">
-                      <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                        {resource.category}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {featuredResources.map((resource) => (
+              <article
+                key={resource.slug}
+                className="group rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full"
+              >
+                <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                  <SafeImage
+                    src={resource.imageUrl}
+                    alt={resource.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute top-0 left-0 m-3">
+                    <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                      {resource.category}
+                    </span>
+                  </div>
+                  {resource.featured && (
+                    <div className="absolute top-0 right-0 m-3">
+                      <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
+                        <Star className="mr-1 h-3 w-3" />
+                        Destacado
                       </span>
                     </div>
-                    {resource.featured && (
-                      <div className="absolute top-0 right-0 m-3">
-                        <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
-                          <Star className="mr-1 h-3 w-3" />
-                          Destacado
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                  )}
+                </div>
 
-                  <div className="flex-1 p-6 flex flex-col">
-                    <h3 className="text-xl font-bold text-secondary mb-2 group-hover:text-primary transition-colors">
+                <div className="flex-1 p-6 flex flex-col">
+                  <h3 className="text-xl font-bold text-secondary mb-2 group-hover:text-primary transition-colors">
+                    <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
+                  </h3>
+                  <p className="text-gray-600 mb-4 flex-grow">{resource.description}</p>
+
+                  <div className="mt-auto flex flex-col sm:flex-row gap-3">
+                    <Button asChild variant={resource.isDownloadable ? "default" : "outline"} className="flex-1">
                       <Link
                         href={`/recursos/${resource.slug}`}
-                        data-analytics-event={`featured-resource-click-${resource.slug}`}
-                        aria-label={`Leer recurso: ${resource.title}`}
+                        className="flex items-center justify-center"
+                        data-umami-event={`resource-${resource.isDownloadable ? "download" : "read"}-${resource.slug}`}
                       >
-                        {resource.title}
+                        {resource.isDownloadable ? (
+                          <>
+                            <Download className="mr-2 h-4 w-4" />
+                            {resource.ctaText}
+                          </>
+                        ) : (
+                          <>
+                            {resource.ctaText}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </>
+                        )}
                       </Link>
-                    </h3>
-                    <p className="text-gray-600 mb-4 flex-grow">{resource.description}</p>
+                    </Button>
 
-                    <div className="mt-auto flex flex-col sm:flex-row gap-3">
-                      <Button asChild variant={resource.isDownloadable ? "default" : "outline"} className="flex-1">
+                    {resource.toolName && resource.toolAffiliateUrl && (
+                      <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
                         <Link
-                          href={`/recursos/${resource.slug}`}
+                          href={resource.toolAffiliateUrl}
+                          target="_blank"
+                          rel="noopener sponsored"
                           className="flex items-center justify-center"
-                          data-analytics-event={`resource-${resource.isDownloadable ? "download" : "read"}-${resource.slug}`}
-                          aria-label={
-                            resource.isDownloadable ? `Descargar: ${resource.title}` : `Leer: ${resource.title}`
-                          }
+                          data-umami-event={`affiliate-${resource.toolName.toLowerCase().replace(/\s+/g, "-")}-${resource.slug}`}
                         >
-                          {resource.isDownloadable ? (
-                            <>
-                              <Download className="mr-2 h-4 w-4" />
-                              {resource.ctaText}
-                            </>
-                          ) : (
-                            <>
-                              {resource.ctaText}
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </>
-                          )}
+                          Probar {resource.toolName}
                         </Link>
                       </Button>
-
-                      {resource.toolName && resource.toolAffiliateUrl && (
-                        <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
-                          <Link
-                            href={resource.toolAffiliateUrl}
-                            target="_blank"
-                            rel="noopener sponsored"
-                            className="flex items-center justify-center"
-                            data-analytics-event={`affiliate-${resource.toolName.toLowerCase().replace(/\s+/g, "-")}-${resource.slug}`}
-                            aria-label={`Probar ${resource.toolName}`}
-                          >
-                            Probar {resource.toolName}
-                            <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                          </Link>
-                        </Button>
-                      )}
-                    </div>
+                    )}
                   </div>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <p className="text-lg text-gray-600 mb-4">Próximamente nuevos recursos destacados.</p>
-              <Button
-                onClick={() => {
-                  setActiveCategory("todos")
-                  setSearchQuery("")
-                  router.push("/recursos", { scroll: false })
-                }}
-                className="bg-primary hover:bg-primary/90"
-                data-analytics-event="view-all-tools-click"
-              >
-                Explorar herramientas
-              </Button>
-            </div>
-          )}
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Lead Magnet CTA - Mejorado */}
+      {/* Lead Magnet CTA */}
       <section id="kit-gratuito" ref={kitRef} className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-2/5 relative h-64 md:h-auto">
-                  <SafeImage
-                    src="/ai-productivity-kit-ebook.png"
-                    alt="Kit de Productividad IA - Guía completa para profesionales"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-8 md:w-3/5 flex flex-col justify-center">
-                  <h2 className="text-2xl md:text-3xl font-bold text-secondary mb-4">
-                    Kit de Productividad IA para Profesionales
-                  </h2>
-                  <p className="text-gray-600 mb-6">
-                    Descarga gratis nuestro kit completo con plantillas, prompts y guías paso a paso para implementar IA
-                    en tu trabajo diario y aumentar tu productividad hasta un 40%.
-                  </p>
-                  <ul className="mb-6 space-y-2">
-                    <li className="flex items-start">
-                      <span className="text-green-500 mr-2">✓</span>
-                      <span>50+ prompts optimizados para ChatGPT, Claude y Gemini</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-green-500 mr-2">✓</span>
-                      <span>10 plantillas de flujos de trabajo con IA</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-green-500 mr-2">✓</span>
-                      <span>Guía de implementación paso a paso</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-green-500 mr-2">✓</span>
-                      <span>Acceso a actualizaciones gratuitas</span>
-                    </li>
-                  </ul>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button
-                      className="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-md shadow-sm"
-                      data-analytics-event="kit-download-main-cta"
-                      aria-label="Descargar Kit de Productividad IA gratuito"
-                    >
-                      <Download className="mr-2 h-4 w-4" />
-                      Sí, quiero ser más productivo
-                    </Button>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-4">
-                    Más de 5,000 profesionales ya han descargado nuestro kit. No compartimos tu correo con terceros.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <KitPromoBlock />
           </div>
         </div>
       </section>
@@ -595,7 +609,7 @@ export default function RecursosPage() {
                   <div className="relative h-48 w-full overflow-hidden bg-gray-100">
                     <SafeImage
                       src={resource.imageUrl}
-                      alt={`Imagen de portada: ${resource.title}`}
+                      alt={resource.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -617,13 +631,7 @@ export default function RecursosPage() {
                     )}
 
                     <h3 className="text-xl font-bold text-secondary mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                      <Link
-                        href={`/recursos/${resource.slug}`}
-                        data-analytics-event={`resource-title-click-${resource.slug}`}
-                        aria-label={`Leer recurso: ${resource.title}`}
-                      >
-                        {resource.title}
-                      </Link>
+                      <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
                     </h3>
 
                     <p className="text-gray-600 mb-4 line-clamp-2">{resource.description}</p>
@@ -633,8 +641,7 @@ export default function RecursosPage() {
                         <Link
                           href={`/recursos/${resource.slug}`}
                           className="flex items-center justify-center"
-                          data-analytics-event={`resource-read-${resource.slug}`}
-                          aria-label={`Leer más sobre: ${resource.title}`}
+                          data-umami-event={`resource-read-${resource.slug}`}
                         >
                           Leer más
                           <ArrowRight className="ml-2 h-3 w-3" />
@@ -648,11 +655,9 @@ export default function RecursosPage() {
                             target="_blank"
                             rel="noopener sponsored"
                             className="flex items-center justify-center"
-                            data-analytics-event={`affiliate-${resource.toolName.toLowerCase().replace(/\s+/g, "-")}-${resource.slug}`}
-                            aria-label={`Probar ${resource.toolName}`}
+                            data-umami-event={`affiliate-${resource.toolName.toLowerCase().replace(/\s+/g, "-")}-${resource.slug}`}
                           >
                             Probar {resource.toolName}
-                            <ExternalLink className="ml-2 h-3.5 w-3.5" />
                           </Link>
                         </Button>
                       )}
@@ -664,57 +669,13 @@ export default function RecursosPage() {
           ) : (
             <div className="text-center py-12 bg-gray-50 rounded-lg">
               <p className="text-lg text-gray-600 mb-4">No se encontraron recursos que coincidan con tu búsqueda.</p>
-              <p className="text-gray-600 mb-6">Aquí tienes algunos de nuestros recursos más populares:</p>
-
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto">
-                {topResources.slice(0, 3).map((topResource) => {
-                  const resourceData = allResources.find((r) => r.slug === topResource.slug)
-                  if (!resourceData) return null
-
-                  return (
-                    <article
-                      key={resourceData.slug}
-                      className="group rounded-lg border bg-white overflow-hidden transition-all duration-200 hover:shadow-md flex flex-col h-full"
-                    >
-                      <div className="relative h-40 w-full overflow-hidden bg-gray-100">
-                        <SafeImage
-                          src={resourceData.imageUrl}
-                          alt={`Imagen de portada: ${resourceData.title}`}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="p-4 flex-1 flex flex-col">
-                        <h3 className="text-lg font-bold text-secondary mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                          <Link
-                            href={`/recursos/${resourceData.slug}`}
-                            data-analytics-event={`fallback-resource-click-${resourceData.slug}`}
-                          >
-                            {resourceData.title}
-                          </Link>
-                        </h3>
-                        <div className="mt-auto">
-                          <Button asChild variant="outline" size="sm" className="w-full">
-                            <Link href={`/recursos/${resourceData.slug}`}>
-                              Ver recurso
-                              <ArrowRight className="ml-2 h-3 w-3" />
-                            </Link>
-                          </Button>
-                        </div>
-                      </div>
-                    </article>
-                  )
-                })}
-              </div>
-
               <Button
                 onClick={() => {
                   setActiveCategory("todos")
                   setSearchQuery("")
                   router.push("/recursos", { scroll: false })
                 }}
-                className="bg-primary hover:bg-primary/90 mt-8"
-                data-analytics-event="view-all-resources-fallback"
+                className="bg-primary hover:bg-primary/90"
               >
                 Ver todos los recursos
               </Button>
@@ -728,36 +689,29 @@ export default function RecursosPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-secondary mb-8">Más visitados esta semana</h2>
 
-          {topResources.length > 0 ? (
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              <div className="divide-y">
-                {topResources.map((resource, index) => (
-                  <Link
-                    key={resource.slug}
-                    href={`/recursos/${resource.slug}`}
-                    className="flex items-center p-4 hover:bg-gray-50 transition-colors"
-                    data-analytics-event={`top-resource-click-${resource.slug}`}
-                    aria-label={`Ver recurso popular: ${resource.title}`}
-                  >
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold mr-4">
-                      {index + 1}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-medium text-gray-900 truncate">{resource.title}</h3>
-                    </div>
-                    <div className="flex-shrink-0 text-sm text-gray-500">{resource.views.toLocaleString()} visitas</div>
-                    <div className="ml-4">
-                      <ArrowRight className="h-4 w-4 text-gray-400" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="divide-y">
+              {topResources.map((resource, index) => (
+                <Link
+                  key={resource.slug}
+                  href={`/recursos/${resource.slug}`}
+                  className="flex items-center p-4 hover:bg-gray-50 transition-colors"
+                  data-umami-event={`top-resource-click-${resource.slug}`}
+                >
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold mr-4">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base font-medium text-gray-900 truncate">{resource.title}</h3>
+                  </div>
+                  <div className="flex-shrink-0 text-sm text-gray-500">{resource.views.toLocaleString()} visitas</div>
+                  <div className="ml-4">
+                    <ArrowRight className="h-4 w-4 text-gray-400" />
+                  </div>
+                </Link>
+              ))}
             </div>
-          ) : (
-            <div className="text-center py-12 bg-white rounded-lg shadow-sm">
-              <p className="text-lg text-gray-600 mb-4">Próximamente estadísticas de recursos más visitados.</p>
-            </div>
-          )}
+          </div>
         </div>
       </section>
 
@@ -772,13 +726,8 @@ export default function RecursosPage() {
               Explora herramientas IA y recursos prácticos para transformar tu flujo de trabajo.
             </p>
             <div className="mt-8">
-              <Button
-                asChild
-                size="lg"
-                className="bg-white text-primary hover:bg-white/90"
-                data-analytics-event="recursos-to-herramientas-cta"
-              >
-                <Link href="/herramientas-ia" aria-label="Descubrir herramientas de IA para productividad">
+              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
+                <Link href="/herramientas-ia" data-umami-event="recursos-to-herramientas-cta">
                   Descubrir herramientas IA
                 </Link>
               </Button>

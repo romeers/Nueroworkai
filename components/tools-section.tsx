@@ -159,13 +159,13 @@ export default function ToolsSection({ tools, categories, comparisons, defaultCa
       {/* Filter Tabs - Sticky */}
       <section className="py-6 bg-white sticky top-16 z-30 border-b">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div ref={tabsRef} className="flex overflow-x-auto pb-2 gap-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+          <div ref={tabsRef} className="flex overflow-x-auto pb-2 gap-2 scrollbar-hide">
             {categories.map((category) => (
               <button
                 key={category.slug}
                 data-category={category.slug}
                 onClick={() => handleCategoryChange(category.slug)}
-                className={`px-4 py-2 h-10 rounded-full border font-medium text-sm whitespace-nowrap transition ${
+                className={`px-4 py-2 rounded-full border font-medium text-sm whitespace-nowrap transition ${
                   selectedCategory === category.slug
                     ? "bg-primary text-white border-primary"
                     : "text-gray-700 border-gray-300 hover:bg-violet-100"
@@ -188,7 +188,7 @@ export default function ToolsSection({ tools, categories, comparisons, defaultCa
           </h2>
 
           {filteredTools.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredTools.map((tool) => (
                 <div
                   key={tool.slug}
@@ -242,7 +242,7 @@ export default function ToolsSection({ tools, categories, comparisons, defaultCa
 
                   {/* Action buttons */}
                   <div className="flex flex-col gap-2 w-full mt-auto">
-                    <Button asChild className="bg-primary hover:bg-primary/90 w-full h-10">
+                    <Button asChild className="bg-primary hover:bg-primary/90 w-full">
                       <Link
                         href={tool.affiliateUrl}
                         target="_blank"
@@ -253,7 +253,7 @@ export default function ToolsSection({ tools, categories, comparisons, defaultCa
                         <ExternalLink className="h-3.5 w-3.5" />
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" className="w-full h-10">
+                    <Button asChild variant="outline" className="w-full">
                       <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
                     </Button>
                   </div>

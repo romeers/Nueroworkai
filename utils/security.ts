@@ -80,8 +80,3 @@ export function getSecurityHeaders(): Record<string, string> {
     "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
   }
 }
-
-export async function hashPassword(password: string): Promise<string> {
-  // Simulación simple para desarrollo
-  return `hashed_${password}`
-}

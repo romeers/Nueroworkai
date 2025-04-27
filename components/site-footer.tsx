@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
+import { Facebook, Instagram, Linkedin } from "lucide-react"
 import SafeImage from "./safe-image"
 
 interface FooterLink {
@@ -37,7 +37,7 @@ interface SiteFooterProps {
 }
 
 export default function SiteFooter({
-  logoSrc = "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/logo%20%20texto%20transparente-eLlvV6wmzCjfkUskDOg0X8CielyUqJ.png",
+  logoSrc = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png",
   logoAlt = "NeuroWorkAI Logo",
   tagline = "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
   navigationColumns = [
@@ -89,38 +89,6 @@ export default function SiteFooter({
       icon: <Linkedin className="h-5 w-5" />,
       ariaLabel: "LinkedIn de NeuroWorkAI",
     },
-    {
-      platform: "Pinterest",
-      href: "https://pin.it/5ruBArced",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-5 w-5"
-        >
-          <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-          <path d="M21 12c0 4.418 -4.03 8 -9 8a9.863 9.863 0 0 1 -4.255 -.949l-3.745 1.949l1.08 -3.098a7.902 7.902 0 0 1 -1.08 -3.902c0 -4.418 4.03 -8 9 -8s9 3.582 9 8z" />
-        </svg>
-      ),
-      ariaLabel: "Pinterest de NeuroWorkAI",
-    },
-    {
-      platform: "Twitter",
-      href: "https://x.com/Neuroworkai",
-      icon: <Twitter className="h-5 w-5" />,
-      ariaLabel: "Twitter de NeuroWorkAI",
-    },
-    {
-      platform: "YouTube",
-      href: "https://www.youtube.com/@Neuroworkai",
-      icon: <Youtube className="h-5 w-5" />,
-      ariaLabel: "YouTube de NeuroWorkAI",
-    },
   ],
   showCta = true,
   ctaText = "Descubrir Mejores Herramientas IA",
@@ -133,7 +101,7 @@ export default function SiteFooter({
 }: SiteFooterProps) {
   return (
     <footer
-      className={`bg-secondary text-white py-12 md:py-16 ${className}`}
+      className={`bg-secondary text-white py-16 ${className}`}
       role="contentinfo"
       aria-label="Pie de página del sitio"
     >
@@ -203,12 +171,12 @@ export default function SiteFooter({
         {/* Social Media Section - Más visible */}
         <div className="mt-12 pt-6 border-t border-white/10 text-center">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Síguenos en redes sociales</h3>
-          <div className="flex justify-center space-x-8">
+          <div className="flex justify-center space-x-6">
             {socialLinks.map((social) => (
               <Link
                 key={social.platform}
                 href={social.href}
-                className="text-white hover:text-white/80 transition-colors duration-200 p-2"
+                className="text-white hover:text-white/80 transition-colors duration-200"
                 aria-label={social.ariaLabel}
                 title={`Síguenos en ${social.platform}`}
                 target="_blank"
@@ -225,7 +193,7 @@ export default function SiteFooter({
           <div className="mt-8 pt-6 border-t border-white/10 text-center">
             <Link
               href={ctaHref}
-              className="inline-flex items-center justify-center px-6 py-3 h-12 bg-white text-primary font-medium rounded-md hover:bg-white/90 transition-colors duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+              className="inline-flex items-center justify-center px-6 py-3 bg-white text-primary font-medium rounded-md hover:bg-white/90 transition-colors duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
             >
               {ctaText}
             </Link>

@@ -286,8 +286,7 @@ export const tools = [
     description: "Transcribe y analiza reuniones automáticamente con IA.",
     longDescription:
       "Fireflies.ai es un asistente de reuniones con IA que se une a tus llamadas, toma notas y crea resúmenes automáticamente. Permite buscar, transcribir y analizar conversaciones para extraer información valiosa.",
-    imageUrl:
-      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/Fireflies_AI_logo-SQM4PmNcI5QHxwoY5pzypxtQPl1Srd.png",
+    imageUrl: "/fireflies-logo-full.png",
     category: "reuniones",
     categoryId: 4,
     categorySlug: "reuniones",
@@ -313,8 +312,7 @@ export const tools = [
       {
         name: "Transcripción automática",
         description: "Convierte el audio de tus reuniones en texto con alta precisión",
-        imageUrl:
-          "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/Fireflies_AI_logo-SQM4PmNcI5QHxwoY5pzypxtQPl1Srd.png",
+        imageUrl: "/fireflies-logo-icon.png",
       },
     ],
     pricing: [
@@ -353,8 +351,7 @@ export const tools = [
     description: "Asistente de notas con IA para transcribir y resumir reuniones.",
     longDescription:
       "Otter.ai es una aplicación de transcripción y toma de notas impulsada por IA que convierte conversaciones de voz en texto en tiempo real. Ideal para reuniones, entrevistas y conferencias.",
-    imageUrl:
-      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/CA_Otter-ai-logo%20200x200_0-SiWvUPzm7dw8BeCVRhJpgwlsKkl58v.png",
+    imageUrl: "/otter-ai-logo-full.png",
     category: "reuniones",
     categoryId: 4,
     categorySlug: "reuniones",
@@ -380,8 +377,7 @@ export const tools = [
       {
         name: "Transcripción en tiempo real",
         description: "Convierte conversaciones en texto mientras hablas",
-        imageUrl:
-          "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/CA_Otter-ai-logo%20200x200_0-SiWvUPzm7dw8BeCVRhJpgwlsKkl58v.png",
+        imageUrl: "/otter-ai-logo.png",
       },
     ],
     pricing: [
@@ -420,8 +416,7 @@ export const tools = [
     description: "Corrector gramatical y asistente de escritura con IA.",
     longDescription:
       "Grammarly es un asistente de escritura impulsado por IA que ayuda a mejorar la gramática, ortografía, puntuación y estilo. Ofrece sugerencias en tiempo real mientras escribes en cualquier plataforma.",
-    imageUrl:
-      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/grammarly-logo-8qUO2GKBGxR5r9ZORVUXKrrRlSVGOa.webp",
+    imageUrl: "/grammarly-logo.png",
     category: "escritura-ia",
     categoryId: 1,
     categorySlug: "escritura-ia",
@@ -447,8 +442,7 @@ export const tools = [
       {
         name: "Corrección gramatical",
         description: "Detecta y corrige errores gramaticales y ortográficos",
-        imageUrl:
-          "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/grammarly-logo-8qUO2GKBGxR5r9ZORVUXKrrRlSVGOa.webp",
+        imageUrl: "/grammarly-logo.png",
       },
     ],
     pricing: [
@@ -487,7 +481,7 @@ export const tools = [
     description: "Generador de contenido con IA para marketing y comunicación.",
     longDescription:
       "Jasper es una plataforma de IA que ayuda a crear contenido de alta calidad para marketing, blogs, redes sociales y más. Utiliza modelos avanzados de lenguaje para generar texto que suena natural y persuasivo.",
-    imageUrl: "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/jasperai-2Kn0R5xCQWprwX6FtM9PIasM6JP40x.png",
+    imageUrl: "/jasper-logo.png",
     category: "escritura-ia",
     categoryId: 1,
     categorySlug: "escritura-ia",
@@ -513,7 +507,7 @@ export const tools = [
       {
         name: "Generación de contenido",
         description: "Crea artículos, publicaciones y textos de marketing con IA",
-        imageUrl: "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/jasperai-2Kn0R5xCQWprwX6FtM9PIasM6JP40x.png",
+        imageUrl: "/jasper-logo.png",
       },
     ],
     pricing: [
@@ -564,8 +558,7 @@ export const comparisons = [
     tool1_description: "Asistente de escritura y organización con IA integrada en Notion.",
     tool2_name: "Grammarly",
     tool2_slug: "grammarly",
-    tool2_image:
-      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/grammarly-logo-8qUO2GKBGxR5r9ZORVUXKrrRlSVGOa.webp",
+    tool2_image: "/grammarly-blue.png",
     tool2_description: "Corrector gramatical y asistente de escritura con IA.",
   },
   {
@@ -597,39 +590,30 @@ export const comparisons = [
     tool2_id: 5,
     tool1_name: "Fireflies",
     tool1_slug: "fireflies",
-    tool1_image:
-      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/Fireflies_AI_logo-SQM4PmNcI5QHxwoY5pzypxtQPl1Srd.png",
+    tool1_image: "/fireflies-ai-logo-blue.png",
     tool1_description: "Transcribe y analiza reuniones automáticamente con IA.",
     tool2_name: "Otter.ai",
     tool2_slug: "otter-ai",
-    tool2_image:
-      "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/CA_Otter-ai-logo%20200x200_0-SiWvUPzm7dw8BeCVRhJpgwlsKkl58v.png",
+    tool2_image: "/otter-ai-blue.png",
     tool2_description: "Asistente de notas con IA para transcribir y resumir reuniones.",
   },
 ]
 
-// Actualizar la sección de recursos para incluir el primer recurso
+// Definición de recursos
 export const resources = [
   {
     id: 1,
-    title: "How to Implement AI in Your Daily Workflow",
-    slug: "implement-ai-daily-workflow",
-    description:
-      "Learn how to integrate artificial intelligence into your business or project. Practical examples, recommended tools, and easy steps to start.",
-    content: "Full content of the article about implementing AI in daily workflow...",
-    imageUrl: "/interconnected-ai-workflow.png",
-    category: "Guías prácticas",
-    categoryId: "guias",
-    categorySlug: "guias",
-    viewCount: 0,
+    title: "Guía completa de herramientas de IA para escritores",
+    slug: "guia-herramientas-ia-escritores",
+    description: "Descubre las mejores herramientas de IA para mejorar tu escritura y productividad",
+    content: "Contenido detallado de la guía de herramientas de IA para escritores...",
+    imageUrl: "/ai-writing-prompts-collection.png",
+    category: "Escritura IA",
+    categoryId: 1,
+    categorySlug: "escritura-ia",
+    viewCount: 2300,
     published: true,
-    publishedAt: "2025-04-15T10:00:00Z",
-    readTime: "8 min",
-    featured: true,
-    isDownloadable: false,
-    ctaText: "Leer guía",
-    toolName: "Notion AI",
-    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    publishedAt: "2023-05-15T10:00:00Z",
     relatedTools: [
       {
         id: 1,
@@ -641,42 +625,69 @@ export const resources = [
       },
       {
         id: 6,
-        name: "ChatGPT",
-        slug: "chatgpt",
-        description: "Modelo de lenguaje avanzado para generar texto y responder preguntas.",
-        imageUrl:
-          "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/ChatGPT-Logo.svg-tEVS8llUmi8G8FbG0DKY0wCgYGCfLr.png",
+        name: "Grammarly",
+        slug: "grammarly",
+        description: "Corrector gramatical y asistente de escritura con IA.",
+        imageUrl: "/grammarly-blue.png",
         category: "Escritura IA",
       },
     ],
   },
-]
-
-// Actualizar la sección de recursos destacados para la página de recursos
-export const featuredResources = [
   {
-    id: 1,
-    title: "How to Implement AI in Your Daily Workflow",
-    slug: "implement-ai-daily-workflow",
-    description:
-      "Learn how to integrate artificial intelligence into your business or project. Practical examples, recommended tools, and easy steps to start.",
-    imageUrl: "/interconnected-ai-workflow.png",
-    category: "Guías prácticas",
-    categoryId: "guias",
-    featured: true,
-    isDownloadable: false,
-    ctaText: "Leer guía",
-    toolName: "Notion AI",
-    toolAffiliateUrl: "https://notion.so/product/ai?ref=neuroworkai",
+    id: 2,
+    title: "Cómo automatizar tu flujo de trabajo con Zapier",
+    slug: "automatizar-flujo-trabajo-zapier",
+    description: "Aprende a crear automatizaciones eficientes con Zapier para ahorrar tiempo",
+    content: "Contenido detallado sobre cómo automatizar tu flujo de trabajo con Zapier...",
+    imageUrl: "/automation-workflows-templates.png",
+    category: "Automatización",
+    categoryId: 2,
+    categorySlug: "automatizacion",
+    viewCount: 1850,
+    published: true,
+    publishedAt: "2023-06-10T14:30:00Z",
+    relatedTools: [
+      {
+        id: 2,
+        name: "Zapier",
+        slug: "zapier",
+        description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
+        imageUrl: "/zapier-blue-background.png",
+        category: "Automatización",
+      },
+    ],
   },
-]
-
-// Actualizar la sección de recursos más visitados
-export const topResources = [
   {
-    title: "How to Implement AI in Your Daily Workflow",
-    slug: "implement-ai-daily-workflow",
-    views: 120,
+    id: 3,
+    title: "Optimiza tus reuniones con asistentes de IA",
+    slug: "optimiza-reuniones-asistentes-ia",
+    description: "Descubre cómo los asistentes de IA pueden transformar tus reuniones",
+    content: "Contenido detallado sobre cómo optimizar reuniones con asistentes de IA...",
+    imageUrl: "/ai-meetings-optimization-guide.png",
+    category: "Reuniones",
+    categoryId: 4,
+    categorySlug: "reuniones",
+    viewCount: 1420,
+    published: true,
+    publishedAt: "2023-07-05T09:15:00Z",
+    relatedTools: [
+      {
+        id: 4,
+        name: "Fireflies",
+        slug: "fireflies",
+        description: "Transcribe y analiza reuniones automáticamente con IA.",
+        imageUrl: "/fireflies-ai-logo-blue.png",
+        category: "Reuniones",
+      },
+      {
+        id: 5,
+        name: "Otter.ai",
+        slug: "otter-ai",
+        description: "Asistente de notas con IA para transcribir y resumir reuniones.",
+        imageUrl: "/otter-ai-blue.png",
+        category: "Reuniones",
+      },
+    ],
   },
 ]
 
@@ -720,7 +731,6 @@ export function getComparisonBySlug(slug: string) {
   return comparisons.find((comparison) => comparison.slug === slug) || null
 }
 
-// Actualizar la función getResources para manejar el array vacío
 export function getResources(limit = 10) {
   return resources
     .filter((resource) => resource.published)

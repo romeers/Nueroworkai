@@ -5,11 +5,11 @@ import Link from "next/link"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
-import { cn, throttle } from "@/lib/optimization-utils"
+import { cn } from "@/lib/utils"
 import SafeImage from "./safe-image"
 import MobileNavDrawer from "./mobile-nav-drawer"
 
-// Definición de enlaces de navegación
+// Update the navigation array to remove the Blog entry
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
@@ -23,22 +23,25 @@ export default function Header() {
   const [showStickyCTA, setShowStickyCTA] = useState(false)
   const pathname = usePathname()
   const logoImage =
-    "https://tb4dwzggtieausz8.public.blob.vercel-storage.com/logo%20%20texto%20transparente-eLlvV6wmzCjfkUskDOg0X8CielyUqJ.png"
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
 
   const headerRef = useRef<HTMLElement>(null)
   const prevScrollY = useRef(0)
   const ticking = useRef(false)
 
   // Optimized scroll handler with throttling
-  const handleScroll = useCallback(
-    throttle(() => {
-      const currentScrollY = window.scrollY
-      setScrolled(currentScrollY > 10)
-      setShowStickyCTA(currentScrollY > 300)
-      prevScrollY.current = currentScrollY
-    }, 100),
-    [],
-  )
+  const handleScroll = useCallback(() => {
+    if (!ticking.current) {
+      window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY
+        setScrolled(currentScrollY > 10)
+        setShowStickyCTA(currentScrollY > 300)
+        prevScrollY.current = currentScrollY
+        ticking.current = false
+      })
+      ticking.current = true
+    }
+  }, [])
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true })
@@ -50,16 +53,28 @@ export default function Header() {
     setMobileMenuOpen(false)
   }, [pathname])
 
+  // Efecto para manejar el bloqueo del scroll cuando el menú móvil está abierto
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [mobileMenuOpen])
+
   return (
     <header
       ref={headerRef}
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-200",
-        scrolled ? "bg-white shadow-md" : "bg-white/90 backdrop-blur-sm",
+        scrolled ? "bg-white shadow-md" : "bg-transparent backdrop-blur-sm",
       )}
     >
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-4 md:py-5 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
         aria-label="Navegación principal"
       >
         <div className="flex lg:flex-1">
@@ -73,10 +88,10 @@ export default function Header() {
                 src={logoImage}
                 fallbackSrc="/abstract-brain-network.png"
                 alt="NeuroWorkAI Logo"
-                width={150}
-                height={50}
+                width={120}
+                height={40}
                 priority
-                className="w-[150px] h-auto"
+                className="w-[120px] h-auto rounded-lg"
               />
             </div>
           </Link>
@@ -91,7 +106,7 @@ export default function Header() {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label="Abrir menú principal"
-            className="text-secondary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 h-12 w-12"
+            className="text-secondary"
           >
             <Menu className="h-6 w-6" aria-hidden="true" />
             <span className="sr-only">Abrir menú principal</span>
@@ -130,7 +145,7 @@ export default function Header() {
       </nav>
 
       {/* Mobile menu */}
-      <MobileNavDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      {mobileMenuOpen && <MobileNavDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />}
 
       {/* Sticky CTA - optimized for performance */}
       {showStickyCTA && (
@@ -138,7 +153,7 @@ export default function Header() {
           className="fixed bottom-4 left-0 right-0 z-40 mx-auto flex w-fit transform items-center justify-center transition-all duration-300 translate-y-0 opacity-100"
           aria-hidden="false"
         >
-          <Button asChild className="rounded-full bg-primary px-6 py-3 h-14 text-base shadow-lg hover:bg-primary/90">
+          <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
             <Link href="/top-herramientas-ia" aria-label="Descubrir mejores herramientas IA" tabIndex={0}>
               Descubrir Mejores Herramientas IA
             </Link>

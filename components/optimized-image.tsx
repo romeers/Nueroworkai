@@ -1,27 +1,13 @@
 "use client"
 
-import Image from "next/image"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import Image, { type ImageProps } from "next/image"
 import { cn } from "@/lib/utils"
 
-interface OptimizedImageProps {
-  src: string
-  alt: string
-  width?: number
-  height?: number
-  className?: string
-  containerClassName?: string
-  priority?: boolean
-  quality?: number
-  sizes?: string
-  fill?: boolean
-  loading?: "eager" | "lazy"
-  objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down"
-  objectPosition?: string
-  placeholder?: "blur" | "empty" | "data:image/..."
-  blurDataURL?: string
-  onLoad?: () => void
-  onError?: () => void
+interface OptimizedImageProps extends Omit<ImageProps, "onLoad"> {
+  aspectRatio?: "16:9" | "4:3" | "1:1" | string
+  previewSrc?: string
+  previewQuality?: number
 }
 
 export default function OptimizedImage({
@@ -30,93 +16,98 @@ export default function OptimizedImage({
   width,
   height,
   className,
-  containerClassName,
+  aspectRatio,
+  previewSrc,
+  previewQuality = 10,
   priority = false,
-  quality = 80,
-  sizes,
-  fill = false,
-  loading,
-  objectFit = "cover",
-  objectPosition = "center",
-  placeholder,
-  blurDataURL,
-  onLoad,
-  onError,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  ...props
 }: OptimizedImageProps) {
-  const [isLoading, setIsLoading] = useState(!priority)
-  const [imgSrc, setImgSrc] = useState<string>(src)
-  const [error, setError] = useState<boolean>(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isInView, setIsInView] = useState(false)
+  const imgRef = useRef<HTMLDivElement>(null)
 
-  // Generar un placeholder blur si no se proporciona
-  const defaultBlurDataURL =
-    !blurDataURL && placeholder === "blur"
-      ? `data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${width || 100} ${height || 100}'%3E%3Cfilter id='b' colorInterpolationFilters='sRGB'%3E%3CfeGaussianBlur stdDeviation='20'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23f3f4f6'/%3E%3C/svg%3E`
-      : blurDataURL
-
-  // Manejar cambios en src
   useEffect(() => {
-    if (src !== imgSrc && !error) {
-      setImgSrc(src)
-      if (!priority) setIsLoading(true)
+    if (!imgRef.current) return
+
+    // Use Intersection Observer API for better performance
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsInView(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "200px", threshold: 0.01 }, // Start loading 200px before it comes into view
+    )
+
+    observer.observe(imgRef.current)
+
+    return () => {
+      observer.disconnect()
     }
-  }, [src, imgSrc, error, priority])
+  }, [])
 
-  // Manejar la carga de la imagen
-  const handleLoad = () => {
-    setIsLoading(false)
-    if (onLoad) onLoad()
-  }
+  // Calculate aspect ratio styles
+  const getAspectRatioStyles = () => {
+    if (!aspectRatio) return {}
 
-  // Manejar errores de carga
-  const handleError = () => {
-    setError(true)
-    setIsLoading(false)
+    let paddingTop = "56.25%" // Default 16:9
 
-    // Si la imagen no es un placeholder, intentar cargar un placeholder
-    if (!imgSrc.includes("placeholder") && !imgSrc.includes("data:image")) {
-      setImgSrc("/placeholder.svg")
+    if (aspectRatio === "4:3") {
+      paddingTop = "75%"
+    } else if (aspectRatio === "1:1") {
+      paddingTop = "100%"
+    } else if (aspectRatio.includes(":")) {
+      const [width, height] = aspectRatio.split(":").map(Number)
+      paddingTop = `${(height / width) * 100}%`
     }
 
-    if (onError) onError()
+    return {
+      position: "relative",
+      paddingTop,
+      overflow: "hidden",
+    }
   }
-
-  // Generar tamaños responsivos si no se proporcionan
-  const defaultSizes = !sizes && !fill ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" : sizes
 
   return (
-    <div
-      className={cn("relative overflow-hidden", isLoading && "bg-gray-100 animate-pulse", containerClassName)}
-      style={{
-        width: fill ? "100%" : "auto",
-        height: fill ? "100%" : "auto",
-      }}
-    >
-      <Image
-        src={imgSrc || "/placeholder.svg"}
-        alt={alt}
-        width={fill ? undefined : width}
-        height={fill ? undefined : height}
-        className={cn(
-          "transition-opacity duration-300",
-          isLoading ? "opacity-0" : "opacity-100",
-          objectFit === "contain" && "object-contain",
-          objectFit === "cover" && "object-cover",
-          objectFit === "fill" && "object-fill",
-          objectFit === "none" && "object-none",
-          objectFit === "scale-down" && "object-scale-down",
-          className,
-        )}
-        style={{ objectPosition }}
-        quality={quality}
-        priority={priority}
-        loading={loading || (priority ? "eager" : "lazy")}
-        onLoad={handleLoad}
-        onError={handleError}
-        sizes={defaultSizes}
-        fill={fill}
-        placeholder={placeholder}
-        blurDataURL={defaultBlurDataURL}
-      />
+    <div ref={imgRef} className={cn("overflow-hidden bg-gray-100", className)} style={getAspectRatioStyles()}>
+      {/* Preview image */}
+      {previewSrc && !isLoaded && (
+        <Image
+          src={previewSrc || "/placeholder.svg"}
+          alt=""
+          fill
+          sizes={sizes}
+          className="object-cover blur-sm scale-105"
+          quality={previewQuality}
+          aria-hidden="true"
+          priority={false}
+        />
+      )}
+
+      {/* Main image */}
+      {(isInView || priority) && (
+        <Image
+          src={src || "/placeholder.svg"}
+          alt={alt}
+          fill={!width || !height}
+          width={width}
+          height={height}
+          sizes={sizes}
+          className={cn("object-cover transition-opacity duration-300", isLoaded ? "opacity-100" : "opacity-0")}
+          onLoad={() => setIsLoaded(true)}
+          priority={priority}
+          {...props}
+        />
+      )}
+
+      {/* Loading indicator */}
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <span className="sr-only">Cargando imagen...</span>
+        </div>
+      )}
     </div>
   )
 }

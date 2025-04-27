@@ -126,7 +126,7 @@ export default function EnhancedCTA({
 
   return (
     <section
-      className={`py-16 md:py-20 px-4 md:px-6 ${getBgColor()}`}
+      className={`py-20 px-6 ${getBgColor()}`}
       style={
         bgColor === "primary"
           ? {
@@ -166,7 +166,7 @@ export default function EnhancedCTA({
                 </div>
               ) : (
                 <form
-                  className="flex flex-col md:flex-row gap-4 justify-center w-full max-w-xl mx-auto"
+                  className="flex flex-col md:flex-row gap-4 justify-center"
                   onSubmit={handleSubmit}
                   aria-label="Formulario de suscripción"
                 >
@@ -176,13 +176,13 @@ export default function EnhancedCTA({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full md:w-[320px] px-4 py-3 h-12 rounded-md text-sm text-gray-900 bg-white border-0 shadow-sm"
+                    className="w-full md:w-[320px] px-4 py-3 rounded-md text-sm text-gray-900 bg-white border-0 shadow-sm"
                     aria-label="Email para suscripción"
                   />
                   <Button
                     type="submit"
                     disabled={loading}
-                    className="bg-white text-violet-700 font-semibold px-6 py-3 h-12 rounded-md hover:bg-gray-100 transition w-full md:w-auto"
+                    className="bg-white text-violet-700 font-semibold px-6 py-3 rounded-md hover:bg-gray-100 transition w-full md:w-auto"
                     aria-label={loading ? "Enviando..." : formButtonText || "Descargar Kit gratuito"}
                   >
                     {loading ? "Enviando..." : formButtonText || "Descargar Kit gratuito"}

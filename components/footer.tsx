@@ -9,49 +9,6 @@ export default function Footer() {
 
   const currentYear = new Date().getFullYear()
 
-  // Enlaces de navegación organizados por categorías
-  const navigationLinks = {
-    main: [
-      { name: "Inicio", href: "/" },
-      { name: "Herramientas", href: "/herramientas-ia" },
-      { name: "Herramientas Comparar", href: "/herramientas/comparar" },
-      { name: "Recursos", href: "/recursos" },
-      { name: "Sobre Nosotros", href: "/sobre-nosotros" },
-    ],
-    resources: [
-      { name: "Kit de herramientas IA", href: "/recursos?categoria=guias" },
-      { name: "Guía de prompts", href: "/recursos?categoria=prompts" },
-      { name: "Comparativas imprimibles", href: "/recursos?categoria=analisis" },
-      { name: "Plantillas gratuitas", href: "/recursos?categoria=plantillas" },
-    ],
-    legal: [
-      { name: "Política de Privacidad", href: "/politica-privacidad" },
-      { name: "Política de Cookies", href: "/politica-cookies" },
-      { name: "Aviso de Afiliados", href: "/aviso-afiliados" },
-      { name: "Contacto", href: "mailto:bussines@neuroworkai.com" },
-    ],
-    social: [
-      {
-        name: "Facebook",
-        href: "https://www.facebook.com/profile.php?id=61575664503316",
-        icon: Facebook,
-        ariaLabel: "Facebook de NeuroWorkAI",
-      },
-      {
-        name: "Instagram",
-        href: "https://www.instagram.com/neuroworkai",
-        icon: Instagram,
-        ariaLabel: "Instagram de NeuroWorkAI",
-      },
-      {
-        name: "LinkedIn",
-        href: "https://www.linkedin.com/company/neuroworksai/",
-        icon: Linkedin,
-        ariaLabel: "LinkedIn de NeuroWorkAI",
-      },
-    ],
-  }
-
   return (
     <footer className="bg-secondary text-white py-12 sm:py-16" role="contentinfo" aria-label="Pie de página del sitio">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -79,20 +36,39 @@ export default function Footer() {
               Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.
             </p>
             <div className="flex gap-3 mt-4" aria-label="Redes sociales">
-              {navigationLinks.social.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
-                  aria-label={item.ariaLabel}
-                  title={`Síguenos en ${item.name}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span className="sr-only">{item.name}</span>
-                </Link>
-              ))}
+              <Link
+                href="https://www.facebook.com/profile.php?id=61575664503316"
+                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
+                aria-label="Facebook de NeuroWorkAI"
+                title="Síguenos en Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Facebook className="h-5 w-5" />
+                <span className="sr-only">Facebook</span>
+              </Link>
+              <Link
+                href="https://www.instagram.com/neuroworkai"
+                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
+                aria-label="Instagram de NeuroWorkAI"
+                title="Síguenos en Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram className="h-5 w-5" />
+                <span className="sr-only">Instagram</span>
+              </Link>
+              <Link
+                href="https://www.linkedin.com/company/neuroworksai/"
+                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
+                aria-label="LinkedIn de NeuroWorkAI"
+                title="Síguenos en LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin className="h-5 w-5" />
+                <span className="sr-only">LinkedIn</span>
+              </Link>
             </div>
           </div>
 
@@ -100,17 +76,51 @@ export default function Footer() {
           <nav aria-label="Enlaces de navegación del sitio">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Navegación</h3>
             <ul className="space-y-2">
-              {navigationLinks.main.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                    aria-label={`Ir a ${item.name.toLowerCase()}`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ir a la página de inicio"
+                >
+                  Inicio
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/herramientas-ia"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Explorar herramientas de IA"
+                >
+                  Herramientas
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/herramientas/comparar"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Comparar diferentes herramientas"
+                >
+                  Comparar Herramientas
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/recursos"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Explorar recursos y guías"
+                >
+                  Recursos
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/sobre-nosotros"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Conocer más sobre NeuroWorkAI"
+                >
+                  Sobre Nosotros
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -118,17 +128,42 @@ export default function Footer() {
           <nav aria-label="Enlaces de recursos">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Recursos</h3>
             <ul className="space-y-2">
-              {navigationLinks.resources.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                    aria-label={item.name}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/recursos?categoria=guias"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Descargar kit de herramientas IA"
+                >
+                  Kit de herramientas IA
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/recursos?categoria=prompts"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver guía de prompts para IA"
+                >
+                  Guía de prompts
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/recursos?categoria=analisis"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver comparativas imprimibles"
+                >
+                  Comparativas imprimibles
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/recursos?categoria=plantillas"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Descargar plantillas gratuitas"
+                >
+                  Plantillas gratuitas
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -136,17 +171,42 @@ export default function Footer() {
           <nav aria-label="Enlaces legales">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Legal</h3>
             <ul className="space-y-2">
-              {navigationLinks.legal.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
-                    aria-label={`Ver ${item.name.toLowerCase()}`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/politica-privacidad"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver política de privacidad"
+                >
+                  Política de Privacidad
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/politica-cookies"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver política de cookies"
+                >
+                  Política de Cookies
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/aviso-afiliados"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver aviso de afiliados"
+                >
+                  Aviso de Afiliados
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:bussines@neuroworkai.com"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Contactar con nosotros"
+                >
+                  Contacto
+                </a>
+              </li>
             </ul>
           </nav>
         </div>

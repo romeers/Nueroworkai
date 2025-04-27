@@ -1,115 +1,119 @@
 "use client"
 
-import Image from "next/image"
-import { useState, useEffect } from "react"
+import type React from "react"
+import { useState, useEffect, useRef } from "react"
+import Image, { type ImageProps } from "next/image"
 import { cn } from "@/lib/utils"
 
-interface SafeImageProps {
+interface SafeImageProps extends Omit<ImageProps, "src" | "alt"> {
   src: string | null | undefined
   alt: string
-  width?: number
-  height?: number
-  className?: string
-  priority?: boolean
   fallbackSrc?: string
+  fallback?: React.ReactNode
   onLoad?: () => void
   onError?: () => void
-  sizes?: string
-  loading?: "eager" | "lazy"
-  fill?: boolean
-  quality?: number
-  placeholder?: "blur" | "empty" | "data:image/..."
-  blurDataURL?: string
 }
 
 export default function SafeImage({
   src,
   alt,
-  width,
-  height,
-  className,
-  priority = false,
   fallbackSrc = "/placeholder.svg",
+  fallback,
+  className,
   onLoad,
   onError,
-  sizes,
-  loading,
-  fill = false,
+  loading = "lazy",
   quality = 80,
-  placeholder,
-  blurDataURL,
+  sizes,
   ...props
 }: SafeImageProps) {
-  const [imgSrc, setImgSrc] = useState<string>(src || fallbackSrc)
+  const [imgSrc, setImgSrc] = useState<string | null | undefined>(src)
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
+  const imageRef = useRef<HTMLImageElement>(null)
 
-  // Actualizar la fuente de la imagen cuando cambia la prop src
+  // Default sizes if not provided
+  const defaultSizes = sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+
+  // Reset states when src changes
   useEffect(() => {
-    if (src) {
-      setImgSrc(src)
-      setHasError(false)
-    }
+    setImgSrc(src)
+    setIsLoading(true)
+    setHasError(false)
   }, [src])
 
-  // Determinar si la imagen es decorativa
-  const isDecorative = alt === "" || alt === " "
-
-  // Manejar errores de carga de imagen
-  const handleError = () => {
-    if (imgSrc !== fallbackSrc) {
-      setImgSrc(fallbackSrc)
-      setHasError(true)
-      if (onError) onError()
-    }
-  }
-
-  // Manejar carga exitosa de imagen
+  // Handle image load
   const handleLoad = () => {
     setIsLoading(false)
-    if (onLoad) onLoad()
+    onLoad?.()
   }
 
-  // Generar un ID único para el aria-describedby
-  const imageDescriptionId = `img-desc-${Math.random().toString(36).substring(2, 9)}`
+  // Handle image error
+  const handleError = () => {
+    setHasError(true)
+    setImgSrc(fallbackSrc)
+    onError?.()
+  }
+
+  // Use Intersection Observer for lazy loading
+  useEffect(() => {
+    if (!imageRef.current || loading !== "lazy") return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsLoading(false)
+            observer.disconnect()
+          }
+        })
+      },
+      { rootMargin: "200px" },
+    )
+
+    observer.observe(imageRef.current)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [loading])
+
+  // If custom fallback is provided and there's an error, render it
+  if (hasError && fallback) {
+    return <>{fallback}</>
+  }
 
   return (
-    <>
-      <div
-        className={cn("relative overflow-hidden", isLoading && "animate-pulse bg-gray-200", className)}
-        aria-busy={isLoading}
-      >
+    <div className={cn("relative", className)} ref={imageRef}>
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
+          <span className="sr-only">Cargando imagen...</span>
+        </div>
+      )}
+
+      {imgSrc ? (
         <Image
           src={imgSrc || "/placeholder.svg"}
           alt={alt}
-          width={fill ? undefined : width || 800}
-          height={fill ? undefined : height || 600}
-          onError={handleError}
           onLoad={handleLoad}
-          priority={priority}
-          sizes={sizes}
-          loading={loading || (priority ? "eager" : "lazy")}
-          fill={fill}
+          onError={handleError}
+          loading={loading}
           quality={quality}
-          placeholder={placeholder}
-          blurDataURL={blurDataURL}
-          className={cn(
-            "transition-opacity duration-300",
-            isLoading ? "opacity-0" : "opacity-100",
-            hasError && "grayscale",
-          )}
-          aria-describedby={!isDecorative ? imageDescriptionId : undefined}
-          role={isDecorative ? "presentation" : undefined}
+          sizes={defaultSizes}
+          className={cn("transition-opacity duration-300", isLoading ? "opacity-0" : "opacity-100", className)}
           {...props}
         />
-      </div>
-
-      {/* Descripción detallada para lectores de pantalla si la imagen no es decorativa */}
-      {!isDecorative && alt && alt.length > 0 && (
-        <span id={imageDescriptionId} className="sr-only">
-          {alt}
-        </span>
+      ) : (
+        <Image
+          src={fallbackSrc || "/placeholder.svg"}
+          alt={alt}
+          className={className}
+          loading={loading}
+          quality={quality}
+          sizes={defaultSizes}
+          {...props}
+        />
       )}
-    </>
+    </div>
   )
 }

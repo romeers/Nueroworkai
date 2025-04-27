@@ -10,7 +10,6 @@ import TrustBadges from "@/components/trust-badges"
 import EnhancedCTA from "@/components/enhanced-cta"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { CalendarIcon } from "lucide-react"
-import SafeImage from "@/components/safe-image"
 
 // Datos de ejemplo para las herramientas destacadas
 const featuredTools = [
@@ -72,33 +71,35 @@ const featuredTools = [
   },
 ]
 
-// Función segura para formatear la fecha en español
-function obtenerFechaFormateada() {
-  try {
-    return new Date().toLocaleDateString("es-ES", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    })
-  } catch (error) {
-    // Fallback por si hay problemas con la localización
-    const fecha = new Date()
-    return `${fecha.getDate()} de abril, ${fecha.getFullYear()}`
-  }
-}
-
-const fechaActual = obtenerFechaFormateada()
-
-// Datos para recursos destacados
+// Rename blogPosts to resources
+// Datos de ejemplo para los recursos destacados
 const resources = [
   {
-    title: "Cómo implementar IA en tu flujo de trabajo diario",
+    title: "Cómo automatizar tareas con Make y Zapier en tu equipo remoto",
     excerpt:
-      "Descubre cómo integrar herramientas de IA en tus procesos diarios sin necesidad de ser un experto técnico. Guía práctica para empresas de cualquier tamaño.",
-    imageUrl: "/implementar-ia-flujo-trabajo-2025.png",
-    category: "Guías prácticas",
-    date: fechaActual,
-    slug: "implement-ai-daily-workflow",
+      "Aprende a crear flujos de trabajo automatizados entre tus aplicaciones favoritas utilizando Zapier y Make, ahorrando tiempo y reduciendo errores.",
+    imageUrl: "/connected-apps-workflow.png",
+    category: "Automatización",
+    date: "3 de mayo, 2023",
+    slug: "como-automatizar-tareas-make-zapier-equipo-remoto",
+  },
+  {
+    title: "Las mejores herramientas IA para freelancers en 2025",
+    excerpt:
+      "Descubre las herramientas de IA que están transformando la forma en que trabajan los freelancers, aumentando la eficiencia y reduciendo las tareas repetitivas.",
+    imageUrl: "/ai-powered-freelance-artist.png",
+    category: "Productividad",
+    date: "15 de abril, 2023",
+    slug: "mejores-herramientas-ia-freelancers-2025",
+  },
+  {
+    title: "Análisis: Notion AI vs ClickUp para productividad",
+    excerpt:
+      "Analizamos en profundidad Notion AI y ClickUp para ayudarte a decidir cuál es la mejor herramienta para gestionar tus proyectos y equipos remotos.",
+    imageUrl: "/productivity-apps.png",
+    category: "Análisis",
+    date: "10 de junio, 2023",
+    slug: "analisis-notion-ai-vs-clickup-productividad",
   },
 ]
 
@@ -154,6 +155,40 @@ const stats = [
   },
 ]
 
+// Datos para badges de confianza
+const trustBadges = [
+  {
+    name: "Notion",
+    logoUrl: "/notion-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+  {
+    name: "Zapier",
+    logoUrl: "/zapier-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+  {
+    name: "ClickUp",
+    logoUrl: "/clickup-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+  {
+    name: "Jasper",
+    logoUrl: "/jasper-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+  {
+    name: "Grammarly",
+    logoUrl: "/grammarly-logo-gray.png",
+    width: 120,
+    height: 40,
+  },
+]
+
 export default function Home() {
   return (
     <>
@@ -161,12 +196,7 @@ export default function Home() {
       <HeroSection />
 
       {/* Trust Badges Section */}
-      <TrustBadges
-        title="Herramientas de IA líderes confían en nuestros análisis"
-        subtitle="Analizamos y recomendamos las mejores soluciones de IA para profesionales"
-        showDefaultLogos={true}
-        grayscale={true}
-      />
+      <TrustBadges title="Herramientas de IA líderes confían en nuestros análisis" badges={trustBadges} />
 
       {/* Featured Tools Section */}
       <section className="py-16 bg-gray-50">
@@ -249,7 +279,7 @@ export default function Home() {
         testimonials={testimonials}
       />
 
-      {/* Resources Preview Section */}
+      {/* Blog Preview Section */}
       <section className="py-16 bg-gray-50" aria-labelledby="featured-articles-heading">
         <div className="container mx-auto px-4 md:px-12 lg:px-20">
           <div className="mx-auto max-w-3xl text-center mb-12">
@@ -271,12 +301,14 @@ export default function Home() {
                 className="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.01] transition duration-300 border border-gray-100 overflow-hidden flex flex-col h-full"
               >
                 <div className="relative">
-                  <SafeImage
-                    src={resource.imageUrl}
+                  <img
+                    src={
+                      resource.imageUrl ||
+                      `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(resource.title)}`
+                    }
                     alt={`Imagen para el recurso: ${resource.title}`}
-                    width={640}
-                    height={320}
                     className="h-[160px] w-full object-cover"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                   <span className="absolute top-4 right-4 bg-violet-100 text-violet-700 text-xs px-3 py-1 rounded-full font-medium">

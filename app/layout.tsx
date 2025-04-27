@@ -8,9 +8,6 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/react"
 import { Suspense } from "react"
 import SkipToContent from "@/components/accessibility/skip-to-content"
-import { AuthProvider } from "@/contexts/auth-context"
-import GoogleAnalytics from "@/components/google-analytics"
-import { siteConfig } from "@/config/site"
 
 // Optimize font loading with display swap and subset
 const inter = Inter({
@@ -29,70 +26,38 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    "herramientas IA",
-    "inteligencia artificial",
-    "productividad",
-    "trabajo remoto",
-    "automatización",
-    "comparativas IA",
-    "reseñas IA",
-    "mejores herramientas IA",
-    "IA para profesionales",
-    "NeuroWorkAI",
-  ],
-  authors: [
-    {
-      name: "NeuroWorkAI",
-      url: "https://neuroworkai.com",
-    },
-  ],
-  creator: "NeuroWorkAI",
+  title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+  description:
+    "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos. Reseñas, comparativas y recursos gratuitos.",
+  keywords:
+    "IA, inteligencia artificial, productividad, trabajo remoto, herramientas IA, Notion AI, Zapier, Make, ClickUp, Grammarly, Jasper, Fireflies",
+  metadataBase: new URL("https://neuroworkai.com"),
   openGraph: {
     type: "website",
     locale: "es_ES",
-    url: siteConfig.url,
-    title: siteConfig.name,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
+    url: "https://neuroworkai.com",
+    title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+    description: "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
+    siteName: "NeuroWorkAI",
     images: [
       {
-        url: `${siteConfig.url}/og-image.jpg`,
+        url: "/neural-network-head.png",
         width: 1200,
         height: 630,
-        alt: siteConfig.name,
+        alt: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [`${siteConfig.url}/og-image.jpg`],
-    creator: "@neuroworkai",
+    title: "NeuroWorkAI - Herramientas de IA para Profesionales Remotos",
+    description: "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
+    images: ["/neural-network-head.png"],
   },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    other: [
-      {
-        rel: "mask-icon",
-        url: "/safari-pinned-tab.svg",
-        color: "#0070f3",
-      },
-    ],
+  robots: {
+    index: true,
+    follow: true,
   },
-  manifest: "/manifest.webmanifest",
-  metadataBase: new URL(siteConfig.url),
     generator: 'v0.dev'
 }
 
@@ -102,10 +67,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" suppressHydrationWarning className="scroll-smooth" dir="ltr">
+    <html lang="es" suppressHydrationWarning className="scroll-smooth">
       <head>
         <meta name="theme-color" content="#7C3AED" />
-        <link rel="canonical" href="https://neuroworkai.com/" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
         {/* Preload critical assets */}
         <link rel="preload" href="/logo.png" as="image" />
@@ -118,36 +84,31 @@ export default function RootLayout({
         {/* Add DNS prefetch for third-party domains */}
         <link rel="dns-prefetch" href="https://v0.blob.com" />
         <link rel="dns-prefetch" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
-        <link rel="dns-prefetch" href="https://tb4dwzggtieausz8.public.blob.vercel-storage.com" />
-        <GoogleAnalytics />
       </head>
-      <body
-        className={`${inter.variable} ${poppins.variable} font-sans antialiased min-h-screen flex flex-col text-base`}
-      >
+      <body className={`${inter.variable} ${poppins.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <AuthProvider>
-            <div className="flex min-h-screen flex-col">
-              <SkipToContent />
-              <Header />
-              <Suspense
-                fallback={
-                  <div className="flex-1 flex items-center justify-center p-8">
-                    <div
-                      className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"
-                      role="status"
-                    >
-                      <span className="sr-only">Cargando...</span>
-                    </div>
-                  </div>
-                }
-              >
-                <main id="main-content" className="flex-1">
-                  {children}
-                </main>
-              </Suspense>
-              <Footer />
-            </div>
-          </AuthProvider>
+          <div className="flex min-h-screen flex-col">
+            <SkipToContent />
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-primary"
+            >
+              Saltar al contenido principal
+            </a>
+            <Header />
+            <Suspense
+              fallback={
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              }
+            >
+              <main id="main-content" className="flex-1">
+                {children}
+              </main>
+            </Suspense>
+            <Footer />
+          </div>
           <Analytics />
         </ThemeProvider>
       </body>
