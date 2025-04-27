@@ -11,55 +11,56 @@ import EnhancedCTA from "@/components/enhanced-cta"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { CalendarIcon } from "lucide-react"
 import HomeSchema from "@/components/seo/home-schema"
+import SafeImage from "@/components/safe-image"
 
 // Datos de ejemplo para las herramientas destacadas
 const featuredTools = [
   {
     name: "Notion AI",
     description: "Asistente de escritura y organización con IA integrada en Notion.",
-    imageUrl: "/abstract-ai-flow.png",
+    imageUrl: "/notion-logo.png",
     category: "Escritura IA",
     url: "/herramientas/notion-ai",
   },
   {
     name: "Zapier",
     description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
-    imageUrl: "/zapier-logo-on-white.png",
+    imageUrl: "/zapier-logo.png",
     category: "Automatización",
     url: "/herramientas/zapier",
   },
   {
     name: "Grammarly",
     description: "Corrector gramatical y asistente de escritura con IA.",
-    imageUrl: "/Grammarly-icon.png",
+    imageUrl: "/grammarly-logo.png",
     category: "Escritura IA",
     url: "/herramientas/grammarly",
   },
   {
     name: "ClickUp",
     description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
-    imageUrl: "/clickup-logo-isolated.png",
+    imageUrl: "/clickup-logo.png",
     category: "Gestión de tareas",
     url: "/herramientas/clickup",
   },
   {
     name: "Jasper AI",
     description: "Generador de contenido con IA para marketing y comunicación.",
-    imageUrl: "/abstract-ai-logo.png",
+    imageUrl: "/jasper-logo.png",
     category: "Escritura IA",
     url: "/herramientas/jasper-ai",
   },
   {
     name: "Fireflies.ai",
     description: "Transcribe y analiza reuniones automáticamente con IA.",
-    imageUrl: "/abstract-fireflies.png",
+    imageUrl: "/fireflies-logo-full.png",
     category: "Reuniones",
     url: "/herramientas/fireflies-ai",
   },
   {
     name: "Otter.ai",
     description: "Asistente de notas con IA para transcribir y resumir reuniones.",
-    imageUrl: "/otter-ai-logo-inspired-design.png",
+    imageUrl: "/otter-ai-logo-full.png",
     category: "Reuniones",
     url: "/herramientas/otter-ai",
   },
@@ -156,35 +157,35 @@ const stats = [
   },
 ]
 
-// Datos para badges de confianza
+// Datos para badges de confianza - Updated with proper logos
 const trustBadges = [
   {
     name: "Notion",
-    logoUrl: "/notion-logo-gray.png",
+    logoUrl: "/notion-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Zapier",
-    logoUrl: "/zapier-logo-gray.png",
+    logoUrl: "/zapier-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "ClickUp",
-    logoUrl: "/clickup-logo-gray.png",
+    logoUrl: "/clickup-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Jasper",
-    logoUrl: "/jasper-logo-gray.png",
+    logoUrl: "/jasper-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Grammarly",
-    logoUrl: "/grammarly-logo-gray.png",
+    logoUrl: "/grammarly-logo.png",
     width: 120,
     height: 40,
   },
@@ -221,12 +222,16 @@ export default function Home() {
                 className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col h-full"
               >
                 <div className="flex flex-col items-center mb-4">
-                  <img
-                    src={tool.imageUrl || "/placeholder.svg"}
-                    alt={`Logo de ${tool.name}`}
-                    className="w-12 h-auto mb-3"
-                    loading="lazy"
-                  />
+                  <div className="relative w-12 h-12 mb-3">
+                    <SafeImage
+                      src={tool.imageUrl}
+                      alt={`Logo de ${tool.name}`}
+                      width={48}
+                      height={48}
+                      className="object-contain"
+                      loading="lazy"
+                    />
+                  </div>
                   <h3 className="text-lg font-bold text-secondary text-center">{tool.name}</h3>
                 </div>
                 <p className="text-gray-600 text-sm mb-6 flex-grow line-clamp-2">{tool.description}</p>
@@ -304,14 +309,12 @@ export default function Home() {
                 key={resource.slug}
                 className="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.01] transition duration-300 border border-gray-100 overflow-hidden flex flex-col h-full"
               >
-                <div className="relative">
-                  <img
-                    src={
-                      resource.imageUrl ||
-                      `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(resource.title) || "/placeholder.svg"}`
-                    }
+                <div className="relative h-[160px]">
+                  <SafeImage
+                    src={resource.imageUrl}
                     alt={`Imagen para el recurso: ${resource.title}`}
-                    className="h-[160px] w-full object-cover"
+                    fill
+                    className="object-cover"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>

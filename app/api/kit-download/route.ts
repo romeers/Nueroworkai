@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 
       return NextResponse.json({
         success: true,
-        message: "¡Gracias! Te enviaremos el kit a tu correo electrónico en las próximas 24 horas.",
+        message: "¡Gracias! Recibirás el Kit en tu correo en menos de 24 horas.",
       })
     } catch (insertError) {
       console.error("Error al registrar descarga de kit:", insertError)

@@ -5,14 +5,14 @@ import { validateEmail } from "@/utils/security"
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { email, name, source = "website" } = body
+    const { email, source = "website" } = body
 
     // Server-side email validation
     if (!email || !validateEmail(email)) {
       return NextResponse.json({ success: false, message: "Por favor, introduce un email válido" }, { status: 400 })
     }
 
-    console.log(`Procesando suscripción: ${email}, ${name || "sin nombre"}, fuente: ${source}`)
+    console.log(`Procesando suscripción para: ${email} desde ${source}`)
 
     // Get database connection
     const sql = getDbConnection()
@@ -20,17 +20,15 @@ export async function POST(request: Request) {
     // Create the table if it doesn't exist
     try {
       await sql`
-        CREATE TABLE IF NOT EXISTS subscribers (
+        CREATE TABLE IF NOT EXISTS subscriptions (
           id SERIAL PRIMARY KEY,
           email VARCHAR(255) UNIQUE NOT NULL,
-          name VARCHAR(255),
           source VARCHAR(100),
-          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-          updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+          subscription_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         )
       `
     } catch (dbError) {
-      console.error("Error creating subscribers table:", dbError)
+      console.error("Error creating subscriptions table:", dbError)
       return NextResponse.json(
         {
           success: false,
@@ -41,28 +39,23 @@ export async function POST(request: Request) {
       )
     }
 
-    // Insert the subscriber
+    // Save the email
     try {
-      const result = await sql`
-        INSERT INTO subscribers (email, name, source)
-        VALUES (${email}, ${name || null}, ${source})
+      await sql`
+        INSERT INTO subscriptions (email, source)
+        VALUES (${email}, ${source})
         ON CONFLICT (email) 
         DO UPDATE SET 
-          name = COALESCE(${name || null}, subscribers.name),
-          source = COALESCE(${source}, subscribers.source),
-          updated_at = CURRENT_TIMESTAMP
-        RETURNING id, email
+          source = ${source},
+          subscription_date = CURRENT_TIMESTAMP
       `
-
-      console.log(`Suscripción guardada correctamente: ${JSON.stringify(result)}`)
 
       return NextResponse.json({
         success: true,
-        message: "¡Gracias! Te enviaremos el kit a tu correo electrónico en las próximas 24 horas.",
-        subscriber: result[0],
+        message: "¡Gracias! Recibirás el Kit en tu correo en menos de 24 horas.",
       })
     } catch (insertError) {
-      console.error("Error al insertar suscriptor:", insertError)
+      console.error("Error al registrar suscripción:", insertError)
       return NextResponse.json(
         {
           success: false,
@@ -72,12 +65,11 @@ export async function POST(request: Request) {
       )
     }
   } catch (error) {
-    console.error("Error general al procesar suscripción:", error)
+    console.error("Error general al registrar suscripción:", error)
     return NextResponse.json(
       {
         success: false,
         message: "Lo sentimos, ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.",
-        error: String(error),
       },
       { status: 500 },
     )

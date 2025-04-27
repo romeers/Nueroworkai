@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Download } from "lucide-react"
+import { Download, CheckCircle } from "lucide-react"
 import { validateEmail } from "@/utils/security"
 
 export default function KitDownloadForm() {
@@ -40,9 +40,7 @@ export default function KitDownloadForm() {
 
       if (response.ok) {
         setSuccess(true)
-        setSuccessMessage(
-          data.message || "¡Gracias! Te enviaremos el kit a tu correo electrónico en las próximas 24 horas.",
-        )
+        setSuccessMessage(data.message || "¡Gracias! Recibirás el Kit en tu correo en menos de 24 horas.")
         setEmail("")
       } else {
         setError(data.message || "Error al registrar el correo")
@@ -59,22 +57,18 @@ export default function KitDownloadForm() {
     <div className="w-full max-w-md mx-auto">
       {success ? (
         <div className="bg-green-50 border border-green-200 rounded-md p-4 text-green-800">
-          <p className="font-medium">¡Gracias por tu interés!</p>
-          <p className="text-sm mt-1">{successMessage}</p>
-          <Button
-            className="mt-3 bg-primary hover:bg-primary/90"
-            onClick={() => window.open("/ruta-al-kit-digital.pdf", "_blank")}
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Descargar Kit Digital
-          </Button>
+          <div className="flex items-center mb-2">
+            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+            <p className="font-medium">¡Gracias por tu interés!</p>
+          </div>
+          <p className="text-sm">{successMessage}</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <h3 className="text-lg font-medium mb-2">Descarga nuestro Kit Digital Gratuito</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Introduce tu correo electrónico para descargar el kit digital con recursos exclusivos.
+              Introduce tu correo electrónico para recibir el kit digital con recursos exclusivos.
             </p>
           </div>
 

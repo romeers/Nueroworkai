@@ -1,10 +1,12 @@
 "use client"
 
+import type React from "react"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Search, Star, ExternalLink, Download } from "lucide-react"
+import { Search, Star, ExternalLink, Download, CheckCircle } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import { useState, useEffect } from "react"
 
@@ -16,6 +18,10 @@ export default function HerramientasIAPageClient({
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialSearchParams.categoria || "todas")
   const [searchQuery, setSearchQuery] = useState(initialSearchParams.q || "")
   const [filteredTools, setFilteredTools] = useState(tools)
+  const [email, setEmail] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     setCategoriaSeleccionada(initialSearchParams.categoria || "todas")
@@ -40,6 +46,26 @@ export default function HerramientasIAPageClient({
     }
 
     return toolUrls[toolName] || "https://www.notion.so/product/ai" // Notion AI como fallback
+  }
+
+  // Función para obtener la URL correcta del logo
+  const getLogoUrl = (tool: any) => {
+    if (!tool.image_url) {
+      return `/placeholder.svg?height=64&width=64&query=${encodeURIComponent(tool.name + " logo")}`
+    }
+
+    // Mapeo de URLs de imágenes antiguas a nuevas
+    const imageMap: Record<string, string> = {
+      "/notion-ai-blue.png": "/notion-logo.png",
+      "/zapier-blue-background.png": "/zapier-logo.png",
+      "/clickup-blue-background.png": "/clickup-logo.png",
+      "/fireflies-ai-logo-blue.png": "/fireflies-logo-full.png",
+      "/otter-ai-logo-inspired-design.png": "/otter-ai-logo-full.png",
+      "/grammarly-blue.png": "/grammarly-logo.png",
+      "/ai-logo-blue.png": "/jasper-logo.png",
+    }
+
+    return imageMap[tool.image_url] || tool.image_url
   }
 
   // Función para renderizar estrellas basadas en la puntuación
@@ -69,6 +95,34 @@ export default function HerramientasIAPageClient({
     )
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError("")
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: "herramientas-ia-page" }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSuccess(true)
+        setEmail("")
+      } else {
+        setError(data.message || "Error al registrar el correo")
+      }
+    } catch (error) {
+      setError("Error al conectar con el servidor. Por favor, inténtalo de nuevo más tarde.")
+      console.error("Error al enviar formulario:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <>
       {/* Hero Section */}
@@ -79,15 +133,16 @@ export default function HerramientasIAPageClient({
         }}
       >
         {/* Abstract background pattern */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none hidden md:block"
-          style={{
-            backgroundImage: "url('/neural-network-bg.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          aria-hidden="true"
-        />
+        <div className="absolute inset-0 opacity-10 pointer-events-none hidden md:block" aria-hidden="true">
+          <SafeImage
+            src="/neural-network-bg.png"
+            alt="Fondo de red neuronal"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+        </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
@@ -181,20 +236,9 @@ export default function HerramientasIAPageClient({
                   className="rounded-xl shadow-sm hover:shadow-md transition bg-white p-5 flex flex-col items-center text-center h-full"
                 >
                   <div className="relative mb-4">
-                    <div className="w-16 h-16 flex items-center justify-center">
+                    <div className="relative w-16 h-16 flex items-center justify-center">
                       <SafeImage
-                        src={
-                          tool.image_url
-                            ? tool.image_url
-                                .replace("/notion-ai-blue.png", "/notion-logo.png")
-                                .replace("/zapier-blue-background.png", "/zapier-logo.png")
-                                .replace("/clickup-blue-background.png", "/clickup-logo.png")
-                                .replace("/fireflies-ai-logo-blue.png", "/fireflies-logo-full.png")
-                                .replace("/otter-ai-logo-inspired-design.png", "/otter-ai-logo-full.png")
-                                .replace("/grammarly-blue.png", "/grammarly-logo.png")
-                                .replace("/ai-logo-blue.png", "/jasper-logo.png")
-                            : "/placeholder.svg?height=64&width=64&query=logo"
-                        }
+                        src={getLogoUrl(tool)}
                         alt={`Logo de ${tool.name}`}
                         width={64}
                         height={64}
@@ -271,45 +315,34 @@ export default function HerramientasIAPageClient({
               <p className="text-gray-600">Descarga gratis el Kit de Productividad con IA para Trabajo Remoto (2025)</p>
             </div>
 
-            <form
-              className="max-w-md mx-auto"
-              onSubmit={async (e) => {
-                e.preventDefault()
-                const form = e.currentTarget
-                const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement
-                const email = emailInput?.value
-
-                if (!email) return
-
-                try {
-                  const response = await fetch("/api/subscribe", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, source: "herramientas-ia-page" }),
-                  })
-
-                  if (response.ok) {
-                    window.location.href = "/kit-digital?success=true"
-                  }
-                } catch (error) {
-                  console.error("Error al enviar el formulario:", error)
-                }
-              }}
-            >
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Input
-                  type="email"
-                  placeholder="Tu correo electrónico"
-                  required
-                  className="flex-grow"
-                  aria-label="Email para recibir el kit gratuito"
-                />
-                <Button type="submit" className="bg-primary hover:bg-primary/90 whitespace-nowrap">
-                  Descargar Kit gratuito
-                </Button>
+            {success ? (
+              <div className="max-w-md mx-auto bg-green-50 border border-green-200 rounded-md p-4 text-green-800">
+                <div className="flex items-center mb-2">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <p className="font-medium">¡Gracias por tu interés!</p>
+                </div>
+                <p className="text-sm">¡Gracias! Recibirás el Kit en tu correo en menos de 24 horas.</p>
               </div>
-              <p className="text-xs text-center text-gray-500 mt-2">Sin spam · Descarga inmediata tras confirmar</p>
-            </form>
+            ) : (
+              <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Input
+                    type="email"
+                    placeholder="Tu correo electrónico"
+                    required
+                    className="flex-grow"
+                    aria-label="Email para recibir el kit gratuito"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <Button type="submit" className="bg-primary hover:bg-primary/90 whitespace-nowrap" disabled={loading}>
+                    {loading ? "Enviando..." : "Descargar Kit gratuito"}
+                  </Button>
+                </div>
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                <p className="text-xs text-center text-gray-500 mt-2">Sin spam · Descarga inmediata tras confirmar</p>
+              </form>
+            )}
           </div>
         </div>
       </section>

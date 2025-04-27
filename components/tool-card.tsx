@@ -1,24 +1,17 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Star, Clock } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
-import SafeImage from "./safe-image"
-import FavoriteButton from "@/components/favorite-button"
+import { Badge } from "@/components/ui/badge"
+import { Star } from "lucide-react"
+import SafeImage from "@/components/safe-image"
 
 interface ToolCardProps {
   name: string
   description: string
-  imageUrl?: string | null
+  imageUrl: string
   category: string
   url: string
   featured?: boolean
   score?: number
-  specialOffer?: string
-  verified?: boolean
-  slug: string // Ensure slug is a required prop
-  id: string
+  slug: string
 }
 
 export default function ToolCard({
@@ -28,148 +21,89 @@ export default function ToolCard({
   category,
   url,
   featured = false,
-  score,
-  specialOffer,
-  verified = false,
-  slug, // Make slug required
-  id,
+  score = 0,
+  slug,
 }: ToolCardProps) {
-  // Actualizar las referencias a las imágenes en el componente de tarjeta de herramienta
-  // Buscar y reemplazar las URLs de las imágenes en este archivo
-
-  // Reemplazar:
-  // "/notion-ai-blue.png" por "/notion-logo.png"
-  // "/zapier-blue-background.png" por "/zapier-logo.png"
-  // "/clickup-blue-background.png" por "/clickup-logo.png"
-  // "/fireflies-ai-logo-blue.png" por "/fireflies-logo-full.png"
-  // "/otter-ai-logo-inspired-design.png" por "/otter-ai-logo-full.png"
-  // "/grammarly-blue.png" por "/grammarly-logo.png"
-  // "/ai-logo-blue.png" por "/jasper-logo.png"
-
-  const updatedImageUrl = imageUrl
-    ?.replace("/notion-ai-blue.png", "/notion-logo.png")
-    .replace("/zapier-blue-background.png", "/zapier-logo.png")
-    .replace("/clickup-blue-background.png", "/clickup-logo.png")
-    .replace("/fireflies-ai-logo-blue.png", "/fireflies-logo-full.png")
-    .replace("/otter-ai-logo-inspired-design.png", "/otter-ai-logo-full.png")
-    .replace("/grammarly-blue.png", "/grammarly-logo.png")
-    .replace("/ai-logo-blue.png", "/jasper-logo.png")
-
-  const fallbackImage = `/placeholder.svg?height=160&width=320&query=${encodeURIComponent(name + " icon")}`
-
-  // Determinar si la URL es interna o externa (afiliado)
-  const isExternalUrl = url.startsWith("http")
-  const internalUrl = `/herramientas/${slug}`
-
-  // Añadir una función para obtener la URL oficial si no hay URL de afiliado
-  const getOfficialUrl = (toolName: string) => {
-    const toolUrls: Record<string, string> = {
-      "Notion AI": "https://www.notion.so/product/ai",
-      Zapier: "https://zapier.com/",
-      ClickUp: "https://clickup.com/",
-      Fireflies: "https://fireflies.ai/",
-      "Otter.ai": "https://otter.ai/",
-      Grammarly: "https://www.grammarly.com/",
-      Jasper: "https://www.jasper.ai/",
-      ChatGPT: "https://chat.openai.com/",
+  // Función para obtener la URL correcta del logo
+  const getLogoUrl = (imageUrl: string) => {
+    if (!imageUrl) {
+      return `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " logo")}`
     }
 
-    return toolUrls[toolName] || "https://www.notion.so/product/ai" // Notion AI como fallback
+    // Mapeo de URLs de imágenes antiguas a nuevas
+    const imageMap: Record<string, string> = {
+      "/notion-ai-blue.png": "/notion-logo.png",
+      "/zapier-blue-background.png": "/zapier-logo.png",
+      "/clickup-blue-background.png": "/clickup-logo.png",
+      "/fireflies-ai-logo-blue.png": "/fireflies-logo-full.png",
+      "/otter-ai-logo-inspired-design.png": "/otter-ai-logo-full.png",
+      "/grammarly-blue.png": "/grammarly-logo.png",
+      "/ai-logo-blue.png": "/jasper-logo.png",
+    }
+
+    return imageMap[imageUrl] || imageUrl
+  }
+
+  // Función para renderizar estrellas basadas en la puntuación
+  const renderStars = (score: number) => {
+    const fullStars = Math.floor(score / 2)
+    const halfStar = score % 2 >= 1
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0)
+
+    return (
+      <div className="flex">
+        {[...Array(fullStars)].map((_, i) => (
+          <Star key={`full-${i}`} className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
+        ))}
+        {halfStar && (
+          <span className="relative">
+            <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" style={{ clipPath: "inset(0 50% 0 0)" }} />
+            <Star
+              className="absolute top-0 left-0 h-3.5 w-3.5 text-gray-300"
+              style={{ clipPath: "inset(0 0 0 50%)" }}
+            />
+          </span>
+        )}
+        {[...Array(emptyStars)].map((_, i) => (
+          <Star key={`empty-${i}`} className="h-3.5 w-3.5 text-gray-300" />
+        ))}
+      </div>
+    )
   }
 
   return (
-    <Card
-      className={cn(
-        "overflow-hidden transition-all duration-200 hover:shadow-lg flex flex-col h-full",
-        featured ? "border-primary/20" : "",
-      )}
+    <Link
+      href={url}
+      className="block rounded-lg border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+      data-umami-event={`tool-card-click-${slug}`}
     >
-      <div className="relative h-40 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
-        <SafeImage
-          src={updatedImageUrl || imageUrl}
-          fallbackSrc={fallbackImage}
-          alt={`Logo de ${name}`}
-          width={160}
-          height={160}
-          className="h-auto w-auto max-h-32 max-w-[80%] object-contain"
-          priority={featured}
-        />
-        <div className="absolute right-2 top-2">
-          <FavoriteButton toolId={id} className="bg-white/90 hover:bg-white" />
+      <div className="flex items-start gap-4">
+        <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-50">
+          <SafeImage src={getLogoUrl(imageUrl)} alt={name} fill className="object-contain p-1" sizes="64px" />
         </div>
-        <div className="absolute left-2 top-2">
-          <Badge className="bg-primary hover:bg-primary/90">{category}</Badge>
+        <div className="flex-1">
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-secondary">{name}</h3>
+            {featured && (
+              <Badge className="ml-2 bg-primary text-white" variant="default">
+                Destacada
+              </Badge>
+            )}
+          </div>
+          <p className="mt-1 text-sm text-gray-600 line-clamp-2">{description}</p>
+          <div className="mt-2 flex items-center justify-between">
+            <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+              {category}
+            </span>
+            {score > 0 && (
+              <div className="flex items-center gap-1">
+                <span className="text-xs font-medium text-primary">{score}/10</span>
+                {renderStars(score)}
+              </div>
+            )}
+          </div>
         </div>
-        {verified && (
-          <div className="absolute right-2 top-2">
-            <Badge variant="outline" className="bg-white/80 border-green-500 text-green-700">
-              Verificado
-            </Badge>
-          </div>
-        )}
-        {score && (
-          <div className="absolute bottom-2 right-2">
-            <div className="flex items-center rounded-full bg-black/60 px-2 py-1 text-xs text-white">
-              <Star className="mr-1 h-3 w-3 fill-yellow-400 text-yellow-400" />
-              <span>{score}</span>
-            </div>
-          </div>
-        )}
       </div>
-      <CardHeader className="pb-2 flex-grow">
-        <CardTitle className="text-xl font-bold text-secondary">{name}</CardTitle>
-        <CardDescription className="line-clamp-2">{description}</CardDescription>
-      </CardHeader>
-      <CardContent className="pb-2">
-        {specialOffer && (
-          <div className="mb-3 rounded-md bg-green-50 p-2 text-xs text-green-700 border border-green-200 flex items-center">
-            <Clock className="h-3 w-3 mr-1 flex-shrink-0" />
-            <span>{specialOffer}</span>
-          </div>
-        )}
-        <div className="flex flex-wrap gap-2">
-          {featured && (
-            <Badge variant="outline" className="border-primary/30 text-primary">
-              Destacado
-            </Badge>
-          )}
-        </div>
-      </CardContent>
-      <CardFooter className="flex justify-between mt-auto">
-        <Button asChild variant="outline" size="sm">
-          <Link href={internalUrl} aria-label={`Ver análisis de ${name}`}>
-            Ver análisis
-          </Link>
-        </Button>
-        <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
-          <Link
-            href={isExternalUrl ? url : getOfficialUrl(name)}
-            target="_blank"
-            rel="noopener sponsored"
-            className="flex items-center gap-1"
-            aria-label={`Probar ${name} (se abre en una nueva ventana)`}
-          >
-            Probar
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-3 w-3 ml-1"
-              aria-hidden="true"
-            >
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-          </Link>
-        </Button>
-      </CardFooter>
-    </Card>
+    </Link>
   )
 }

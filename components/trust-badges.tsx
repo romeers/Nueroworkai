@@ -12,9 +12,6 @@ interface TrustBadgesProps {
   badges: TrustBadge[]
 }
 
-// Update the TrustBadges component to make it more premium and credible
-
-// Change the section styling to add a subtle border and better background
 export default function TrustBadges({ title, badges }: TrustBadgesProps) {
   return (
     <section className="bg-white py-16 border-y border-gray-100">
