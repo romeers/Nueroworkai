@@ -158,31 +158,31 @@ const stats = [
 const trustBadges = [
   {
     name: "Notion",
-    logoUrl: "/notion-logo-gray.png",
+    logoUrl: "/notion-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Zapier",
-    logoUrl: "/zapier-logo-gray.png",
+    logoUrl: "/zapier-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "ClickUp",
-    logoUrl: "/clickup-logo-gray.png",
+    logoUrl: "/clickup-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Jasper",
-    logoUrl: "/jasper-logo-gray.png",
+    logoUrl: "/jasper-logo.png",
     width: 120,
     height: 40,
   },
   {
     name: "Grammarly",
-    logoUrl: "/grammarly-logo-gray.png",
+    logoUrl: "/grammarly-logo.png",
     width: 120,
     height: 40,
   },
