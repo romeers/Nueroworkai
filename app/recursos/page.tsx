@@ -12,6 +12,13 @@ import SafeImage from "@/components/safe-image"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { cn } from "@/lib/utils"
 
+// Obtener la fecha actual en formato español
+const fechaActual = new Date().toLocaleDateString("es-ES", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+})
+
 // Update the categories to include all former blog content
 // Categorías disponibles
 const categories = [
@@ -27,10 +34,10 @@ const categories = [
 // Datos para recursos destacados
 const featuredResources = [
   {
-    title: "How to Implement AI in Your Daily Workflow",
+    title: "Cómo implementar IA en tu flujo de trabajo diario",
     description:
-      "Learn how to integrate artificial intelligence into your business or project. Practical examples, recommended tools, and easy steps to start.",
-    imageUrl: "/interconnected-ai-workflow.png",
+      "Descubre cómo integrar herramientas de IA en tus procesos diarios sin necesidad de ser un experto técnico. Guía práctica para empresas de cualquier tamaño.",
+    imageUrl: "/implementar-ia-flujo-trabajo-2025.png",
     category: "Guías prácticas",
     categoryId: "guias",
     slug: "implement-ai-daily-workflow",
@@ -46,10 +53,10 @@ const featuredResources = [
 const allResources = [
   // Incluir el recurso destacado
   {
-    title: "How to Implement AI in Your Daily Workflow",
+    title: "Cómo implementar IA en tu flujo de trabajo diario",
     description:
-      "Learn how to integrate artificial intelligence into your business or project. Practical examples, recommended tools, and easy steps to start.",
-    imageUrl: "/interconnected-ai-workflow.png",
+      "Descubre cómo integrar herramientas de IA en tus procesos diarios sin necesidad de ser un experto técnico. Guía práctica para empresas de cualquier tamaño.",
+    imageUrl: "/implementar-ia-flujo-trabajo-2025.png",
     category: "Guías prácticas",
     categoryId: "guias",
     slug: "implement-ai-daily-workflow",
@@ -63,7 +70,7 @@ const allResources = [
 // Recursos más visitados esta semana
 const topResources = [
   {
-    title: "How to Implement AI in Your Daily Workflow",
+    title: "Cómo implementar IA en tu flujo de trabajo diario",
     slug: "implement-ai-daily-workflow",
     views: 120,
   },
