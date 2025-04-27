@@ -223,7 +223,7 @@ export default function ImplementAIWorkflowPage() {
                 🔥 ¿Buscas las herramientas de IA adecuadas para tu negocio?
               </p>
               <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                <Link href="/herramientas" className="flex items-center">
+                <Link href="/herramientas-ia" className="flex items-center">
                   Explora nuestras herramientas de IA para productividad
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -403,7 +403,7 @@ export default function ImplementAIWorkflowPage() {
                 🚀 ¿Quieres descubrir las mejores herramientas de IA para empezar hoy mismo?
               </p>
               <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                <Link href="/herramientas" className="flex items-center">
+                <Link href="/herramientas-ia" className="flex items-center">
                   Explora nuestra selección en NeuroWorkAI
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -458,7 +458,7 @@ export default function ImplementAIWorkflowPage() {
                   Modelo de lenguaje avanzado para generar texto y responder preguntas.
                 </p>
                 <Button asChild className="w-full">
-                  <Link href="/herramientas" className="flex items-center justify-center">
+                  <Link href="/herramientas-ia" className="flex items-center justify-center">
                     Ver más herramientas
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>

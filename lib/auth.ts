@@ -178,13 +178,18 @@ const mockCookies = {}
 
 // Funciones de middleware
 export async function getCurrentUser(): Promise<User | null> {
-  const token = mockCookies["auth_token"]
-  if (!token) return null
+  try {
+    const token = mockCookies["auth_token"]
+    if (!token) return null
 
-  const decoded = verifyToken(token)
-  if (!decoded) return null
+    const decoded = verifyToken(token)
+    if (!decoded) return null
 
-  return await getUserById(decoded.userId)
+    return await getUserById(decoded.userId)
+  } catch (error) {
+    console.error("Error en getCurrentUser:", error)
+    return null
+  }
 }
 
 export function setAuthCookie(token: string): void {

@@ -12,12 +12,22 @@ import SafeImage from "@/components/safe-image"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { cn } from "@/lib/utils"
 
-// Obtener la fecha actual en formato español
-const fechaActual = new Date().toLocaleDateString("es-ES", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-})
+// Función segura para formatear la fecha en español
+function obtenerFechaFormateada() {
+  try {
+    return new Date().toLocaleDateString("es-ES", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
+  } catch (error) {
+    // Fallback por si hay problemas con la localización
+    const fecha = new Date()
+    return `${fecha.getDate()} de abril, ${fecha.getFullYear()}`
+  }
+}
+
+const fechaActual = obtenerFechaFormateada()
 
 // Update the categories to include all former blog content
 // Categorías disponibles
