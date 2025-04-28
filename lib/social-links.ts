@@ -1,4 +1,14 @@
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
+import type { FC } from "react"
+
+// Create a simple TikTok icon component
+const TikTokIcon: FC<{ className?: string }> = ({ className }) => {
+  return (
+    <div className={`${className} flex items-center justify-center`}>
+      <span className="font-bold text-lg">TT</span>
+    </div>
+  )
+}
 
 export const socialLinks = [
   {
@@ -18,20 +28,8 @@ export const socialLinks = [
   {
     platform: "TikTok",
     href: "https://www.tiktok.com/@neuroworkai",
-    // Fixed the TikTok icon to use proper JSX syntax
-    icon: ({ className }: { className?: string }) => (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-      >
-        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-      </svg>
-    ),
+    // Using a simple text-based icon instead of SVG
+    icon: TikTokIcon,
     ariaLabel: "TikTok de NeuroWorkAI",
     hoverColor: "hover:text-black",
   },
