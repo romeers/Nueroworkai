@@ -5,33 +5,36 @@ import Image from "next/image"
 
 export default function HeroSection() {
   return (
-    <section
-      className="relative py-16 md:py-24"
-      style={{
-        backgroundImage:
-          'url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-seamless-ultra-light-abstract-tech-bac_77llVxuuSQq0MWmz2lHJpg_zlt8wHfaRXuVq1ca-Gj4mw-oJ6ierCcUf3EDUgvjgVyUNaoHdLVLN.png")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
+    <section className="relative overflow-hidden py-20 md:py-28">
+      {/* Modern abstract background with gradient and blurry shapes */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-slate-50 to-blue-50"></div>
+        <div className="absolute top-20 left-1/4 h-72 w-72 rounded-full bg-purple-200 opacity-20 blur-3xl"></div>
+        <div className="absolute bottom-10 right-1/4 h-96 w-96 rounded-full bg-blue-200 opacity-20 blur-3xl"></div>
+        <div className="absolute top-1/3 right-1/3 h-64 w-64 rounded-full bg-indigo-200 opacity-10 blur-3xl"></div>
+      </div>
+
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-12 md:grid-cols-2 lg:gap-16">
           {/* Left column: Text and CTAs */}
           <div className="flex flex-col items-start justify-center">
-            <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">
               Plataforma líder en productividad IA
             </p>
-            <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight text-[#1E293B] sm:text-5xl md:text-[56px]">
+            <h1 className="font-heading text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl md:text-[56px]">
               Descubre las mejores herramientas de productividad con IA
             </h1>
 
-            <p className="mt-6 text-lg leading-relaxed text-gray-700">
+            <p className="mt-6 text-lg leading-relaxed text-slate-600">
               Potencia tu trabajo remoto con las apps más inteligentes del mercado. Compara, elige y empieza hoy mismo.
             </p>
 
-            <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-              <Button asChild className="bg-primary hover:bg-primary/90 px-6 text-base font-medium">
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button
+                asChild
+                size="lg"
+                className="bg-primary px-8 text-base font-medium shadow-lg transition-all hover:bg-primary/90 hover:shadow-xl hover:translate-y-[-2px]"
+              >
                 <Link href="/herramientas-ia" aria-label="Explorar herramientas de IA para productividad">
                   Explora herramientas IA
                 </Link>
@@ -40,7 +43,8 @@ export default function HeroSection() {
               <Button
                 asChild
                 variant="outline"
-                className="border-[#7C3AED] px-6 text-base font-medium text-[#7C3AED] hover:bg-[#7C3AED]/10"
+                size="lg"
+                className="border-2 border-primary/80 bg-white/80 px-8 text-base font-medium text-primary backdrop-blur-sm transition-all hover:bg-primary/10 hover:translate-y-[-2px]"
               >
                 <Link
                   href="/kit-digital"
@@ -53,28 +57,32 @@ export default function HeroSection() {
               </Button>
             </div>
 
-            <p className="mt-6 text-sm text-gray-500">+50 herramientas analizadas · Actualizado 2025</p>
+            <p className="mt-6 text-sm text-slate-500">+50 herramientas analizadas · Actualizado 2025</p>
           </div>
 
-          {/* Right column: Professional using AI tools image */}
+          {/* Right column: Modern tech illustration */}
           <div className="flex justify-center md:justify-end">
-            <div className="relative w-full max-w-[65%] h-auto overflow-hidden">
-              <div className="relative rounded-xl overflow-hidden backdrop-blur-sm backdrop-filter backdrop-blur-[2px]">
-                {/* Gradient overlay to blend with background */}
+            <div className="relative h-auto w-full max-w-[90%] overflow-hidden md:max-w-[85%]">
+              <div className="relative overflow-hidden rounded-2xl">
+                {/* Subtle gradient overlay to blend with background */}
                 <div
-                  className="absolute inset-0 bg-gradient-to-tr from-white/30 via-white/20 to-transparent opacity-70 z-10 rounded-xl"
+                  className="absolute inset-0 z-10 rounded-2xl bg-gradient-to-tr from-white/10 via-transparent to-primary/5 opacity-80"
                   aria-hidden="true"
                 ></div>
 
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-young-professional-working-remotely-on_NBKycgd-RlC5B3Knh0lstw_fsV1ydBFSi-8xmveHcX-zQ-k4AJDC2tcixvYgSMsRWjmgmqUpht2I.png"
-                  alt="Profesional remoto utilizando herramientas de IA para productividad"
+                  src="/future-of-work.png"
+                  alt="Profesional utilizando herramientas de IA para aumentar su productividad"
                   width={600}
                   height={600}
-                  className="w-full h-auto rounded-xl object-cover opacity-90"
+                  className="h-auto w-full rounded-2xl object-cover shadow-lg"
                   priority
                 />
               </div>
+
+              {/* Decorative elements */}
+              <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-primary/10 blur-xl"></div>
+              <div className="absolute -right-4 top-1/4 h-16 w-16 rounded-full bg-blue-300/20 blur-lg"></div>
             </div>
           </div>
         </div>

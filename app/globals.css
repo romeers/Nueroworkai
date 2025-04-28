@@ -147,3 +147,32 @@
 .fonts-loaded {
   font-display: swap;
 }
+
+/* Add these custom styles to support the hero section */
+
+@layer components {
+  .hero-gradient-bg {
+    background: linear-gradient(
+      135deg,
+      rgba(124, 58, 237, 0.05) 0%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(59, 130, 246, 0.05) 100%
+    );
+  }
+
+  .button-hover-effect {
+    transition: all 0.3s ease;
+  }
+
+  .button-hover-effect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.2);
+  }
+}
+
+/* Enhance font rendering */
+.font-heading {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
