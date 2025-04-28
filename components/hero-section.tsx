@@ -1,7 +1,7 @@
 import { Download } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
+import VideoWithFallback from "./video-with-fallback"
 
 export default function HeroSection() {
   return (
@@ -60,29 +60,25 @@ export default function HeroSection() {
             <p className="mt-6 text-sm text-slate-500">+50 herramientas analizadas · Actualizado 2025</p>
           </div>
 
-          {/* Right column: Modern tech illustration */}
+          {/* Right column: Animated robot video with fallback */}
           <div className="flex justify-center md:justify-end">
             <div className="relative h-auto w-full max-w-[90%] overflow-hidden md:max-w-[85%]">
               <div className="relative overflow-hidden rounded-2xl">
                 {/* Subtle gradient overlay to blend with background */}
                 <div
-                  className="absolute inset-0 z-10 rounded-2xl bg-gradient-to-tr from-white/10 via-transparent to-primary/5 opacity-80"
+                  className="absolute inset-0 z-10 rounded-2xl bg-gradient-to-tr from-white/10 via-transparent to-primary/5 opacity-80 pointer-events-none"
                   aria-hidden="true"
                 ></div>
 
-                <Image
-                  src="/future-of-work.png"
-                  alt="Profesional utilizando herramientas de IA para aumentar su productividad"
+                <VideoWithFallback
+                  videoSrc="/neurowork-robot-optimized.mp4"
+                  fallbackImageSrc="/robot-fallback.png"
+                  alt="NeuroWorkAI robot mascot animado"
                   width={600}
                   height={600}
-                  className="h-auto w-full rounded-2xl object-cover shadow-lg"
-                  priority
+                  className="w-full h-auto"
                 />
               </div>
-
-              {/* Decorative elements */}
-              <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-primary/10 blur-xl"></div>
-              <div className="absolute -right-4 top-1/4 h-16 w-16 rounded-full bg-blue-300/20 blur-lg"></div>
             </div>
           </div>
         </div>
