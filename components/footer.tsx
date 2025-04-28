@@ -47,7 +47,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigation links - Keep the rest of the footer content unchanged */}
+          {/* Navigation links */}
           <nav aria-label="Enlaces de navegación del sitio">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Navegación</h3>
             <ul className="space-y-2">

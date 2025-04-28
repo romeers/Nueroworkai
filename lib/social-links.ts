@@ -1,15 +1,7 @@
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
-import type { FC } from "react"
+import { FaTiktok } from "react-icons/fa"
 
-// Create a simple TikTok icon component
-const TikTokIcon: FC<{ className?: string }> = ({ className }) => {
-  return (
-    <div className={`${className} flex items-center justify-center`}>
-      <span className="font-bold text-lg">TT</span>
-    </div>
-  )
-}
-
+// Using only proper React icon components from libraries
 export const socialLinks = [
   {
     platform: "Instagram",
@@ -28,8 +20,8 @@ export const socialLinks = [
   {
     platform: "TikTok",
     href: "https://www.tiktok.com/@neuroworkai",
-    // Using a simple text-based icon instead of SVG
-    icon: TikTokIcon,
+    // Using FaTiktok from react-icons/fa
+    icon: FaTiktok,
     ariaLabel: "TikTok de NeuroWorkAI",
     hoverColor: "hover:text-black",
   },
