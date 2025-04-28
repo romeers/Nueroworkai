@@ -273,7 +273,7 @@ export default function Home() {
       />
 
       {/* Lead Magnet Section */}
-      <section className="bg-primary/10 py-16">
+      <section className="py-16 bg-gradient-to-b from-white to-violet-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <KitPromoBlock />

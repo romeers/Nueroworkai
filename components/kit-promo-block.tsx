@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Check } from "lucide-react"
-import SafeImage from "./safe-image"
+import Image from "next/image"
 import { useToast } from "@/hooks/use-toast"
 import EmailSubscriptionForm from "./email-subscription-form"
 
@@ -19,8 +19,8 @@ export const kitPromoContent = {
   formLabel: "Suscríbete para descargar:",
   buttonText: "Descargar Kit gratuito",
   microcopy: "Sin spam · Descarga inmediata tras confirmar",
-  imageUrl: "/ai-productivity-ebook.png",
-  imageAlt: "Mockup del Kit de Productividad con IA para trabajo remoto de NeuroWorkAI (2025)",
+  imageUrl: "/kit-productividad-laptop.png",
+  imageAlt: "Kit de Productividad con IA para trabajo remoto mostrado en un portátil moderno",
   fallbackImageUrl: "/ai-productivity-kit-ebook.png",
 }
 
@@ -48,17 +48,19 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
 
   return (
     <div
-      className={`bg-gradient-to-br from-white to-violet-50 rounded-xl p-6 sm:p-8 ${className}`}
-      style={{ borderTop: "1px solid rgba(124, 58, 237, 0.1)" }}
+      className={`bg-gradient-to-br from-white to-violet-50 rounded-xl p-6 sm:p-8 shadow-lg border border-violet-100 ${className}`}
     >
-      <div className={`grid ${showImage ? "gap-10 md:grid-cols-2" : ""}`}>
+      {/* Desktop layout - side by side */}
+      <div className={`grid ${showImage ? "gap-8 lg:grid-cols-2" : ""}`}>
+        {/* Content section */}
         <div className="flex flex-col justify-center">
           <h2 className={`font-heading font-bold text-secondary ${isCompact ? "text-xl" : "text-2xl sm:text-3xl"}`}>
             {kitPromoContent.title}
           </h2>
+
           <p className={`mt-4 ${isCompact ? "text-base" : "text-lg"} text-gray-600`}>{kitPromoContent.subtitle}</p>
 
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-5 space-y-3">
             {kitPromoContent.bulletPoints.map((point, index) => (
               <li key={index} className="flex items-start">
                 <Check className="mr-2 h-5 w-5 flex-shrink-0 text-primary" />
@@ -71,7 +73,7 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
             <div className="mt-6 rounded-lg bg-green-50 p-4 border border-green-200">
               <h4 className="font-medium text-green-800">¡Gracias por suscribirte!</h4>
               <p className="mt-1 text-sm text-green-700">
-                Hemos enviado el Kit a tu correo electrónico. Si no lo encuentras, revisa tu carpeta de spam.
+                Recibirás el Kit en tu correo en menos de 24 horas. Si no lo encuentras, revisa tu carpeta de spam.
               </p>
             </div>
           ) : (
@@ -87,15 +89,17 @@ export default function KitPromoBlock({ variant = "default", className = "", sho
           )}
         </div>
 
+        {/* Image section - only shown if showImage is true */}
         {showImage && (
-          <div className="flex items-center justify-center">
-            <div className="relative h-64 w-full max-w-md overflow-hidden sm:h-80">
-              <SafeImage
-                src={kitPromoContent.imageUrl}
-                fallbackSrc={kitPromoContent.fallbackImageUrl}
+          <div className="flex items-center justify-center mt-6 lg:mt-0">
+            <div className="relative w-full h-[280px] sm:h-[320px] lg:h-[360px] overflow-hidden rounded-xl shadow-xl">
+              {/* Using Next.js Image directly instead of SafeImage for better reliability */}
+              <Image
+                src={kitPromoContent.imageUrl || "/placeholder.svg"}
                 alt={kitPromoContent.imageAlt}
                 fill
-                className="object-cover shadow-xl rounded-xl"
+                style={{ objectFit: "cover" }}
+                priority
               />
             </div>
           </div>
