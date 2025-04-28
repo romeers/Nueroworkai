@@ -9,7 +9,6 @@ import Stats from "@/components/stats"
 import TrustBadges from "@/components/trust-badges"
 import EnhancedCTA from "@/components/enhanced-cta"
 import KitPromoBlock from "@/components/kit-promo-block"
-import { CalendarIcon } from "lucide-react"
 import HomeSchema from "@/components/seo/home-schema"
 import SafeImage from "@/components/safe-image"
 import { getFeaturedTools } from "@/lib/static-data"
@@ -254,48 +253,34 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {resources.map((resource) => (
-              <article
-                key={resource.slug}
-                className="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.01] transition duration-300 border border-gray-100 overflow-hidden flex flex-col h-full"
-              >
-                <div className="relative h-[160px]">
-                  <SafeImage
-                    src={resource.imageUrl}
-                    alt={`Imagen para el recurso: ${resource.title}`}
-                    fill
-                    className="object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                  <span className="absolute top-4 right-4 bg-violet-100 text-violet-700 text-xs px-3 py-1 rounded-full font-medium">
-                    {resource.category}
-                  </span>
-                </div>
-
-                <div className="p-5 flex-grow flex flex-col">
-                  <h3 className="text-xl font-bold text-secondary line-clamp-2 mb-2 hover:text-primary">
-                    <Link href={`/recursos/${resource.slug}`}>{resource.title}</Link>
-                  </h3>
-                  <p className="text-gray-600 line-clamp-3 mb-4 text-sm flex-grow">{resource.excerpt}</p>
-
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-                    <div className="flex items-center text-sm text-gray-500">
-                      <CalendarIcon className="h-4 w-4 mr-1" />
-                      <span>{resource.date}</span>
-                    </div>
-                    <Link
-                      href={`/recursos/${resource.slug}`}
-                      className="text-violet-600 font-medium hover:underline flex items-center"
-                    >
-                      Leer más
-                      <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div className="bg-white rounded-xl shadow-sm p-10 text-center">
+            <div className="mb-6">
+              <div className="mx-auto w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-violet-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </div>
+            </div>
+            <h3 className="text-xl font-medium text-gray-900 mb-2">
+              Próximamente nuevos recursos de productividad con IA
+            </h3>
+            <p className="text-gray-500 mb-6">
+              Estamos preparando guías, prompts y plantillas para ayudarte a optimizar tu trabajo.
+              <br />
+              Vuelve pronto para descubrir contenido exclusivo sobre productividad con IA.
+            </p>
+            <Button asChild variant="outline" className="mr-4">
+              <Link href="/contacto">Sugerir un recurso</Link>
+            </Button>
+            <Button asChild className="bg-violet-600 hover:bg-violet-700">
+              <Link href="/recursos">Ver todos los recursos</Link>
+            </Button>
           </div>
 
           <div className="mt-12 text-center">

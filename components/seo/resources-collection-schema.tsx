@@ -24,32 +24,36 @@ export default function ResourcesCollectionSchema({
 }: ResourcesCollectionSchemaProps) {
   const baseUrl = "https://neuroworkai.com"
 
+  // Si no hay recursos, simplemente devolvemos un esquema básico de CollectionPage
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: title,
     description: description,
     url: `${baseUrl}/recursos`,
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: resources.map((resource, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        item: {
-          "@type": "Article",
-          headline: resource.title,
-          description: resource.description,
-          url: `${baseUrl}/recursos/${resource.slug}`,
-          ...(resource.imageUrl && {
-            image: resource.imageUrl.startsWith("http") ? resource.imageUrl : `${baseUrl}${resource.imageUrl}`,
-          }),
-          ...(resource.category && { articleSection: resource.category }),
-          ...(resource.readTime && {
-            timeRequired: resource.readTime.replace(/\s+min/, "M").replace(/\s+/, ""),
-          }),
-        },
-      })),
-    },
+    // Si hay recursos, incluimos mainEntity, de lo contrario omitimos esta propiedad
+    ...(resources.length > 0 && {
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: resources.map((resource, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "Article",
+            headline: resource.title,
+            description: resource.description,
+            url: `${baseUrl}/recursos/${resource.slug}`,
+            ...(resource.imageUrl && {
+              image: resource.imageUrl.startsWith("http") ? resource.imageUrl : `${baseUrl}${resource.imageUrl}`,
+            }),
+            ...(resource.category && { articleSection: resource.category }),
+            ...(resource.readTime && {
+              timeRequired: resource.readTime.replace(/\s+min/, "M").replace(/\s+/, ""),
+            }),
+          },
+        })),
+      },
+    }),
     // Add breadcrumbs
     breadcrumb: {
       "@type": "BreadcrumbList",
