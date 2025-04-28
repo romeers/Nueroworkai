@@ -7,13 +7,14 @@ import SafeImage from "@/components/safe-image"
 interface FeaturedToolCardProps {
   name: string
   description: string
-  imageUrl: string
+  imageUrl?: string | null
   category: string
-  url: string
-  score?: number
   slug: string
-  affiliateUrl?: string
+  score?: number
+  specialOffer?: string
   verified?: boolean
+  url: string
+  affiliateUrl?: string
 }
 
 export default function FeaturedToolCard({
@@ -26,9 +27,10 @@ export default function FeaturedToolCard({
   slug,
   affiliateUrl,
   verified = false,
+  specialOffer,
 }: FeaturedToolCardProps) {
   // Function to get the correct logo URL
-  const getLogoUrl = (imageUrl: string) => {
+  const getLogoUrl = (imageUrl: string | null | undefined) => {
     if (!imageUrl) {
       return `/placeholder.svg?height=120&width=120&query=${encodeURIComponent(name + " logo")}`
     }

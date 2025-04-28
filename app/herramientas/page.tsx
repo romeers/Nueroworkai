@@ -1,13 +1,11 @@
-"use client"
-
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, ArrowRight } from "lucide-react"
 import CategoryCard from "@/components/category-card"
-import FeaturedToolCard from "@/components/featured-tool-card"
 import CTAButton from "@/components/cta-button"
 import EnhancedCTA from "@/components/enhanced-cta"
+import FeaturedToolsSection from "@/components/featured-tools-section"
 
 // Categorías de herramientas
 const categories = [
@@ -150,19 +148,7 @@ export default function HerramientasPage() {
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            {featuredTools.map((tool) => (
-              <FeaturedToolCard
-                key={tool.slug}
-                name={tool.name}
-                description={tool.description}
-                imageUrl={tool.imageUrl}
-                category={tool.category}
-                slug={tool.slug}
-                score={tool.score}
-              />
-            ))}
-          </div>
+          <FeaturedToolsSection tools={featuredTools} />
 
           <div className="mt-12 text-center">
             <CTAButton href="/herramientas/todas" variant="primary" size="md" icon={<ArrowRight className="h-4 w-4" />}>
