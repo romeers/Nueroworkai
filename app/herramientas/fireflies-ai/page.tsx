@@ -2,19 +2,36 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Check, X, ExternalLink, Award, Clock, DollarSign, Users, Mic, Search, FileText, BarChart2 } from "lucide-react"
+import {
+  Check,
+  X,
+  ExternalLink,
+  Award,
+  Clock,
+  DollarSign,
+  Users,
+  Mic,
+  Search,
+  FileText,
+  BarChart2,
+  Shield,
+  Zap,
+  Globe,
+  MessageSquare,
+} from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import { getToolBySlug } from "@/lib/static-data"
 import { notFound } from "next/navigation"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 export const metadata = {
-  title: "Fireflies.ai: Transcripción y análisis de reuniones con IA | NeuroWorkAI",
+  title: "Fireflies.ai | Automatiza transcripciones de reuniones con IA - NeuroWorkAI",
   description:
-    "Descubre cómo Fireflies.ai transcribe, resume, busca y analiza tus reuniones automáticamente, ahorrando tiempo y mejorando la productividad de tu equipo.",
+    "Descubre cómo Fireflies.ai puede transformar tus reuniones: transcribe, resume y analiza conversaciones automáticamente con IA. Potencia tu productividad.",
   openGraph: {
-    title: "Fireflies.ai: Transcripción y análisis de reuniones con IA | NeuroWorkAI",
+    title: "Fireflies.ai | Automatiza transcripciones de reuniones con IA - NeuroWorkAI",
     description:
-      "Descubre cómo Fireflies.ai transcribe, resume, busca y analiza tus reuniones automáticamente, ahorrando tiempo y mejorando la productividad de tu equipo.",
+      "Descubre cómo Fireflies.ai puede transformar tus reuniones: transcribe, resume y analiza conversaciones automáticamente con IA. Potencia tu productividad.",
     images: [{ url: "/fireflies-banner.jpeg" }],
   },
 }
@@ -33,76 +50,221 @@ export default async function FirefliesAIPage() {
     pricingPlans: [
       {
         name: "Free",
-        price: "$0/mes",
+        tagline: "For individuals starting out",
+        price: "$0",
+        discountedPrice: "$0",
+        billing: "Free forever",
         features: [
-          "10 horas de transcripción al mes",
-          "Transcripción automática",
-          "Búsqueda básica",
-          "Integración con calendario",
-          "Acceso a la aplicación móvil",
+          "Unlimited transcription*",
+          "Limited AI summaries",
+          "800 mins of storage/seat",
+          "Zoom, GMeet, Teams, +more",
+          "Transcription in 100+ languages",
+          "Meeting search",
+          "AskFred: AI assistant",
+          "Upload audio/video file",
+          "Mobile app (Android, iOS)",
+          "Chrome extension",
         ],
         recommended: false,
+        buttonText: "Get Started",
       },
       {
         name: "Pro",
-        price: "$10/mes por usuario",
+        tagline: "For professional individuals and small teams",
+        price: "$18",
+        discountedPrice: "$10",
+        billing: "per seat / month, billed annually",
         features: [
-          "Horas ilimitadas de transcripción",
-          "Resúmenes con IA",
-          "Búsqueda avanzada",
-          "Análisis de conversaciones",
-          "Integración con herramientas de trabajo",
-          "Soporte prioritario",
+          "Unlimited transcription",
+          "Unlimited AI summaries",
+          "8,000 mins of storage/seat",
+          "Everything in Free, plus..",
+          "Download transcripts, summaries, recordings",
+          "Talk-time analytics",
+          "AI Apps",
+          "Action Items & Task Manager",
+          "Unlimited integrations",
+          "Rate Limits",
         ],
         recommended: true,
+        buttonText: "Get Started",
+        mostPopular: true,
       },
       {
         name: "Business",
-        price: "Personalizado",
+        tagline: "For fast growing businesses",
+        price: "$29",
+        discountedPrice: "$19",
+        billing: "per seat / month, billed annually",
         features: [
-          "Todo lo del plan Pro",
-          "Administración avanzada",
-          "Seguridad empresarial",
-          "API y webhooks",
-          "Soporte dedicado",
-          "Personalización de marca",
+          "Unlimited transcription",
+          "Unlimited AI summaries",
+          "Unlimited storage",
+          "Everything in Pro, plus..",
+          "Video recording",
+          "Conversation intelligence",
+          "Team analytics (for admins)",
+          "User groups",
+          "API access",
+          "Rate Limits",
         ],
         recommended: false,
+        buttonText: "Get Started",
+      },
+      {
+        name: "Enterprise",
+        tagline: "For large scale enterprises",
+        price: "$39",
+        discountedPrice: "$39",
+        billing: "per seat / month, billed annually",
+        features: [
+          "Unlimited transcription",
+          "Unlimited AI summaries",
+          "Unlimited storage",
+          "Everything in Business, plus..",
+          "Rules engine",
+          "SSO",
+          "HIPAA compliance",
+          "Private storage",
+          "Custom data retention (NEW)",
+          "Transcript only mode",
+          "Super admin role",
+          "Dedicated account manager",
+        ],
+        recommended: false,
+        buttonText: "Contact Us",
       },
     ],
     useCases: [
       {
-        title: "Equipos remotos",
+        title: "Freelancers y autónomos",
         description:
-          "Ideal para equipos distribuidos que necesitan mantener a todos informados y alineados sin importar la zona horaria.",
+          "Optimiza tus reuniones con clientes grabando y transcribiendo automáticamente cada conversación. Accede a resúmenes inteligentes que facilitan la entrega de propuestas, contratos y seguimientos.",
+        icon: "Users",
         steps: [
-          "Programa reuniones en tu plataforma favorita (Zoom, Teams, Google Meet)",
-          "Invita a Fireflies.ai a la reunión",
-          "Accede a la transcripción y resumen después de la reunión",
-          "Comparte los insights con miembros del equipo que no pudieron asistir",
+          "Graba reuniones con clientes sin distracciones",
+          "Accede a transcripciones completas después",
+          "Genera resúmenes para propuestas y seguimientos",
+          "Mantén un registro organizado de todos los acuerdos",
         ],
       },
       {
-        title: "Ventas y atención al cliente",
+        title: "Equipos de ventas",
         description:
-          "Captura cada detalle de las conversaciones con clientes para mejorar el seguimiento y la personalización.",
+          "Captura todos los detalles importantes de llamadas con prospectos. Identifica oportunidades, acuerdos pendientes y preguntas frecuentes analizando las conversaciones sin tener que tomar notas manualmente.",
+        icon: "DollarSign",
         steps: [
-          "Graba las llamadas con clientes con Fireflies.ai",
-          "Analiza las transcripciones para identificar patrones y necesidades",
-          "Utiliza los insights para personalizar el seguimiento",
-          "Comparte información relevante con el equipo de ventas o soporte",
+          "Registra automáticamente cada llamada de ventas",
+          "Analiza patrones en objeciones y preguntas",
+          "Comparte insights con todo el equipo",
+          "Mejora el seguimiento con datos precisos",
         ],
       },
       {
-        title: "Investigación y desarrollo",
+        title: "Equipos de recursos humanos",
         description:
-          "Documenta sesiones de brainstorming y entrevistas de investigación para no perder ideas valiosas.",
+          "Registra entrevistas de selección, analiza las respuestas de candidatos y genera informes automáticos. Ahorra tiempo en evaluaciones y mejora el proceso de contratación.",
+        icon: "Users",
         steps: [
-          "Graba sesiones de ideación y entrevistas",
-          "Utiliza la búsqueda para encontrar conceptos clave",
-          "Exporta notas y resúmenes para documentación",
-          "Analiza tendencias y patrones en múltiples conversaciones",
+          "Documenta entrevistas de trabajo completas",
+          "Compara respuestas entre diferentes candidatos",
+          "Genera informes de evaluación automáticos",
+          "Comparte información relevante con el equipo",
         ],
+      },
+      {
+        title: "Equipos de soporte y atención al cliente",
+        description:
+          "Documenta automáticamente las interacciones con clientes, detecta patrones de preguntas recurrentes y mejora la formación de nuevos agentes basándote en conversaciones reales.",
+        icon: "MessageSquare",
+        steps: [
+          "Registra llamadas de soporte para análisis",
+          "Identifica problemas recurrentes",
+          "Crea materiales de formación basados en casos reales",
+          "Mejora protocolos de atención con datos objetivos",
+        ],
+      },
+      {
+        title: "Formadores y coaches",
+        description:
+          "Graba sesiones de formación, genera transcripciones completas y resúmenes de los aprendizajes clave. Facilita la entrega de materiales de seguimiento a tus clientes o alumnos.",
+        icon: "BookOpen",
+        steps: [
+          "Graba sesiones de formación sin distracciones",
+          "Genera materiales de estudio automáticamente",
+          "Comparte transcripciones con participantes",
+          "Analiza la efectividad de tus sesiones",
+        ],
+      },
+    ],
+    features: [
+      {
+        name: "Transcripción automática",
+        description: "Transcripción automática precisa en más de 30 idiomas.",
+        icon: "Mic",
+      },
+      {
+        name: "Resúmenes inteligentes",
+        description: "Resúmenes inteligentes de reuniones con puntos clave.",
+        icon: "FileText",
+      },
+      {
+        name: "Búsqueda avanzada",
+        description: "Búsqueda avanzada en registros de conversaciones.",
+        icon: "Search",
+      },
+      {
+        name: "Análisis de sentimiento",
+        description: "Análisis de sentimiento y detección de temas relevantes.",
+        icon: "BarChart2",
+      },
+      {
+        name: "Integraciones",
+        description: "Integración con Zoom, Google Meet, Microsoft Teams, Webex, y más.",
+        icon: "Link",
+      },
+      {
+        name: "Seguridad",
+        description: "Seguridad con cifrado de extremo a extremo y cumplimiento GDPR/SOC 2.",
+        icon: "Shield",
+      },
+      {
+        name: "Automatización",
+        description: "Creación de flujos de trabajo automáticos con herramientas como Zapier y CRM.",
+        icon: "Zap",
+      },
+      {
+        name: "Soporte multilingüe",
+        description: "Soporte para más de 30 idiomas con alta precisión.",
+        icon: "Globe",
+      },
+    ],
+    faqs: [
+      {
+        question: "¿Fireflies.ai es gratis?",
+        answer:
+          "Fireflies.ai ofrece un plan gratuito con funciones básicas. Para acceder a funciones avanzadas como resúmenes inteligentes o integraciones, se requiere un plan de pago.",
+      },
+      {
+        question: "¿En qué idiomas puede transcribir Fireflies.ai?",
+        answer:
+          "Fireflies.ai puede transcribir conversaciones en más de 30 idiomas, incluyendo inglés, español, francés, alemán, portugués y más.",
+      },
+      {
+        question: "¿Se integra Fireflies.ai con mi plataforma de videollamadas?",
+        answer:
+          "Sí. Fireflies.ai se integra con Zoom, Google Meet, Microsoft Teams, Webex, Slack y otras herramientas de comunicación y productividad.",
+      },
+      {
+        question: "¿Cómo protege Fireflies.ai la privacidad de mis datos?",
+        answer:
+          "Fireflies.ai utiliza cifrado de extremo a extremo y cumple con las normativas GDPR y SOC 2 Tipo II para garantizar la seguridad de los datos.",
+      },
+      {
+        question: "¿Puede Fireflies.ai resumir automáticamente una reunión?",
+        answer:
+          "Sí. Fireflies.ai genera automáticamente resúmenes de reuniones destacando los puntos más relevantes, ahorrando tiempo y mejorando la organización.",
       },
     ],
     integrations: [
@@ -210,13 +372,14 @@ export default async function FirefliesAIPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="mb-8 grid w-full grid-cols-2 md:grid-cols-4 gap-2">
+              <TabsList className="mb-8 grid w-full grid-cols-2 md:grid-cols-5 gap-2">
                 <TabsTrigger value="overview">Resumen</TabsTrigger>
                 <TabsTrigger value="features" id="caracteristicas">
                   Características
                 </TabsTrigger>
                 <TabsTrigger value="usecases">Casos de Uso</TabsTrigger>
                 <TabsTrigger value="pricing">Precios</TabsTrigger>
+                <TabsTrigger value="faq">FAQ</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="mt-6">
@@ -272,7 +435,7 @@ export default async function FirefliesAIPage() {
                       Confianza y seguridad
                     </h3>
                     <p className="text-gray-600 mb-4">
-                      Fireflies.ai es utilizado por más de 100,000 organizaciones en todo el mundo, desde startups hasta
+                      Fireflies.ai es utilizado por más de 500,000 organizaciones en todo el mundo, desde startups hasta
                       empresas Fortune 500. La plataforma cumple con estándares de seguridad empresarial y ofrece
                       opciones de cumplimiento normativo para diferentes industrias.
                     </p>
@@ -344,117 +507,27 @@ export default async function FirefliesAIPage() {
 
               <TabsContent value="features" className="mt-6">
                 <div className="rounded-lg border bg-white p-6 shadow-sm">
-                  <h2 className="text-2xl font-bold text-secondary mb-6">Características principales</h2>
+                  <h2 className="text-2xl font-bold text-secondary mb-6">Características destacadas de Fireflies.ai</h2>
 
-                  <div className="grid gap-8 md:grid-cols-2 mb-8">
-                    <div className="rounded-lg border p-6 hover:shadow-md transition">
-                      <div className="flex items-center mb-4">
-                        <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center mr-4">
-                          <Mic className="h-6 w-6 text-violet-600" />
+                  <div className="grid gap-6 md:grid-cols-2 mb-8">
+                    {firefliesData.features.map((feature, index) => (
+                      <div key={index} className="rounded-lg border p-6 hover:shadow-md transition">
+                        <div className="flex items-center mb-4">
+                          <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center mr-4">
+                            {feature.icon === "Mic" && <Mic className="h-6 w-6 text-violet-600" />}
+                            {feature.icon === "FileText" && <FileText className="h-6 w-6 text-violet-600" />}
+                            {feature.icon === "Search" && <Search className="h-6 w-6 text-violet-600" />}
+                            {feature.icon === "BarChart2" && <BarChart2 className="h-6 w-6 text-violet-600" />}
+                            {feature.icon === "Link" && <ExternalLink className="h-6 w-6 text-violet-600" />}
+                            {feature.icon === "Shield" && <Shield className="h-6 w-6 text-violet-600" />}
+                            {feature.icon === "Zap" && <Zap className="h-6 w-6 text-violet-600" />}
+                            {feature.icon === "Globe" && <Globe className="h-6 w-6 text-violet-600" />}
+                          </div>
+                          <h3 className="text-xl font-semibold text-secondary">{feature.name}</h3>
                         </div>
-                        <h3 className="text-xl font-semibold text-secondary">Transcripción automática</h3>
+                        <p className="text-gray-600">{feature.description}</p>
                       </div>
-                      <p className="text-gray-600 mb-4">
-                        Convierte automáticamente el audio de tus reuniones en texto con alta precisión en múltiples
-                        idiomas. La transcripción se realiza en tiempo real y está disponible inmediatamente después de
-                        la reunión.
-                      </p>
-                      <ul className="space-y-2">
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Soporte para más de 60 idiomas</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Identificación de hablantes</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Corrección y edición posterior</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="rounded-lg border p-6 hover:shadow-md transition">
-                      <div className="flex items-center mb-4">
-                        <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center mr-4">
-                          <FileText className="h-6 w-6 text-violet-600" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-secondary">Resúmenes inteligentes</h3>
-                      </div>
-                      <p className="text-gray-600 mb-4">
-                        Genera resúmenes concisos con los puntos clave, decisiones y elementos de acción de cada
-                        reunión. Ahorra tiempo y asegúrate de que nada importante se pierda.
-                      </p>
-                      <ul className="space-y-2">
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Extracción de puntos clave</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Identificación de elementos de acción</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Personalización del formato de resumen</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="rounded-lg border p-6 hover:shadow-md transition">
-                      <div className="flex items-center mb-4">
-                        <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center mr-4">
-                          <Search className="h-6 w-6 text-violet-600" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-secondary">Búsqueda avanzada</h3>
-                      </div>
-                      <p className="text-gray-600 mb-4">
-                        Encuentra rápidamente cualquier información en tus reuniones pasadas con búsqueda por palabras
-                        clave. Nunca más pierdas tiempo buscando información importante.
-                      </p>
-                      <ul className="space-y-2">
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Búsqueda en todas las reuniones</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Filtros por fecha, participante y tema</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Búsqueda semántica con IA</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="rounded-lg border p-6 hover:shadow-md transition">
-                      <div className="flex items-center mb-4">
-                        <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center mr-4">
-                          <BarChart2 className="h-6 w-6 text-violet-600" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-secondary">Análisis de conversaciones</h3>
-                      </div>
-                      <p className="text-gray-600 mb-4">
-                        Obtén insights valiosos sobre tus reuniones, incluyendo tiempo de habla, temas recurrentes y
-                        sentimiento. Mejora la calidad de tus reuniones con datos objetivos.
-                      </p>
-                      <ul className="space-y-2">
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Análisis de participación</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Detección de temas recurrentes</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                          <span>Tendencias a lo largo del tiempo</span>
-                        </li>
-                      </ul>
-                    </div>
+                    ))}
                   </div>
 
                   <div className="rounded-lg bg-violet-50 p-6 mb-8">
@@ -514,12 +587,20 @@ export default async function FirefliesAIPage() {
 
               <TabsContent value="usecases" className="mt-6">
                 <div className="rounded-lg border bg-white p-6 shadow-sm">
-                  <h2 className="text-2xl font-bold text-secondary mb-6">Casos de uso</h2>
+                  <h2 className="text-2xl font-bold text-secondary mb-6">Casos de Uso de Fireflies.ai</h2>
 
-                  <div className="grid gap-8 md:grid-cols-3 mb-8">
+                  <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-8">
                     {firefliesData.useCases.map((useCase, index) => (
                       <div key={index} className="rounded-lg border p-6 hover:shadow-md transition">
-                        <h3 className="text-xl font-semibold text-secondary mb-3">{useCase.title}</h3>
+                        <div className="flex items-center mb-4">
+                          <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center mr-4">
+                            {useCase.icon === "Users" && <Users className="h-6 w-6 text-violet-600" />}
+                            {useCase.icon === "DollarSign" && <DollarSign className="h-6 w-6 text-violet-600" />}
+                            {useCase.icon === "MessageSquare" && <MessageSquare className="h-6 w-6 text-violet-600" />}
+                            {useCase.icon === "BookOpen" && <FileText className="h-6 w-6 text-violet-600" />}
+                          </div>
+                          <h3 className="text-xl font-semibold text-secondary">{useCase.title}</h3>
+                        </div>
                         <p className="text-gray-600 mb-4">{useCase.description}</p>
                         <h4 className="font-medium text-secondary mb-2">Cómo implementarlo:</h4>
                         <ol className="space-y-2 list-decimal list-inside text-gray-600">
@@ -604,7 +685,7 @@ export default async function FirefliesAIPage() {
                 <div className="rounded-lg border bg-white p-6 shadow-sm">
                   <h2 className="text-2xl font-bold text-secondary mb-6">Planes y precios</h2>
 
-                  <div className="grid gap-8 md:grid-cols-3 mb-8">
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
                     {firefliesData.pricingPlans.map((plan, index) => (
                       <div
                         key={index}
@@ -612,13 +693,20 @@ export default async function FirefliesAIPage() {
                           plan.recommended ? "border-violet-500 shadow-md relative" : ""
                         }`}
                       >
-                        {plan.recommended && (
+                        {plan.mostPopular && (
                           <div className="absolute top-0 right-0 bg-violet-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">
-                            Recomendado
+                            MÁS POPULAR
                           </div>
                         )}
-                        <h3 className="text-xl font-semibold text-secondary mb-2">{plan.name}</h3>
-                        <p className="text-2xl font-bold text-violet-600 mb-4">{plan.price}</p>
+                        <h3 className="text-xl font-semibold text-secondary mb-1">{plan.name}</h3>
+                        <p className="text-sm text-gray-500 mb-3">{plan.tagline}</p>
+                        <div className="flex items-baseline mb-1">
+                          <span className="text-3xl font-bold text-violet-600">{plan.discountedPrice}</span>
+                          {plan.price !== plan.discountedPrice && (
+                            <span className="ml-2 text-lg text-gray-400 line-through">{plan.price}</span>
+                          )}
+                        </div>
+                        <p className="text-sm text-gray-500 mb-4">{plan.billing}</p>
                         <ul className="space-y-2 mb-6 flex-grow">
                           {plan.features.map((feature, featureIndex) => (
                             <li key={featureIndex} className="flex items-start">
@@ -630,7 +718,7 @@ export default async function FirefliesAIPage() {
                         <Button
                           asChild
                           className={
-                            plan.recommended
+                            plan.recommended || plan.mostPopular
                               ? "bg-violet-600 hover:bg-violet-700"
                               : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                           }
@@ -641,7 +729,7 @@ export default async function FirefliesAIPage() {
                             rel="noopener sponsored"
                             className="flex items-center justify-center gap-2"
                           >
-                            {plan.name === "Free" ? "Comenzar gratis" : "Probar ahora"}
+                            {plan.buttonText}
                             <ExternalLink className="h-4 w-4" />
                           </Link>
                         </Button>
@@ -710,6 +798,73 @@ export default async function FirefliesAIPage() {
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="faq" className="mt-6">
+                <div className="rounded-lg border bg-white p-6 shadow-sm">
+                  <h2 className="text-2xl font-bold text-secondary mb-6">Preguntas Frecuentes sobre Fireflies.ai</h2>
+
+                  <Accordion type="single" collapsible className="mb-8">
+                    {firefliesData.faqs.map((faq, index) => (
+                      <AccordionItem key={index} value={`item-${index}`}>
+                        <AccordionTrigger className="text-lg font-medium text-secondary">
+                          {faq.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-gray-600 pt-2">{faq.answer}</AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+
+                  <div className="bg-violet-50 rounded-lg p-6 mb-8">
+                    <h3 className="text-xl font-semibold text-secondary mb-4">¿Tienes más preguntas?</h3>
+                    <p className="text-gray-600 mb-4">
+                      Si tienes alguna pregunta adicional sobre Fireflies.ai, puedes consultar su centro de ayuda o
+                      contactar directamente con su equipo de soporte.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <Button asChild className="bg-violet-600 hover:bg-violet-700">
+                        <Link
+                          href={toolData.affiliateUrl}
+                          target="_blank"
+                          rel="noopener sponsored"
+                          className="flex items-center gap-2"
+                        >
+                          Visitar centro de ayuda
+                          <ExternalLink className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="border-violet-200 text-violet-700 hover:bg-violet-50"
+                      >
+                        <Link
+                          href={toolData.affiliateUrl}
+                          target="_blank"
+                          rel="noopener sponsored"
+                          className="flex items-center gap-2"
+                        >
+                          Contactar soporte
+                          <ExternalLink className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 text-center">
+                    <Button asChild size="lg" className="bg-violet-600 hover:bg-violet-700">
+                      <Link
+                        href={toolData.affiliateUrl}
+                        target="_blank"
+                        rel="noopener sponsored"
+                        className="flex items-center gap-2"
+                      >
+                        Probar Fireflies.ai Gratis
+                        <ExternalLink className="h-4 w-4" />
+                      </Link>
+                    </Button>
                   </div>
                 </div>
               </TabsContent>
