@@ -12,6 +12,7 @@ interface ToolCardProps {
   featured?: boolean
   score?: number
   slug: string
+  verified?: boolean
 }
 
 export default function ToolCard({
@@ -23,25 +24,14 @@ export default function ToolCard({
   featured = false,
   score = 0,
   slug,
+  verified = false,
 }: ToolCardProps) {
   // Función para obtener la URL correcta del logo
   const getLogoUrl = (imageUrl: string) => {
     if (!imageUrl) {
       return `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " logo")}`
     }
-
-    // Mapeo de URLs de imágenes antiguas a nuevas
-    const imageMap: Record<string, string> = {
-      "/notion-ai-blue.png": "/notion-logo.png",
-      "/zapier-blue-background.png": "/zapier-logo.png",
-      "/clickup-blue-background.png": "/clickup-logo.png",
-      "/fireflies-ai-logo-blue.png": "/fireflies-logo-full.png",
-      "/otter-ai-logo-inspired-design.png": "/otter-ai-logo-full.png",
-      "/grammarly-blue.png": "/grammarly-logo.png",
-      "/ai-logo-blue.png": "/jasper-logo.png",
-    }
-
-    return imageMap[imageUrl] || imageUrl
+    return imageUrl
   }
 
   // Función para renderizar estrellas basadas en la puntuación

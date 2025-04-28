@@ -7,6 +7,7 @@ import { Download, ExternalLink, Star, ArrowDown } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import KitPromoBlock from "@/components/kit-promo-block"
 import { Badge } from "@/components/ui/badge"
+import { Sparkles } from "lucide-react"
 
 // Top herramientas de IA
 const topTools = [
@@ -137,7 +138,75 @@ const renderStars = (score: number) => {
 
 import type React from "react"
 
-function TopHerramientasIAContent() {
+function ToolCard({ tool }: { tool: any }) {
+  return (
+    <div
+      key={tool.slug}
+      className="rounded-xl shadow-sm hover:shadow-md transition bg-white p-6 flex flex-col items-center text-center h-full border"
+    >
+      <div className="relative mb-4">
+        <div className="w-16 h-16 flex items-center justify-center">
+          <SafeImage
+            src={tool.imageUrl}
+            alt={`Logo de ${tool.name}`}
+            width={64}
+            height={64}
+            className="object-contain"
+          />
+        </div>
+
+        {/* Badges */}
+        <div className="absolute -top-2 -right-2 flex flex-col gap-1">
+          {tool.featured && <Badge className="bg-primary text-white">Top Valorada</Badge>}
+          {tool.isNew && <Badge className="bg-green-500 text-white">Nueva</Badge>}
+        </div>
+      </div>
+
+      <h3 className="font-semibold text-gray-800 text-xl mb-2">{tool.name}</h3>
+
+      {/* NeuroScore Badge */}
+      <div className="flex flex-col items-center mb-3">
+        <div className="flex items-center bg-gray-100 px-3 py-1 rounded-full">
+          <span className="text-sm font-medium text-violet-700 mr-2">NeuroScore™:</span>
+          <span className="text-sm font-bold">{tool.score}/10</span>
+        </div>
+        <div className="flex items-center mt-1">{renderStars(tool.score)}</div>
+      </div>
+
+      <p className="text-sm text-gray-600 mb-6 flex-grow">{tool.description}</p>
+
+      {/* Category badge */}
+      <div className="mb-4">
+        <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
+          {tool.category}
+        </span>
+      </div>
+
+      {/* Action buttons */}
+      <div className="flex flex-col gap-2 w-full mt-auto">
+        <Button asChild className="bg-primary hover:bg-primary/90 w-full">
+          <Link
+            href={tool.affiliateUrl}
+            target="_blank"
+            rel="noopener sponsored"
+            className="flex items-center justify-center gap-1"
+            data-umami-event={`affiliate-${tool.name.toLowerCase().replace(/\s+/g, "-")}`}
+          >
+            Probar Gratis
+            <ExternalLink className="h-3.5 w-3.5" />
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="w-full">
+          <Link href={`/herramientas/${tool.slug}`} data-umami-event={`view-analysis-${tool.slug}`}>
+            Ver análisis
+          </Link>
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+export default function TopHerramientasIAContent() {
   const toolsRef = useRef<HTMLDivElement>(null)
   const kitRef = useRef<HTMLDivElement>(null)
 
@@ -215,73 +284,30 @@ function TopHerramientasIAContent() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topTools.map((tool) => (
-              <div
-                key={tool.slug}
-                className="rounded-xl shadow-sm hover:shadow-md transition bg-white p-6 flex flex-col items-center text-center h-full border"
-              >
-                <div className="relative mb-4">
-                  <div className="w-16 h-16 flex items-center justify-center">
-                    <SafeImage
-                      src={tool.imageUrl}
-                      alt={`Logo de ${tool.name}`}
-                      width={64}
-                      height={64}
-                      className="object-contain"
-                    />
-                  </div>
-
-                  {/* Badges */}
-                  <div className="absolute -top-2 -right-2 flex flex-col gap-1">
-                    {tool.featured && <Badge className="bg-primary text-white">Top Valorada</Badge>}
-                    {tool.isNew && <Badge className="bg-green-500 text-white">Nueva</Badge>}
-                  </div>
-                </div>
-
-                <h3 className="font-semibold text-gray-800 text-xl mb-2">{tool.name}</h3>
-
-                {/* NeuroScore Badge */}
-                <div className="flex flex-col items-center mb-3">
-                  <div className="flex items-center bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="text-sm font-medium text-violet-700 mr-2">NeuroScore™:</span>
-                    <span className="text-sm font-bold">{tool.score}/10</span>
-                  </div>
-                  <div className="flex items-center mt-1">{renderStars(tool.score)}</div>
-                </div>
-
-                <p className="text-sm text-gray-600 mb-6 flex-grow">{tool.description}</p>
-
-                {/* Category badge */}
-                <div className="mb-4">
-                  <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
-                    {tool.category}
-                  </span>
-                </div>
-
-                {/* Action buttons */}
-                <div className="flex flex-col gap-2 w-full mt-auto">
-                  <Button asChild className="bg-primary hover:bg-primary/90 w-full">
-                    <Link
-                      href={tool.affiliateUrl}
-                      target="_blank"
-                      rel="noopener sponsored"
-                      className="flex items-center justify-center gap-1"
-                      data-umami-event={`affiliate-${tool.name.toLowerCase().replace(/\s+/g, "-")}`}
-                    >
-                      Probar Gratis
-                      <ExternalLink className="h-3.5 w-3.5" />
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href={`/herramientas/${tool.slug}`} data-umami-event={`view-analysis-${tool.slug}`}>
-                      Ver análisis
-                    </Link>
-                  </Button>
-                </div>
+          {topTools.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {topTools.slice(0, 9).map((tool) => (
+                <ToolCard key={tool.slug} tool={tool} />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-gray-50 rounded-lg p-8 text-center">
+              <div className="mb-4">
+                <Sparkles className="h-12 w-12 text-blue-500 mx-auto" />
               </div>
-            ))}
-          </div>
+              <h3 className="text-xl font-semibold mb-2">Próximamente nuevas herramientas</h3>
+              <p className="text-gray-600 mb-6">
+                Estamos seleccionando cuidadosamente las mejores herramientas de IA con programas de afiliados activos.
+                Vuelve pronto para descubrir nuestro ranking de las mejores herramientas.
+              </p>
+              <Link
+                href="/contacto"
+                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              >
+                Sugerir una herramienta
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -392,5 +418,3 @@ function TopHerramientasIAContent() {
     </>
   )
 }
-
-export default TopHerramientasIAContent

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Search, Star, ExternalLink, Download, CheckCircle } from "lucide-react"
+import { Search, Star, ExternalLink, Download, CheckCircle, SearchX, Sparkles } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import { useState, useEffect } from "react"
 
@@ -15,6 +15,8 @@ export default function HerramientasIAPageClient({
   tools,
   categories,
 }: { initialSearchParams: { categoria?: string; q?: string }; tools: any[]; categories: any[] }) {
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialSearchParams.categoria || "todas")
   const [searchQuery, setSearchQuery] = useState(initialSearchParams.q || "")
   const [filteredTools, setFilteredTools] = useState(tools)
@@ -34,18 +36,8 @@ export default function HerramientasIAPageClient({
 
   // Función para obtener la URL oficial de cada herramienta si no existe affiliate_url
   const getDefaultAffiliateUrl = (toolName: string) => {
-    const toolUrls: Record<string, string> = {
-      "Notion AI": "https://www.notion.so/product/ai",
-      Zapier: "https://zapier.com/",
-      ClickUp: "https://clickup.com/",
-      Fireflies: "https://fireflies.ai/",
-      "Otter.ai": "https://otter.ai/",
-      Grammarly: "https://www.grammarly.com/",
-      Jasper: "https://www.jasper.ai/",
-      ChatGPT: "https://chat.openai.com/",
-    }
-
-    return toolUrls[toolName] || "https://www.notion.so/product/ai" // Notion AI como fallback
+    const toolUrls: Record<string, string> = {}
+    return toolUrls[toolName] || "#" // Fallback to # if no URL is found
   }
 
   // Función para obtener la URL correcta del logo
@@ -53,19 +45,7 @@ export default function HerramientasIAPageClient({
     if (!tool.image_url) {
       return `/placeholder.svg?height=64&width=64&query=${encodeURIComponent(tool.name + " logo")}`
     }
-
-    // Mapeo de URLs de imágenes antiguas a nuevas
-    const imageMap: Record<string, string> = {
-      "/notion-ai-blue.png": "/notion-logo.png",
-      "/zapier-blue-background.png": "/zapier-logo.png",
-      "/clickup-blue-background.png": "/clickup-logo.png",
-      "/fireflies-ai-logo-blue.png": "/fireflies-logo-full.png",
-      "/otter-ai-logo-inspired-design.png": "/otter-ai-logo-full.png",
-      "/grammarly-blue.png": "/grammarly-logo.png",
-      "/ai-logo-blue.png": "/jasper-logo.png",
-    }
-
-    return imageMap[tool.image_url] || tool.image_url
+    return tool.image_url
   }
 
   // Función para renderizar estrellas basadas en la puntuación
@@ -123,6 +103,16 @@ export default function HerramientasIAPageClient({
     }
   }
 
+  const filteredTools2 = tools.filter((tool) => {
+    const matchesSearch =
+      tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tool.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesCategory = selectedCategory ? tool.categories.includes(selectedCategory) : true
+    return matchesSearch && matchesCategory
+  })
+
+  const categories2 = Array.from(new Set(tools.flatMap((tool) => tool.categories))).sort()
+
   return (
     <>
       {/* Hero Section */}
@@ -163,7 +153,7 @@ export default function HerramientasIAPageClient({
                 </Link>
               </Button>
             </div>
-            <p className="text-sm text-gray-500 mt-6">+50 herramientas analizadas · Actualizado 2025</p>
+            <p className="text-sm text-gray-500 mt-6">Actualizado 2025</p>
           </div>
         </div>
       </section>
@@ -228,79 +218,108 @@ export default function HerramientasIAPageClient({
               : `Herramientas de ${allCategories.find((c) => c.slug === categoriaSeleccionada)?.name || ""}`}
           </h2>
 
-          {filteredTools.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredTools.map((tool: any) => (
-                <div
-                  key={tool.slug}
-                  className="rounded-xl shadow-sm hover:shadow-md transition bg-white p-5 flex flex-col items-center text-center h-full"
-                >
-                  <div className="relative mb-4">
-                    <div className="relative w-16 h-16 flex items-center justify-center">
-                      <SafeImage
-                        src={getLogoUrl(tool)}
-                        alt={`Logo de ${tool.name}`}
-                        width={64}
-                        height={64}
-                        className="object-contain"
-                        loading="lazy"
-                      />
+          {tools.length > 0 ? (
+            <>
+              {filteredTools.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {filteredTools.map((tool: any) => (
+                    <div
+                      key={tool.slug}
+                      className="rounded-xl shadow-sm hover:shadow-md transition bg-white p-5 flex flex-col items-center text-center h-full"
+                    >
+                      <div className="relative mb-4">
+                        <div className="relative w-16 h-16 flex items-center justify-center">
+                          <SafeImage
+                            src={getLogoUrl(tool)}
+                            alt={`Logo de ${tool.name}`}
+                            width={64}
+                            height={64}
+                            className="object-contain"
+                            loading="lazy"
+                          />
+                        </div>
+
+                        {/* Badges */}
+                        <div className="absolute -top-2 -right-2 flex flex-col gap-1">
+                          {tool.featured && <Badge className="bg-primary text-white">Top Valorada</Badge>}
+                          {tool.is_new && <Badge className="bg-green-500 text-white">Nueva</Badge>}
+                        </div>
+                      </div>
+
+                      <h3 className="font-semibold text-gray-800 text-lg mb-1">{tool.name}</h3>
+
+                      {/* NeuroScore Badge - Improved visual presentation */}
+                      <div className="flex flex-col items-center mb-3">
+                        <span className="text-sm font-medium text-gray-600 mb-1">
+                          NeuroScore: <span className="text-violet-700 font-semibold">{tool.score} / 10</span>
+                        </span>
+                        <div className="flex items-center">{renderStars(tool.score)}</div>
+                      </div>
+
+                      <p className="text-sm text-gray-600 mb-4 flex-grow">{tool.description}</p>
+
+                      {/* Category badge */}
+                      <div className="mb-3">
+                        <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
+                          {tool.category}
+                        </span>
+                      </div>
+
+                      {/* Action buttons - Horizontal layout */}
+                      <div className="flex flex-col sm:flex-row gap-2 w-full mt-auto">
+                        <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
+                          <Link
+                            href={tool.affiliate_url || getDefaultAffiliateUrl(tool.name)}
+                            target="_blank"
+                            rel="noopener sponsored"
+                            className="flex items-center justify-center gap-1"
+                          >
+                            Probar Gratis
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          </Link>
+                        </Button>
+                        <Button asChild variant="outline" className="flex-1">
+                          <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
+                        </Button>
+                      </div>
                     </div>
-
-                    {/* Badges */}
-                    <div className="absolute -top-2 -right-2 flex flex-col gap-1">
-                      {tool.featured && <Badge className="bg-primary text-white">Top Valorada</Badge>}
-                      {tool.is_new && <Badge className="bg-green-500 text-white">Nueva</Badge>}
-                    </div>
-                  </div>
-
-                  <h3 className="font-semibold text-gray-800 text-lg mb-1">{tool.name}</h3>
-
-                  {/* NeuroScore Badge - Improved visual presentation */}
-                  <div className="flex flex-col items-center mb-3">
-                    <span className="text-sm font-medium text-gray-600 mb-1">
-                      NeuroScore: <span className="text-violet-700 font-semibold">{tool.score} / 10</span>
-                    </span>
-                    <div className="flex items-center">{renderStars(tool.score)}</div>
-                  </div>
-
-                  <p className="text-sm text-gray-600 mb-4 flex-grow">{tool.description}</p>
-
-                  {/* Category badge */}
-                  <div className="mb-3">
-                    <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
-                      {tool.category}
-                    </span>
-                  </div>
-
-                  {/* Action buttons - Horizontal layout */}
-                  <div className="flex flex-col sm:flex-row gap-2 w-full mt-auto">
-                    <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
-                      <Link
-                        href={tool.affiliate_url || getDefaultAffiliateUrl(tool.name)}
-                        target="_blank"
-                        rel="noopener sponsored"
-                        className="flex items-center justify-center gap-1"
-                      >
-                        Probar Gratis
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" className="flex-1">
-                      <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
-                    </Button>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              ) : (
+                <div className="text-center py-12">
+                  <SearchX className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold mb-2">No se encontraron herramientas</h3>
+                  <p className="text-gray-600">
+                    No hay resultados para tu búsqueda. Intenta con otros términos o categorías.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSearchTerm("")
+                      setSelectedCategory(null)
+                    }}
+                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  >
+                    Limpiar filtros
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
-            <div className="text-center py-12">
-              <p className="text-lg text-gray-600 mb-4">
-                No se encontraron herramientas que coincidan con tu búsqueda.
+            <div className="bg-gray-50 rounded-lg p-8 text-center">
+              <div className="mb-4">
+                <Sparkles className="h-12 w-12 text-blue-500 mx-auto" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Próximamente nuevas herramientas</h3>
+              <p className="text-gray-600 mb-6">
+                Estamos seleccionando cuidadosamente las mejores herramientas de IA con programas de afiliados activos.
+                Vuelve pronto para descubrir nuestras recomendaciones.
               </p>
-              <Button asChild className="bg-primary hover:bg-primary/90">
-                <Link href="/herramientas-ia">Ver todas las herramientas</Link>
-              </Button>
+              <Link
+                href="/contacto"
+                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              >
+                Sugerir una herramienta
+              </Link>
             </div>
           )}
         </div>

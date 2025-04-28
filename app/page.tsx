@@ -13,67 +13,9 @@ import { CalendarIcon } from "lucide-react"
 import HomeSchema from "@/components/seo/home-schema"
 import SafeImage from "@/components/safe-image"
 
-// Datos de ejemplo para las herramientas destacadas
-const featuredTools = [
-  {
-    name: "Notion AI",
-    description: "Asistente de escritura y organización con IA integrada en Notion.",
-    imageUrl: "/notion-logo.png",
-    category: "Escritura IA",
-    url: "/herramientas/notion-ai",
-  },
-  {
-    name: "Zapier",
-    description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
-    imageUrl: "/zapier-logo.png",
-    category: "Automatización",
-    url: "/herramientas/zapier",
-  },
-  {
-    name: "Grammarly",
-    description: "Corrector gramatical y asistente de escritura con IA.",
-    imageUrl: "/grammarly-logo.png",
-    category: "Escritura IA",
-    url: "/herramientas/grammarly",
-  },
-  {
-    name: "ClickUp",
-    description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
-    imageUrl: "/clickup-logo.png",
-    category: "Gestión de tareas",
-    url: "/herramientas/clickup",
-  },
-  {
-    name: "Jasper AI",
-    description: "Generador de contenido con IA para marketing y comunicación.",
-    imageUrl: "/jasper-logo.png",
-    category: "Escritura IA",
-    url: "/herramientas/jasper-ai",
-  },
-  {
-    name: "Fireflies.ai",
-    description: "Transcribe y analiza reuniones automáticamente con IA.",
-    imageUrl: "/fireflies-logo-full.png",
-    category: "Reuniones",
-    url: "/herramientas/fireflies-ai",
-  },
-  {
-    name: "Otter.ai",
-    description: "Asistente de notas con IA para transcribir y resumir reuniones.",
-    imageUrl: "/otter-ai-logo-full.png",
-    category: "Reuniones",
-    url: "/herramientas/otter-ai",
-  },
-  {
-    name: "ChatGPT",
-    description: "Asistente conversacional de IA para múltiples tareas y generación de contenido.",
-    imageUrl: "/stylized-chat-icon.png",
-    category: "Asistente IA",
-    url: "/herramientas/chatgpt",
-  },
-]
+// Empty array for featured tools - will be populated manually as affiliate links get approved
+const featuredTools = []
 
-// Rename blogPosts to resources
 // Datos de ejemplo para los recursos destacados
 const resources = [
   {
@@ -157,39 +99,8 @@ const stats = [
   },
 ]
 
-// Datos para badges de confianza - Updated with proper logos
-const trustBadges = [
-  {
-    name: "Notion",
-    logoUrl: "/notion-logo.png",
-    width: 120,
-    height: 40,
-  },
-  {
-    name: "Zapier",
-    logoUrl: "/zapier-logo.png",
-    width: 120,
-    height: 40,
-  },
-  {
-    name: "ClickUp",
-    logoUrl: "/clickup-logo.png",
-    width: 120,
-    height: 40,
-  },
-  {
-    name: "Jasper",
-    logoUrl: "/jasper-logo.png",
-    width: 120,
-    height: 40,
-  },
-  {
-    name: "Grammarly",
-    logoUrl: "/grammarly-logo.png",
-    width: 120,
-    height: 40,
-  },
-]
+// Empty array for trust badges - will be populated as partnerships are established
+const trustBadges = []
 
 export default function Home() {
   return (
@@ -200,10 +111,12 @@ export default function Home() {
       {/* Nuevo Hero Section */}
       <HeroSection />
 
-      {/* Trust Badges Section */}
-      <TrustBadges title="Herramientas de IA líderes confían en nuestros análisis" badges={trustBadges} />
+      {/* Trust Badges Section - Only show if there are badges */}
+      {trustBadges.length > 0 && (
+        <TrustBadges title="Herramientas de IA líderes confían en nuestros análisis" badges={trustBadges} />
+      )}
 
-      {/* Featured Tools Section */}
+      {/* Featured Tools Section - Modified to handle empty state */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center mb-10">
@@ -211,48 +124,77 @@ export default function Home() {
               Herramientas Destacadas
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              Descubre las herramientas de IA más populares que están transformando el trabajo remoto.
+              {featuredTools.length > 0
+                ? "Descubre las herramientas de IA más populares que están transformando el trabajo remoto."
+                : "Próximamente añadiremos herramientas de IA seleccionadas que transformarán tu trabajo remoto."}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredTools.map((tool) => (
-              <div
-                key={tool.name}
-                className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col h-full"
-              >
-                <div className="flex flex-col items-center mb-4">
-                  <div className="relative w-12 h-12 mb-3">
-                    <SafeImage
-                      src={tool.imageUrl}
-                      alt={`Logo de ${tool.name}`}
-                      width={48}
-                      height={48}
-                      className="object-contain"
-                      loading="lazy"
-                    />
+          {featuredTools.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredTools.map((tool) => (
+                <div
+                  key={tool.name}
+                  className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col h-full"
+                >
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="relative w-12 h-12 mb-3">
+                      <SafeImage
+                        src={tool.imageUrl}
+                        alt={`Logo de ${tool.name}`}
+                        width={48}
+                        height={48}
+                        className="object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                    <h3 className="text-lg font-bold text-secondary text-center">{tool.name}</h3>
                   </div>
-                  <h3 className="text-lg font-bold text-secondary text-center">{tool.name}</h3>
+                  <p className="text-gray-600 text-sm mb-6 flex-grow line-clamp-2">{tool.description}</p>
+                  <div className="mt-auto">
+                    <div className="flex justify-center mb-4">
+                      <span className="text-sm bg-violet-100 text-violet-700 rounded-full px-3 py-1">
+                        {tool.category}
+                      </span>
+                    </div>
+                    <div className="flex justify-between gap-3">
+                      <Button asChild variant="outline" size="sm" className="flex-1">
+                        <Link href={tool.url}>Ver detalles</Link>
+                      </Button>
+                      <Button asChild className="bg-violet-600 text-white hover:bg-violet-700 flex-1" size="sm">
+                        <Link href={`${tool.url}#probar`}>Probar gratis</Link>
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-gray-600 text-sm mb-6 flex-grow line-clamp-2">{tool.description}</p>
-                <div className="mt-auto">
-                  <div className="flex justify-center mb-4">
-                    <span className="text-sm bg-violet-100 text-violet-700 rounded-full px-3 py-1">
-                      {tool.category}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <Button asChild variant="outline" size="sm" className="flex-1">
-                      <Link href={tool.url}>Ver detalles</Link>
-                    </Button>
-                    <Button asChild className="bg-violet-600 text-white hover:bg-violet-700 flex-1" size="sm">
-                      <Link href={`${tool.url}#probar`}>Probar gratis</Link>
-                    </Button>
-                  </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white rounded-xl shadow-sm p-10 text-center">
+              <div className="mb-6">
+                <div className="mx-auto w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-violet-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
                 </div>
               </div>
-            ))}
-          </div>
+              <h3 className="text-xl font-medium text-gray-900 mb-2">Próximamente nuevas herramientas</h3>
+              <p className="text-gray-500 mb-6">
+                Estamos seleccionando cuidadosamente las mejores herramientas de IA para trabajo remoto.
+                <br />
+                Vuelve pronto para descubrir nuestras recomendaciones.
+              </p>
+              <Button asChild className="bg-violet-600 hover:bg-violet-700">
+                <Link href="/contacto">Sugerir una herramienta</Link>
+              </Button>
+            </div>
+          )}
 
           <div className="mt-12 text-center">
             <Button asChild className="bg-violet-600 hover:bg-violet-700 px-6 py-2.5">

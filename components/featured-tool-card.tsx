@@ -2,6 +2,7 @@ import { Card, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import SafeImage from "@/components/safe-image"
 
 interface FeaturedToolCardProps {
   name: string
@@ -26,19 +27,10 @@ export default function FeaturedToolCard({
 }: FeaturedToolCardProps) {
   // Función para obtener la URL oficial si no hay URL de afiliado
   const getOfficialUrl = (toolName: string) => {
-    const toolUrls: Record<string, string> = {
-      "Notion AI": "https://www.notion.so/product/ai",
-      Zapier: "https://zapier.com/",
-      ClickUp: "https://clickup.com/",
-      Fireflies: "https://fireflies.ai/",
-      "Otter.ai": "https://otter.ai/",
-      Grammarly: "https://www.grammarly.com/",
-      Jasper: "https://www.jasper.ai/",
-      ChatGPT: "https://chat.openai.com/",
-    }
-
-    return toolUrls[toolName] || "https://www.notion.so/product/ai" // Notion AI como fallback
+    const toolUrls: Record<string, string> = {}
+    return toolUrls[toolName] || "#" // Fallback to # if no URL is found
   }
+
   const fallbackImage = `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " icon")}`
   const toolUrl = `/herramientas/${slug}`
 
@@ -48,7 +40,11 @@ export default function FeaturedToolCard({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
             <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md mr-4 bg-gray-100 flex items-center justify-center">
-              <span className="text-[8px] text-gray-400">{`Logo ${name}`}</span>
+              {imageUrl ? (
+                <SafeImage src={imageUrl} alt={`Logo de ${name}`} width={64} height={64} className="object-contain" />
+              ) : (
+                <span className="text-[8px] text-gray-400">{`Logo ${name}`}</span>
+              )}
             </div>
             <div>
               <h3 className="text-xl font-bold text-secondary">{name}</h3>

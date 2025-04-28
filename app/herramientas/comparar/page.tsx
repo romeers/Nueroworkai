@@ -11,6 +11,7 @@ import EnhancedCTA from "@/components/enhanced-cta"
 import { useEffect } from "react"
 
 // Resto del código se mantiene igual hasta la definición del componente
+import { Scale } from "lucide-react"
 
 export default function CompararPage() {
   const [selectedTools, setSelectedTools] = useState<string[]>(["", ""])
@@ -214,7 +215,7 @@ export default function CompararPage() {
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {loading ? (
               <div className="col-span-full text-center py-8">Cargando comparativas populares...</div>
-            ) : (
+            ) : popularComparisons.length > 0 ? (
               popularComparisons.map((comparison: any) => (
                 <Link
                   key={comparison.slug}
@@ -238,6 +239,23 @@ export default function CompararPage() {
                   </span>
                 </Link>
               ))
+            ) : (
+              <div className="bg-gray-50 rounded-lg p-8 text-center col-span-full">
+                <div className="mb-4">
+                  <Scale className="h-12 w-12 text-blue-500 mx-auto" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Próximamente nuevas comparativas</h3>
+                <p className="text-gray-600 mb-6">
+                  Estamos preparando comparativas detalladas entre las mejores herramientas de IA. Vuelve pronto para
+                  descubrir nuestros análisis.
+                </p>
+                <Link
+                  href="/contacto"
+                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                >
+                  Sugerir una comparativa
+                </Link>
+              </div>
             )}
           </div>
         </div>

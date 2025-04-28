@@ -170,6 +170,7 @@ export default function TodasLasHerramientasPage() {
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [filteredTools, setFilteredTools] = useState(allTools)
   const [isClient, setIsClient] = useState(false) // New state variable
+  const tools = allTools
 
   useEffect(() => {
     setIsClient(true) // Set to true when component mounts on client
