@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react"
 import ContactForm from "@/components/contact-form"
 import { Logo } from "@/components/logo"
 import ContactPageSchema from "@/components/seo/contact-page-schema"
+import { socialLinks } from "@/lib/social-links"
 
 export const metadata: Metadata = {
   title: "Contacto | NeuroWorkAI",
@@ -55,25 +56,24 @@ export default function ContactPage() {
 
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Síguenos</h3>
-                  <div className="flex space-x-4">
-                    <a
-                      href="https://www.instagram.com/neuroworkai"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-primary transition-colors"
-                      aria-label="Instagram de NeuroWorkAI"
-                    >
-                      Instagram
-                    </a>
-                    <a
-                      href="https://www.linkedin.com/company/neuroworksai/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-primary transition-colors"
-                      aria-label="LinkedIn de NeuroWorkAI"
-                    >
-                      LinkedIn
-                    </a>
+                  <div className="flex flex-wrap gap-3">
+                    {socialLinks.map((social) => {
+                      const Icon = social.icon
+                      return (
+                        <a
+                          key={social.platform}
+                          href={social.href}
+                          className={`text-gray-600 ${social.hoverColor} transition-all duration-200 hover:scale-110`}
+                          aria-label={social.ariaLabel}
+                          title={`Síguenos en ${social.platform}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Icon className="h-5 w-5" />
+                          <span className="sr-only">{social.platform}</span>
+                        </a>
+                      )
+                    })}
                   </div>
                 </div>
 

@@ -1,8 +1,15 @@
-import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
 import { FaTiktok } from "react-icons/fa"
 
-// Using only proper React icon components from libraries
+// Updated social links array with all requested platforms
 export const socialLinks = [
+  {
+    platform: "Facebook",
+    href: "https://www.facebook.com/neuroworkai",
+    icon: Facebook,
+    ariaLabel: "Facebook de NeuroWorkAI",
+    hoverColor: "hover:text-blue-700",
+  },
   {
     platform: "Instagram",
     href: "https://www.instagram.com/neuroworkai",
@@ -20,7 +27,6 @@ export const socialLinks = [
   {
     platform: "TikTok",
     href: "https://www.tiktok.com/@neuroworkai",
-    // Using FaTiktok from react-icons/fa
     icon: FaTiktok,
     ariaLabel: "TikTok de NeuroWorkAI",
     hoverColor: "hover:text-black",
