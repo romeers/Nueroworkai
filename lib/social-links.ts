@@ -18,11 +18,9 @@ export const socialLinks = [
   {
     platform: "TikTok",
     href: "https://www.tiktok.com/@neuroworkai",
+    // Fixed the TikTok icon to use proper JSX syntax
     icon: ({ className }: { className?: string }) => (
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
