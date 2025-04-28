@@ -45,7 +45,7 @@ export default function MediaKitPage() {
                   de inteligencia artificial para profesionales remotos y equipos de trabajo distribuidos.
                 </p>
                 <p className="text-lg mb-4">
-                  Fundada en 2023, nuestra misión es ayudar a profesionales y empresas a navegar el complejo ecosistema
+                  Fundada en 2025, nuestra misión es ayudar a profesionales y empresas a navegar el complejo ecosistema
                   de herramientas de IA para mejorar su productividad, optimizar flujos de trabajo y mantenerse
                   competitivos en la era digital.
                 </p>
@@ -73,7 +73,7 @@ export default function MediaKitPage() {
                         />
                       </svg>
                     </span>
-                    <span>Lanzamiento: 2023</span>
+                    <span>Lanzamiento: 2025</span>
                   </li>
                   <li className="flex items-start">
                     <span className="bg-primary/10 text-primary rounded-full p-1 mr-3 mt-1">
@@ -233,7 +233,7 @@ export default function MediaKitPage() {
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="bg-white p-4 rounded-lg border border-gray-200 flex items-center justify-center">
                     <Image
-                      src="/neuroworkai-logo.png"
+                      src="/neuroworkai-logo-text.png"
                       alt="NeuroWorkAI Logo"
                       width={200}
                       height={80}
@@ -242,13 +242,22 @@ export default function MediaKitPage() {
                   </div>
                   <div className="bg-gray-800 p-4 rounded-lg border border-gray-200 flex items-center justify-center">
                     <Image
-                      src="/neuroworkai-logo-white.png"
-                      alt="NeuroWorkAI Logo White"
+                      src="/neuroworkai-logo-full.png"
+                      alt="NeuroWorkAI Logo Full"
                       width={200}
                       height={80}
                       className="h-auto"
                     />
                   </div>
+                </div>
+                <div className="bg-white p-4 rounded-lg border border-gray-200 flex items-center justify-center mb-6">
+                  <Image
+                    src="/neuroworkai-logo-icon.png"
+                    alt="NeuroWorkAI Icon"
+                    width={120}
+                    height={120}
+                    className="h-auto"
+                  />
                 </div>
                 <CTAButton
                   href="/assets/neuroworkai-logos.zip"
@@ -264,17 +273,17 @@ export default function MediaKitPage() {
                 <h3 className="text-xl font-semibold mb-4">Paleta de Colores</h3>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="rounded-lg overflow-hidden">
-                    <div className="h-20 bg-primary"></div>
+                    <div className="h-20 bg-[#9333EA]"></div>
                     <div className="p-3 bg-white border border-gray-200 border-t-0">
-                      <p className="font-medium">Primario</p>
-                      <p className="text-sm text-gray-500">#6d28d9</p>
+                      <p className="font-medium">Morado Principal</p>
+                      <p className="text-sm text-gray-500">#9333EA</p>
                     </div>
                   </div>
                   <div className="rounded-lg overflow-hidden">
-                    <div className="h-20 bg-secondary"></div>
+                    <div className="h-20 bg-white"></div>
                     <div className="p-3 bg-white border border-gray-200 border-t-0">
-                      <p className="font-medium">Secundario</p>
-                      <p className="text-sm text-gray-500">#4f46e5</p>
+                      <p className="font-medium">Blanco</p>
+                      <p className="text-sm text-gray-500">#FFFFFF</p>
                     </div>
                   </div>
                 </div>
@@ -388,8 +397,8 @@ export default function MediaKitPage() {
                 </p>
                 <div className="flex items-center mb-4">
                   <Mail className="h-5 w-5 text-primary mr-2" />
-                  <a href="mailto:prensa@neuroworkai.com" className="text-primary hover:underline">
-                    prensa@neuroworkai.com
+                  <a href="mailto:bussines@neuroworkai.com" className="text-primary hover:underline">
+                    bussines@neuroworkai.com
                   </a>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 mt-6">
@@ -470,7 +479,7 @@ export default function MediaKitPage() {
               <CTAButton href="/contacto" variant="primary" size="lg">
                 Contactar
               </CTAButton>
-              <CTAButton href="mailto:colaboraciones@neuroworkai.com" variant="outline" size="lg">
+              <CTAButton href="mailto:bussines@neuroworkai.com" variant="outline" size="lg">
                 Enviar Email
               </CTAButton>
             </div>

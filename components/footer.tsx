@@ -182,6 +182,24 @@ export default function Footer() {
                   Contacto
                 </a>
               </li>
+              <li>
+                <Link
+                  href="/condiciones-servicio"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver condiciones de servicio"
+                >
+                  Condiciones de Servicio
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/kit-medios"
+                  className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
+                  aria-label="Ver kit de medios"
+                >
+                  Kit de Medios
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>

@@ -14,7 +14,7 @@ export const siteConfig = {
   },
   author: {
     name: "NeuroWorkAI Team",
-    email: "contacto@neuroworkai.com",
+    email: "bussines@neuroworkai.com",
   },
   analytics: {
     vercelAnalytics: true,

@@ -57,6 +57,8 @@ export default function SiteFooter({
         { href: "/politica-cookies", label: "Política de Cookies" },
         { href: "/aviso-afiliados", label: "Aviso de Afiliados" },
         { href: "mailto:bussines@neuroworkai.com", label: "Contacto" },
+        { href: "/condiciones-servicio", label: "Condiciones de Servicio" },
+        { href: "/kit-medios", label: "Kit de Medios" },
       ],
     },
   ],

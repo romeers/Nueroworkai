@@ -29,7 +29,7 @@ import { Logo } from "@/components/logo"
 // Datos para estadísticas
 const stats = [
   {
-    value: "2021",
+    value: "2025",
     label: "Fundación",
     description: "Ayudando a profesionales desde entonces",
     icon: <Award className="h-6 w-6" />,

@@ -2,7 +2,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 interface LogoProps {
-  variant?: "default" | "white"
+  variant?: "default" | "white" | "icon"
   width?: number
   height?: number
   className?: string
@@ -10,10 +10,13 @@ interface LogoProps {
 }
 
 export function Logo({ variant = "default", width = 120, height = 40, className, priority = false }: LogoProps) {
-  const src =
-    variant === "white"
-      ? "/logo-texto-transparente.png" // We're using the same logo for now, but you could create a white version
-      : "/logo-texto-transparente.png"
+  let src = "/neuroworkai-logo-text.png"
+
+  if (variant === "white") {
+    src = "/neuroworkai-logo-text.png" // Using the same logo for now since it's already white/light colored
+  } else if (variant === "icon") {
+    src = "/neuroworkai-logo-icon.png"
+  }
 
   return (
     <Image
