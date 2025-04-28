@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { validateEmail } from "@/utils/security"
+import { socialLinks } from "@/lib/social-links"
 
 export default function ContactForm() {
   const [name, setName] = useState("")
@@ -136,6 +137,30 @@ export default function ContactForm() {
           {isSubmitting ? "Enviando..." : "Enviar mensaje"}
         </Button>
       </form>
+
+      {/* Social media links */}
+      <div className="mt-8 pt-6 border-t border-gray-200">
+        <h3 className="text-sm font-medium text-gray-700 mb-4">Síguenos en redes sociales</h3>
+        <div className="flex flex-wrap gap-3">
+          {socialLinks.map((social) => {
+            const Icon = social.icon
+            return (
+              <a
+                key={social.platform}
+                href={social.href}
+                className={`text-gray-600 ${social.hoverColor} transition-all duration-200 bg-gray-100 p-2 rounded-full hover:bg-gray-200 hover:scale-110`}
+                aria-label={social.ariaLabel}
+                title={`Síguenos en ${social.platform}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon className="h-5 w-5" />
+                <span className="sr-only">{social.platform}</span>
+              </a>
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }

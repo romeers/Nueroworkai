@@ -1,12 +1,10 @@
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin, ArrowUpRight } from "lucide-react"
-import SafeImage from "./safe-image"
+import { ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Logo } from "./logo"
+import { socialLinks } from "@/lib/social-links"
 
 export default function Footer() {
-  const logoWhiteImage =
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/NEUROWORKAI%20%281%29%20peq.PNG-3O92ImJsQbR0qsSBebSzRCV6dX8udd.png"
-
   const currentYear = new Date().getFullYear()
 
   return (
@@ -21,58 +19,35 @@ export default function Footer() {
               className="inline-block transition-opacity duration-200 hover:opacity-90"
               aria-label="NeuroWorkAI - Ir a inicio"
             >
-              <div className="w-20 h-auto">
-                <SafeImage
-                  src={logoWhiteImage}
-                  fallbackSrc="/neuroworkai-logo-white.png"
-                  alt="NeuroWorkAI Logo"
-                  width={120}
-                  height={40}
-                  className="w-full h-auto rounded-lg"
-                />
+              <div className="w-32 h-auto">
+                <Logo variant="white" className="w-full h-auto" priority={false} />
               </div>
             </Link>
             <p className="text-sm text-white/80 max-w-xs">
               Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.
             </p>
             <div className="flex gap-3 mt-4" aria-label="Redes sociales">
-              <Link
-                href="https://www.facebook.com/profile.php?id=61575664503316"
-                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
-                aria-label="Facebook de NeuroWorkAI"
-                title="Síguenos en Facebook"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Facebook className="h-5 w-5" />
-                <span className="sr-only">Facebook</span>
-              </Link>
-              <Link
-                href="https://www.instagram.com/neuroworkai"
-                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
-                aria-label="Instagram de NeuroWorkAI"
-                title="Síguenos en Instagram"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Instagram className="h-5 w-5" />
-                <span className="sr-only">Instagram</span>
-              </Link>
-              <Link
-                href="https://www.linkedin.com/company/neuroworksai/"
-                className="text-white hover:text-white/80 transition-colors duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20"
-                aria-label="LinkedIn de NeuroWorkAI"
-                title="Síguenos en LinkedIn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Linkedin className="h-5 w-5" />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
+              {socialLinks.map((social) => {
+                const Icon = social.icon
+                return (
+                  <Link
+                    key={social.platform}
+                    href={social.href}
+                    className={`text-white ${social.hoverColor} transition-all duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20 hover:scale-110`}
+                    aria-label={social.ariaLabel}
+                    title={`Síguenos en ${social.platform}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span className="sr-only">{social.platform}</span>
+                  </Link>
+                )
+              })}
             </div>
           </div>
 
-          {/* Navigation links */}
+          {/* Navigation links - Keep the rest of the footer content unchanged */}
           <nav aria-label="Enlaces de navegación del sitio">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Navegación</h3>
             <ul className="space-y-2">

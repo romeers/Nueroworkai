@@ -1,8 +1,7 @@
-import React from "react"
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin } from "lucide-react"
-// Import the Logo component
+// Import the Logo component and socialLinks
 import { Logo } from "./logo"
+import { socialLinks } from "@/lib/social-links"
 
 interface FooterLink {
   href: string
@@ -14,19 +13,10 @@ interface FooterColumn {
   links: FooterLink[]
 }
 
-interface SocialLink {
-  platform: string
-  href: string
-  icon: React.ReactNode
-  ariaLabel: string
-}
-
 interface SiteFooterProps {
-  logoSrc?: string
   logoAlt?: string
   tagline?: string
   navigationColumns?: FooterColumn[]
-  socialLinks?: SocialLink[]
   showCta?: boolean
   ctaText?: string
   ctaHref?: string
@@ -38,7 +28,6 @@ interface SiteFooterProps {
 }
 
 export default function SiteFooter({
-  logoSrc = "/logo-texto-transparente.png",
   logoAlt = "NeuroWorkAI Logo",
   tagline = "Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.",
   navigationColumns = [
@@ -71,26 +60,6 @@ export default function SiteFooter({
       ],
     },
   ],
-  socialLinks = [
-    {
-      platform: "Facebook",
-      href: "https://www.facebook.com/profile.php?id=61575664503316",
-      icon: <Facebook className="h-5 w-5" />,
-      ariaLabel: "Facebook de NeuroWorkAI",
-    },
-    {
-      platform: "Instagram",
-      href: "https://www.instagram.com/neuroworkai",
-      icon: <Instagram className="h-5 w-5" />,
-      ariaLabel: "Instagram de NeuroWorkAI",
-    },
-    {
-      platform: "LinkedIn",
-      href: "https://www.linkedin.com/company/neuroworksai/",
-      icon: <Linkedin className="h-5 w-5" />,
-      ariaLabel: "LinkedIn de NeuroWorkAI",
-    },
-  ],
   showCta = true,
   ctaText = "Descubrir Mejores Herramientas IA",
   ctaHref = "/herramientas/mejores",
@@ -111,30 +80,29 @@ export default function SiteFooter({
           {/* Logo and brand information */}
           <div className="space-y-4">
             <Link href="/" className="inline-block transition-opacity duration-200 hover:opacity-90">
-              <div className="w-20 h-auto">
-                <Logo
-                  variant={className.includes("bg-secondary") ? "white" : "default"}
-                  width={180}
-                  height={50}
-                  className="w-full h-auto rounded-lg"
-                />
+              <div className="w-32 h-auto">
+                <Logo variant="white" className="w-full h-auto" priority={false} />
               </div>
             </Link>
             <p className="text-sm text-white/80 max-w-xs">{tagline}</p>
             <div className="flex gap-3 mt-4">
-              {socialLinks.map((social) => (
-                <Link
-                  key={social.platform}
-                  href={social.href}
-                  className="text-white hover:text-white/80 transition-colors duration-200"
-                  aria-label={social.ariaLabel}
-                  title={`Síguenos en ${social.platform}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {social.icon}
-                </Link>
-              ))}
+              {socialLinks.map((social) => {
+                const Icon = social.icon
+                return (
+                  <Link
+                    key={social.platform}
+                    href={social.href}
+                    className={`text-white ${social.hoverColor} transition-all duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20 hover:scale-110`}
+                    aria-label={social.ariaLabel}
+                    title={`Síguenos en ${social.platform}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span className="sr-only">{social.platform}</span>
+                  </Link>
+                )
+              })}
             </div>
           </div>
 
@@ -171,19 +139,23 @@ export default function SiteFooter({
         <div className="mt-12 pt-6 border-t border-white/10 text-center">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Síguenos en redes sociales</h3>
           <div className="flex justify-center space-x-6">
-            {socialLinks.map((social) => (
-              <Link
-                key={social.platform}
-                href={social.href}
-                className="text-white hover:text-white/80 transition-colors duration-200"
-                aria-label={social.ariaLabel}
-                title={`Síguenos en ${social.platform}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {React.cloneElement(social.icon as React.ReactElement, { className: "h-8 w-8" })}
-              </Link>
-            ))}
+            {socialLinks.map((social) => {
+              const Icon = social.icon
+              return (
+                <Link
+                  key={social.platform}
+                  href={social.href}
+                  className={`text-white ${social.hoverColor} transition-all duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20 hover:scale-110`}
+                  aria-label={social.ariaLabel}
+                  title={`Síguenos en ${social.platform}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon className="h-6 w-6" />
+                  <span className="sr-only">{social.platform}</span>
+                </Link>
+              )
+            })}
           </div>
         </div>
 

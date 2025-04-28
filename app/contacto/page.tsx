@@ -1,179 +1,119 @@
-import ContactForm from "@/components/contact-form"
-import Image from "next/image"
+import type { Metadata } from "next"
 import Link from "next/link"
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react"
-import { generateMetadata } from "@/lib/metadata"
+import { ArrowRight } from "lucide-react"
+import ContactForm from "@/components/contact-form"
+import { Logo } from "@/components/logo"
 import ContactPageSchema from "@/components/seo/contact-page-schema"
 
-export const metadata = generateMetadata({
-  title: "Contacta con nosotros | NeuroWorkAI",
+export const metadata: Metadata = {
+  title: "Contacto | NeuroWorkAI",
   description:
-    "¿Tienes preguntas, sugerencias o quieres colaborar con nosotros? Estamos aquí para ayudarte con tus consultas sobre herramientas de IA.",
-  keywords: ["contacto", "ayuda", "soporte", "consultas", "colaboración", "herramientas IA"],
-  ogImage: "/modern-office-workspace.png",
-  canonical: "/contacto",
-})
+    "¿Tienes preguntas sobre herramientas de IA o necesitas ayuda? Contáctanos y nuestro equipo te responderá lo antes posible.",
+  openGraph: {
+    title: "Contacto | NeuroWorkAI",
+    description:
+      "¿Tienes preguntas sobre herramientas de IA o necesitas ayuda? Contáctanos y nuestro equipo te responderá lo antes posible.",
+    url: "https://neuroworkai.com/contacto",
+    type: "website",
+  },
+}
 
-export default function ContactoPage() {
+export default function ContactPage() {
   return (
-    <>
-      {/* Schema.org structured data */}
+    <main className="flex-1">
       <ContactPageSchema />
+      <section className="py-12 md:py-16 lg:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Contact form */}
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold mb-6">Contacto</h1>
+              <p className="text-gray-600 mb-8">
+                ¿Tienes preguntas sobre herramientas de IA o necesitas ayuda? Contáctanos y nuestro equipo te responderá
+                lo antes posible.
+              </p>
+              <ContactForm />
+            </div>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-sky-light to-sky py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="font-heading text-3xl font-bold tracking-tight text-secondary sm:text-4xl md:text-5xl">
-              Contacta con nosotros
-            </h1>
-            <p className="mt-4 text-lg text-gray-600">
-              ¿Tienes preguntas, sugerencias o quieres colaborar con nosotros? Estamos aquí para ayudarte.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-6xl">
-            <div className="grid gap-8 md:grid-cols-2">
-              <div>
-                <h2 className="text-2xl font-bold text-secondary">Envíanos un mensaje</h2>
-                <p className="mt-4 text-gray-600">
-                  Completa el formulario y te responderemos lo antes posible. Estamos aquí para ayudarte con cualquier
-                  consulta sobre herramientas de IA para trabajo remoto.
+            {/* Contact information */}
+            <div className="bg-gray-50 p-8 rounded-lg">
+              <div className="mb-8">
+                <Logo className="w-32 h-auto mb-4" />
+                <p className="text-gray-600">
+                  Somos expertos en herramientas de IA para productividad y trabajo remoto. Nuestro objetivo es ayudarte
+                  a encontrar las mejores soluciones para tu flujo de trabajo.
                 </p>
-
-                <div className="mt-8">
-                  <ContactForm />
-                </div>
               </div>
 
-              <div>
-                <h2 className="text-2xl font-bold text-secondary">Información de contacto</h2>
-                <p className="mt-4 text-gray-600">
-                  También puedes contactarnos directamente a través de los siguientes medios:
-                </p>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">Correo electrónico</h3>
+                  <a href="mailto:bussines@neuroworkai.com" className="text-primary hover:underline flex items-center">
+                    bussines@neuroworkai.com
+                  </a>
+                </div>
 
-                <div className="mt-8 space-y-6">
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <Mail className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">Email</p>
-                      <a href="mailto:bussines@neuroworkai.com" className="mt-1 text-sm text-primary hover:underline">
-                        bussines@neuroworkai.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <Phone className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">Teléfono</p>
-                      <p className="mt-1 text-sm text-gray-600">+34 123 456 789</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <MapPin className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">Ubicación</p>
-                      <p className="mt-1 text-sm text-gray-600">Madrid, España</p>
-                    </div>
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">Síguenos</h3>
+                  <div className="flex space-x-4">
+                    <a
+                      href="https://www.instagram.com/neuroworkai"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-primary transition-colors"
+                      aria-label="Instagram de NeuroWorkAI"
+                    >
+                      Instagram
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/company/neuroworksai/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-primary transition-colors"
+                      aria-label="LinkedIn de NeuroWorkAI"
+                    >
+                      LinkedIn
+                    </a>
                   </div>
                 </div>
 
-                <h3 className="mt-12 text-lg font-semibold text-secondary">Síguenos en redes sociales</h3>
-                <div className="mt-4 flex space-x-4">
-                  <Link
-                    href="https://www.facebook.com/profile.php?id=61575664503316"
-                    className="text-gray-600 hover:text-primary transition-colors duration-200"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span className="sr-only">Facebook</span>
-                    <Facebook className="h-6 w-6" />
-                  </Link>
-                  <Link
-                    href="https://www.instagram.com/neuroworkai"
-                    className="text-gray-600 hover:text-primary transition-colors duration-200"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span className="sr-only">Instagram</span>
-                    <Instagram className="h-6 w-6" />
-                  </Link>
-                  <Link
-                    href="https://www.linkedin.com/company/neuroworksai/"
-                    className="text-gray-600 hover:text-primary transition-colors duration-200"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span className="sr-only">LinkedIn</span>
-                    <Linkedin className="h-6 w-6" />
-                  </Link>
-                </div>
-
-                <div className="mt-12 overflow-hidden rounded-lg">
-                  <Image
-                    src="/modern-office-workspace.png"
-                    alt="Oficina de NeuroWorkAI"
-                    width={500}
-                    height={300}
-                    className="h-auto w-full object-cover"
-                  />
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">Recursos populares</h3>
+                  <ul className="space-y-2">
+                    <li>
+                      <Link
+                        href="/recursos?categoria=guias"
+                        className="text-gray-600 hover:text-primary transition-colors flex items-center"
+                      >
+                        Guías de herramientas IA
+                        <ArrowRight className="ml-1 h-4 w-4" />
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/kit-digital"
+                        className="text-gray-600 hover:text-primary transition-colors flex items-center"
+                      >
+                        Kit Digital de Productividad
+                        <ArrowRight className="ml-1 h-4 w-4" />
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/herramientas/comparar"
+                        className="text-gray-600 hover:text-primary transition-colors flex items-center"
+                      >
+                        Comparativas de herramientas
+                        <ArrowRight className="ml-1 h-4 w-4" />
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* FAQ Section */}
-      <section className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl">
-            <h2 className="text-center text-2xl font-bold text-secondary sm:text-3xl">Preguntas Frecuentes</h2>
-
-            <div className="mt-8 space-y-6">
-              <div className="rounded-lg bg-white p-6 shadow-md">
-                <h3 className="text-lg font-semibold text-secondary">¿Cuánto tardan en responder a las consultas?</h3>
-                <p className="mt-2 text-gray-600">
-                  Nos esforzamos por responder a todas las consultas en un plazo de 24-48 horas laborables.
-                </p>
-              </div>
-
-              <div className="rounded-lg bg-white p-6 shadow-md">
-                <h3 className="text-lg font-semibold text-secondary">
-                  ¿Puedo sugerir una herramienta para que la reseñéis?
-                </h3>
-                <p className="mt-2 text-gray-600">
-                  ¡Por supuesto! Nos encanta descubrir nuevas herramientas. Puedes enviarnos tu sugerencia a través del
-                  formulario de contacto.
-                </p>
-              </div>
-
-              <div className="rounded-lg bg-white p-6 shadow-md">
-                <h3 className="text-lg font-semibold text-secondary">
-                  ¿Ofrecéis servicios de consultoría sobre herramientas de IA?
-                </h3>
-                <p className="mt-2 text-gray-600">
-                  Actualmente no ofrecemos servicios de consultoría formales, pero estamos encantados de responder
-                  preguntas específicas sobre herramientas de IA para trabajo remoto.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    </main>
   )
 }
