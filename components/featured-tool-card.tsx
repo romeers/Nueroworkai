@@ -1,17 +1,18 @@
-import { Card, CardFooter } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { Badge } from "@/components/ui/badge"
+import { Star, ExternalLink } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import SafeImage from "@/components/safe-image"
 
 interface FeaturedToolCardProps {
   name: string
   description: string
-  imageUrl?: string | null
+  imageUrl: string
   category: string
+  url: string
+  score?: number
   slug: string
-  score: number
-  specialOffer?: string
+  affiliateUrl?: string
   verified?: boolean
 }
 
@@ -20,59 +21,96 @@ export default function FeaturedToolCard({
   description,
   imageUrl,
   category,
+  url,
+  score = 0,
   slug,
-  score,
-  specialOffer,
+  affiliateUrl,
   verified = false,
 }: FeaturedToolCardProps) {
-  // Función para obtener la URL oficial si no hay URL de afiliado
-  const getOfficialUrl = (toolName: string) => {
-    const toolUrls: Record<string, string> = {}
-    return toolUrls[toolName] || "#" // Fallback to # if no URL is found
+  // Function to get the correct logo URL
+  const getLogoUrl = (imageUrl: string) => {
+    if (!imageUrl) {
+      return `/placeholder.svg?height=120&width=120&query=${encodeURIComponent(name + " logo")}`
+    }
+    return imageUrl
   }
 
-  const fallbackImage = `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " icon")}`
-  const toolUrl = `/herramientas/${slug}`
+  // Function to render stars based on score
+  const renderStars = (score: number) => {
+    const fullStars = Math.floor(score / 2)
+    const halfStar = score % 2 >= 1
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0)
+
+    return (
+      <div className="flex">
+        {[...Array(fullStars)].map((_, i) => (
+          <Star key={`full-${i}`} className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+        ))}
+        {halfStar && (
+          <span className="relative">
+            <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" style={{ clipPath: "inset(0 50% 0 0)" }} />
+            <Star className="absolute top-0 left-0 h-4 w-4 text-gray-300" style={{ clipPath: "inset(0 0 0 50%)" }} />
+          </span>
+        )}
+        {[...Array(emptyStars)].map((_, i) => (
+          <Star key={`empty-${i}`} className="h-4 w-4 text-gray-300" />
+        ))}
+      </div>
+    )
+  }
 
   return (
-    <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg flex flex-col h-full">
-      <div className="p-6 flex-1">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center">
-            <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md mr-4 bg-gray-100 flex items-center justify-center">
-              {imageUrl ? (
-                <SafeImage src={imageUrl} alt={`Logo de ${name}`} width={64} height={64} className="object-contain" />
-              ) : (
-                <span className="text-[8px] text-gray-400">{`Logo ${name}`}</span>
-              )}
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-secondary">{name}</h3>
-              <Badge className="mt-1 bg-primary/10 text-primary hover:bg-primary/20">{category}</Badge>
-            </div>
+    <div className="rounded-xl border bg-white p-6 shadow-md">
+      <div className="flex flex-col md:flex-row md:items-center gap-6">
+        {/* Logo container with proper spacing */}
+        <div className="relative h-24 w-24 mx-auto md:mx-0 flex-shrink-0 overflow-hidden rounded-lg bg-gray-50">
+          <SafeImage src={getLogoUrl(imageUrl)} alt={name} fill className="object-contain p-2" sizes="96px" />
+        </div>
+
+        <div className="flex-1">
+          <div className="flex flex-wrap items-center gap-2 mb-2">
+            <h3 className="text-xl font-bold text-secondary">{name}</h3>
+            {/* Featured badge positioned properly */}
+            <Badge className="bg-primary text-white" variant="default">
+              Destacada
+            </Badge>
+            <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+              {category}
+            </span>
           </div>
-          <div className="bg-primary text-white rounded-full h-12 w-12 flex items-center justify-center font-bold">
-            {score}
+
+          <p className="text-gray-600 mb-4">{description}</p>
+
+          {score > 0 && (
+            <div className="flex items-center gap-2 mb-4">
+              <span className="font-medium text-primary">{score}/10</span>
+              {renderStars(score)}
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-3">
+            {affiliateUrl && (
+              <Button asChild className="bg-primary hover:bg-primary/90">
+                <Link
+                  href={affiliateUrl}
+                  target="_blank"
+                  rel="noopener sponsored"
+                  className="flex items-center gap-1"
+                  data-umami-event={`affiliate-click-${slug}`}
+                >
+                  Probar Gratis
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+              </Button>
+            )}
+            <Button asChild variant="outline">
+              <Link href={url} data-umami-event={`featured-tool-click-${slug}`}>
+                Ver análisis
+              </Link>
+            </Button>
           </div>
         </div>
-        <p className="text-gray-600">{description}</p>
-
-        {specialOffer && (
-          <div className="mt-4 rounded-md bg-green-50 p-2 text-xs text-green-700 border border-green-200">
-            <span className="font-semibold">Oferta:</span> {specialOffer}
-          </div>
-        )}
       </div>
-      <CardFooter className="bg-gray-50 p-4 flex justify-between gap-2 border-t">
-        <Button asChild variant="outline" size="sm">
-          <Link href={`${toolUrl}`}>Ver análisis</Link>
-        </Button>
-        <Button asChild className="bg-primary hover:bg-primary/90" size="sm">
-          <Link href={getOfficialUrl(name)} target="_blank" rel="noopener sponsored">
-            Probar gratis
-          </Link>
-        </Button>
-      </CardFooter>
-    </Card>
+    </div>
   )
 }

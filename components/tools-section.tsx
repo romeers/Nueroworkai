@@ -64,8 +64,8 @@ function ToolCard({ tool }: { tool: Tool }) {
           />
         </div>
 
-        {/* Badges */}
-        <div className="absolute -top-2 -right-2 flex flex-col gap-1">
+        {/* Badges positioned below the logo instead of overlapping */}
+        <div className="mt-2 flex flex-wrap justify-center gap-1">
           {tool.featured && <Badge className="bg-primary text-white">Top Valorada</Badge>}
           {tool.isNew && <Badge className="bg-green-500 text-white">Nueva</Badge>}
         </div>
@@ -121,9 +121,11 @@ export function ToolsSection({ title, tools, viewAllLink, className = "" }: Tool
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined)
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredTools, setFilteredTools] = useState<Tool[]>(tools)
+  const [isClient, setIsClient] = useState(false)
 
-  // Initialize from URL params
+  // Initialize from URL params and set client-side rendering flag
   useEffect(() => {
+    setIsClient(true)
     const categoryParam = searchParams.get("categoria") || "todas"
     const queryParam = searchParams.get("q") || ""
 
@@ -210,29 +212,33 @@ export function ToolsSection({ title, tools, viewAllLink, className = "" }: Tool
           )}
         </div>
 
-        {tools.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tools.map((tool) => (
-              <ToolCard key={tool.id || tool.slug} tool={tool} />
-            ))}
-          </div>
-        ) : (
-          <div className="bg-gray-50 rounded-lg p-8 text-center">
-            <div className="mb-4">
-              <Sparkles className="h-12 w-12 text-blue-500 mx-auto" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Próximamente nuevas herramientas</h3>
-            <p className="text-gray-600 mb-6">
-              Estamos seleccionando cuidadosamente las mejores herramientas de IA para ti. Vuelve pronto para descubrir
-              nuestras recomendaciones.
-            </p>
-            <Link
-              href="/contacto"
-              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-            >
-              Sugerir una herramienta
-            </Link>
-          </div>
+        {isClient && (
+          <>
+            {tools.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredTools.map((tool) => (
+                  <ToolCard key={tool.id || tool.slug} tool={tool} />
+                ))}
+              </div>
+            ) : (
+              <div className="bg-gray-50 rounded-lg p-8 text-center">
+                <div className="mb-4">
+                  <Sparkles className="h-12 w-12 text-blue-500 mx-auto" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Próximamente nuevas herramientas</h3>
+                <p className="text-gray-600 mb-6">
+                  Estamos seleccionando cuidadosamente las mejores herramientas de IA para ti. Vuelve pronto para
+                  descubrir nuestras recomendaciones.
+                </p>
+                <Link
+                  href="/contacto"
+                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                >
+                  Sugerir una herramienta
+                </Link>
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>

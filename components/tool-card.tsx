@@ -26,7 +26,7 @@ export default function ToolCard({
   slug,
   verified = false,
 }: ToolCardProps) {
-  // Función para obtener la URL correcta del logo
+  // Function to get the correct logo URL
   const getLogoUrl = (imageUrl: string) => {
     if (!imageUrl) {
       return `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " logo")}`
@@ -34,7 +34,7 @@ export default function ToolCard({
     return imageUrl
   }
 
-  // Función para renderizar estrellas basadas en la puntuación
+  // Function to render stars based on score
   const renderStars = (score: number) => {
     const fullStars = Math.floor(score / 2)
     const halfStar = score % 2 >= 1
@@ -68,14 +68,17 @@ export default function ToolCard({
       data-umami-event={`tool-card-click-${slug}`}
     >
       <div className="flex items-start gap-4">
+        {/* Logo container - now with proper spacing and no overlapping */}
         <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-50">
           <SafeImage src={getLogoUrl(imageUrl)} alt={name} fill className="object-contain p-1" sizes="64px" />
         </div>
+
         <div className="flex-1">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-secondary">{name}</h3>
+            {/* Featured badge moved to be next to the name instead of overlapping the logo */}
             {featured && (
-              <Badge className="ml-2 bg-primary text-white" variant="default">
+              <Badge className="bg-primary text-white" variant="default">
                 Destacada
               </Badge>
             )}

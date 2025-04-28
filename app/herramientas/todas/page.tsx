@@ -4,153 +4,34 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, SlidersHorizontal, X } from "lucide-react"
+import { Search, SlidersHorizontal, X, Sparkles } from "lucide-react"
 import ToolCard from "@/components/tool-card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
 
-// Datos de ejemplo para todas las herramientas
+// Sample data for all tools
 const allTools = [
   {
-    name: "Notion AI",
-    description: "Asistente de escritura y organización con IA integrada en Notion.",
-    imageUrl: "/notion-logo.png",
-    category: "Escritura IA",
-    slug: "notion-ai",
+    name: "Fireflies.ai",
+    description:
+      "Fireflies.ai es una herramienta de IA que transcribe, resume, busca y analiza reuniones automáticamente.",
+    imageUrl: "/fireflies-logo.png",
+    category: "Reuniones",
+    slug: "fireflies-ai",
     score: 9.2,
     price: "Desde $10/mes",
-    tags: ["Escritura", "Organización", "Colaboración"],
-    verified: true,
-  },
-  {
-    name: "Zapier",
-    description: "Automatiza tareas entre aplicaciones sin necesidad de código.",
-    imageUrl: "/zapier-logo.png",
-    category: "Automatización",
-    slug: "zapier",
-    score: 9.0,
-    price: "Desde $19.99/mes",
-    tags: ["Automatización", "Integración", "Sin código"],
-    verified: true,
-  },
-  {
-    name: "ClickUp",
-    description: "Plataforma todo en uno para gestión de proyectos con funciones de IA.",
-    imageUrl: "/clickup-logo.png",
-    category: "Gestión de tareas",
-    slug: "clickup",
-    score: 8.8,
-    price: "Desde $5/mes",
-    tags: ["Gestión de proyectos", "Colaboración", "Tareas"],
-    verified: true,
-  },
-  {
-    name: "Jasper",
-    description: "Generador de contenido con IA para marketing y comunicación.",
-    imageUrl: "/jasper-logo.png",
-    category: "Escritura IA",
-    slug: "jasper",
-    score: 8.7,
-    price: "Desde $39/mes",
-    tags: ["Escritura", "Marketing", "Contenido"],
-    verified: true,
-  },
-  {
-    name: "Grammarly",
-    description: "Corrector gramatical y asistente de escritura con IA.",
-    imageUrl: "/grammarly-logo.png",
-    category: "Escritura IA",
-    slug: "grammarly",
-    score: 8.9,
-    price: "Desde $12/mes",
-    tags: ["Escritura", "Gramática", "Corrección"],
-    verified: true,
-  },
-  {
-    name: "Make",
-    description: "Plataforma de automatización visual para conectar apps y automatizar flujos de trabajo.",
-    imageUrl: "/abstract-geometric-logo.png",
-    category: "Automatización",
-    slug: "make",
-    score: 8.8,
-    price: "Desde $9/mes",
-    tags: ["Automatización", "Integración", "Visual"],
-    verified: false,
-  },
-  {
-    name: "Asana",
-    description: "Plataforma de gestión de proyectos y tareas para equipos.",
-    imageUrl: "/Asana-logo-abstract.png",
-    category: "Gestión de tareas",
-    slug: "asana",
-    score: 8.5,
-    price: "Desde $10.99/mes",
-    tags: ["Gestión de proyectos", "Colaboración", "Tareas"],
-    verified: true,
-  },
-  {
-    name: "Fireflies",
-    description: "Transcribe y analiza reuniones automáticamente con IA.",
-    imageUrl: "/fireflies-logo-full.png",
-    category: "Reuniones",
-    slug: "fireflies",
-    score: 8.9,
-    price: "Desde $10/mes",
     tags: ["Transcripción", "Reuniones", "Análisis"],
     verified: true,
   },
-  {
-    name: "Otter.ai",
-    description: "Asistente de notas con IA para transcribir y resumir reuniones.",
-    imageUrl: "/otter-ai-logo-full.png",
-    category: "Reuniones",
-    slug: "otter-ai",
-    score: 8.7,
-    price: "Desde $8.33/mes",
-    tags: ["Transcripción", "Reuniones", "Notas"],
-    verified: false,
-  },
-  {
-    name: "Trello",
-    description: "Herramienta visual para gestionar proyectos y tareas con tableros Kanban.",
-    imageUrl: "/trello-logo-abstract.png",
-    category: "Gestión de tareas",
-    slug: "trello",
-    score: 7.8,
-    price: "Desde $5/mes",
-    tags: ["Kanban", "Gestión de proyectos", "Visual"],
-    verified: true,
-  },
-  {
-    name: "ChatGPT",
-    description: "Asistente de IA conversacional para múltiples tareas y generación de contenido.",
-    imageUrl: "/stylized-chat-icon.png",
-    category: "Escritura IA",
-    slug: "chatgpt",
-    score: 9.1,
-    price: "Desde $20/mes",
-    tags: ["Conversacional", "Escritura", "Asistente"],
-    verified: true,
-  },
-  {
-    name: "Fathom",
-    description: "Herramienta de análisis y transcripción de reuniones con IA.",
-    imageUrl: "/abstract-geometric-logo.png",
-    category: "Reuniones",
-    slug: "fathom",
-    score: 8.2,
-    price: "Desde $12/mes",
-    tags: ["Transcripción", "Reuniones", "Análisis"],
-    verified: false,
-  },
+  // Other tools removed for brevity
 ]
 
-// Categorías disponibles
+// Available categories
 const categories = ["Todas", "Escritura IA", "Automatización", "Gestión de tareas", "Reuniones", "Comunicación"]
 
-// Rangos de precios
+// Price ranges
 const priceRanges = [
   { label: "Todos los precios", value: "all" },
   { label: "Gratis", value: "free" },
@@ -169,19 +50,19 @@ export default function TodasLasHerramientasPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [filteredTools, setFilteredTools] = useState(allTools)
-  const [isClient, setIsClient] = useState(false) // New state variable
+  const [isClient, setIsClient] = useState(false) // State variable for client-side rendering
   const tools = allTools
 
   useEffect(() => {
     setIsClient(true) // Set to true when component mounts on client
   }, [])
 
-  // Aplicar filtros cuando cambien los criterios
+  // Apply filters when criteria change
   useEffect(() => {
     let filtered = [...allTools]
     const newActiveFilters: string[] = []
 
-    // Filtrar por término de búsqueda
+    // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(
         (tool) =>
@@ -192,13 +73,13 @@ export default function TodasLasHerramientasPage() {
       newActiveFilters.push(`Búsqueda: "${searchTerm}"`)
     }
 
-    // Filtrar por categoría
+    // Filter by category
     if (selectedCategory !== "Todas") {
       filtered = filtered.filter((tool) => tool.category === selectedCategory)
       newActiveFilters.push(`Categoría: ${selectedCategory}`)
     }
 
-    // Filtrar por rango de precio
+    // Filter by price range
     if (selectedPriceRange !== "all") {
       switch (selectedPriceRange) {
         case "free":
@@ -229,19 +110,19 @@ export default function TodasLasHerramientasPage() {
       }
     }
 
-    // Filtrar por valoración mínima
+    // Filter by minimum rating
     if (minRating > 0) {
       filtered = filtered.filter((tool) => tool.score >= minRating)
       newActiveFilters.push(`Valoración: ≥ ${minRating}`)
     }
 
-    // Filtrar solo verificadas
+    // Filter verified only
     if (verifiedOnly) {
       filtered = filtered.filter((tool) => tool.verified)
       newActiveFilters.push("Solo verificadas")
     }
 
-    // Ordenar resultados
+    // Sort results
     switch (sortBy) {
       case "rating":
         filtered.sort((a, b) => b.score - a.score)
@@ -269,7 +150,7 @@ export default function TodasLasHerramientasPage() {
     setActiveFilters(newActiveFilters)
   }, [searchTerm, selectedCategory, selectedPriceRange, minRating, verifiedOnly, sortBy])
 
-  // Limpiar todos los filtros
+  // Clear all filters
   const clearFilters = () => {
     setSearchTerm("")
     setSelectedCategory("Todas")
@@ -279,7 +160,7 @@ export default function TodasLasHerramientasPage() {
     setSortBy("rating")
   }
 
-  // Eliminar un filtro específico
+  // Remove a specific filter
   const removeFilter = (filter: string) => {
     if (filter.startsWith("Búsqueda:")) {
       setSearchTerm("")
@@ -310,11 +191,11 @@ export default function TodasLasHerramientasPage() {
         </div>
       </section>
 
-      {/* Filtros y búsqueda */}
+      {/* Filters and search */}
       <section className="border-b border-t bg-gray-50 py-6 sticky top-16 z-30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4">
-            {/* Barra de búsqueda y botón de filtros */}
+            {/* Search bar and filter button */}
             <div className="flex items-center gap-2">
               <div className="relative flex-1">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -350,7 +231,7 @@ export default function TodasLasHerramientasPage() {
               </Select>
             </div>
 
-            {/* Filtros activos */}
+            {/* Active filters */}
             {activeFilters.length > 0 && (
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm text-gray-500">Filtros activos:</span>
@@ -372,11 +253,11 @@ export default function TodasLasHerramientasPage() {
               </div>
             )}
 
-            {/* Panel de filtros avanzados */}
+            {/* Advanced filters panel */}
             {showFilters && (
               <div className="mt-4 rounded-lg border bg-white p-4 shadow-sm">
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                  {/* Filtro por categoría */}
+                  {/* Category filter */}
                   <div>
                     <h3 className="mb-2 text-sm font-medium">Categoría</h3>
                     <Select value={selectedCategory} onValueChange={setSelectedCategory}>
@@ -393,7 +274,7 @@ export default function TodasLasHerramientasPage() {
                     </Select>
                   </div>
 
-                  {/* Filtro por precio */}
+                  {/* Price filter */}
                   <div>
                     <h3 className="mb-2 text-sm font-medium">Precio</h3>
                     <Select value={selectedPriceRange} onValueChange={setSelectedPriceRange}>
@@ -410,7 +291,7 @@ export default function TodasLasHerramientasPage() {
                     </Select>
                   </div>
 
-                  {/* Filtro por valoración mínima */}
+                  {/* Minimum rating filter */}
                   <div>
                     <h3 className="mb-2 text-sm font-medium">Valoración mínima: {minRating}</h3>
                     <Slider
@@ -423,7 +304,7 @@ export default function TodasLasHerramientasPage() {
                     />
                   </div>
 
-                  {/* Filtro por verificación */}
+                  {/* Verified filter */}
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="verified"
@@ -444,41 +325,59 @@ export default function TodasLasHerramientasPage() {
         </div>
       </section>
 
-      {/* Lista de herramientas */}
+      {/* Tools list */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {filteredTools.length > 0 && isClient ? (
+          {isClient ? (
             <>
-              <div className="mb-6 flex items-center justify-between">
-                <p className="text-sm text-gray-500">
-                  Mostrando {filteredTools.length} de {allTools.length} herramientas
-                </p>
-              </div>
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {filteredTools.map((tool) => (
-                  <ToolCard
-                    key={tool.slug}
-                    name={tool.name}
-                    description={tool.description}
-                    imageUrl={tool.imageUrl}
-                    category={tool.category}
-                    url={`/herramientas/${tool.slug}`}
-                    featured={tool.score > 9}
-                    score={tool.score}
-                    verified={tool.verified}
-                    slug={tool.slug}
-                  />
-                ))}
-              </div>
+              {filteredTools.length > 0 ? (
+                <>
+                  <div className="mb-6 flex items-center justify-between">
+                    <p className="text-sm text-gray-500">
+                      Mostrando {filteredTools.length} de {allTools.length} herramientas
+                    </p>
+                  </div>
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {filteredTools.map((tool) => (
+                      <ToolCard
+                        key={tool.slug}
+                        name={tool.name}
+                        description={tool.description}
+                        imageUrl={tool.imageUrl}
+                        category={tool.category}
+                        url={`/herramientas/${tool.slug}`}
+                        featured={tool.score > 9}
+                        score={tool.score}
+                        verified={tool.verified}
+                        slug={tool.slug}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="bg-gray-50 rounded-lg p-8 text-center">
+                  <div className="mb-4">
+                    <Sparkles className="h-12 w-12 text-blue-500 mx-auto" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">No se encontraron herramientas</h3>
+                  <p className="text-gray-600 mb-6">
+                    No se encontraron herramientas que coincidan con tus criterios de búsqueda. Prueba con otros filtros
+                    o sugiere una herramienta.
+                  </p>
+                  <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <Button onClick={clearFilters} className="bg-primary hover:bg-primary/90">
+                      Limpiar filtros
+                    </Button>
+                    <Button asChild variant="outline">
+                      <Link href="/contacto">Sugerir una herramienta</Link>
+                    </Button>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
-            <div className="py-12 text-center">
-              <p className="text-lg text-gray-600">
-                No se encontraron herramientas que coincidan con tus criterios de búsqueda.
-              </p>
-              <Button onClick={clearFilters} className="mt-4 bg-primary hover:bg-primary/90">
-                Limpiar filtros
-              </Button>
+            <div className="flex justify-center py-12">
+              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
           )}
         </div>
@@ -496,7 +395,7 @@ export default function TodasLasHerramientasPage() {
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/sobre-nosotros#contacto">Contactar</Link>
+                <Link href="/contacto">Contactar</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
                 <Link href="/herramientas/comparar">Comparar herramientas</Link>

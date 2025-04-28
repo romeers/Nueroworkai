@@ -1,48 +1,52 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import SafeImage from "./safe-image"
+import SafeImage from "@/components/safe-image"
 
 interface ToolCardCompactProps {
   name: string
-  description: string
-  imageUrl?: string | null
+  imageUrl: string
   category: string
+  url: string
+  featured?: boolean
   slug: string
 }
 
-export default function ToolCardCompact({ name, description, imageUrl, category, slug }: ToolCardCompactProps) {
-  const fallbackImage = `/placeholder.svg?height=80&width=80&query=${encodeURIComponent(name + " icon")}`
+export default function ToolCardCompact({
+  name,
+  imageUrl,
+  category,
+  url,
+  featured = false,
+  slug,
+}: ToolCardCompactProps) {
+  // Function to get the correct logo URL
+  const getLogoUrl = (imageUrl: string) => {
+    if (!imageUrl) {
+      return `/placeholder.svg?height=40&width=40&query=${encodeURIComponent(name + " logo")}`
+    }
+    return imageUrl
+  }
 
   return (
-    <Card className="flex h-full flex-col overflow-hidden transition-all duration-200 hover:shadow-md">
-      <CardContent className="flex flex-1 flex-col p-6">
-        <div className="mb-4 flex items-center gap-4">
-          <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md">
-            <SafeImage
-              src={imageUrl}
-              fallbackSrc={fallbackImage}
-              alt={`${name} logo`}
-              fill
-              className="object-contain"
-            />
-          </div>
-          <div>
-            <h3 className="text-lg font-bold text-secondary">{name}</h3>
-            <Badge className="mt-1 bg-primary/10 text-primary hover:bg-primary/20">{category}</Badge>
-          </div>
+    <Link
+      href={url}
+      className="flex items-center gap-3 rounded-lg border bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
+      data-umami-event={`tool-card-compact-click-${slug}`}
+    >
+      <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-md bg-gray-50">
+        <SafeImage src={getLogoUrl(imageUrl)} alt={name} fill className="object-contain p-1" sizes="40px" />
+      </div>
+      <div className="flex flex-1 items-center justify-between">
+        <div>
+          <h3 className="font-medium text-secondary">{name}</h3>
+          <span className="text-xs text-gray-500">{category}</span>
         </div>
-        <p className="line-clamp-2 flex-1 text-sm text-gray-600">{description}</p>
-      </CardContent>
-      <CardFooter className="flex justify-between gap-2 border-t bg-gray-50 p-4">
-        <Button asChild variant="outline" size="sm">
-          <Link href={`/herramientas/${slug}`}>Ver más</Link>
-        </Button>
-        <Button asChild size="sm" className="bg-primary hover:bg-primary/90">
-          <Link href={`/comparativas?tool=${slug}`}>Comparar</Link>
-        </Button>
-      </CardFooter>
-    </Card>
+        {featured && (
+          <Badge className="ml-2 bg-primary text-white" variant="default">
+            Destacada
+          </Badge>
+        )}
+      </div>
+    </Link>
   )
 }
