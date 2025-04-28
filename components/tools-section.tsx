@@ -213,7 +213,7 @@ export function ToolsSection({ title, tools, viewAllLink, className = "" }: Tool
         {tools.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tools.map((tool) => (
-              <ToolCard key={tool.id} tool={tool} />
+              <ToolCard key={tool.id || tool.slug} tool={tool} />
             ))}
           </div>
         ) : (

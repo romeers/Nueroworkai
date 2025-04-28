@@ -7,7 +7,6 @@ import ToolCard from "@/components/tool-card"
 import CategoryLeadMagnet from "@/components/category-lead-magnet"
 import { getCachedCategories, getCachedToolsByCategory } from "@/lib/db"
 import CategorySchema from "@/components/seo/category-schema"
-import { Sparkles } from "lucide-react"
 
 interface Params {
   categoria: string
@@ -110,16 +109,11 @@ function getCategoryLeadMagnet(category: string) {
 }
 
 export default async function CategoryPage({ params }: { params: { categoria: string } }) {
-  const decodedCategoria = decodeURIComponent(params.categoria)
   const categories = await getCachedCategories()
   const category = categories.find((c: any) => c.slug === params.categoria)
   const tools = await getCachedToolsByCategory(params.categoria)
   const categoryName = category ? category.name : getCategoryName(params.categoria)
   const leadMagnet = getCategoryLeadMagnet(params.categoria)
-
-  const toolsInCategory = tools.filter((tool) =>
-    tool.categories.some((category) => category.toLowerCase() === decodedCategoria.toLowerCase()),
-  )
 
   return (
     <>
@@ -196,9 +190,9 @@ export default async function CategoryPage({ params }: { params: { categoria: st
       {/* Lista de herramientas */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {toolsInCategory.length > 0 ? (
+          {tools.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {toolsInCategory.map((tool: any) => (
+              {tools.map((tool: any) => (
                 <ToolCard
                   key={tool.slug}
                   name={tool.name}
@@ -213,21 +207,11 @@ export default async function CategoryPage({ params }: { params: { categoria: st
               ))}
             </div>
           ) : (
-            <div className="bg-gray-50 rounded-lg p-8 text-center">
-              <div className="mb-4">
-                <Sparkles className="h-12 w-12 text-blue-500 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Próximamente nuevas herramientas</h3>
-              <p className="text-gray-600 mb-6">
-                Estamos seleccionando cuidadosamente las mejores herramientas de IA para la categoría {decodedCategoria}
-                . Vuelve pronto para descubrir nuestras recomendaciones.
-              </p>
-              <Link
-                href="/contacto"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-              >
-                Sugerir una herramienta
-              </Link>
+            <div className="py-12 text-center">
+              <p className="text-lg text-gray-600">No se encontraron herramientas en esta categoría.</p>
+              <Button asChild variant="link" className="mt-2 text-primary">
+                <Link href="/herramientas">Ver todas las categorías</Link>
+              </Button>
             </div>
           )}
         </div>

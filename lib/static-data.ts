@@ -4,15 +4,27 @@ export interface Tool {
   name: string
   slug: string
   description: string
+  longDescription?: string
   imageUrl: string
   category: string
   categoryId: number
   categorySlug: string
-  link: string
-  price: string
+  link?: string
+  price?: string
   featured: boolean
   score: number
-  viewCount: number
+  viewCount?: number
+  affiliateUrl: string
+  pros?: string[]
+  cons?: string[]
+  features?: {
+    name: string
+    description: string
+    imageUrl?: string
+  }[]
+  isNew?: boolean
+  verified?: boolean
+  specialOffer?: string
 }
 
 export interface Comparison {
@@ -79,8 +91,66 @@ export const categories = [
   },
 ]
 
-// Empty tools array - will be populated manually as affiliate links get approved
-export const tools: Tool[] = []
+// Añadimos Fireflies.ai como primera herramienta
+export const tools: Tool[] = [
+  {
+    id: 1,
+    name: "Fireflies.ai",
+    slug: "fireflies-ai",
+    description:
+      "Fireflies.ai es una herramienta de IA que transcribe, resume, busca y analiza reuniones automáticamente, ahorrando tiempo y mejorando la productividad.",
+    longDescription:
+      "Fireflies.ai es un asistente de reuniones con IA que se une a tus llamadas, toma notas y crea resúmenes automáticamente. Permite buscar, transcribir y analizar conversaciones para extraer información valiosa, ahorrando tiempo y mejorando la productividad de equipos remotos y presenciales.",
+    imageUrl: "/fireflies-logo.png",
+    category: "Reuniones",
+    categoryId: 4,
+    categorySlug: "reuniones",
+    featured: true,
+    score: 9.2,
+    affiliateUrl: "https://fireflies.ai/?fpr=daniel72",
+    isNew: true,
+    verified: true,
+    specialOffer: "Prueba gratuita disponible",
+    pros: [
+      "Transcripción automática precisa en múltiples idiomas",
+      "Resúmenes inteligentes de reuniones con puntos clave",
+      "Búsqueda avanzada en transcripciones",
+      "Integración con las principales plataformas de videoconferencia",
+      "Análisis de conversaciones con insights valiosos",
+    ],
+    cons: [
+      "Algunas funciones avanzadas solo disponibles en planes de pago",
+      "Puede requerir ajustes para acentos específicos",
+      "El plan gratuito tiene limitaciones de uso",
+    ],
+    features: [
+      {
+        name: "Transcripción automática",
+        description:
+          "Convierte automáticamente el audio de tus reuniones en texto con alta precisión en múltiples idiomas.",
+        imageUrl: "/fireflies-transcription.png",
+      },
+      {
+        name: "Resúmenes inteligentes",
+        description:
+          "Genera resúmenes concisos con los puntos clave, decisiones y elementos de acción de cada reunión.",
+        imageUrl: "/fireflies-summary.png",
+      },
+      {
+        name: "Búsqueda avanzada",
+        description:
+          "Encuentra rápidamente cualquier información en tus reuniones pasadas con búsqueda por palabras clave.",
+        imageUrl: "/fireflies-search.png",
+      },
+      {
+        name: "Análisis de conversaciones",
+        description:
+          "Obtén insights valiosos sobre tus reuniones, incluyendo tiempo de habla, temas recurrentes y sentimiento.",
+        imageUrl: "/fireflies-analytics.png",
+      },
+    ],
+  },
+]
 
 // Empty comparisons array - will be populated manually as affiliate links get approved
 export const comparisons: Comparison[] = []

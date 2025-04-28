@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, ExternalLink } from "lucide-react"
 import HeroSection from "@/components/hero-section"
 import Testimonials from "@/components/testimonials"
 import Stats from "@/components/stats"
@@ -12,9 +12,10 @@ import KitPromoBlock from "@/components/kit-promo-block"
 import { CalendarIcon } from "lucide-react"
 import HomeSchema from "@/components/seo/home-schema"
 import SafeImage from "@/components/safe-image"
+import { getFeaturedTools } from "@/lib/static-data"
 
-// Empty array for featured tools - will be populated manually as affiliate links get approved
-const featuredTools = []
+// Obtener herramientas destacadas
+const featuredTools = getFeaturedTools()
 
 // Datos de ejemplo para los recursos destacados
 const resources = [
@@ -131,26 +132,26 @@ export default function Home() {
           </div>
 
           {featuredTools.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredTools.map((tool) => (
                 <div
-                  key={tool.name}
+                  key={tool.id || tool.slug}
                   className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col h-full"
                 >
                   <div className="flex flex-col items-center mb-4">
-                    <div className="relative w-12 h-12 mb-3">
+                    <div className="relative w-16 h-16 mb-3">
                       <SafeImage
                         src={tool.imageUrl}
                         alt={`Logo de ${tool.name}`}
-                        width={48}
-                        height={48}
+                        width={64}
+                        height={64}
                         className="object-contain"
                         loading="lazy"
                       />
                     </div>
                     <h3 className="text-lg font-bold text-secondary text-center">{tool.name}</h3>
                   </div>
-                  <p className="text-gray-600 text-sm mb-6 flex-grow line-clamp-2">{tool.description}</p>
+                  <p className="text-gray-600 text-sm mb-6 flex-grow line-clamp-3">{tool.description}</p>
                   <div className="mt-auto">
                     <div className="flex justify-center mb-4">
                       <span className="text-sm bg-violet-100 text-violet-700 rounded-full px-3 py-1">
@@ -159,10 +160,18 @@ export default function Home() {
                     </div>
                     <div className="flex justify-between gap-3">
                       <Button asChild variant="outline" size="sm" className="flex-1">
-                        <Link href={tool.url}>Ver detalles</Link>
+                        <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
                       </Button>
                       <Button asChild className="bg-violet-600 text-white hover:bg-violet-700 flex-1" size="sm">
-                        <Link href={`${tool.url}#probar`}>Probar gratis</Link>
+                        <Link
+                          href={tool.affiliateUrl}
+                          target="_blank"
+                          rel="noopener sponsored"
+                          className="flex items-center justify-center gap-1"
+                        >
+                          Probar gratis
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </Link>
                       </Button>
                     </div>
                   </div>
