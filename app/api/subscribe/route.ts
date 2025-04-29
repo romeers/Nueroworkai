@@ -17,11 +17,11 @@ export async function POST(request: Request) {
     // Get database connection
     const sql = getDbConnection()
 
-    // Save the email to our new unified subscriptions table
+    // Save the email to our unified subscriptions table
     try {
       await sql`
-        INSERT INTO subscriptions (email, name, source, utm_source, utm_medium, utm_campaign)
-        VALUES (${email}, ${name}, ${source}, ${utm_source}, ${utm_medium}, ${utm_campaign})
+        INSERT INTO subscriptions (email, name, source, utm_source, utm_medium, utm_campaign, updated_at)
+        VALUES (${email}, ${name}, ${source}, ${utm_source}, ${utm_medium}, ${utm_campaign}, CURRENT_TIMESTAMP)
         ON CONFLICT (email) 
         DO UPDATE SET 
           name = COALESCE(${name}, subscriptions.name),
@@ -34,13 +34,18 @@ export async function POST(request: Request) {
 
       // For backward compatibility, also insert into kit_downloads if source is kit-related
       if (source.includes("kit")) {
-        await sql`
-          INSERT INTO kit_downloads (email)
-          VALUES (${email})
-          ON CONFLICT (email) 
-          DO UPDATE SET 
-            download_date = CURRENT_TIMESTAMP
-        `
+        try {
+          await sql`
+            INSERT INTO kit_downloads (email, download_date)
+            VALUES (${email}, CURRENT_TIMESTAMP)
+            ON CONFLICT (email) 
+            DO UPDATE SET 
+              download_date = CURRENT_TIMESTAMP
+          `
+        } catch (kitError) {
+          console.error("Error al registrar en kit_downloads (no crítico):", kitError)
+          // Continuamos aunque falle esta parte
+        }
       }
 
       return NextResponse.json({
