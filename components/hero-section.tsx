@@ -1,15 +1,9 @@
-"use client"
-
 import { Download } from "lucide-react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { useTranslations } from "next-intl"
-import { Link } from "next-intl/client"
 
 export default function HeroSection() {
-  const t = useTranslations("Home.hero")
-  const tButtons = useTranslations("Buttons")
-
   return (
     <section className="relative overflow-hidden py-20 md:py-28">
       {/* Modern abstract background with gradient and blurry shapes */}
@@ -28,10 +22,12 @@ export default function HeroSection() {
               Plataforma líder en productividad IA
             </p>
             <h1 className="font-heading text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl md:text-[56px]">
-              {t("title")}
+              Descubre las mejores herramientas de productividad con IA
             </h1>
 
-            <p className="mt-6 text-lg leading-relaxed text-slate-200">{t("subtitle")}</p>
+            <p className="mt-6 text-lg leading-relaxed text-slate-200">
+              Potencia tu trabajo remoto con las apps más inteligentes del mercado. Compara, elige y empieza hoy mismo.
+            </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Button
@@ -39,8 +35,8 @@ export default function HeroSection() {
                 size="lg"
                 className="bg-primary px-8 text-base font-medium shadow-lg transition-all hover:bg-primary/90 hover:shadow-xl hover:translate-y-[-2px]"
               >
-                <Link href="/herramientas-ia" aria-label={tButtons("exploreTools")}>
-                  {t("cta")}
+                <Link href="/herramientas-ia" aria-label="Explorar herramientas de IA para productividad">
+                  Explora herramientas IA
                 </Link>
               </Button>
 
@@ -50,14 +46,18 @@ export default function HeroSection() {
                 size="lg"
                 className="border-2 border-white/30 bg-white/10 px-8 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:translate-y-[-2px]"
               >
-                <Link href="/kit-digital" className="flex items-center" aria-label={tButtons("downloadKit")}>
+                <Link
+                  href="/kit-digital"
+                  className="flex items-center"
+                  aria-label="Descargar kit gratuito de productividad con IA"
+                >
                   <Download className="mr-2 h-5 w-5" aria-hidden="true" />
-                  {tButtons("downloadKit")}
+                  Descargar Kit gratuito
                 </Link>
               </Button>
             </div>
 
-            <p className="mt-6 text-sm text-slate-300">+50 herramientas analizadas · {t("updated")}</p>
+            <p className="mt-6 text-sm text-slate-300">+50 herramientas analizadas · Actualizado 2025</p>
           </div>
 
           {/* Right column: Robot mascota analizando herramientas */}

@@ -1,30 +1,29 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
+import Link from "next/link"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import MobileNavDrawer from "./mobile-nav-drawer"
 import { Logo } from "./logo"
-import LanguageSwitcher from "./language-switcher"
-import { useTranslations } from "next-intl"
-import { Link, usePathname } from "next-intl/client"
+
+// Update the navigation array to remove the Blog entry
+const navigation = [
+  { name: "Inicio", href: "/" },
+  { name: "Herramientas IA", href: "/herramientas-ia", ariaLabel: "Ir a Herramientas IA" },
+  { name: "Recursos", href: "/recursos", ariaLabel: "Ir a Recursos" },
+  { name: "Sobre Nosotros", href: "/sobre-nosotros" },
+]
 
 export default function Header() {
-  const t = useTranslations("Navigation")
-  const tButtons = useTranslations("Buttons")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
   const pathname = usePathname()
-
-  // Actualizar el array de navegación para usar traducciones
-  const navigation = [
-    { name: t("home"), href: "/" },
-    { name: t("tools"), href: "/herramientas-ia", ariaLabel: t("tools") },
-    { name: t("resources"), href: "/recursos", ariaLabel: t("resources") },
-    { name: t("about"), href: "/sobre-nosotros" },
-  ]
+  // Remove the logoImage constant since we're not using it anymore
+  // const logoImage = "/logo-texto-transparente.png"
 
   const headerRef = useRef<HTMLElement>(null)
   const prevScrollY = useRef(0)
@@ -79,6 +78,7 @@ export default function Header() {
         aria-label="Navegación principal"
       >
         <div className="flex lg:flex-1">
+          {/* Replace the SafeImage with Logo component in the Link */}
           <Link
             href="/"
             className="flex items-center transition-opacity duration-200 hover:opacity-80"
@@ -127,12 +127,11 @@ export default function Header() {
           ))}
         </div>
 
-        {/* Language switcher and CTA button */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
-          <LanguageSwitcher />
+        {/* CTA button */}
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Button asChild className="bg-primary hover:bg-primary/90">
-            <Link href="/top-herramientas-ia" aria-label={t("topTools")}>
-              {t("topTools")}
+            <Link href="/top-herramientas-ia" aria-label="Ver top herramientas IA">
+              Top Herramientas IA
             </Link>
           </Button>
         </div>
@@ -148,8 +147,8 @@ export default function Header() {
           aria-hidden="false"
         >
           <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
-            <Link href="/top-herramientas-ia" aria-label={tButtons("exploreTools")} tabIndex={0}>
-              {tButtons("exploreTools")}
+            <Link href="/top-herramientas-ia" aria-label="Descubrir mejores herramientas IA" tabIndex={0}>
+              Descubrir Mejores Herramientas IA
             </Link>
           </Button>
         </div>

@@ -1,17 +1,10 @@
-"use client"
-
+import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "./logo"
 import { socialLinks } from "@/lib/social-links"
-import { useTranslations } from "next-intl"
-import { Link } from "next-intl/client"
 
 export default function Footer() {
-  const t = useTranslations("Footer")
-  const tNav = useTranslations("Navigation")
-  const tButtons = useTranslations("Buttons")
-  const tCategories = useTranslations("Categories")
   const currentYear = new Date().getFullYear()
 
   return (
@@ -30,12 +23,14 @@ export default function Footer() {
                 <Logo variant="white" className="w-full h-auto" priority={false} />
               </div>
             </Link>
-            <p className="text-sm text-white/80 max-w-xs">{t("affiliateDisclosure")}</p>
+            <p className="text-sm text-white/80 max-w-xs">
+              Descubre y compara las mejores herramientas de productividad con IA para profesionales remotos.
+            </p>
             <div className="flex gap-3 mt-4" aria-label="Redes sociales">
               {socialLinks.map((social) => {
                 const Icon = social.icon
                 return (
-                  <a
+                  <Link
                     key={social.platform}
                     href={social.href}
                     className={`text-white ${social.hoverColor} transition-all duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20 hover:scale-110`}
@@ -46,7 +41,7 @@ export default function Footer() {
                   >
                     <Icon className="h-5 w-5" />
                     <span className="sr-only">{social.platform}</span>
-                  </a>
+                  </Link>
                 )
               })}
             </div>
@@ -54,7 +49,7 @@ export default function Footer() {
 
           {/* Navigation links */}
           <nav aria-label="Enlaces de navegación del sitio">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("navigation")}</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Navegación</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -62,7 +57,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ir a la página de inicio"
                 >
-                  {tNav("home")}
+                  Inicio
                 </Link>
               </li>
               <li>
@@ -71,7 +66,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Explorar herramientas de IA"
                 >
-                  {tNav("tools")}
+                  Herramientas
                 </Link>
               </li>
               <li>
@@ -80,7 +75,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Comparar diferentes herramientas"
                 >
-                  {tButtons("compare")}
+                  Comparar Herramientas
                 </Link>
               </li>
               <li>
@@ -89,7 +84,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Explorar recursos y guías"
                 >
-                  {tNav("resources")}
+                  Recursos
                 </Link>
               </li>
               <li>
@@ -98,7 +93,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Conocer más sobre NeuroWorkAI"
                 >
-                  {tNav("about")}
+                  Sobre Nosotros
                 </Link>
               </li>
             </ul>
@@ -106,7 +101,7 @@ export default function Footer() {
 
           {/* Resources links */}
           <nav aria-label="Enlaces de recursos">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("resources")}</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Recursos</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -114,7 +109,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Descargar kit de herramientas IA"
                 >
-                  {tCategories("guides")}
+                  Kit de herramientas IA
                 </Link>
               </li>
               <li>
@@ -123,7 +118,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver guía de prompts para IA"
                 >
-                  {tCategories("prompts")}
+                  Guía de prompts
                 </Link>
               </li>
               <li>
@@ -132,7 +127,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver comparativas imprimibles"
                 >
-                  {tCategories("analysis")}
+                  Comparativas imprimibles
                 </Link>
               </li>
               <li>
@@ -141,7 +136,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Descargar plantillas gratuitas"
                 >
-                  {tCategories("templates")}
+                  Plantillas gratuitas
                 </Link>
               </li>
             </ul>
@@ -149,7 +144,7 @@ export default function Footer() {
 
           {/* Legal links */}
           <nav aria-label="Enlaces legales">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("legal.title")}</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -157,7 +152,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver política de privacidad"
                 >
-                  {t("legal.privacy")}
+                  Política de Privacidad
                 </Link>
               </li>
               <li>
@@ -166,7 +161,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver política de cookies"
                 >
-                  {t("legal.cookies")}
+                  Política de Cookies
                 </Link>
               </li>
               <li>
@@ -175,7 +170,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver aviso de afiliados"
                 >
-                  {t("legal.affiliates")}
+                  Aviso de Afiliados
                 </Link>
               </li>
               <li>
@@ -184,7 +179,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Contactar con nosotros"
                 >
-                  {t("legal.contact")}
+                  Contacto
                 </a>
               </li>
               <li>
@@ -193,7 +188,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver condiciones de servicio"
                 >
-                  {t("legal.terms")}
+                  Condiciones de Servicio
                 </Link>
               </li>
               <li>
@@ -202,7 +197,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver kit de medios"
                 >
-                  {t("legal.mediaKit")}
+                  Kit de Medios
                 </Link>
               </li>
             </ul>
@@ -219,26 +214,29 @@ export default function Footer() {
             <Link
               href="/herramientas/mejores"
               className="inline-flex items-center gap-2"
-              aria-label={tButtons("exploreTools")}
+              aria-label="Descubrir mejores herramientas IA"
             >
-              {tButtons("exploreTools")}
+              Descubrir Mejores Herramientas IA
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
-          <p className="text-sm text-white/70 mt-2">{useTranslations("About")("cta.subtitle")}</p>
+          <p className="text-sm text-white/70 mt-2">Análisis actualizados {currentYear}</p>
         </div>
 
         {/* Copyright and affiliate disclosure */}
         <div className="mt-8 pt-6 border-t border-white/10">
-          <p className="text-xs text-white/50 text-center">{t("affiliateDisclosure")}</p>
+          <p className="text-xs text-white/50 text-center">
+            NeuroWorkAI participa en programas de afiliación. Esto significa que podemos recibir una comisión si compras
+            a través de nuestros enlaces, sin costo adicional para ti.
+          </p>
           <p className="text-center text-sm text-white/70 mt-4">
-            &copy; {currentYear} NeuroWorkAI. {t("copyright")}
+            &copy; {currentYear} NeuroWorkAI. Todos los derechos reservados.
           </p>
           <p className="text-center text-xs text-white/50 mt-2">
-            <span aria-hidden="true">♥</span>
+            Desarrollado con <span aria-hidden="true">♥</span>
             <span className="sr-only">amor</span> |{" "}
             <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              {t("poweredBy")}
+              Powered by Vercel
             </a>
           </p>
         </div>
