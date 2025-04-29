@@ -5,7 +5,7 @@ import { validateEmail } from "@/utils/security"
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { email, source = "website" } = body
+    const { email, name = "", source = "website", utm_source = null, utm_medium = null, utm_campaign = null } = body
 
     // Server-side email validation
     if (!email || !validateEmail(email)) {
@@ -17,38 +17,31 @@ export async function POST(request: Request) {
     // Get database connection
     const sql = getDbConnection()
 
-    // Create the table if it doesn't exist
+    // Save the email to our new unified subscriptions table
     try {
       await sql`
-        CREATE TABLE IF NOT EXISTS subscriptions (
-          id SERIAL PRIMARY KEY,
-          email VARCHAR(255) UNIQUE NOT NULL,
-          source VARCHAR(100),
-          subscription_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-        )
-      `
-    } catch (dbError) {
-      console.error("Error creating subscriptions table:", dbError)
-      return NextResponse.json(
-        {
-          success: false,
-          message:
-            "Lo sentimos, ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.",
-        },
-        { status: 500 },
-      )
-    }
-
-    // Save the email
-    try {
-      await sql`
-        INSERT INTO subscriptions (email, source)
-        VALUES (${email}, ${source})
+        INSERT INTO subscriptions (email, name, source, utm_source, utm_medium, utm_campaign)
+        VALUES (${email}, ${name}, ${source}, ${utm_source}, ${utm_medium}, ${utm_campaign})
         ON CONFLICT (email) 
         DO UPDATE SET 
+          name = COALESCE(${name}, subscriptions.name),
           source = ${source},
-          subscription_date = CURRENT_TIMESTAMP
+          utm_source = COALESCE(${utm_source}, subscriptions.utm_source),
+          utm_medium = COALESCE(${utm_medium}, subscriptions.utm_medium),
+          utm_campaign = COALESCE(${utm_campaign}, subscriptions.utm_campaign),
+          updated_at = CURRENT_TIMESTAMP
       `
+
+      // For backward compatibility, also insert into kit_downloads if source is kit-related
+      if (source.includes("kit")) {
+        await sql`
+          INSERT INTO kit_downloads (email)
+          VALUES (${email})
+          ON CONFLICT (email) 
+          DO UPDATE SET 
+            download_date = CURRENT_TIMESTAMP
+        `
+      }
 
       return NextResponse.json({
         success: true,
