@@ -65,7 +65,8 @@
     "@neondatabase/serverless": "latest",
     "fs": "latest",
     "path": "latest",
-    "react-icons": "latest"
+    "react-icons": "latest",
+    "next-intl": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",

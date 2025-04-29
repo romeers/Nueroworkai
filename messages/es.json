@@ -1,0 +1,521 @@
+{
+  "Navigation": {
+    "home": "Inicio",
+    "tools": "Herramientas",
+    "aiTools": "Herramientas IA",
+    "resources": "Recursos",
+    "reviews": "Reseñas",
+    "comparisons": "Comparativas",
+    "howItWorks": "Cómo Funciona",
+    "contact": "Contacto",
+    "about": "Sobre Nosotros",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "profile": "Perfil",
+    "logout": "Cerrar Sesión",
+    "topTools": "Top Herramientas IA"
+  },
+  "Buttons": {
+    "readMore": "Leer más",
+    "tryFree": "Probar gratis",
+    "downloadFree": "Descargar gratis",
+    "viewAll": "Ver todos",
+    "seeAnalysis": "Ver análisis",
+    "compare": "Comparar",
+    "submit": "Enviar",
+    "search": "Buscar",
+    "exploreTools": "Explorar herramientas",
+    "exploreResources": "Explorar recursos",
+    "contactUs": "Contáctanos",
+    "suggestTool": "Sugerir una herramienta",
+    "suggestResource": "Sugerir un recurso",
+    "downloadKit": "Descargar Kit gratuito"
+  },
+  "Footer": {
+    "company": "Empresa",
+    "about": "Sobre Nosotros",
+    "contact": "Contacto",
+    "mediaKit": "Kit de Medios",
+    "legal": "Legal",
+    "termsOfService": "Términos de Servicio",
+    "privacyPolicy": "Política de Privacidad",
+    "cookiePolicy": "Política de Cookies",
+    "affiliateDisclosure": "Aviso de Afiliados",
+    "resources": "Recursos",
+    "allTools": "Todas las Herramientas",
+    "aiTools": "Herramientas IA",
+    "guidesAndResources": "Guías y Recursos",
+    "topAITools": "Top Herramientas IA",
+    "methodology": "Metodología NeuroScore",
+    "digitalKit": "Kit Digital",
+    "copyright": "© {year} NeuroWorkAI. Todos los derechos reservados.",
+    "followUs": "Síguenos",
+    "navigation": "Navegación",
+    "legal": {
+      "title": "Legal",
+      "privacy": "Política de Privacidad",
+      "cookies": "Política de Cookies",
+      "affiliates": "Aviso de Afiliados",
+      "contact": "Contacto",
+      "terms": "Condiciones de Servicio",
+      "mediaKit": "Kit de Medios"
+    },
+    "affiliateDisclosure": "NeuroWorkAI participa en programas de afiliación. Esto significa que podemos recibir una comisión si compras a través de nuestros enlaces, sin costo adicional para ti.",
+    "poweredBy": "Powered by Vercel",
+    "allRightsReserved": "Todos los derechos reservados"
+  },
+  "Categories": {
+    "all": "Todos",
+    "aiWriting": "Escritura IA",
+    "automation": "Automatización",
+    "taskManagement": "Gestión de Tareas",
+    "meetings": "Reuniones",
+    "communication": "Comunicación",
+    "other": "Otras Herramientas",
+    "guides": "Guías prácticas",
+    "prompts": "Prompts IA",
+    "templates": "Plantillas",
+    "analysis": "Análisis",
+    "tutorials": "Tutoriales",
+    "writing": "Escritura",
+    "productivity": "Productividad",
+    "email": "Email",
+    "research": "Investigación",
+    "design": "Diseño",
+    "marketing": "Marketing",
+    "sales": "Ventas",
+    "customer": "Atención al Cliente",
+    "development": "Desarrollo",
+    "finance": "Finanzas",
+    "hr": "Recursos Humanos",
+    "legal": "Legal",
+    "education": "Educación",
+    "health": "Salud",
+    "personal": "Personal"
+  },
+  "Home": {
+    "hero": {
+      "title": "Descubre las Mejores Herramientas de IA para Potenciar tu Productividad",
+      "subtitle": "Analizamos y comparamos las herramientas de IA más potentes para ayudarte a elegir las mejores para tu flujo de trabajo",
+      "cta": "Explorar Herramientas",
+      "secondaryCta": "Ver Comparativas",
+      "updated": "Actualizado 2025"
+    },
+    "featuredTools": {
+      "title": "Herramientas Destacadas",
+      "subtitle": "Descubre las herramientas de IA más populares que están transformando el trabajo remoto.",
+      "emptyState": {
+        "title": "Próximamente nuevas herramientas",
+        "description": "Estamos seleccionando cuidadosamente las mejores herramientas de IA para trabajo remoto. Vuelve pronto para descubrir nuestras recomendaciones."
+      },
+      "viewAll": "Ver todas las herramientas"
+    },
+    "stats": {
+      "title": "NeuroWorkAI en números",
+      "subtitle": "Datos que respaldan nuestra experiencia y compromiso con la calidad"
+    },
+    "testimonials": {
+      "title": "Lo que dicen nuestros usuarios",
+      "subtitle": "Profesionales que han mejorado su productividad con nuestras recomendaciones"
+    },
+    "featuredResources": {
+      "title": "Recursos Destacados",
+      "subtitle": "Descubre nuestros mejores recursos sobre productividad con IA para trabajo remoto.",
+      "emptyState": {
+        "title": "Próximamente nuevos recursos de productividad con IA",
+        "description": "Estamos preparando guías, prompts y plantillas para ayudarte a optimizar tu trabajo. Vuelve pronto para descubrir contenido exclusivo sobre productividad con IA."
+      },
+      "viewAll": "Ver todos los recursos"
+    },
+    "cta": {
+      "title": "Potencia tu productividad con IA",
+      "subtitle": "Descarga nuestro Kit de Productividad con IA para Trabajo Remoto (2025) y comienza a trabajar mejor con IA desde hoy.",
+      "primaryButton": "Descargar Kit gratuito",
+      "emailPlaceholder": "Tu correo electrónico",
+      "formButton": "Descargar Kit gratuito",
+      "microcopy": "Sin spam · Descarga inmediata tras confirmar"
+    }
+  },
+  "Tools": {
+    "hero": {
+      "title": "Herramientas de Productividad con IA",
+      "subtitle": "Explora y prueba las mejores herramientas IA para optimizar tu trabajo remoto.",
+      "updated": "Actualizado 2025"
+    },
+    "filters": {
+      "search": "Buscar herramienta IA...",
+      "sort": {
+        "mostRated": "Más valoradas",
+        "mostPopular": "Más populares",
+        "priceLowToHigh": "Precio: Bajo a alto"
+      }
+    },
+    "emptyState": {
+      "title": "No se encontraron herramientas",
+      "description": "No hay resultados para tu búsqueda. Intenta con otros términos o categorías.",
+      "clearFilters": "Limpiar filtros"
+    },
+    "toolCard": {
+      "featured": "Top Valorada",
+      "new": "Nueva",
+      "tryFree": "Probar Gratis",
+      "seeAnalysis": "Ver análisis",
+      "neuroScore": "NeuroScore"
+    },
+    "cta": {
+      "title": "¿No sabes cuál elegir?",
+      "subtitle": "Descarga gratis el Kit de Productividad con IA para Trabajo Remoto (2025)",
+      "button": "Descargar Kit gratuito",
+      "emailPlaceholder": "Tu correo electrónico",
+      "microcopy": "Sin spam · Descarga inmediata tras confirmar",
+      "success": "¡Gracias por tu interés!",
+      "successMessage": "¡Gracias! Recibirás el Kit en tu correo en menos de 24 horas."
+    },
+    "title": "Herramientas Destacadas",
+    "subtitle": "Descubre las herramientas de IA más populares y mejor valoradas",
+    "viewAll": "Ver Todas",
+    "categories": "Categorías",
+    "allTools": "Todas las Herramientas",
+    "aiTools": "Herramientas IA",
+    "productivityTools": "Herramientas de Productividad",
+    "writingTools": "Herramientas de Escritura",
+    "meetingTools": "Herramientas para Reuniones",
+    "automationTools": "Herramientas de Automatización",
+    "marketingTools": "Herramientas de Marketing",
+    "salesTools": "Herramientas de Ventas",
+    "customerServiceTools": "Herramientas de Atención al Cliente",
+    "designTools": "Herramientas de Diseño",
+    "developmentTools": "Herramientas de Desarrollo",
+    "dataAnalysisTools": "Herramientas de Análisis de Datos",
+    "projectManagementTools": "Herramientas de Gestión de Proyectos",
+    "communicationTools": "Herramientas de Comunicación",
+    "collaborationTools": "Herramientas de Colaboración",
+    "financeTools": "Herramientas de Finanzas",
+    "hrTools": "Herramientas de RRHH",
+    "legalTools": "Herramientas Legales",
+    "educationTools": "Herramientas de Educación",
+    "healthTools": "Herramientas de Salud",
+    "travelTools": "Herramientas de Viajes",
+    "entertainmentTools": "Herramientas de Entretenimiento",
+    "otherTools": "Otras Herramientas",
+    "featured": "Destacadas",
+    "popular": "Populares",
+    "new": "Nuevas",
+    "trending": "Tendencia",
+    "recommended": "Recomendadas",
+    "free": "Gratuitas",
+    "paid": "De Pago",
+    "freemium": "Freemium",
+    "trial": "Prueba Gratuita",
+    "subscription": "Suscripción",
+    "oneTime": "Pago Único",
+    "verified": "Verificada",
+    "rating": "Valoración",
+    "reviews": "Reseñas",
+    "price": "Precio",
+    "features": "Características",
+    "pros": "Pros",
+    "cons": "Contras",
+    "filters": {
+      "all": "Todas",
+      "free": "Gratuitas",
+      "paid": "De Pago",
+      "trial": "Con Prueba",
+      "category": "Categoría",
+      "rating": "Valoración",
+      "price": "Precio",
+      "search": "Buscar herramientas..."
+    },
+    "pricing": {
+      "free": "Gratis",
+      "freemium": "Freemium",
+      "paid": "De Pago",
+      "trial": "Prueba Gratuita",
+      "starting": "Desde",
+      "monthly": "mensual",
+      "yearly": "anual",
+      "perUser": "por usuario"
+    },
+    "features": {
+      "title": "Características",
+      "integration": "Integraciones",
+      "platforms": "Plataformas",
+      "support": "Soporte",
+      "languages": "Idiomas"
+    },
+    "comparison": {
+      "title": "Comparar con",
+      "button": "Comparar",
+      "select": "Seleccionar herramientas para comparar"
+    },
+    "review": {
+      "title": "Reseña",
+      "rating": "Valoración",
+      "pros": "Pros",
+      "cons": "Contras",
+      "verdict": "Veredicto",
+      "author": "Autor",
+      "date": "Fecha",
+      "readMore": "Leer más"
+    },
+    "related": {
+      "title": "Herramientas Relacionadas",
+      "viewAll": "Ver Todas"
+    }
+  },
+  "Resources": {
+    "hero": {
+      "title": "Guías, Prompts y Plantillas IA para ser más productivo",
+      "subtitle": "Descubre recursos prácticos para escribir, automatizar, organizar y optimizar tu trabajo remoto con inteligencia artificial.",
+      "exploreButton": "Explorar recursos",
+      "comingSoonButton": "Próximamente"
+    },
+    "filters": {
+      "search": "Buscar recursos...",
+      "searchButton": "Buscar"
+    },
+    "featured": {
+      "title": "Recursos destacados",
+      "emptyState": {
+        "title": "Próximamente nuevos recursos de productividad con IA",
+        "description": "Estamos preparando guías, prompts y plantillas para ayudarte a optimizar tu trabajo. Vuelve pronto para descubrir contenido exclusivo sobre productividad con IA."
+      }
+    },
+    "filtered": {
+      "allResources": "Todos los recursos",
+      "resourcesOf": "Recursos de",
+      "showing": "Mostrando",
+      "resources": "recursos",
+      "emptyState": {
+        "title": "Próximamente nuevos recursos de productividad con IA",
+        "description": "Estamos preparando recursos para ayudarte a optimizar tu trabajo. Vuelve pronto para descubrir contenido exclusivo sobre productividad con IA."
+      }
+    },
+    "mostVisited": {
+      "title": "Más visitados esta semana",
+      "emptyState": {
+        "title": "Próximamente recursos destacados",
+        "description": "Estamos seleccionando los mejores recursos de productividad con IA para ti. Vuelve pronto para descubrir nuestro contenido más popular."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para potenciar tu productividad?",
+      "subtitle": "Explora herramientas IA y recursos prácticos para transformar tu flujo de trabajo.",
+      "button": "Descubrir herramientas IA"
+    },
+    "filters": {
+      "all": "Todos",
+      "guides": "Guías",
+      "templates": "Plantillas",
+      "tutorials": "Tutoriales",
+      "ebooks": "Ebooks",
+      "search": "Buscar recursos..."
+    },
+    "categories": {
+      "productivity": "Productividad",
+      "writing": "Escritura",
+      "marketing": "Marketing",
+      "design": "Diseño",
+      "development": "Desarrollo",
+      "business": "Negocios"
+    },
+    "related": {
+      "title": "Recursos Relacionados",
+      "viewAll": "Ver Todos"
+    }
+  },
+  "About": {
+    "hero": {
+      "title": "Conoce a NeuroWorkAI",
+      "subtitle": "Somos una plataforma experta en herramientas IA para trabajo remoto. Nuestra misión es ayudarte a ser más productivo con inteligencia artificial.",
+      "exploreButton": "Explorar herramientas IA",
+      "contactButton": "Contactar"
+    },
+    "history": {
+      "title": "Nuestra Historia",
+      "paragraph1": "NeuroWorkAI nació en 2021 cuando un equipo de profesionales remotos se enfrentó a un problema común: la abrumadora cantidad de herramientas de IA disponibles y la dificultad para encontrar las más adecuadas para cada necesidad específica.",
+      "paragraph2": "Fundamos esta plataforma con la visión de crear un recurso definitivo que ayude a los profesionales remotos a navegar por el ecosistema de herramientas de IA, proporcionando análisis imparciales, comparativas detalladas y recursos prácticos que realmente mejoren la productividad."
+    },
+    "mission": {
+      "title": "Nuestra Misión",
+      "subtitle": "En NeuroWorkAI, nos dedicamos a transformar la forma en que los profesionales remotos utilizan la IA para mejorar su productividad.",
+      "points": {
+        "simplify": {
+          "title": "Simplificar la búsqueda",
+          "description": "Facilitamos el descubrimiento de las herramientas de IA más adecuadas para cada profesional."
+        },
+        "objective": {
+          "title": "Información objetiva",
+          "description": "Proporcionamos análisis basados en pruebas reales y criterios objetivos."
+        },
+        "productivity": {
+          "title": "Aumentar la productividad",
+          "description": "Ayudamos a los trabajadores remotos a ser más eficientes y reducir el estrés digital."
+        },
+        "innovation": {
+          "title": "Innovación constante",
+          "description": "Nos mantenemos al día con las últimas innovaciones en IA para trabajo remoto."
+        }
+      }
+    }
+  },
+  "Contact": {
+    "title": "Contacto",
+    "subtitle": "¿Tienes preguntas sobre herramientas de IA o necesitas ayuda? Contáctanos y nuestro equipo te responderá lo antes posible.",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre",
+      "email": "Correo electrónico *",
+      "emailPlaceholder": "tu@email.com",
+      "subject": "Asunto",
+      "subjectPlaceholder": "Asunto de tu mensaje",
+      "message": "Mensaje *",
+      "messagePlaceholder": "Escribe tu mensaje aquí...",
+      "sending": "Enviando...",
+      "send": "Enviar mensaje",
+      "success": "¡Gracias por tu mensaje! Te responderemos lo antes posible.",
+      "error": "Error al enviar el mensaje. Por favor, inténtalo de nuevo."
+    }
+  },
+  "LanguageSwitcher": {
+    "label": "Cambiar idioma",
+    "spanish": "Español",
+    "english": "English"
+  },
+  "Index": {
+    "title": "Bienvenido a NeuroWorkAI"
+  },
+  "Header": {
+    "home": "Inicio",
+    "tools": "Herramientas",
+    "aiTools": "Herramientas IA",
+    "reviews": "Reseñas",
+    "comparisons": "Comparativas",
+    "resources": "Recursos",
+    "about": "Sobre Nosotros",
+    "contact": "Contacto",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse"
+  },
+  "Hero": {
+    "title": "Descubre las Mejores Herramientas de IA para Aumentar tu Productividad",
+    "subtitle": "Analizamos y comparamos las herramientas de IA más potentes para ayudarte a trabajar de forma más inteligente, no más dura.",
+    "cta": "Explorar Herramientas",
+    "secondaryCta": "Ver Comparativas"
+  },
+  "ToolsSection": {
+    "title": "Herramientas Destacadas",
+    "subtitle": "Descubre las herramientas de IA más populares y mejor valoradas",
+    "viewAll": "Ver Todas",
+    "category": "Categoría",
+    "rating": "Valoración",
+    "free": "Gratis",
+    "freeTrial": "Prueba Gratuita",
+    "paid": "De Pago"
+  },
+  "KitPromo": {
+    "title": "Kit de Productividad con IA",
+    "subtitle": "Descarga gratis nuestro kit con plantillas, guías y recursos para maximizar tu productividad con IA",
+    "cta": "Descargar Gratis",
+    "features": {
+      "templates": "Plantillas de Prompts",
+      "workflows": "Flujos de Trabajo",
+      "guides": "Guías Paso a Paso",
+      "resources": "Recursos Exclusivos"
+    }
+  },
+  "Forms": {
+    "email": "Correo Electrónico",
+    "name": "Nombre",
+    "message": "Mensaje",
+    "submit": "Enviar",
+    "subscribe": "Suscribirse",
+    "download": "Descargar",
+    "sending": "Enviando...",
+    "success": "¡Gracias! Te hemos enviado un correo.",
+    "error": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
+  },
+  "Testimonials": {
+    "title": "Lo que Dicen Nuestros Usuarios",
+    "subtitle": "Miles de profesionales ya han mejorado su productividad con nuestras recomendaciones"
+  },
+  "Stats": {
+    "tools": "Herramientas Analizadas",
+    "users": "Usuarios Satisfechos",
+    "reviews": "Reseñas Detalladas",
+    "comparisons": "Comparativas"
+  },
+  "CTA": {
+    "title": "Potencia tu Productividad con IA",
+    "subtitle": "Descubre las mejores herramientas y recursos para trabajar de forma más inteligente",
+    "button": "Explorar Ahora"
+  },
+  "Auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "button": "Iniciar Sesión",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "noAccount": "¿No tienes cuenta?",
+      "register": "Regístrate"
+    },
+    "register": {
+      "title": "Crear Cuenta",
+      "name": "Nombre",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "button": "Registrarse",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Inicia Sesión"
+    },
+    "profile": {
+      "title": "Mi Perfil",
+      "favorites": "Mis Favoritos",
+      "settings": "Configuración",
+      "logout": "Cerrar Sesión"
+    }
+  },
+  "Pages": {
+    "notFound": {
+      "title": "Página No Encontrada",
+      "message": "Lo sentimos, la página que buscas no existe.",
+      "button": "Volver al Inicio"
+    },
+    "about": {
+      "title": "Sobre Nosotros",
+      "mission": "Nuestra Misión",
+      "team": "Nuestro Equipo",
+      "methodology": "Nuestra Metodología"
+    },
+    "contact": {
+      "title": "Contacto",
+      "subtitle": "¿Tienes alguna pregunta o sugerencia? ¡Escríbenos!",
+      "form": {
+        "name": "Nombre",
+        "email": "Correo Electrónico",
+        "message": "Mensaje",
+        "submit": "Enviar"
+      }
+    },
+    "terms": {
+      "title": "Términos de Servicio"
+    },
+    "privacy": {
+      "title": "Política de Privacidad"
+    },
+    "cookies": {
+      "title": "Política de Cookies"
+    },
+    "affiliate": {
+      "title": "Aviso de Afiliados"
+    },
+    "mediaKit": {
+      "title": "Kit de Medios"
+    },
+    "methodology": {
+      "title": "Metodología NeuroScore"
+    }
+  }
+}

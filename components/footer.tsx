@@ -1,12 +1,17 @@
-import Link from "next/link"
+"use client"
+
 import { ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "./logo"
 import { socialLinks } from "@/lib/social-links"
-import { useI18n } from "@/lib/i18n/i18n-context"
+import { useTranslations } from "next-intl"
+import { Link } from "next-intl/client"
 
 export default function Footer() {
-  const { t } = useI18n()
+  const t = useTranslations("Footer")
+  const tNav = useTranslations("Navigation")
+  const tButtons = useTranslations("Buttons")
+  const tCategories = useTranslations("Categories")
   const currentYear = new Date().getFullYear()
 
   return (
@@ -25,12 +30,12 @@ export default function Footer() {
                 <Logo variant="white" className="w-full h-auto" priority={false} />
               </div>
             </Link>
-            <p className="text-sm text-white/80 max-w-xs">{t("common.footer.affiliateDisclosure")}</p>
+            <p className="text-sm text-white/80 max-w-xs">{t("affiliateDisclosure")}</p>
             <div className="flex gap-3 mt-4" aria-label="Redes sociales">
               {socialLinks.map((social) => {
                 const Icon = social.icon
                 return (
-                  <Link
+                  <a
                     key={social.platform}
                     href={social.href}
                     className={`text-white ${social.hoverColor} transition-all duration-200 bg-white/10 p-2 rounded-full hover:bg-white/20 hover:scale-110`}
@@ -41,7 +46,7 @@ export default function Footer() {
                   >
                     <Icon className="h-5 w-5" />
                     <span className="sr-only">{social.platform}</span>
-                  </Link>
+                  </a>
                 )
               })}
             </div>
@@ -49,9 +54,7 @@ export default function Footer() {
 
           {/* Navigation links */}
           <nav aria-label="Enlaces de navegación del sitio">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              {t("common.footer.navigation")}
-            </h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("navigation")}</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -59,7 +62,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ir a la página de inicio"
                 >
-                  {t("common.nav.home")}
+                  {tNav("home")}
                 </Link>
               </li>
               <li>
@@ -68,7 +71,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Explorar herramientas de IA"
                 >
-                  {t("common.nav.tools")}
+                  {tNav("tools")}
                 </Link>
               </li>
               <li>
@@ -77,7 +80,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Comparar diferentes herramientas"
                 >
-                  {t("common.buttons.compare")}
+                  {tButtons("compare")}
                 </Link>
               </li>
               <li>
@@ -86,7 +89,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Explorar recursos y guías"
                 >
-                  {t("common.nav.resources")}
+                  {tNav("resources")}
                 </Link>
               </li>
               <li>
@@ -95,7 +98,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Conocer más sobre NeuroWorkAI"
                 >
-                  {t("common.nav.about")}
+                  {tNav("about")}
                 </Link>
               </li>
             </ul>
@@ -103,9 +106,7 @@ export default function Footer() {
 
           {/* Resources links */}
           <nav aria-label="Enlaces de recursos">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              {t("common.footer.resources")}
-            </h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("resources")}</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -113,7 +114,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Descargar kit de herramientas IA"
                 >
-                  {t("contact.info.resources.kit")}
+                  {tCategories("guides")}
                 </Link>
               </li>
               <li>
@@ -122,7 +123,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver guía de prompts para IA"
                 >
-                  {t("common.categories.prompts")}
+                  {tCategories("prompts")}
                 </Link>
               </li>
               <li>
@@ -131,7 +132,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver comparativas imprimibles"
                 >
-                  {t("common.categories.analysis")}
+                  {tCategories("analysis")}
                 </Link>
               </li>
               <li>
@@ -140,7 +141,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Descargar plantillas gratuitas"
                 >
-                  {t("common.categories.templates")}
+                  {tCategories("templates")}
                 </Link>
               </li>
             </ul>
@@ -148,9 +149,7 @@ export default function Footer() {
 
           {/* Legal links */}
           <nav aria-label="Enlaces legales">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              {t("common.footer.legal.title")}
-            </h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">{t("legal.title")}</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -158,7 +157,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver política de privacidad"
                 >
-                  {t("common.footer.legal.privacy")}
+                  {t("legal.privacy")}
                 </Link>
               </li>
               <li>
@@ -167,7 +166,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver política de cookies"
                 >
-                  {t("common.footer.legal.cookies")}
+                  {t("legal.cookies")}
                 </Link>
               </li>
               <li>
@@ -176,7 +175,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver aviso de afiliados"
                 >
-                  {t("common.footer.legal.affiliates")}
+                  {t("legal.affiliates")}
                 </Link>
               </li>
               <li>
@@ -185,7 +184,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Contactar con nosotros"
                 >
-                  {t("common.footer.legal.contact")}
+                  {t("legal.contact")}
                 </a>
               </li>
               <li>
@@ -194,7 +193,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver condiciones de servicio"
                 >
-                  {t("common.footer.legal.terms")}
+                  {t("legal.terms")}
                 </Link>
               </li>
               <li>
@@ -203,7 +202,7 @@ export default function Footer() {
                   className="text-sm text-white/80 hover:text-white hover:underline transition duration-200 focus-visible:outline-white focus-visible:outline-offset-2"
                   aria-label="Ver kit de medios"
                 >
-                  {t("common.footer.legal.mediaKit")}
+                  {t("legal.mediaKit")}
                 </Link>
               </li>
             </ul>
@@ -220,26 +219,26 @@ export default function Footer() {
             <Link
               href="/herramientas/mejores"
               className="inline-flex items-center gap-2"
-              aria-label={t("common.buttons.exploreTools")}
+              aria-label={tButtons("exploreTools")}
             >
-              {t("common.buttons.exploreTools")}
+              {tButtons("exploreTools")}
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
-          <p className="text-sm text-white/70 mt-2">{t("about.cta.subtitle")}</p>
+          <p className="text-sm text-white/70 mt-2">{useTranslations("About")("cta.subtitle")}</p>
         </div>
 
         {/* Copyright and affiliate disclosure */}
         <div className="mt-8 pt-6 border-t border-white/10">
-          <p className="text-xs text-white/50 text-center">{t("common.footer.affiliateDisclosure")}</p>
+          <p className="text-xs text-white/50 text-center">{t("affiliateDisclosure")}</p>
           <p className="text-center text-sm text-white/70 mt-4">
-            &copy; {currentYear} NeuroWorkAI. {t("common.footer.copyright")}
+            &copy; {currentYear} NeuroWorkAI. {t("copyright")}
           </p>
           <p className="text-center text-xs text-white/50 mt-2">
             <span aria-hidden="true">♥</span>
             <span className="sr-only">amor</span> |{" "}
             <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              {t("common.footer.poweredBy")}
+              {t("poweredBy")}
             </a>
           </p>
         </div>

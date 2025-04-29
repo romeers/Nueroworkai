@@ -1,0 +1,237 @@
+{
+  "Index": {
+    "title": "Welcome to NeuroWorkAI"
+  },
+  "Header": {
+    "home": "Home",
+    "tools": "Tools",
+    "aiTools": "AI Tools",
+    "reviews": "Reviews",
+    "comparisons": "Comparisons",
+    "resources": "Resources",
+    "about": "About Us",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register"
+  },
+  "Footer": {
+    "about": "About Us",
+    "contact": "Contact",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "affiliateDisclosure": "Affiliate Disclosure",
+    "mediaKit": "Media Kit",
+    "allRightsReserved": "All rights reserved",
+    "followUs": "Follow Us"
+  },
+  "Hero": {
+    "title": "Discover the Best AI Tools to Boost Your Productivity",
+    "subtitle": "We analyze and compare the most powerful AI tools to help you work smarter, not harder.",
+    "cta": "Explore Tools",
+    "secondaryCta": "View Comparisons"
+  },
+  "ToolsSection": {
+    "title": "Featured Tools",
+    "subtitle": "Discover the most popular and highest-rated AI tools",
+    "viewAll": "View All",
+    "category": "Category",
+    "rating": "Rating",
+    "free": "Free",
+    "freeTrial": "Free Trial",
+    "paid": "Paid"
+  },
+  "KitPromo": {
+    "title": "AI Productivity Kit",
+    "subtitle": "Download our free kit with templates, guides, and resources to maximize your productivity with AI",
+    "cta": "Download Free",
+    "features": {
+      "templates": "Prompt Templates",
+      "workflows": "Workflows",
+      "guides": "Step-by-Step Guides",
+      "resources": "Exclusive Resources"
+    }
+  },
+  "Forms": {
+    "email": "Email",
+    "name": "Name",
+    "message": "Message",
+    "submit": "Submit",
+    "subscribe": "Subscribe",
+    "download": "Download",
+    "sending": "Sending...",
+    "success": "Thank you! We've sent you an email.",
+    "error": "An error occurred. Please try again."
+  },
+  "Testimonials": {
+    "title": "What Our Users Say",
+    "subtitle": "Thousands of professionals have already improved their productivity with our recommendations"
+  },
+  "Stats": {
+    "tools": "Tools Analyzed",
+    "users": "Satisfied Users",
+    "reviews": "Detailed Reviews",
+    "comparisons": "Comparisons"
+  },
+  "CTA": {
+    "title": "Power Your Productivity with AI",
+    "subtitle": "Discover the best tools and resources to work smarter",
+    "button": "Explore Now"
+  },
+  "Categories": {
+    "writing": "Writing",
+    "productivity": "Productivity",
+    "meetings": "Meetings",
+    "email": "Email",
+    "research": "Research",
+    "design": "Design",
+    "marketing": "Marketing",
+    "sales": "Sales",
+    "customer": "Customer Service",
+    "development": "Development",
+    "finance": "Finance",
+    "hr": "Human Resources",
+    "legal": "Legal",
+    "education": "Education",
+    "health": "Health",
+    "personal": "Personal"
+  },
+  "Tools": {
+    "filters": {
+      "all": "All",
+      "free": "Free",
+      "paid": "Paid",
+      "trial": "With Trial",
+      "category": "Category",
+      "rating": "Rating",
+      "price": "Price",
+      "search": "Search tools..."
+    },
+    "pricing": {
+      "free": "Free",
+      "freemium": "Freemium",
+      "paid": "Paid",
+      "trial": "Free Trial",
+      "starting": "Starting at",
+      "monthly": "monthly",
+      "yearly": "yearly",
+      "perUser": "per user"
+    },
+    "features": {
+      "title": "Features",
+      "integration": "Integrations",
+      "platforms": "Platforms",
+      "support": "Support",
+      "languages": "Languages"
+    },
+    "comparison": {
+      "title": "Compare with",
+      "button": "Compare",
+      "select": "Select tools to compare"
+    },
+    "review": {
+      "title": "Review",
+      "rating": "Rating",
+      "pros": "Pros",
+      "cons": "Cons",
+      "verdict": "Verdict",
+      "author": "Author",
+      "date": "Date",
+      "readMore": "Read more"
+    },
+    "related": {
+      "title": "Related Tools",
+      "viewAll": "View All"
+    }
+  },
+  "Resources": {
+    "filters": {
+      "all": "All",
+      "guides": "Guides",
+      "templates": "Templates",
+      "tutorials": "Tutorials",
+      "ebooks": "Ebooks",
+      "search": "Search resources..."
+    },
+    "categories": {
+      "productivity": "Productivity",
+      "writing": "Writing",
+      "marketing": "Marketing",
+      "design": "Design",
+      "development": "Development",
+      "business": "Business"
+    },
+    "related": {
+      "title": "Related Resources",
+      "viewAll": "View All"
+    }
+  },
+  "Auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "button": "Login",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "register": "Register"
+    },
+    "register": {
+      "title": "Create Account",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "button": "Register",
+      "hasAccount": "Already have an account?",
+      "login": "Login"
+    },
+    "profile": {
+      "title": "My Profile",
+      "favorites": "My Favorites",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  },
+  "Pages": {
+    "notFound": {
+      "title": "Page Not Found",
+      "message": "Sorry, the page you are looking for does not exist.",
+      "button": "Back to Home"
+    },
+    "about": {
+      "title": "About Us",
+      "mission": "Our Mission",
+      "team": "Our Team",
+      "methodology": "Our Methodology"
+    },
+    "contact": {
+      "title": "Contact",
+      "subtitle": "Have a question or suggestion? Write to us!",
+      "form": {
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Submit"
+      }
+    },
+    "terms": {
+      "title": "Terms of Service"
+    },
+    "privacy": {
+      "title": "Privacy Policy"
+    },
+    "cookies": {
+      "title": "Cookie Policy"
+    },
+    "affiliate": {
+      "title": "Affiliate Disclosure"
+    },
+    "mediaKit": {
+      "title": "Media Kit"
+    },
+    "methodology": {
+      "title": "NeuroScore Methodology"
+    }
+  }
+}

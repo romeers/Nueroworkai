@@ -2,19 +2,25 @@
 
 import type React from "react"
 
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Search, Star, ExternalLink, Download, CheckCircle, SearchX, Sparkles } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import { useState, useEffect } from "react"
+import { useTranslations } from "next-intl"
+import { Link } from "@/components/ui/link"
 
 export default function HerramientasIAPageClient({
   initialSearchParams,
   tools,
   categories,
 }: { initialSearchParams: { categoria?: string; q?: string }; tools: any[]; categories: any[] }) {
+  const t = useTranslations("Tools")
+  const tButtons = useTranslations("Buttons")
+  const tCategories = useTranslations("Categories")
+  const tErrors = useTranslations("Errors")
+
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialSearchParams.categoria || "todas")
@@ -32,7 +38,7 @@ export default function HerramientasIAPageClient({
   }, [initialSearchParams, tools])
 
   // Añadir la categoría "Todas" al principio
-  const allCategories = [{ name: "Todas", slug: "todas", icon: "🧠" }, ...categories]
+  const allCategories = [{ name: tCategories("all"), slug: "todas", icon: "🧠" }, ...categories]
 
   // Función para obtener la URL oficial de cada herramienta si no existe affiliate_url
   const getDefaultAffiliateUrl = (toolName: string) => {
@@ -93,10 +99,10 @@ export default function HerramientasIAPageClient({
         setSuccess(true)
         setEmail("")
       } else {
-        setError(data.message || "Error al registrar el correo")
+        setError(data.message || tErrors("emailRegistrationError"))
       }
     } catch (error) {
-      setError("Error al conectar con el servidor. Por favor, inténtalo de nuevo más tarde.")
+      setError(tErrors("serverConnectionError"))
       console.error("Error al enviar formulario:", error)
     } finally {
       setLoading(false)
@@ -126,7 +132,7 @@ export default function HerramientasIAPageClient({
         <div className="absolute inset-0 opacity-10 pointer-events-none hidden md:block" aria-hidden="true">
           <SafeImage
             src="/neural-network-bg.png"
-            alt="Fondo de red neuronal"
+            alt={t("hero.backgroundAlt")}
             fill
             className="object-cover"
             sizes="100vw"
@@ -136,24 +142,20 @@ export default function HerramientasIAPageClient({
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="font-heading text-4xl md:text-5xl font-bold text-secondary mb-6">
-              Herramientas de Productividad con IA
-            </h1>
-            <p className="text-lg text-gray-600 mb-8">
-              Explora y prueba las mejores herramientas IA para optimizar tu trabajo remoto.
-            </p>
+            <h1 className="font-heading text-4xl md:text-5xl font-bold text-secondary mb-6">{t("hero.title")}</h1>
+            <p className="text-lg text-gray-600 mb-8">{t("hero.subtitle")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className="bg-primary hover:bg-primary/90">
-                <Link href="#herramientas">Explorar herramientas</Link>
+                <Link href="#herramientas">{tButtons("exploreTools")}</Link>
               </Button>
               <Button asChild variant="outline">
                 <Link href="#kit-gratuito" className="flex items-center gap-2">
                   <Download className="h-4 w-4" />
-                  Descargar Kit Gratuito
+                  {tButtons("downloadFreeKit")}
                 </Link>
               </Button>
             </div>
-            <p className="text-sm text-gray-500 mt-6">Actualizado 2025</p>
+            <p className="text-sm text-gray-500 mt-6">{t("hero.updatedYear")}</p>
           </div>
         </div>
       </section>
@@ -171,16 +173,16 @@ export default function HerramientasIAPageClient({
                 <Input
                   type="text"
                   name="q"
-                  placeholder="Buscar herramienta IA..."
+                  placeholder={t("search.placeholder")}
                   className="pl-10 py-3 pr-4 w-full rounded-md border-gray-300"
                   defaultValue={searchQuery}
-                  aria-label="Buscar herramientas de IA"
+                  aria-label={t("search.ariaLabel")}
                 />
                 <Button
                   type="submit"
                   className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary/90 h-8"
                 >
-                  Buscar
+                  {tButtons("search")}
                 </Button>
               </div>
             </form>
@@ -214,8 +216,10 @@ export default function HerramientasIAPageClient({
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-secondary mb-8 text-center">
             {categoriaSeleccionada === "todas"
-              ? "Todas las herramientas"
-              : `Herramientas de ${allCategories.find((c) => c.slug === categoriaSeleccionada)?.name || ""}`}
+              ? t("toolsGrid.allTools")
+              : t("toolsGrid.categoryTools", {
+                  category: allCategories.find((c) => c.slug === categoriaSeleccionada)?.name || "",
+                })}
           </h2>
 
           {tools.length > 0 ? (
@@ -231,7 +235,7 @@ export default function HerramientasIAPageClient({
                         <div className="relative w-16 h-16 flex items-center justify-center">
                           <SafeImage
                             src={getLogoUrl(tool)}
-                            alt={`Logo de ${tool.name}`}
+                            alt={t("toolCard.logoAlt", { name: tool.name })}
                             width={64}
                             height={64}
                             className="object-contain"
@@ -241,8 +245,10 @@ export default function HerramientasIAPageClient({
 
                         {/* Badges */}
                         <div className="absolute -top-2 -right-2 flex flex-col gap-1">
-                          {tool.featured && <Badge className="bg-primary text-white">Top Valorada</Badge>}
-                          {tool.is_new && <Badge className="bg-green-500 text-white">Nueva</Badge>}
+                          {tool.featured && (
+                            <Badge className="bg-primary text-white">{t("toolCard.badges.topRated")}</Badge>
+                          )}
+                          {tool.is_new && <Badge className="bg-green-500 text-white">{t("toolCard.badges.new")}</Badge>}
                         </div>
                       </div>
 
@@ -251,7 +257,8 @@ export default function HerramientasIAPageClient({
                       {/* NeuroScore Badge - Improved visual presentation */}
                       <div className="flex flex-col items-center mb-3">
                         <span className="text-sm font-medium text-gray-600 mb-1">
-                          NeuroScore: <span className="text-violet-700 font-semibold">{tool.score} / 10</span>
+                          {t("toolCard.neuroScore")}:{" "}
+                          <span className="text-violet-700 font-semibold">{tool.score} / 10</span>
                         </span>
                         <div className="flex items-center">{renderStars(tool.score)}</div>
                       </div>
@@ -274,12 +281,12 @@ export default function HerramientasIAPageClient({
                             rel="noopener sponsored"
                             className="flex items-center justify-center gap-1"
                           >
-                            Probar Gratis
+                            {tButtons("tryFree")}
                             <ExternalLink className="h-3.5 w-3.5" />
                           </Link>
                         </Button>
                         <Button asChild variant="outline" className="flex-1">
-                          <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
+                          <Link href={`/herramientas/${tool.slug}`}>{tButtons("viewAnalysis")}</Link>
                         </Button>
                       </div>
                     </div>
@@ -288,10 +295,8 @@ export default function HerramientasIAPageClient({
               ) : (
                 <div className="text-center py-12">
                   <SearchX className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">No se encontraron herramientas</h3>
-                  <p className="text-gray-600">
-                    No hay resultados para tu búsqueda. Intenta con otros términos o categorías.
-                  </p>
+                  <h3 className="text-xl font-semibold mb-2">{t("toolsGrid.noResults.title")}</h3>
+                  <p className="text-gray-600">{t("toolsGrid.noResults.message")}</p>
                   <button
                     onClick={() => {
                       setSearchTerm("")
@@ -299,7 +304,7 @@ export default function HerramientasIAPageClient({
                     }}
                     className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                   >
-                    Limpiar filtros
+                    {tButtons("clearFilters")}
                   </button>
                 </div>
               )}
@@ -309,16 +314,13 @@ export default function HerramientasIAPageClient({
               <div className="mb-4">
                 <Sparkles className="h-12 w-12 text-blue-500 mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Próximamente nuevas herramientas</h3>
-              <p className="text-gray-600 mb-6">
-                Estamos seleccionando cuidadosamente las mejores herramientas de IA con programas de afiliados activos.
-                Vuelve pronto para descubrir nuestras recomendaciones.
-              </p>
+              <h3 className="text-xl font-semibold mb-2">{t("toolsGrid.comingSoon.title")}</h3>
+              <p className="text-gray-600 mb-6">{t("toolsGrid.comingSoon.message")}</p>
               <Link
                 href="/contacto"
                 className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
-                Sugerir una herramienta
+                {tButtons("suggestTool")}
               </Link>
             </div>
           )}
@@ -330,36 +332,36 @@ export default function HerramientasIAPageClient({
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto bg-white rounded-xl p-8 shadow-lg">
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-secondary mb-2">¿No sabes cuál elegir?</h2>
-              <p className="text-gray-600">Descarga gratis el Kit de Productividad con IA para Trabajo Remoto (2025)</p>
+              <h2 className="text-2xl font-bold text-secondary mb-2">{t("leadMagnet.title")}</h2>
+              <p className="text-gray-600">{t("leadMagnet.subtitle")}</p>
             </div>
 
             {success ? (
               <div className="max-w-md mx-auto bg-green-50 border border-green-200 rounded-md p-4 text-green-800">
                 <div className="flex items-center mb-2">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                  <p className="font-medium">¡Gracias por tu interés!</p>
+                  <p className="font-medium">{t("leadMagnet.success.title")}</p>
                 </div>
-                <p className="text-sm">¡Gracias! Recibirás el Kit en tu correo en menos de 24 horas.</p>
+                <p className="text-sm">{t("leadMagnet.success.message")}</p>
               </div>
             ) : (
               <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Input
                     type="email"
-                    placeholder="Tu correo electrónico"
+                    placeholder={t("leadMagnet.form.emailPlaceholder")}
                     required
                     className="flex-grow"
-                    aria-label="Email para recibir el kit gratuito"
+                    aria-label={t("leadMagnet.form.emailAriaLabel")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <Button type="submit" className="bg-primary hover:bg-primary/90 whitespace-nowrap" disabled={loading}>
-                    {loading ? "Enviando..." : "Descargar Kit gratuito"}
+                    {loading ? t("leadMagnet.form.sending") : t("leadMagnet.form.downloadButton")}
                   </Button>
                 </div>
                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-                <p className="text-xs text-center text-gray-500 mt-2">Sin spam · Descarga inmediata tras confirmar</p>
+                <p className="text-xs text-center text-gray-500 mt-2">{t("leadMagnet.form.disclaimer")}</p>
               </form>
             )}
           </div>

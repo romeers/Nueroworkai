@@ -1,13 +1,12 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useEffect, useRef, useState } from "react"
 import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { useI18n } from "@/lib/i18n/i18n-context"
 import LanguageSwitcher from "./language-switcher"
+import { useTranslations } from "next-intl"
+import { Link, usePathname } from "next-intl/client"
 
 interface MobileNavDrawerProps {
   isOpen: boolean
@@ -15,17 +14,18 @@ interface MobileNavDrawerProps {
 }
 
 export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
-  const { t } = useI18n()
+  const t = useTranslations("Navigation")
   const pathname = usePathname()
   const drawerRef = useRef<HTMLDivElement>(null)
+  const [languageSwitcherLabel, setLanguageSwitcherLabel] = useState(useTranslations("LanguageSwitcher")("label"))
 
   // Actualizar el array de navegación para usar traducciones
   const navigation = [
-    { name: t("common.nav.home"), href: "/" },
-    { name: t("common.nav.tools"), href: "/herramientas-ia" },
-    { name: t("common.nav.resources"), href: "/recursos" },
-    { name: t("common.nav.about"), href: "/sobre-nosotros" },
-    { name: t("common.nav.contact"), href: "/contacto" },
+    { name: t("home"), href: "/" },
+    { name: t("tools"), href: "/herramientas-ia" },
+    { name: t("resources"), href: "/recursos" },
+    { name: t("about"), href: "/sobre-nosotros" },
+    { name: t("contact"), href: "/contacto" },
   ]
 
   // Cerrar el drawer al hacer clic fuera de él
@@ -100,13 +100,13 @@ export default function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProp
 
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-secondary">{t("components.languageSwitcher.label")}</span>
+            <span className="text-sm font-medium text-secondary">{languageSwitcherLabel}</span>
             <LanguageSwitcher />
           </div>
 
           <Button asChild className="w-full bg-primary hover:bg-primary/90">
             <Link href="/top-herramientas-ia" onClick={onClose}>
-              {t("common.nav.topTools")}
+              {t("topTools")}
             </Link>
           </Button>
         </div>

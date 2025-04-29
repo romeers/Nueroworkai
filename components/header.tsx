@@ -1,18 +1,18 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import Link from "next/link"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import MobileNavDrawer from "./mobile-nav-drawer"
 import { Logo } from "./logo"
 import LanguageSwitcher from "./language-switcher"
-import { useI18n } from "@/lib/i18n/i18n-context"
+import { useTranslations } from "next-intl"
+import { Link, usePathname } from "next-intl/client"
 
 export default function Header() {
-  const { t } = useI18n()
+  const t = useTranslations("Navigation")
+  const tButtons = useTranslations("Buttons")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [showStickyCTA, setShowStickyCTA] = useState(false)
@@ -20,10 +20,10 @@ export default function Header() {
 
   // Actualizar el array de navegación para usar traducciones
   const navigation = [
-    { name: t("common.nav.home"), href: "/" },
-    { name: t("common.nav.tools"), href: "/herramientas-ia", ariaLabel: `${t("common.nav.tools")}` },
-    { name: t("common.nav.resources"), href: "/recursos", ariaLabel: `${t("common.nav.resources")}` },
-    { name: t("common.nav.about"), href: "/sobre-nosotros" },
+    { name: t("home"), href: "/" },
+    { name: t("tools"), href: "/herramientas-ia", ariaLabel: t("tools") },
+    { name: t("resources"), href: "/recursos", ariaLabel: t("resources") },
+    { name: t("about"), href: "/sobre-nosotros" },
   ]
 
   const headerRef = useRef<HTMLElement>(null)
@@ -131,8 +131,8 @@ export default function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
           <LanguageSwitcher />
           <Button asChild className="bg-primary hover:bg-primary/90">
-            <Link href="/top-herramientas-ia" aria-label={t("common.nav.topTools")}>
-              {t("common.nav.topTools")}
+            <Link href="/top-herramientas-ia" aria-label={t("topTools")}>
+              {t("topTools")}
             </Link>
           </Button>
         </div>
@@ -148,8 +148,8 @@ export default function Header() {
           aria-hidden="false"
         >
           <Button asChild className="rounded-full bg-primary px-6 py-6 text-base shadow-lg hover:bg-primary/90">
-            <Link href="/top-herramientas-ia" aria-label={t("common.buttons.exploreTools")} tabIndex={0}>
-              {t("common.buttons.exploreTools")}
+            <Link href="/top-herramientas-ia" aria-label={tButtons("exploreTools")} tabIndex={0}>
+              {tButtons("exploreTools")}
             </Link>
           </Button>
         </div>
