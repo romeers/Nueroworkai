@@ -1,110 +1,80 @@
-import UnifiedToolCard from "@/components/unified-tool-card"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import Link from "next/link"
+"use client"
+
+import { useState, useEffect } from "react"
+import FeaturedToolCard from "@/components/featured-tool-card"
 
 interface Tool {
-  id?: string
-  slug: string
   name: string
   description: string
-  imageUrl?: string
+  imageUrl: string
   category: string
+  slug: string
   score?: number
-  affiliateUrl?: string
-  featured?: boolean
-  isNew?: boolean
 }
 
 interface FeaturedToolsSectionProps {
-  title: string
-  subtitle: string
   tools: Tool[]
-  viewAllLink: string
-  viewAllText: string
-  emptyStateTitle?: string
-  emptyStateDescription?: string
-  emptyStateAction?: {
-    text: string
-    href: string
-  }
 }
 
-export default function FeaturedToolsSection({
-  title,
-  subtitle,
-  tools,
-  viewAllLink,
-  viewAllText,
-  emptyStateTitle = "Próximamente nuevas herramientas",
-  emptyStateDescription = "Estamos seleccionando cuidadosamente las mejores herramientas de IA para trabajo remoto.",
-  emptyStateAction = {
-    text: "Sugerir una herramienta",
-    href: "/contacto",
-  },
-}: FeaturedToolsSectionProps) {
-  return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center mb-10">
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-secondary sm:text-4xl">{title}</h2>
-          <p className="mt-4 text-lg text-gray-600">{tools.length > 0 ? subtitle : emptyStateDescription}</p>
-        </div>
+export default function FeaturedToolsSection({ tools }: FeaturedToolsSectionProps) {
+  const [isClient, setIsClient] = useState(false)
 
-        {tools.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tools.map((tool) => (
-              <UnifiedToolCard
-                key={tool.id || tool.slug}
-                name={tool.name}
-                description={tool.description}
-                imageUrl={tool.imageUrl}
-                category={tool.category}
-                slug={tool.slug}
-                score={tool.score}
-                affiliateUrl={tool.affiliateUrl}
-                featured={tool.featured}
-                isNew={tool.isNew}
-                variant="grid"
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="bg-white rounded-xl shadow-sm p-10 text-center">
-            <div className="mb-6">
-              <div className="mx-auto w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-violet-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
+  // Set client-side rendering flag
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Function to get the official URL if no affiliate URL
+  const getOfficialUrl = (toolName: string) => {
+    const toolUrls: Record<string, string> = {
+      "Notion AI": "https://www.notion.so/product/ai",
+      Zapier: "https://zapier.com",
+      ClickUp: "https://clickup.com",
+    }
+    return toolUrls[toolName] || "#"
+  }
+
+  if (!isClient) {
+    // Server-side or during initial render, show a placeholder
+    return (
+      <div className="grid gap-8 md:grid-cols-3">
+        {tools.map((tool, index) => (
+          <div key={index} className="rounded-xl border bg-white p-6 shadow-md h-64 animate-pulse">
+            <div className="flex flex-col md:flex-row md:items-center gap-6">
+              <div className="h-24 w-24 bg-gray-200 rounded-lg"></div>
+              <div className="flex-1 space-y-4">
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div className="space-y-2">
+                  <div className="h-3 bg-gray-200 rounded"></div>
+                  <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+                </div>
+                <div className="flex space-x-3">
+                  <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+                  <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+                </div>
               </div>
             </div>
-            <h3 className="text-xl font-medium text-gray-900 mb-2">{emptyStateTitle}</h3>
-            <p className="text-gray-500 mb-6">
-              {emptyStateDescription}
-              <br />
-              Vuelve pronto para descubrir nuestras recomendaciones.
-            </p>
-            <Button asChild className="bg-violet-600 hover:bg-violet-700">
-              <Link href={emptyStateAction.href}>{emptyStateAction.text}</Link>
-            </Button>
           </div>
-        )}
-
-        <div className="mt-12 text-center">
-          <Button asChild className="bg-violet-600 hover:bg-violet-700 px-6 py-2.5">
-            <Link href={viewAllLink} className="inline-flex items-center gap-2">
-              {viewAllText}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
+        ))}
       </div>
-    </section>
+    )
+  }
+
+  return (
+    <div className="grid gap-8 md:grid-cols-3">
+      {tools.map((tool) => (
+        <FeaturedToolCard
+          key={tool.slug}
+          name={tool.name}
+          description={tool.description}
+          imageUrl={tool.imageUrl}
+          category={tool.category}
+          url={`/herramientas/${tool.slug}`}
+          score={tool.score}
+          slug={tool.slug}
+          affiliateUrl={getOfficialUrl(tool.name)}
+        />
+      ))}
+    </div>
   )
 }

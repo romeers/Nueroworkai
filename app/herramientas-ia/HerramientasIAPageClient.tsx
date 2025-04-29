@@ -5,11 +5,10 @@ import type React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, SearchX, Sparkles, Download, CheckCircle } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Search, Star, ExternalLink, Download, CheckCircle, SearchX, Sparkles } from "lucide-react"
 import SafeImage from "@/components/safe-image"
 import { useState, useEffect } from "react"
-import UnifiedToolCard from "@/components/unified-tool-card"
-import UnifiedCTA from "@/components/unified-cta"
 
 export default function HerramientasIAPageClient({
   initialSearchParams,
@@ -34,6 +33,47 @@ export default function HerramientasIAPageClient({
 
   // Añadir la categoría "Todas" al principio
   const allCategories = [{ name: "Todas", slug: "todas", icon: "🧠" }, ...categories]
+
+  // Función para obtener la URL oficial de cada herramienta si no existe affiliate_url
+  const getDefaultAffiliateUrl = (toolName: string) => {
+    const toolUrls: Record<string, string> = {}
+    return toolUrls[toolName] || "#" // Fallback to # if no URL is found
+  }
+
+  // Función para obtener la URL correcta del logo
+  const getLogoUrl = (tool: any) => {
+    if (!tool.image_url) {
+      return `/placeholder.svg?height=64&width=64&query=${encodeURIComponent(tool.name + " logo")}`
+    }
+    return tool.image_url
+  }
+
+  // Función para renderizar estrellas basadas en la puntuación
+  const renderStars = (score: number) => {
+    const fullStars = Math.floor(score / 2)
+    const halfStar = score % 2 >= 1
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0)
+
+    return (
+      <div className="flex">
+        {[...Array(fullStars)].map((_, i) => (
+          <Star key={`full-${i}`} className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
+        ))}
+        {halfStar && (
+          <span className="relative">
+            <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" style={{ clipPath: "inset(0 50% 0 0)" }} />
+            <Star
+              className="absolute top-0 left-0 h-3.5 w-3.5 text-gray-300"
+              style={{ clipPath: "inset(0 0 0 50%)" }}
+            />
+          </span>
+        )}
+        {[...Array(emptyStars)].map((_, i) => (
+          <Star key={`empty-${i}`} className="h-3.5 w-3.5 text-gray-300" />
+        ))}
+      </div>
+    )
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -103,12 +143,15 @@ export default function HerramientasIAPageClient({
               Explora y prueba las mejores herramientas IA para optimizar tu trabajo remoto.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <UnifiedCTA href="#herramientas" variant="primary" size="md">
-                Explorar herramientas
-              </UnifiedCTA>
-              <UnifiedCTA href="#kit-gratuito" variant="outline" size="md" icon={<Download className="h-4 w-4" />}>
-                Descargar Kit Gratuito
-              </UnifiedCTA>
+              <Button asChild className="bg-primary hover:bg-primary/90">
+                <Link href="#herramientas">Explorar herramientas</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="#kit-gratuito" className="flex items-center gap-2">
+                  <Download className="h-4 w-4" />
+                  Descargar Kit Gratuito
+                </Link>
+              </Button>
             </div>
             <p className="text-sm text-gray-500 mt-6">Actualizado 2025</p>
           </div>
@@ -180,19 +223,66 @@ export default function HerramientasIAPageClient({
               {filteredTools.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {filteredTools.map((tool: any) => (
-                    <UnifiedToolCard
+                    <div
                       key={tool.slug}
-                      name={tool.name}
-                      description={tool.description}
-                      imageUrl={tool.image_url}
-                      category={tool.category}
-                      slug={tool.slug}
-                      score={tool.score}
-                      affiliateUrl={tool.affiliate_url}
-                      featured={tool.featured}
-                      isNew={tool.is_new}
-                      variant="grid"
-                    />
+                      className="rounded-xl shadow-sm hover:shadow-md transition bg-white p-5 flex flex-col items-center text-center h-full"
+                    >
+                      <div className="relative mb-4">
+                        <div className="relative w-16 h-16 flex items-center justify-center">
+                          <SafeImage
+                            src={getLogoUrl(tool)}
+                            alt={`Logo de ${tool.name}`}
+                            width={64}
+                            height={64}
+                            className="object-contain"
+                            loading="lazy"
+                          />
+                        </div>
+
+                        {/* Badges */}
+                        <div className="absolute -top-2 -right-2 flex flex-col gap-1">
+                          {tool.featured && <Badge className="bg-primary text-white">Top Valorada</Badge>}
+                          {tool.is_new && <Badge className="bg-green-500 text-white">Nueva</Badge>}
+                        </div>
+                      </div>
+
+                      <h3 className="font-semibold text-gray-800 text-lg mb-1">{tool.name}</h3>
+
+                      {/* NeuroScore Badge - Improved visual presentation */}
+                      <div className="flex flex-col items-center mb-3">
+                        <span className="text-sm font-medium text-gray-600 mb-1">
+                          NeuroScore: <span className="text-violet-700 font-semibold">{tool.score} / 10</span>
+                        </span>
+                        <div className="flex items-center">{renderStars(tool.score)}</div>
+                      </div>
+
+                      <p className="text-sm text-gray-600 mb-4 flex-grow">{tool.description}</p>
+
+                      {/* Category badge */}
+                      <div className="mb-3">
+                        <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
+                          {tool.category}
+                        </span>
+                      </div>
+
+                      {/* Action buttons - Horizontal layout */}
+                      <div className="flex flex-col sm:flex-row gap-2 w-full mt-auto">
+                        <Button asChild className="bg-primary hover:bg-primary/90 flex-1">
+                          <Link
+                            href={tool.affiliate_url || getDefaultAffiliateUrl(tool.name)}
+                            target="_blank"
+                            rel="noopener sponsored"
+                            className="flex items-center justify-center gap-1"
+                          >
+                            Probar Gratis
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          </Link>
+                        </Button>
+                        <Button asChild variant="outline" className="flex-1">
+                          <Link href={`/herramientas/${tool.slug}`}>Ver análisis</Link>
+                        </Button>
+                      </div>
+                    </div>
                   ))}
                 </div>
               ) : (
