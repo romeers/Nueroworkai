@@ -68,9 +68,9 @@ export default function HeroSection() {
                 {/* Efecto de resplandor detrás del robot para integración con el fondo */}
                 <div className="absolute inset-0 -z-10 bg-blue-500/20 blur-2xl rounded-full" aria-hidden="true"></div>
 
-                {/* Imagen principal del robot */}
+                {/* Imagen principal del robot - Usando la URL directa para asegurar que funcione */}
                 <Image
-                  src="/robot-hero-image.png"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a-3d-futuristic-violet-ai-robot-mascot-w_5h5IBoKFSzWsuOpv5NBu1A_zoZYDhsHSpq1k44XcLq0RQ-3PcDPxCdahAAalKWRslvpqN2mKZL1l.png"
                   alt="Robot IA analizando herramientas de productividad"
                   width={600}
                   height={600}
