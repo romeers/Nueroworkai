@@ -59,18 +59,12 @@
     "vaul": "^0.9.6",
     "zod": "latest",
     "@testing-library/dom": "latest",
-    "@remix-run/react": "latest",
-    "@sveltejs/kit": "latest",
-    "svelte": "latest",
-    "vue": "latest",
-    "vue-router": "latest",
     "sharp": "latest",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@neondatabase/serverless": "latest",
     "fs": "latest",
     "path": "latest",
-    "@vercel/analytics": "latest",
     "react-icons": "latest"
   },
   "devDependencies": {
