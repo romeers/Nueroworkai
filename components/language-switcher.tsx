@@ -2,34 +2,35 @@
 
 import { useLocale } from "next-intl"
 import { usePathname, useRouter } from "next-intl/client"
-import { type ChangeEvent, useTransition } from "react"
+import { Button } from "@/components/ui/button"
 
-export default function LocaleSwitcher() {
+export default function LanguageSwitcher() {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
-  const [isPending, startTransition] = useTransition()
 
-  function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
-    const nextLocale = event.target.value
-    startTransition(() => {
-      router.replace(pathname, { locale: nextLocale })
-    })
+  const switchLocale = (newLocale: string) => {
+    router.replace(pathname, { locale: newLocale })
   }
 
   return (
-    <label className={`relative text-gray-400 ${isPending ? "transition-opacity [&:disabled]:opacity-30" : ""}`}>
-      <p className="sr-only">Idioma</p>
-      <select
-        className="inline-flex appearance-none bg-transparent py-3 pl-2 pr-6"
-        defaultValue={locale}
-        disabled={isPending}
-        onChange={onSelectChange}
+    <div className="flex items-center space-x-2">
+      <Button
+        variant={locale === "es" ? "default" : "outline"}
+        size="sm"
+        onClick={() => switchLocale("es")}
+        className="text-xs"
       >
-        <option value="es">ES</option>
-        <option value="en">EN</option>
-      </select>
-      <span className="pointer-events-none absolute right-2 top-[8px]">⌄</span>
-    </label>
+        ES
+      </Button>
+      <Button
+        variant={locale === "en" ? "default" : "outline"}
+        size="sm"
+        onClick={() => switchLocale("en")}
+        className="text-xs"
+      >
+        EN
+      </Button>
+    </div>
   )
 }

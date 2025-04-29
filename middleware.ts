@@ -6,18 +6,6 @@ export default createMiddleware({
 
   // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
   defaultLocale: "es",
-
-  // Domains can be used to match specific locales to specific domains
-  // domains: [
-  //   {
-  //     domain: 'example.com',
-  //     defaultLocale: 'es'
-  //   },
-  //   {
-  //     domain: 'example.com',
-  //     defaultLocale: 'en'
-  //   }
-  // ]
 })
 
 export const config = {

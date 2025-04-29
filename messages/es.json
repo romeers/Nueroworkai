@@ -2,22 +2,16 @@
   "Navigation": {
     "home": "Inicio",
     "tools": "Herramientas",
-    "aiTools": "Herramientas IA",
     "resources": "Recursos",
-    "reviews": "Reseñas",
-    "comparisons": "Comparativas",
-    "howItWorks": "Cómo Funciona",
-    "contact": "Contacto",
+    "blog": "Blog",
     "about": "Sobre Nosotros",
+    "contact": "Contacto",
     "login": "Iniciar Sesión",
-    "register": "Registrarse",
-    "profile": "Perfil",
-    "logout": "Cerrar Sesión",
-    "topTools": "Top Herramientas IA"
+    "register": "Registrarse"
   },
   "Buttons": {
     "readMore": "Leer más",
-    "tryFree": "Probar gratis",
+    "tryFree": "Probar Gratis",
     "downloadFree": "Descargar gratis",
     "viewAll": "Ver todos",
     "seeAnalysis": "Ver análisis",
@@ -29,7 +23,10 @@
     "contactUs": "Contáctanos",
     "suggestTool": "Sugerir una herramienta",
     "suggestResource": "Sugerir un recurso",
-    "downloadKit": "Descargar Kit gratuito"
+    "downloadKit": "Descargar Kit gratuito",
+    "downloadFreeKit": "Descargar Kit Gratuito",
+    "viewAnalysis": "Ver análisis",
+    "clearFilters": "Limpiar filtros"
   },
   "Footer": {
     "company": "Empresa",
@@ -48,7 +45,7 @@
     "topAITools": "Top Herramientas IA",
     "methodology": "Metodología NeuroScore",
     "digitalKit": "Kit Digital",
-    "copyright": "© {year} NeuroWorkAI. Todos los derechos reservados.",
+    "copyright": "© 2025 NeuroWorkAI. Todos los derechos reservados.",
     "followUs": "Síguenos",
     "navigation": "Navegación",
     "legal": {
@@ -62,10 +59,17 @@
     },
     "affiliateDisclosure": "NeuroWorkAI participa en programas de afiliación. Esto significa que podemos recibir una comisión si compras a través de nuestros enlaces, sin costo adicional para ti.",
     "poweredBy": "Powered by Vercel",
-    "allRightsReserved": "Todos los derechos reservados"
+    "allRightsReserved": "Todos los derechos reservados",
+    "tools": "Herramientas",
+    "comparisons": "Comparativas",
+    "reviews": "Reseñas",
+    "guides": "Guías",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio",
+    "cookies": "Política de Cookies"
   },
   "Categories": {
-    "all": "Todos",
+    "all": "Todas",
     "aiWriting": "Escritura IA",
     "automation": "Automatización",
     "taskManagement": "Gestión de Tareas",
@@ -140,7 +144,8 @@
     "hero": {
       "title": "Herramientas de Productividad con IA",
       "subtitle": "Explora y prueba las mejores herramientas IA para optimizar tu trabajo remoto.",
-      "updated": "Actualizado 2025"
+      "backgroundAlt": "Fondo de red neuronal",
+      "updatedYear": "Actualizado 2025"
     },
     "filters": {
       "search": "Buscar herramienta IA...",
@@ -160,7 +165,12 @@
       "new": "Nueva",
       "tryFree": "Probar Gratis",
       "seeAnalysis": "Ver análisis",
-      "neuroScore": "NeuroScore"
+      "neuroScore": "NeuroScore",
+      "logoAlt": "Logo de {name}",
+      "badges": {
+        "topRated": "Top Valorada",
+        "new": "Nueva"
+      }
     },
     "cta": {
       "title": "¿No sabes cuál elegir?",
@@ -261,6 +271,37 @@
     "related": {
       "title": "Herramientas Relacionadas",
       "viewAll": "Ver Todas"
+    },
+    "search": {
+      "placeholder": "Buscar herramienta IA...",
+      "ariaLabel": "Buscar herramientas de IA"
+    },
+    "toolsGrid": {
+      "allTools": "Todas las herramientas",
+      "categoryTools": "Herramientas de {category}",
+      "noResults": {
+        "title": "No se encontraron herramientas",
+        "message": "No hay resultados para tu búsqueda. Intenta con otros términos o categorías."
+      },
+      "comingSoon": {
+        "title": "Próximamente nuevas herramientas",
+        "message": "Estamos seleccionando cuidadosamente las mejores herramientas de IA con programas de afiliados activos. Vuelve pronto para descubrir nuestras recomendaciones."
+      }
+    },
+    "leadMagnet": {
+      "title": "¿No sabes cuál elegir?",
+      "subtitle": "Descarga gratis el Kit de Productividad con IA para Trabajo Remoto (2025)",
+      "success": {
+        "title": "¡Gracias por tu interés!",
+        "message": "¡Gracias! Recibirás el Kit en tu correo en menos de 24 horas."
+      },
+      "form": {
+        "emailPlaceholder": "Tu correo electrónico",
+        "emailAriaLabel": "Email para recibir el kit gratuito",
+        "sending": "Enviando...",
+        "downloadButton": "Descargar Kit gratuito",
+        "disclaimer": "Sin spam · Descarga inmediata tras confirmar"
+      }
     }
   },
   "Resources": {
@@ -398,10 +439,10 @@
     "register": "Registrarse"
   },
   "Hero": {
-    "title": "Descubre las Mejores Herramientas de IA para Aumentar tu Productividad",
-    "subtitle": "Analizamos y comparamos las herramientas de IA más potentes para ayudarte a trabajar de forma más inteligente, no más dura.",
-    "cta": "Explorar Herramientas",
-    "secondaryCta": "Ver Comparativas"
+    "title": "Optimiza tu productividad con IA",
+    "subtitle": "Descubre las mejores herramientas de IA para profesionales y equipos remotos",
+    "cta": "Explorar herramientas",
+    "secondaryCta": "Ver comparativas"
   },
   "ToolsSection": {
     "title": "Herramientas Destacadas",
@@ -517,5 +558,9 @@
     "methodology": {
       "title": "Metodología NeuroScore"
     }
+  },
+  "Errors": {
+    "emailRegistrationError": "Error al registrar el correo",
+    "serverConnectionError": "Error al conectar con el servidor. Por favor, inténtalo de nuevo más tarde."
   }
 }
